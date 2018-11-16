@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/opengl_test.dir/opengl_test.cpp.o  -o opengl_test /usr/local/lib/libglfw3.a $OPENGL_LIBRARIES 

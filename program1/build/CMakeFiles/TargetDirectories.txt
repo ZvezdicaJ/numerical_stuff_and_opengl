@@ -1,0 +1,3 @@
+/home/jure/Documents/opengl/program1/build/CMakeFiles/rebuild_cache.dir
+/home/jure/Documents/opengl/program1/build/CMakeFiles/opengl_test.dir
+/home/jure/Documents/opengl/program1/build/CMakeFiles/edit_cache.dir
