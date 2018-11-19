@@ -19,6 +19,22 @@ cmath
 -
 vector
 -
+glad/glad.h
+-
 GLFW/glfw3.h
+-
+
+/home/jure/Downloads/glad/include/KHR/khrplatform.h
+stdint.h
+-
+inttypes.h
+-
+stdint.h
+-
+
+/home/jure/Downloads/glad/include/glad/glad.h
+windows.h
+-
+KHR/khrplatform.h
 -
 

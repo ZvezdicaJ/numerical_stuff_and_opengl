@@ -111,6 +111,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named glad
+
+# Build rule for target.
+glad: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 glad
+.PHONY : glad
+
+# fast build rule for target.
+glad/fast:
+	$(MAKE) -f CMakeFiles/glad.dir/build.make CMakeFiles/glad.dir/build
+.PHONY : glad/fast
+
+#=============================================================================
 # Target rules for targets named opengl_test
 
 # Build rule for target.
@@ -122,6 +135,33 @@ opengl_test: cmake_check_build_system
 opengl_test/fast:
 	$(MAKE) -f CMakeFiles/opengl_test.dir/build.make CMakeFiles/opengl_test.dir/build
 .PHONY : opengl_test/fast
+
+home/jure/Downloads/glad/src/glad.o: home/jure/Downloads/glad/src/glad.c.o
+
+.PHONY : home/jure/Downloads/glad/src/glad.o
+
+# target to build an object file
+home/jure/Downloads/glad/src/glad.c.o:
+	$(MAKE) -f CMakeFiles/glad.dir/build.make CMakeFiles/glad.dir/home/jure/Downloads/glad/src/glad.c.o
+.PHONY : home/jure/Downloads/glad/src/glad.c.o
+
+home/jure/Downloads/glad/src/glad.i: home/jure/Downloads/glad/src/glad.c.i
+
+.PHONY : home/jure/Downloads/glad/src/glad.i
+
+# target to preprocess a source file
+home/jure/Downloads/glad/src/glad.c.i:
+	$(MAKE) -f CMakeFiles/glad.dir/build.make CMakeFiles/glad.dir/home/jure/Downloads/glad/src/glad.c.i
+.PHONY : home/jure/Downloads/glad/src/glad.c.i
+
+home/jure/Downloads/glad/src/glad.s: home/jure/Downloads/glad/src/glad.c.s
+
+.PHONY : home/jure/Downloads/glad/src/glad.s
+
+# target to generate assembly for a file
+home/jure/Downloads/glad/src/glad.c.s:
+	$(MAKE) -f CMakeFiles/glad.dir/build.make CMakeFiles/glad.dir/home/jure/Downloads/glad/src/glad.c.s
+.PHONY : home/jure/Downloads/glad/src/glad.c.s
 
 opengl_test.o: opengl_test.cpp.o
 
@@ -157,8 +197,12 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... opengl_test"
 	@echo "... edit_cache"
+	@echo "... glad"
+	@echo "... opengl_test"
+	@echo "... home/jure/Downloads/glad/src/glad.o"
+	@echo "... home/jure/Downloads/glad/src/glad.i"
+	@echo "... home/jure/Downloads/glad/src/glad.s"
 	@echo "... opengl_test.o"
 	@echo "... opengl_test.i"
 	@echo "... opengl_test.s"

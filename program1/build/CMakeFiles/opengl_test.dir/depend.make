@@ -3,4 +3,6 @@
 
 CMakeFiles/opengl_test.dir/opengl_test.cpp.o: ../opengl_test.cpp
 CMakeFiles/opengl_test.dir/opengl_test.cpp.o: ../opengl_test.hpp
+CMakeFiles/opengl_test.dir/opengl_test.cpp.o: /home/jure/Downloads/glad/include/KHR/khrplatform.h
+CMakeFiles/opengl_test.dir/opengl_test.cpp.o: /home/jure/Downloads/glad/include/glad/glad.h
 
