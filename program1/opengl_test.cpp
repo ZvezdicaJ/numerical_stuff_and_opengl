@@ -16,34 +16,12 @@ int main() {
   print("Window created!");
 
   while (!glfwWindowShouldClose(window)) {
-    int enter_pressed=0;
-    OnEnterPressed(window, enter_pressed);
+    OnMinusPressed(window);
+    OnPlusPressed(window);
     OnClosePressed(window);
-    glfwPollEvents();
+    glfwPollEvents(); // check if any events happend (mouse press, key press)
     glfwSwapBuffers(window);
   }
-
-  pause();
-  glfwSetWindowSize(window, 640, 480);
-  int width, height;
-  glfwGetWindowSize(window, &width, &height);
-  glfwSetWindowSize(window, width*2, height*2);
-  print("window resized!");
-
-  pause();
-  glfwHideWindow(window);
-  print("window hidden");
-
-  pause();
-  glfwShowWindow(window);
-  print("Window showed again");
-
-  pause();
-  glfwGetWindowSize(window, &width, &height);
-  glfwSetWindowPos(window, 100, 100);
-  print("window moved and resized");
-
-  pause();
 
   //initialize glad
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {

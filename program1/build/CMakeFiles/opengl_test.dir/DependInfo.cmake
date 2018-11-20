@@ -4,6 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/jure/Documents/opengl/program1/functions.cpp" "/home/jure/Documents/opengl/program1/build/CMakeFiles/opengl_test.dir/functions.cpp.o"
   "/home/jure/Documents/opengl/program1/opengl_test.cpp" "/home/jure/Documents/opengl/program1/build/CMakeFiles/opengl_test.dir/opengl_test.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+/home/jure/Documents/opengl/program1/functions.cpp
+opengl_test.hpp
+/home/jure/Documents/opengl/program1/opengl_test.hpp
+
 /home/jure/Documents/opengl/program1/opengl_test.cpp
 opengl_test.hpp
 /home/jure/Documents/opengl/program1/opengl_test.hpp

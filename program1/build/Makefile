@@ -136,6 +136,33 @@ opengl_test/fast:
 	$(MAKE) -f CMakeFiles/opengl_test.dir/build.make CMakeFiles/opengl_test.dir/build
 .PHONY : opengl_test/fast
 
+functions.o: functions.cpp.o
+
+.PHONY : functions.o
+
+# target to build an object file
+functions.cpp.o:
+	$(MAKE) -f CMakeFiles/opengl_test.dir/build.make CMakeFiles/opengl_test.dir/functions.cpp.o
+.PHONY : functions.cpp.o
+
+functions.i: functions.cpp.i
+
+.PHONY : functions.i
+
+# target to preprocess a source file
+functions.cpp.i:
+	$(MAKE) -f CMakeFiles/opengl_test.dir/build.make CMakeFiles/opengl_test.dir/functions.cpp.i
+.PHONY : functions.cpp.i
+
+functions.s: functions.cpp.s
+
+.PHONY : functions.s
+
+# target to generate assembly for a file
+functions.cpp.s:
+	$(MAKE) -f CMakeFiles/opengl_test.dir/build.make CMakeFiles/opengl_test.dir/functions.cpp.s
+.PHONY : functions.cpp.s
+
 home/jure/Downloads/glad/src/glad.o: home/jure/Downloads/glad/src/glad.c.o
 
 .PHONY : home/jure/Downloads/glad/src/glad.o
@@ -200,6 +227,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... glad"
 	@echo "... opengl_test"
+	@echo "... functions.o"
+	@echo "... functions.i"
+	@echo "... functions.s"
 	@echo "... home/jure/Downloads/glad/src/glad.o"
 	@echo "... home/jure/Downloads/glad/src/glad.i"
 	@echo "... home/jure/Downloads/glad/src/glad.s"
