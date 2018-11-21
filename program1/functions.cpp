@@ -13,6 +13,8 @@ void print(std::string str) {
 
 
 void OnPlusPressed(GLFWwindow *window) {
+    // glfwGetKey function takes the window as input together with a
+    // key. The function returns whether this key is currently being pressed.
   if(glfwGetKey(window, GLFW_KEY_KP_ADD) == GLFW_PRESS) {
     int width, height;
     glfwGetWindowSize(window, &width, &height);

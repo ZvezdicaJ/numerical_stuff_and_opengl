@@ -1,4 +1,4 @@
-# Install script for directory: /home/jure/Documents/opengl/program1
+# Install script for directory: /home/jure/Documents/opengl_ucenje/program1
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/jure/Documents/opengl/program1/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/jure/Documents/opengl_ucenje/program1/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
