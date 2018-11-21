@@ -2,6 +2,7 @@
 #include <string>
 #include <cmath>
 #include <vector>
+#include <array>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 

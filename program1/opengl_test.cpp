@@ -51,6 +51,47 @@ int main() {
         return -1;
     }
 
+    float vertices[] = {
+                        -0.5f, -0.5f, 0.0f,
+                        0.5f, -0.5f, 0.0f,
+                        0.0f, 0.5f, 0.0f
+    };
+
+    unsigned int VBO;
+    // generate new buffer
+    glGenBuffers(1, &VBO);// generate new buffer
+
+    // bind the buffer -> opengl is a state machine
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+    // save array vertices into buffer
+    //sizeof returns size in bytes
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    //load shader source
+     const GLchar* test_shader_sources =
+#include "test_shader.glsl"
+      ;
+     // create empty shader
+    unsigned int vertexShader;
+    vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    // rewrite previously created shader and compile it
+    glShaderSource(vertexShader, 1, &test_shader_sources, NULL);
+    glCompileShader(vertexShader);
+
+
+    //check if shader successfully compiled
+    int success;
+    char infoLog[512];
+    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+
+    if(!success)
+      {
+        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog <<
+          std::endl;
+      }
+
     glfwTerminate();
     return 0;
 }
