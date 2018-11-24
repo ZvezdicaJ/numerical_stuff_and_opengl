@@ -68,29 +68,61 @@ int main() {
     //sizeof returns size in bytes
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    //load shader source
-     const GLchar* test_shader_sources =
-#include "test_shader.glsl"
-      ;
      // create empty shader
     unsigned int vertexShader;
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    // rewrite previously created shader and compile it
-    glShaderSource(vertexShader, 1, &test_shader_sources, NULL);
+    // load  vertex  shader and compile it
+   glShaderSource(vertexShader, 1, &(shaders::test_vertex_shader), NULL);
     glCompileShader(vertexShader);
+    //check if successfully compiled
+    check_vertex_shader(vertexShader);
+
+    // create empty fragment shader
+    unsigned int fragmentShader;
+    fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    //load fragment shader and compile it
+    glShaderSource(fragmentShader, 1, &(shaders::test_fragment_shader), NULL);
+    glCompileShader(fragmentShader);
+    check_fragment_shader(fragmentShader);
 
 
-    //check if shader successfully compiled
-    int success;
-    char infoLog[512];
-    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+    // create shader program
+    unsigned int shaderProgram;
+    shaderProgram = glCreateProgram();
 
-    if(!success)
-      {
-        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog <<
-          std::endl;
-      }
+    glAttachShader(shaderProgram, vertexShader);
+    glAttachShader(shaderProgram, fragmentShader);
+    glLinkProgram(shaderProgram);
+    check_shader_program(shaderProgram);
+    // tell opengl to use this program
+    // remember, opengl is just a state machine!
+    glUseProgram(shaderProgram);
+
+    // once shaders are linked, you don't need them any more
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
+
+    // We stil have to teel how vertex shader should interpret the array of data we will bind.
+    //Arguments are as follows:
+    // 1. First argument tells to which vertex shader attribute we
+    // are passing out data - 0 in out case, check vertex shader attribute number!
+
+    // 2. Size of vertex attribute - here we have points in 3d space - so it's 3.
+
+    // 3. Type of data - GL_FLOAT in this case.
+
+    // 4. True or false depending whether coordinates should be normalized
+    // so that each coordinate is between 0 and 1 (or -1 and 1 for signed data).
+
+    // 5. Stride tells us the space between consecutive vertex attribute sets (space between points)
+    // In out case it is 3*sizeof(float) - it is given in bytes
+    // if you specify 0, opengl will automatically figure it out - this is not recommended.
+
+    // 6. offset to where the position data begins. If coordinates start at the start
+    // of array it is 0, otherwise specify where the data start!
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
 
     glfwTerminate();
     return 0;
