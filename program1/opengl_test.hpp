@@ -6,6 +6,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "shaders.hpp"
+# define M_PI 3.14159265358979323846  /* pi */
 
 void draw_triangle();
 bool check_shader_program(unsigned);
@@ -16,4 +17,5 @@ void print(std::string);
 void OnPlusPressed(GLFWwindow *);
 void OnMinusPressed(GLFWwindow *);
 void OnClosePressed(GLFWwindow *);
-void draw_sphere();
+void draw_triangle_boundary();
+void draw_sphere(std:.vector<float>&);

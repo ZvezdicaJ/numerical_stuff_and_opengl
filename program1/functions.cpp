@@ -184,7 +184,7 @@ void draw_triangle() {
     glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
-void draw_sphere() {
+void draw_triangle_boundary() {
 
     float vertices[] = {-0.5f, -0.5f, 0.0f,
                         0.5f, -0.5f, 0.0f,
@@ -246,4 +246,46 @@ void draw_sphere() {
     glEnableVertexAttribArray(0);
    
     glDrawArrays(GL_POINTS, 0, 6);
+}
+
+
+void draw_sphere(std::vector<float>& center, float radius) {
+  std::array<float, 15> vertexes;
+  std::array<float, 3> dir1({1,0,0});
+  std::array<float, 3> dir2({std::cos(2.0*M_PI/3), std::sin(2.0*M_PI/3), 0});
+  std::array<float, 3> dir4({std::cos(2.0*M_PI/3), std::sin(2.0*M_PI/3), 0});
+  std::array<float, 3> z_dir({0,0,1});
+  // vertex 1
+  vertexes[0] =  center[0] + dir1[0];
+  vertexes[1] =  center[1] + dir1[1]; 
+  vertexes[2] =  center[2] + dir1[2];
+  // vertex 2
+  vertexes[3] =  center[0] + dir2[0];
+  vertexes[4] =  center[1] + dir2[1]; 
+  vertexes[5] =  center[2] + dir2[2];
+  // vertex 3
+  vertexes[6] =  center[0] + dir3[0];
+  vertexes[7] =  center[1] + dir3[1]; 
+  vertexes[8] =  center[2] + dir3[2];
+  // vertex 4
+  vertexes[9] =  center[0] + z_dir[0];
+  vertexes[10] =  center[1] + z_dir[1]; 
+  vertexes[11] =  center[2] + z_dir[2];
+  // vertex 5
+  vertexes[12] =  center[0] - z_dir[0];
+  vertexes[13] =  center[1] - z_dir[1]; 
+  vertexes[14] =  center[2] - z_dir[2];
+
+  int element_array[10][3]={{1,2,3},
+                            {1,2,4}
+                            {1,2,5},
+                            {1,3,4},
+                            {1,3,5},
+                            {2,3,4},
+                            {2,3,5},
+                            {3,4,5},
+                            {1,4,5},
+                            {2,4,5}};
+  
+
 }

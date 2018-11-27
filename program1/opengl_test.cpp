@@ -29,7 +29,7 @@ int main() {
         OnMinusPressed(window);
         OnPlusPressed(window);
         OnClosePressed(window);
-        draw_sphere();
+        draw_triangle_boundary();
         glfwPollEvents(); // check if any events happend (mouse press, key
                           // press)
 
