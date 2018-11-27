@@ -25,11 +25,21 @@ int main() {
         return -1;
     }
 
+    float fi=0;
+    std::clock_t start = std::clock();
+
     while (!glfwWindowShouldClose(window)) {
         OnMinusPressed(window);
         OnPlusPressed(window);
         OnClosePressed(window);
-        draw_triangle_boundary();
+
+        if(  (start-clock())/CLOCKS_PER_SEC > 1.0) {
+          start=clock();
+          fi+=0.1;
+        }
+        std::vector<float> center({0, 0, 0});
+        draw_sphere(center, 0.5, fi);
+
         glfwPollEvents(); // check if any events happend (mouse press, key
                           // press)
 
@@ -43,6 +53,7 @@ int main() {
                      1.0f); // set which color to clear the screen with
         // GL_COLOR_BUFFER_BIT, GL_DEPTH_BUFFER_BIT and GL_STENCIL_BUFFER_BIT.
         // set which buffer to use to clear the screen
+
         glClear(GL_COLOR_BUFFER_BIT);
     }
     glfwTerminate();

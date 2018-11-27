@@ -31,6 +31,16 @@ GLFW/glfw3.h
 -
 shaders.hpp
 /home/jure/Documents/opengl/program1/shaders.hpp
+glm/glm.hpp
+-
+glm/gtc/matrix_transform.hpp
+-
+glm/gtc/type_ptr.hpp
+-
+ctime
+-
+glm/gtx/string_cast.hpp
+-
 
 /home/jure/Documents/opengl/program1/shaders.hpp
 
