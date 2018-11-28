@@ -1,6 +1,19 @@
 #include "opengl_test.hpp"
 
-std::pair<std::vector<float>, std::vector<int>> generate_sphere_mesh(std::array<float, 3> center) {
+static inline float CalcDotProductSse(__m128 x, __m128 y) {
+  __m128 mulRes, shufReg, sumsReg;
+  mulRes = _mm_mul_ps(x, y);
+
+  // Calculates the sum of SSE Register - https://stackoverflow.com/a/35270026/195787
+  shufReg = _mm_movehdup_ps(mulRes);        // Broadcast elements 3,1 to 2,0
+  sumsReg = _mm_add_ps(mulRes, shufReg);
+  shufReg = _mm_movehl_ps(shufReg, sumsReg); // High Half -> Low Half
+  sumsReg = _mm_add_ss(sumsReg, shufReg);
+  return  _mm_cvtss_f32(sumsReg); // Result in the lower part of the SSE Register
+}
+
+std::pair<std::vector<float>, std::vector<int>> generate_sphere_mesh(
+    std::array<float, 3> center) {
     std::vector<float> vertexes;
     vertexes.reserve(15);
     vertexes.resize(15);
@@ -43,12 +56,13 @@ std::pair<std::vector<float>, std::vector<int>> generate_sphere_mesh(std::array<
             triangles[i][j][2] = vertexes[element_array[i * 3 + j] * 3 + 2];
         }
     }
-    std::vector<int> new_element_array = generate_sphere_mesh(element_array, vertexes);
-    return std::make_pair<std::vector<float>, std::vector<int>> (vertexes, new_element_array);
+    std::vector<int> new_element_array =
+        generate_sphere_mesh(element_array, vertexes);
+    return std::make_pair(vertexes, new_element_array);
 }
 
-std::vector<int> generate_sphere_mesh(
-    std::vector<int>& element_array, std::vector<float>& vertexes) {
+std::vector<int> generate_sphere_mesh(std::vector<int>& element_array,
+                                      std::vector<float>& vertexes) {
     vertexes.reserve(vertexes.size() * 5 + 1);
     int num_tri = element_array.size() / 3;
     std::vector<int> new_element_array = element_array;
@@ -72,34 +86,59 @@ std::vector<int> generate_sphere_mesh(
         __m128 vert2 = _mm_loadu_ps(&vertexes[element_array[3 * tri + 1] * 3]);
         __m128 vert3 = _mm_loadu_ps(&vertexes[element_array[3 * tri + 2] * 3]);
         __m128 p12 = _mm_div_ps(_mm_add_ps(vert1, vert2),
-                                _mm_set_ps(2.0, 2.0, 2.0, 2.0));
+                                _mm_set_ps(2.0, 2.0, 2.0, 0.0));
+
         __m128 p23 = _mm_div_ps(_mm_add_ps(vert2, vert3),
-                                _mm_set_ps(2.0, 2.0, 2.0, 2.0));
+                                _mm_set_ps(2.0, 2.0, 2.0, 0.0));
         __m128 p13 = _mm_div_ps(_mm_add_ps(vert1, vert3),
-                                _mm_set_ps(2.0, 2.0, 2.0, 2.0));
-        int vertex_number = vertexes.size();
+                                _mm_set_ps(2.0, 2.0, 2.0, 0.0));
+        float* a = (float*)&p12;
+        std::cout << "p12: " << *a << " " << *(a + 1) << " " << *(a + 2) << " "
+                  << *(a + 3) << std::endl;
+        a = (float*)&p13;
+        std::cout << "p13: " << *a << " " << *(a + 1) << " " << *(a + 2) << " "
+                  << *(a + 3) << std::endl;
+        a = (float*)&p23;
+        std::cout << "p23: " << *a << " " << *(a + 1) << " " << *(a + 2) << " "
+                  << *(a + 3) << "\n"
+                  << std::endl;
+
+        int vertex_number = *std::max_element(std::begin(new_element_array),
+                                              std::end(new_element_array));
+
+        int vertexes_size = vertexes.size();
         vertexes.resize(vertexes.size() + 9);
-        _mm_storeu_ps(&vertexes[vertexes.size()], p12);
-        _mm_storeu_ps(&vertexes[vertexes.size() + 3], p23);
-        _mm_storeu_ps(&vertexes[vertexes.size() + 6], p13);
+        _mm_storeu_ps(&vertexes[vertexes_size],
+                      _mm_shuffle_ps(p12, p12, _MM_SHUFFLE(0, 1, 2, 3)));
+        _mm_storeu_ps(&vertexes[vertexes_size + 3],
+                      _mm_shuffle_ps(p23, p23, _MM_SHUFFLE(0, 1, 2, 3)));
+        _mm_storeu_ps(&vertexes[vertexes_size + 6],
+                      _mm_shuffle_ps(p13, p13, _MM_SHUFFLE(0, 1, 2, 3)));
+        std::cout << "vertexes:\n" << vertexes << "\n" << std::endl;
 
         // set the correct vertex element numbers
-        __m128i new_tri1 = _mm_set_epi32(vertex_number, vertex_number + 1,
-                                         element_array[3 * tri + 1], -1);
+        __m128i new_tri1 = _mm_set_epi32(-1, vertex_number, vertex_number + 1,
+                                         element_array[3 * tri + 1]);
 
-        __m128i new_tri2 = _mm_set_epi32(vertex_number + 1, vertex_number + 2,
-                                         element_array[3 * tri + 2], -1);
-        __m128i new_tri3 = _mm_set_epi32(vertex_number, vertex_number + 2,
-                                         element_array[3 * tri], -1);
-        __m128i new_tri4 = _mm_set_epi32(vertex_number, vertex_number + 1,
-                                         vertex_number + 2, -1);
+        __m128i new_tri2 =
+            _mm_set_epi32(-1, vertex_number + 1, vertex_number + 2,
+                          element_array[3 * tri + 2]);
+        __m128i new_tri3 = _mm_set_epi32(-1, vertex_number, vertex_number + 2,
+                                         element_array[3 * tri]);
+        __m128i new_tri4 = _mm_set_epi32(-1, vertex_number, vertex_number + 1,
+                                         vertex_number + 2);
 
         int el_array_size = new_element_array.size();
-        new_element_array.resize(el_array_size+12);
-        _mm_storeu_si128((__m128i_u*)&new_element_array[el_array_size], new_tri1);
-        _mm_storeu_si128((__m128i_u*)&new_element_array[el_array_size+3], new_tri2);
-        _mm_storeu_si128((__m128i_u*)&new_element_array[el_array_size+6], new_tri3);
-        _mm_storeu_si128((__m128i_u*)&new_element_array[el_array_size+9], new_tri4);
+        new_element_array.resize(el_array_size + 12);
+        _mm_storeu_si128((__m128i_u*)&new_element_array[el_array_size],
+                         new_tri1);
+        _mm_storeu_si128((__m128i_u*)&new_element_array[el_array_size + 3],
+                         new_tri2);
+        _mm_storeu_si128((__m128i_u*)&new_element_array[el_array_size + 6],
+                         new_tri3);
+        _mm_storeu_si128((__m128i_u*)&new_element_array[el_array_size + 9],
+                         new_tri4);
+        std::cout << "vertex elements: " << new_element_array << std::endl;
     }
     return new_element_array;
 }

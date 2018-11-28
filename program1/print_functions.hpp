@@ -1,9 +1,16 @@
 
+template<class T>
+inline std::ostream &operator<<(std::ostream &out, std::vector<T> vec) {
+  for (int i = 0; i < vec.size(); i++) {
+        out << vec[i] << " ";
+    }
+    return out;
+}
+
 template <class T, int size>
 void print_vertexes(const std::array<T, size> &vertexes,
                     int number_to_print = 0, int vertex_size = 3) {
-    if (number_to_print == 0)
-        number_to_print = size / vertex_size;
+    if (number_to_print == 0) number_to_print = size / vertex_size;
 
     for (int i = 0; i < number_to_print; i++) {
         std::cout << "vertex " << i << ":   ";
@@ -16,7 +23,6 @@ void print_vertexes(const std::array<T, size> &vertexes,
 
 inline void print_vertexes(float *vertexes, int number_to_print,
                            int vertex_size = 3) {
-
     for (int i = 0; i < number_to_print; i++) {
         std::cout << "vertex " << i << ":   ";
         for (int j = 0; j < vertex_size; j++) {
@@ -29,8 +35,7 @@ inline void print_vertexes(float *vertexes, int number_to_print,
 template <class T, int size>
 void print_triangles(const std::array<std::array<T, 9>, size> &triangles,
                      int number_to_print = size, int vertex_size = 3) {
-    if (number_to_print == 0)
-        number_to_print = triangles.size();
+    if (number_to_print == 0) number_to_print = triangles.size();
 
     for (int i = 0; i < number_to_print; i++) {
         std::cout << "triangle " << i << std::endl;
@@ -40,7 +45,6 @@ void print_triangles(const std::array<std::array<T, 9>, size> &triangles,
 
 inline void print_triangles(float *triangles, int number_to_print,
                             int vertex_size = 3) {
-
     for (int tri = 0; tri < number_to_print; tri++) {
         std::cout << "triangle " << tri << ":   ";
         for (int ver = 0; ver < 3; ver++) {
@@ -51,6 +55,5 @@ inline void print_triangles(float *triangles, int number_to_print,
         std::cout << std::endl;
     }
 }
-
 
 inline void print(std::string str) { std::cout << str << std::endl; }

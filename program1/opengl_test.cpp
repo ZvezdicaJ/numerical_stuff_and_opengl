@@ -25,7 +25,7 @@ int main() {
         return -1;
     }
 
-    float fi=0;
+    float fi = 0;
 
     while (!glfwWindowShouldClose(window)) {
         OnMinusPressed(window);
@@ -33,11 +33,11 @@ int main() {
         OnClosePressed(window);
 
         std::vector<float> center({0, 0, 0});
-        draw_sphere(center, 0.5, fi);
-        fi+=0.02;
+        //draw_sphere(center, 0.5, fi);
+        fi += 0.02;
 
-        glfwPollEvents(); // check if any events happend (mouse press, key
-                          // press)
+        glfwPollEvents();  // check if any events happend (mouse press, key
+                           // press)
 
         // The glfwSwapBuffers will swap the color buffer (a large buffer that
         // contains color values for each pixel in GLFW’s window) that has been
@@ -46,12 +46,18 @@ int main() {
         glfwSwapBuffers(window);
 
         glClearColor(0.2f, 0.3f, 0.3f,
-                     1.0f); // set which color to clear the screen with
+                     1.0f);  // set which color to clear the screen with
         // GL_COLOR_BUFFER_BIT, GL_DEPTH_BUFFER_BIT and GL_STENCIL_BUFFER_BIT.
         // set which buffer to use to clear the screen
 
         glClear(GL_COLOR_BUFFER_BIT);
     }
     glfwTerminate();
+
+    std::array<float, 3> center2({0,0,0});
+    std::pair<std::vector<float>, std::vector<int>> sphere = generate_sphere_mesh(center2);
+    //print_vertexes(&(sphere.first[0]), sphere.first.size()/3, 3 );
+
+
     return 0;
 }

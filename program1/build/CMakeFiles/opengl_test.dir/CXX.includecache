@@ -43,6 +43,8 @@ print_functions.hpp
 /home/jure/Documents/opengl/program1/print_functions.hpp
 shaders.hpp
 /home/jure/Documents/opengl/program1/shaders.hpp
+algorithm
+-
 glm/gtx/string_cast.hpp
 -
 

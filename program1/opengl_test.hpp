@@ -21,6 +21,7 @@
 #include <vector>
 #include "print_functions.hpp"
 #include "shaders.hpp"
+#include <algorithm>
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
@@ -37,7 +38,7 @@ void OnPlusPressed(GLFWwindow *);
 void OnMinusPressed(GLFWwindow *);
 void OnClosePressed(GLFWwindow *);
 void draw_triangle_boundary();
-void draw_sphere(std::vector<float> &, float, float);
+void draw_double_pyramid(std::vector<float> &, float, float);
 std::pair<std::vector<float>, std::vector<int>> generate_sphere_mesh(
     std::array<float, 3>);
 std::vector<int> generate_sphere_mesh(std::vector<int> &, std::vector<float> &);

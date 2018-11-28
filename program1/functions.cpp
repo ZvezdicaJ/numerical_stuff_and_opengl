@@ -48,8 +48,7 @@ bool check_shader_program(const unsigned shaderProgram) {
 void pause() {
     bool run = true;
     while (run) {
-        if (std::cin.get())
-            run = false;
+        if (std::cin.get()) run = false;
     }
 }
 
@@ -93,7 +92,6 @@ void OnClosePressed(GLFWwindow *window) {
 }
 
 void draw_triangle() {
-
     float vertices[] = {-1.5f, -0.5f, 0.0f, 0.5f, -0.5f,
                         0.0f,  0.0f,  0.5f, 0.0f};
 
@@ -105,7 +103,7 @@ void draw_triangle() {
     // vertex buffer object
     unsigned int VBO;
     // generate new buffer
-    glGenBuffers(1, &VBO); // generate new buffer
+    glGenBuffers(1, &VBO);  // generate new buffer
 
     // bind the buffer -> opengl is a state machine
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -183,7 +181,6 @@ void draw_triangle() {
 }
 
 void draw_triangle_boundary() {
-
     float vertices[] = {-0.5f, -0.5f, 0.0f, 0.5f,  -0.5f, 0.0f,
                         0.5f,  -0.5f, 0.0f, 0.0f,  0.5f,  0.0f,
                         0.0f,  0.5f,  0.0f, -0.5f, -0.5f, 0.0f};
@@ -194,7 +191,7 @@ void draw_triangle_boundary() {
 
     // create and bind vbo
     unsigned int VBO;
-    glGenBuffers(1, &VBO); // generate new buffer
+    glGenBuffers(1, &VBO);  // generate new buffer
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
@@ -243,7 +240,7 @@ void draw_triangle_boundary() {
     glDrawArrays(GL_POINTS, 0, 6);
 }
 
-void draw_sphere(std::vector<float> &center, float radius,
+void draw_double_pyramid(std::vector<float> &center, float radius,
                  float rotation_angle) {
     std::array<float, 15> vertexes;
     std::array<float, 3> dir1({1, 0, 0});
@@ -277,8 +274,8 @@ void draw_sphere(std::vector<float> &center, float radius,
     int element_array[6][3] = {{1, 2, 4}, {1, 2, 5}, {1, 3, 4},
                                {1, 3, 5}, {2, 3, 4}, {2, 3, 5}};
     float triangles[6][3][3];
-    for (int i = 0; i < 6; i++) {     // index i teče po trikotnikih
-        for (int j = 0; j < 3; j++) { // index j teče po ogljiščih
+    for (int i = 0; i < 6; i++) {      // index i teče po trikotnikih
+        for (int j = 0; j < 3; j++) {  // index j teče po ogljiščih
             triangles[i][j][0] = vertexes[(element_array[i][j] - 1) * 3];
             triangles[i][j][1] = vertexes[(element_array[i][j] - 1) * 3 + 1];
             triangles[i][j][2] = vertexes[(element_array[i][j] - 1) * 3 + 2];
@@ -300,7 +297,7 @@ void draw_sphere(std::vector<float> &center, float radius,
     // vertex buffer object
     unsigned int VBO;
     // generate new buffer
-    glGenBuffers(1, &VBO); // generate new buffer
+    glGenBuffers(1, &VBO);  // generate new buffer
 
     // bind the buffer -> opengl is a state machine
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -342,7 +339,7 @@ void draw_sphere(std::vector<float> &center, float radius,
     glm::mat4 translator = glm::translate(glm::vec3(1.0f, 1.0f, 1.0f));
     */
     // declare transformation matrix
-    glm::mat4 trans = glm::mat4(1.0); // translator * rotator * scalar;
+    glm::mat4 trans = glm::mat4(1.0);  // translator * rotator * scalar;
 
     // make rotation by appropriate angle
     trans = glm::rotate(trans, (float)rotation_angle, glm::vec3(0.0, 1.0, 1.0));
@@ -370,4 +367,3 @@ void draw_sphere(std::vector<float> &center, float radius,
     glUniform4fv(triangle_color, 1, glm::value_ptr(col));
     glDrawArrays(GL_LINE_STRIP, 0, 18);
 }
-
