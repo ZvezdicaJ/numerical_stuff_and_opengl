@@ -15,3 +15,10 @@ CMakeFiles/opengl_test.dir/opengl_test.cpp.o: ../shaders.hpp
 CMakeFiles/opengl_test.dir/opengl_test.cpp.o: /home/jure/Downloads/glad/include/KHR/khrplatform.h
 CMakeFiles/opengl_test.dir/opengl_test.cpp.o: /home/jure/Downloads/glad/include/glad/glad.h
 
+CMakeFiles/opengl_test.dir/sphere_generation.cpp.o: ../opengl_test.hpp
+CMakeFiles/opengl_test.dir/sphere_generation.cpp.o: ../print_functions.hpp
+CMakeFiles/opengl_test.dir/sphere_generation.cpp.o: ../shaders.hpp
+CMakeFiles/opengl_test.dir/sphere_generation.cpp.o: ../sphere_generation.cpp
+CMakeFiles/opengl_test.dir/sphere_generation.cpp.o: /home/jure/Downloads/glad/include/KHR/khrplatform.h
+CMakeFiles/opengl_test.dir/sphere_generation.cpp.o: /home/jure/Downloads/glad/include/glad/glad.h
+

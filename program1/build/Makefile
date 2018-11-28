@@ -217,6 +217,33 @@ opengl_test.cpp.s:
 	$(MAKE) -f CMakeFiles/opengl_test.dir/build.make CMakeFiles/opengl_test.dir/opengl_test.cpp.s
 .PHONY : opengl_test.cpp.s
 
+sphere_generation.o: sphere_generation.cpp.o
+
+.PHONY : sphere_generation.o
+
+# target to build an object file
+sphere_generation.cpp.o:
+	$(MAKE) -f CMakeFiles/opengl_test.dir/build.make CMakeFiles/opengl_test.dir/sphere_generation.cpp.o
+.PHONY : sphere_generation.cpp.o
+
+sphere_generation.i: sphere_generation.cpp.i
+
+.PHONY : sphere_generation.i
+
+# target to preprocess a source file
+sphere_generation.cpp.i:
+	$(MAKE) -f CMakeFiles/opengl_test.dir/build.make CMakeFiles/opengl_test.dir/sphere_generation.cpp.i
+.PHONY : sphere_generation.cpp.i
+
+sphere_generation.s: sphere_generation.cpp.s
+
+.PHONY : sphere_generation.s
+
+# target to generate assembly for a file
+sphere_generation.cpp.s:
+	$(MAKE) -f CMakeFiles/opengl_test.dir/build.make CMakeFiles/opengl_test.dir/sphere_generation.cpp.s
+.PHONY : sphere_generation.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -236,6 +263,9 @@ help:
 	@echo "... opengl_test.o"
 	@echo "... opengl_test.i"
 	@echo "... opengl_test.s"
+	@echo "... sphere_generation.o"
+	@echo "... sphere_generation.i"
+	@echo "... sphere_generation.s"
 .PHONY : help
 
 

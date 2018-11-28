@@ -1,8 +1,9 @@
 #include "opengl_test.hpp"
 
-std::vector<array<float, 3>> generate_sphere_mesh() {
+std::pair<std::vector<float>, std::vector<int>> generate_sphere_mesh(std::array<float, 3> center) {
     std::vector<float> vertexes;
     vertexes.reserve(15);
+    vertexes.resize(15);
     std::array<float, 3> dir1({1, 0, 0});
     std::array<float, 3> dir2 = {std::cos(2.0 * M_PI / 3),
                                  std::sin(2.0 * M_PI / 3), 0};
@@ -42,15 +43,17 @@ std::vector<array<float, 3>> generate_sphere_mesh() {
             triangles[i][j][2] = vertexes[element_array[i * 3 + j] * 3 + 2];
         }
     }
+    std::vector<int> new_element_array = generate_sphere_mesh(element_array, vertexes);
+    return std::make_pair<std::vector<float>, std::vector<int>> (vertexes, new_element_array);
 }
 
-std::vector<array<float, 3>> generate_sphere_mesh(
+std::vector<int> generate_sphere_mesh(
     std::vector<int>& element_array, std::vector<float>& vertexes) {
     vertexes.reserve(vertexes.size() * 5 + 1);
     int num_tri = element_array.size() / 3;
-    std::vector<int> new_element_array;
+    std::vector<int> new_element_array = element_array;
     new_element_array.reserve(4 * element_array.size() + 1);
-    for (tri = 0; tri < num_tri; tri++) {
+    for (int tri = 0; tri < num_tri; tri++) {
         /* disabled because below is sse version
         T vertex1[3] = {vertexes[element_array[3 * tri] * 3],
                           vertexes[element_array[3 * tri] * 3 + 1],
@@ -84,10 +87,19 @@ std::vector<array<float, 3>> generate_sphere_mesh(
         __m128i new_tri1 = _mm_set_epi32(vertex_number, vertex_number + 1,
                                          element_array[3 * tri + 1], -1);
 
-        __m128i new_tri1 = _mm_set_epi32(vertex_number +1, vertex_number + 2,
+        __m128i new_tri2 = _mm_set_epi32(vertex_number + 1, vertex_number + 2,
                                          element_array[3 * tri + 2], -1);
-
-        __m128i new_tri1 = _mm_set_epi32(vertex_number, vertex_number + 2,
+        __m128i new_tri3 = _mm_set_epi32(vertex_number, vertex_number + 2,
                                          element_array[3 * tri], -1);
+        __m128i new_tri4 = _mm_set_epi32(vertex_number, vertex_number + 1,
+                                         vertex_number + 2, -1);
+
+        int el_array_size = new_element_array.size();
+        new_element_array.resize(el_array_size+12);
+        _mm_storeu_si128((__m128i_u*)&new_element_array[el_array_size], new_tri1);
+        _mm_storeu_si128((__m128i_u*)&new_element_array[el_array_size+3], new_tri2);
+        _mm_storeu_si128((__m128i_u*)&new_element_array[el_array_size+6], new_tri3);
+        _mm_storeu_si128((__m128i_u*)&new_element_array[el_array_size+9], new_tri4);
     }
+    return new_element_array;
 }

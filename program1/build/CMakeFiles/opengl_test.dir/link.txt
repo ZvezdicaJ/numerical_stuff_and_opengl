@@ -1,1 +1,1 @@
-/usr/bin/c++    -rdynamic CMakeFiles/opengl_test.dir/opengl_test.cpp.o CMakeFiles/opengl_test.dir/functions.cpp.o  -o ../bin/opengl_test -Wl,-rpath,/home/jure/Documents/opengl/program1/lib:/usr/local/lib ../lib/libglad.so /usr/local/lib/libglfw.so 
+/usr/bin/c++    -rdynamic CMakeFiles/opengl_test.dir/opengl_test.cpp.o CMakeFiles/opengl_test.dir/functions.cpp.o CMakeFiles/opengl_test.dir/sphere_generation.cpp.o  -o ../bin/opengl_test -Wl,-rpath,/home/jure/Documents/opengl/program1/lib:/usr/local/lib ../lib/libglad.so /usr/local/lib/libglfw.so 
