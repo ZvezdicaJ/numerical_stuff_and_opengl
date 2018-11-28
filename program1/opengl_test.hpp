@@ -20,6 +20,7 @@
 #include <vector>
 #include "shaders.hpp"
 #include "print_functions.hpp"
+#include <xmmintrin.h>
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>

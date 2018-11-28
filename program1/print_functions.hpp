@@ -51,3 +51,6 @@ inline void print_triangles(float *triangles, int number_to_print,
         std::cout << std::endl;
     }
 }
+
+
+inline void print(std::string str) { std::cout << str << std::endl; }

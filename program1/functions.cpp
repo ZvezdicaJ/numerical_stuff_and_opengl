@@ -53,8 +53,6 @@ void pause() {
     }
 }
 
-void print(std::string str) { std::cout << str << std::endl; }
-
 void OnPlusPressed(GLFWwindow *window) {
     // glfwGetKey function takes the window as input together with a
     // key. The function returns whether this key is currently being pressed.
@@ -291,9 +289,9 @@ void draw_sphere(std::vector<float> &center, float radius,
             //          << "\n"
             //          << std::endl;
         }
-        std::cout << std::endl;
+        //        std::cout << std::endl;
     }
-    print_triangles(&(triangles[0][0][0]), 6);
+    //    print_triangles(&(triangles[0][0][0]), 6);
     // create vertex array object
     unsigned int VAO;
     glGenVertexArrays(1, &VAO);
@@ -348,7 +346,8 @@ void draw_sphere(std::vector<float> &center, float radius,
 
     // make rotation by appropriate angle
     trans = glm::rotate(trans, (float)rotation_angle, glm::vec3(0.0, 1.0, 1.0));
-    std::cout << glm::to_string(trans) << std::endl;
+    trans = glm::scale(trans, glm::vec3(radius, radius, radius));
+    // std::cout << glm::to_string(trans) << std::endl;
 
     unsigned int transformLoc = glGetUniformLocation(shaderProgram, "rotate");
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
@@ -369,5 +368,6 @@ void draw_sphere(std::vector<float> &center, float radius,
     glDrawArrays(GL_TRIANGLES, 0, 54);
     col = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
     glUniform4fv(triangle_color, 1, glm::value_ptr(col));
-    glDrawArrays(GL_LINE_STRIP, 0, 54);
+    glDrawArrays(GL_LINE_STRIP, 0, 18);
 }
+
