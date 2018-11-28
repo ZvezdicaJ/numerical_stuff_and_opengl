@@ -12,16 +12,17 @@
 #include <glad/glad.h>
 #endif
 
-#include <xmmintrin.h>
+#include "shaders.hpp"
+#include <algorithm>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 #include <string>
 #include <vector>
+#include <limits>
+#include <xmmintrin.h>
 #include "print_functions.hpp"
-#include "shaders.hpp"
-#include <algorithm>
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
@@ -39,6 +40,8 @@ void OnMinusPressed(GLFWwindow *);
 void OnClosePressed(GLFWwindow *);
 void draw_triangle_boundary();
 void draw_double_pyramid(std::vector<float> &, float, float);
-std::pair<std::vector<float>, std::vector<int>> generate_sphere_mesh(
-    std::array<float, 3>);
-std::vector<int> generate_sphere_mesh(std::vector<int> &, std::vector<float> &);
+std::pair<std::vector<float>, std::vector<int>>
+generate_sphere_mesh(std::array<float, 3>, float);
+std::vector<int> generate_sphere_mesh(std::vector<int> &, std::vector<float> &,
+                                      float);
+void draw_sphere(std::array<float, 3> &, float, float);

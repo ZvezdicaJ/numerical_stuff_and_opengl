@@ -6,15 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/jure/Documents/opengl/program1/functions.cpp
-opengl_test.hpp
-/home/jure/Documents/opengl/program1/opengl_test.hpp
-
-/home/jure/Documents/opengl/program1/opengl_test.cpp
-opengl_test.hpp
-/home/jure/Documents/opengl/program1/opengl_test.hpp
-
-/home/jure/Documents/opengl/program1/opengl_test.hpp
+/home/jure/Documents/opengl_ucenje/program1/opengl_test.hpp
 GLFW/glfw3.h
 -
 array
@@ -25,7 +17,9 @@ ctime
 -
 glad/glad.h
 -
-xmmintrin.h
+shaders.hpp
+/home/jure/Documents/opengl_ucenje/program1/shaders.hpp
+algorithm
 -
 glm/glm.hpp
 -
@@ -39,22 +33,22 @@ string
 -
 vector
 -
-print_functions.hpp
-/home/jure/Documents/opengl/program1/print_functions.hpp
-shaders.hpp
-/home/jure/Documents/opengl/program1/shaders.hpp
-algorithm
+limits
 -
+xmmintrin.h
+-
+print_functions.hpp
+/home/jure/Documents/opengl_ucenje/program1/print_functions.hpp
 glm/gtx/string_cast.hpp
 -
 
-/home/jure/Documents/opengl/program1/print_functions.hpp
+/home/jure/Documents/opengl_ucenje/program1/print_functions.hpp
 
-/home/jure/Documents/opengl/program1/shaders.hpp
+/home/jure/Documents/opengl_ucenje/program1/shaders.hpp
 
-/home/jure/Documents/opengl/program1/sphere_generation.cpp
+/home/jure/Documents/opengl_ucenje/program1/sphere_generation.cpp
 opengl_test.hpp
-/home/jure/Documents/opengl/program1/opengl_test.hpp
+/home/jure/Documents/opengl_ucenje/program1/opengl_test.hpp
 
 /home/jure/Downloads/glad/include/KHR/khrplatform.h
 stdint.h

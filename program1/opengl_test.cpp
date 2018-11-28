@@ -32,10 +32,10 @@ int main() {
         OnPlusPressed(window);
         OnClosePressed(window);
 
-        std::vector<float> center({0, 0, 0});
+        std::array<float,3> center({0, 0, 0});
         //draw_sphere(center, 0.5, fi);
         fi += 0.02;
-
+        draw_sphere(center, 0.5, fi);
         glfwPollEvents();  // check if any events happend (mouse press, key
                            // press)
 
@@ -54,8 +54,8 @@ int main() {
     }
     glfwTerminate();
 
-    std::array<float, 3> center2({0,0,0});
-    std::pair<std::vector<float>, std::vector<int>> sphere = generate_sphere_mesh(center2);
+    //std::array<float, 3> center2({0,0,0});
+    //std::pair<std::vector<float>, std::vector<int>> sphere = generate_sphere_mesh(center2, 0.5);
     //print_vertexes(&(sphere.first[0]), sphere.first.size()/3, 3 );
 
 

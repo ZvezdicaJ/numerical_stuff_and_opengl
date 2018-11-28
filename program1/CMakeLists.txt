@@ -9,6 +9,8 @@ set (CMAKE_CXX_STANDARD 14)
 find_package(glfw3 REQUIRED)
 message(STATUS "glfw libraries: ${GLFW_LIBRARIES}")
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native")
+
 # GLFW
 #set(GLFW_DIR "../../../Downloads/glfw")
 #set(GLFW_BUILD_EXAMPLES OFF CACHE INTERNAL "Build the GLFW example programs")
