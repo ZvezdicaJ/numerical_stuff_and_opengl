@@ -1,15 +1,17 @@
 #include "opengl_test.hpp"
 
 static inline float CalcDotProductSse(__m128 x, __m128 y) {
-  __m128 mulRes, shufReg, sumsReg;
-  mulRes = _mm_mul_ps(x, y);
+    __m128 mulRes, shufReg, sumsReg;
+    mulRes = _mm_mul_ps(x, y);
 
-  // Calculates the sum of SSE Register - https://stackoverflow.com/a/35270026/195787
-  shufReg = _mm_movehdup_ps(mulRes);        // Broadcast elements 3,1 to 2,0
-  sumsReg = _mm_add_ps(mulRes, shufReg);
-  shufReg = _mm_movehl_ps(shufReg, sumsReg); // High Half -> Low Half
-  sumsReg = _mm_add_ss(sumsReg, shufReg);
-  return  _mm_cvtss_f32(sumsReg); // Result in the lower part of the SSE Register
+    // Calculates the sum of SSE Register -
+    // https://stackoverflow.com/a/35270026/195787
+    shufReg = _mm_movehdup_ps(mulRes);  // Broadcast elements 3,1 to 2,0
+    sumsReg = _mm_add_ps(mulRes, shufReg);
+    shufReg = _mm_movehl_ps(shufReg, sumsReg);  // High Half -> Low Half
+    sumsReg = _mm_add_ss(sumsReg, shufReg);
+    return _mm_cvtss_f32(
+        sumsReg);  // Result in the lower part of the SSE Register
 }
 
 std::pair<std::vector<float>, std::vector<int>> generate_sphere_mesh(
@@ -106,7 +108,9 @@ std::vector<int> generate_sphere_mesh(std::vector<int>& element_array,
         int vertex_number = *std::max_element(std::begin(new_element_array),
                                               std::end(new_element_array));
 
-        int vertexes_size = vertexes.size();
+        float norm =CalcDotProductSse(p12, p12);
+        __m128 
+          int vertexes_size = vertexes.size();
         vertexes.resize(vertexes.size() + 9);
         _mm_storeu_ps(&vertexes[vertexes_size],
                       _mm_shuffle_ps(p12, p12, _MM_SHUFFLE(0, 1, 2, 3)));
