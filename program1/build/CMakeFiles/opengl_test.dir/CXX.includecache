@@ -6,41 +6,47 @@
 
 #IncludeRegexTransform: 
 
-/home/jure/Documents/opengl_ucenje/program1/opengl_test.cpp
+/home/jure/Documents/opengl/program1/functions.cpp
 opengl_test.hpp
-/home/jure/Documents/opengl_ucenje/program1/opengl_test.hpp
+/home/jure/Documents/opengl/program1/opengl_test.hpp
 
-/home/jure/Documents/opengl_ucenje/program1/opengl_test.hpp
-iostream
--
-string
--
-cmath
--
-vector
+/home/jure/Documents/opengl/program1/opengl_test.cpp
+opengl_test.hpp
+/home/jure/Documents/opengl/program1/opengl_test.hpp
+
+/home/jure/Documents/opengl/program1/opengl_test.hpp
+GLFW/glfw3.h
 -
 array
 -
+cmath
+-
+ctime
+-
 glad/glad.h
 -
-GLFW/glfw3.h
--
-shaders.hpp
-/home/jure/Documents/opengl_ucenje/program1/shaders.hpp
 glm/glm.hpp
 -
 glm/gtc/matrix_transform.hpp
 -
 glm/gtc/type_ptr.hpp
 -
-chrono
+iostream
 -
+string
+-
+vector
+-
+shaders.hpp
+/home/jure/Documents/opengl/program1/shaders.hpp
+print_functions.hpp
+/home/jure/Documents/opengl/program1/print_functions.hpp
 glm/gtx/string_cast.hpp
 -
-glm/gtx/transform.hpp
--
 
-/home/jure/Documents/opengl_ucenje/program1/shaders.hpp
+/home/jure/Documents/opengl/program1/print_functions.hpp
+
+/home/jure/Documents/opengl/program1/shaders.hpp
 
 /home/jure/Downloads/glad/include/KHR/khrplatform.h
 stdint.h

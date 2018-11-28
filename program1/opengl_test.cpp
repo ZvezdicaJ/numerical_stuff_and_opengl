@@ -26,19 +26,15 @@ int main() {
     }
 
     float fi=0;
-    std::clock_t start = std::clock();
 
     while (!glfwWindowShouldClose(window)) {
         OnMinusPressed(window);
         OnPlusPressed(window);
         OnClosePressed(window);
 
-        if(  (start-clock())/CLOCKS_PER_SEC > 1.0) {
-          start=clock();
-          fi+=0.1;
-        }
         std::vector<float> center({0, 0, 0});
         draw_sphere(center, 0.5, fi);
+        fi+=0.02;
 
         glfwPollEvents(); // check if any events happend (mouse press, key
                           // press)

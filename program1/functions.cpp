@@ -245,14 +245,15 @@ void draw_triangle_boundary() {
     glDrawArrays(GL_POINTS, 0, 6);
 }
 
-void draw_sphere(std::vector<float> &center, float radius, float rotation_angle) {
+void draw_sphere(std::vector<float> &center, float radius,
+                 float rotation_angle) {
     std::array<float, 15> vertexes;
     std::array<float, 3> dir1({1, 0, 0});
-    std::array<float, 3> dir2(
-        {std::cos(2.0 * M_PI / 3), std::sin(2.0 * M_PI / 3), 0});
-    std::array<float, 3> dir3(
-        {std::cos(2.0 * M_PI / 3), std::sin(2.0 * M_PI / 3), 0});
-    std::array<float, 3> z_dir({0, 0, 1});
+    std::array<float, 3> dir2 = {std::cos(2.0 * M_PI / 3),
+                                 std::sin(2.0 * M_PI / 3), 0};
+    std::array<float, 3> dir3 = {std::cos(4.0 * M_PI / 3),
+                                 std::sin(4.0 * M_PI / 3), 0};
+    std::array<float, 3> z_dir = {0, 0, 1};
     // vertex 1
     vertexes[0] = center[0] + dir1[0];
     vertexes[1] = center[1] + dir1[1];
@@ -274,6 +275,7 @@ void draw_sphere(std::vector<float> &center, float radius, float rotation_angle)
     vertexes[13] = center[1] - z_dir[1];
     vertexes[14] = center[2] - z_dir[2];
 
+    // print_vertexes<float, 15>(vertexes);
     int element_array[6][3] = {{1, 2, 4}, {1, 2, 5}, {1, 3, 4},
                                {1, 3, 5}, {2, 3, 4}, {2, 3, 5}};
     float triangles[6][3][3];
@@ -282,8 +284,16 @@ void draw_sphere(std::vector<float> &center, float radius, float rotation_angle)
             triangles[i][j][0] = vertexes[(element_array[i][j] - 1) * 3];
             triangles[i][j][1] = vertexes[(element_array[i][j] - 1) * 3 + 1];
             triangles[i][j][2] = vertexes[(element_array[i][j] - 1) * 3 + 2];
+            // std::cout << "trikotnik " << i << " ogljišče " << j << "  ";
+            // std::cout << "(" << triangles[i][j][0] << " " <<
+            // triangles[i][j][0]
+            //          << " " << triangles[i][j][0] << ")"
+            //          << "\n"
+            //          << std::endl;
         }
+        std::cout << std::endl;
     }
+    print_triangles(&(triangles[0][0][0]), 6);
     // create vertex array object
     unsigned int VAO;
     glGenVertexArrays(1, &VAO);
@@ -328,16 +338,24 @@ void draw_sphere(std::vector<float> &center, float radius, float rotation_angle)
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
-    //declare transformation matrix
-    glm::mat4 trans;
+    /* scale, rotate and translate
+    glm::mat4 scalar = glm::scale(glm::vec3(1.0f, 1.0f, 1.0f));
+    glm::mat4 rotator = glm::rotate(360.0f, glm::vec3(0.0f , 0.0f , 1.0f));
+    glm::mat4 translator = glm::translate(glm::vec3(1.0f, 1.0f, 1.0f));
+    */
+    // declare transformation matrix
+    glm::mat4 trans = glm::mat4(1.0); // translator * rotator * scalar;
+
     // make rotation by appropriate angle
-    trans = glm::rotate(trans, glm::radians(0.0f), glm::vec3(0.0, 0.0, 1.0));
-    std::cout<<glm::to_string(trans)<<std::endl;
-    // scale accordingly
-    //trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
+    trans = glm::rotate(trans, (float)rotation_angle, glm::vec3(0.0, 1.0, 1.0));
+    std::cout << glm::to_string(trans) << std::endl;
 
     unsigned int transformLoc = glGetUniformLocation(shaderProgram, "rotate");
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+
+    unsigned int triangle_color = glGetUniformLocation(shaderProgram, "color");
+    glm::vec4 col(1.0f, 0.5f, 0.2f, 1.0f);
+    glUniform4fv(triangle_color, 1, glm::value_ptr(col));
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float),
                           (void *)0);
@@ -349,4 +367,7 @@ void draw_sphere(std::vector<float> &center, float radius, float rotation_angle)
     // third is how many indices to render - in this case 3 indices (3 points,
     // which form a single triangle)
     glDrawArrays(GL_TRIANGLES, 0, 54);
+    col = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+    glUniform4fv(triangle_color, 1, glm::value_ptr(col));
+    glDrawArrays(GL_LINE_STRIP, 0, 54);
 }
