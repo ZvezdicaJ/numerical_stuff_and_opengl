@@ -34,7 +34,7 @@ int main() {
 
         std::array<float,3> center({0, 0, 0});
         //draw_sphere(center, 0.5, fi);
-        fi += 0.02;
+        fi += 0.0;
         draw_sphere(center, 0.5, fi);
         glfwPollEvents();  // check if any events happend (mouse press, key
                            // press)

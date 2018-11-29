@@ -7,16 +7,16 @@ float CalcDotProductSse(__m128 x, __m128 y) {
 
     // Calculates the sum of SSE Register -
     // https://stackoverflow.com/a/35270026/195787
-    shufReg = _mm_movehdup_ps(mulRes); // Broadcast elements 3,1 to 2,0
+    shufReg = _mm_movehdup_ps(mulRes);  // Broadcast elements 3,1 to 2,0
     sumsReg = _mm_add_ps(mulRes, shufReg);
-    shufReg = _mm_movehl_ps(shufReg, sumsReg); // High Half -> Low Half
+    shufReg = _mm_movehl_ps(shufReg, sumsReg);  // High Half -> Low Half
     sumsReg = _mm_add_ss(sumsReg, shufReg);
     return _mm_cvtss_f32(
-        sumsReg); // Result in the lower part of the SSE Register
+        sumsReg);  // Result in the lower part of the SSE Register
 }
 
-std::pair<std::vector<float>, std::vector<int>>
-generate_sphere_mesh(std::array<float, 3> center, float radius) {
+std::pair<std::vector<float>, std::vector<int>> generate_sphere_mesh(
+    std::array<float, 3> center, float radius) {
     std::vector<float> vertexes;
     vertexes.reserve(15);
     vertexes.resize(15);
@@ -52,8 +52,8 @@ generate_sphere_mesh(std::array<float, 3> center, float radius) {
     std::vector<int> element_array(
         {0, 1, 3, 0, 1, 4, 0, 2, 3, 0, 2, 4, 1, 2, 3, 1, 2, 4});
     float triangles[6][3][3];
-    for (int i = 0; i < 6; i++) {     // index i teče po trikotnikih
-        for (int j = 0; j < 3; j++) { // index j teče po ogljiščih
+    for (int i = 0; i < 6; i++) {      // index i teče po trikotnikih
+        for (int j = 0; j < 3; j++) {  // index j teče po ogljiščih
             triangles[i][j][0] = vertexes[(element_array[3 * i + j] - 1) * 3];
             triangles[i][j][1] = vertexes[element_array[i * 3 + j] * 3 + 1];
             triangles[i][j][2] = vertexes[element_array[i * 3 + j] * 3 + 2];
@@ -68,11 +68,12 @@ generate_sphere_mesh(std::array<float, 3> center, float radius) {
 std::vector<int> generate_sphere_mesh(std::vector<int> &element_array,
                                       std::vector<float> &vertexes,
                                       float radius) {
+    int vertex_number = vertexes.size() / 3;
     vertexes.reserve(vertexes.size() * 5 + 1);
     int num_tri = element_array.size() / 3;
-    std::vector<int> new_element_array; // = element_array;
+    std::vector<int> new_element_array;  // = element_array;
     new_element_array.reserve(4 * element_array.size() + 1);
-    int vertex_number = 5;
+
     for (int tri = 0; tri < num_tri; tri++) {
         /* disabled because below is sse version
         T vertex1[3] = {vertexes[element_array[3 * tri] * 3],
@@ -87,52 +88,36 @@ std::vector<int> generate_sphere_mesh(std::vector<int> &element_array,
                           vertexes[element_array[3 * tri + 2] * 3 + 1],
                           vertexes[element_array[3 * tri + 2] * 3 + 2]};
         */
-        // sse load
+        // sse load                              vertex number
         __m128 vert1 = _mm_loadu_ps(&vertexes[element_array[3 * tri] * 3]);
         __m128 vert2 = _mm_loadu_ps(&vertexes[element_array[3 * tri + 1] * 3]);
         __m128 vert3 = _mm_loadu_ps(&vertexes[element_array[3 * tri + 2] * 3]);
         __m128 p12 = _mm_div_ps(
             _mm_add_ps(vert1, vert2),
-            _mm_set_ps(2.0, 2.0, 2.0, std::numeric_limits<float>::infinity()));
-
+            _mm_set_ps(std::numeric_limits<float>::infinity(), 2.0, 2.0, 2.0));
         __m128 p23 = _mm_div_ps(
             _mm_add_ps(vert2, vert3),
-            _mm_set_ps(2.0, 2.0, 2.0, std::numeric_limits<float>::infinity()));
+            _mm_set_ps(std::numeric_limits<float>::infinity(), 2.0, 2.0, 2.0));
         __m128 p13 = _mm_div_ps(
             _mm_add_ps(vert1, vert3),
-            _mm_set_ps(2.0, 2.0, 2.0, std::numeric_limits<float>::infinity()));
+            _mm_set_ps(std::numeric_limits<float>::infinity(), 2.0, 2.0, 2.0));
 
         float norm12 = std::sqrt(CalcDotProductSse(p12, p12)) / radius;
         float norm23 = std::sqrt(CalcDotProductSse(p23, p23)) / radius;
         float norm13 = std::sqrt(CalcDotProductSse(p13, p13)) / radius;
-        //std::cout << "norm12: " << norm12 << "  norm13:  " << norm13
+        // std::cout << "norm12: " << norm12 << "  norm13:  " << norm13
         //         << "  norm23  :" << norm23 << std::endl;
-        p12 = _mm_div_ps(p12, _mm_set_ps(norm12, norm12, norm12, norm12));
-        p13 = _mm_div_ps(p13, _mm_set_ps(norm13, norm13, norm13, norm13));
-        p23 = _mm_div_ps(p23, _mm_set_ps(norm23, norm23, norm23, norm23));
-        /*
-        float *a = (float *)&p12;
-        std::cout << "p12: " << *a << " " << *(a + 1) << " " << *(a + 2) << " "
-                  << *(a + 3) << std::endl;
-        a = (float *)&p13;
-        std::cout << "p13: " << *a << " " << *(a + 1) << " " << *(a + 2) << " "
-                  << *(a + 3) << std::endl;
-        a = (float *)&p23;
-        std::cout << "p23: " << *a << " " << *(a + 1) << " " << *(a + 2) << " "
-                  << *(a + 3) << "\n"
-                  << std::endl;
-        */
+        p12 = _mm_div_ps(p12, _mm_set_ps(1.0, norm12, norm12, norm12));
+        p13 = _mm_div_ps(p13, _mm_set_ps(1.0, norm13, norm13, norm13));
+        p23 = _mm_div_ps(p23, _mm_set_ps(1.0, norm23, norm23, norm23));
 
         float norm = CalcDotProductSse(p12, p12);
         int vertexes_size = vertexes.size();
         vertexes.resize(vertexes.size() + 9);
-        _mm_storeu_ps(&vertexes[vertexes_size],
-                      _mm_shuffle_ps(p12, p12, _MM_SHUFFLE(0, 1, 2, 3)));
-        _mm_storeu_ps(&vertexes[vertexes_size + 3],
-                      _mm_shuffle_ps(p23, p23, _MM_SHUFFLE(0, 1, 2, 3)));
-        _mm_storeu_ps(&vertexes[vertexes_size + 6],
-                      _mm_shuffle_ps(p13, p13, _MM_SHUFFLE(0, 1, 2, 3)));
 
+        _mm_storeu_ps(&vertexes[vertexes_size], p12);
+        _mm_storeu_ps(&vertexes[vertexes_size + 3], p23);
+        _mm_storeu_ps(&vertexes[vertexes_size + 6], p13);
         // set the correct vertex element numbers
         __m128i new_tri1 = _mm_set_epi32(-1, vertex_number, vertex_number + 1,
                                          element_array[3 * tri + 1]);
@@ -160,18 +145,16 @@ std::vector<int> generate_sphere_mesh(std::vector<int> &element_array,
                                           std::end(new_element_array)) +
                         1;
 
-        /*std::cout << "vertex_number: " << vertex_number << std::endl;
-        std::cout << "vertexes:\n" << vertexes << std::endl;
-        std::cout << "new_element_array: \n" << new_element_array << std::endl;
-        // std::cout << "vertex elements: " << new_element_array << std::endl;
-        */
-        }
-    return new_element_array;
+        // print_vertex(&vertexes[0], "ver0");
+        // print_vertex(&vertexes[3], "ver1");
+        // print_vertex(&vertexes[15], "ver5");
+    }
+    if (vertexes.size() > 100) return new_element_array;
+    return generate_sphere_mesh(new_element_array, vertexes, radius);
 }
 
 void draw_sphere(std::array<float, 3> &center, float radius,
                  float rotation_angle) {
-
     std::pair<std::vector<float>, std::vector<int>> sphere_data =
         generate_sphere_mesh(center, radius);
     std::vector<float> vertexes = sphere_data.first;
@@ -232,7 +215,7 @@ void draw_sphere(std::array<float, 3> &center, float radius,
     glm::mat4 translator = glm::translate(glm::vec3(1.0f, 1.0f, 1.0f));
     */
     // declare transformation matrix
-    glm::mat4 trans = glm::mat4(1.0); // translator * rotator * scalar;
+    glm::mat4 trans = glm::mat4(1.0);  // translator * rotator * scalar;
 
     // make rotation by appropriate angle
     trans = glm::rotate(trans, (float)rotation_angle, glm::vec3(0.0, 1.0, 1.0));
@@ -243,15 +226,17 @@ void draw_sphere(std::array<float, 3> &center, float radius,
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
     unsigned int triangle_color = glGetUniformLocation(shaderProgram, "color");
-    glm::vec4 col(1.0f, 0.5f, 0.2f, 1.0f);
+    glm::vec4 col(1.0f, 0.5f, 0.2f, 0.5f);
     glUniform4fv(triangle_color, 1, glm::value_ptr(col));
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, 3 * sizeof(float),
                           (void *)0);
     glEnableVertexAttribArray(0);
-    //std::cout << "draw_sphere:  vertexes size: " << vertexes.size()
-    //          << std::endl;
-    glDrawElements(GL_TRIANGLES, vertexes.size() / 3, GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, element_array.size(), GL_UNSIGNED_INT, 0);
+
+    col = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+    glUniform4fv(triangle_color, 1, glm::value_ptr(col));
+    glDrawArrays(GL_LINES, 0, vertexes.size()/3);
     // col = glm::vec4(0.0f, 0.0f, 0.0f, 0.5f);
     // glUniform4fv(triangle_color, 1, glm::value_ptr(col));
     // glDrawArrays(GL_LINE_STRIP, 0, 18);
