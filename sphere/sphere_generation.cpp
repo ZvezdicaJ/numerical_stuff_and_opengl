@@ -15,7 +15,7 @@ float CalcDotProductSse(__m128 x, __m128 y) {
         sumsReg);  // Result in the lower part of the SSE Register
 }
 
-std::pair<std::vector<float>, std::vector<int>> generate_sphere_mesh(
+void sphere::generate_sphere_mesh(
     std::array<float, 3> center, float radius) {
     std::vector<float> vertexes;
     vertexes.reserve(15);
@@ -60,14 +60,10 @@ std::pair<std::vector<float>, std::vector<int>> generate_sphere_mesh(
         }
     }
     //    std::cout << "radius" << radius << std::endl;
-    std::vector<int> new_element_array =
-        generate_sphere_mesh(element_array, vertexes, radius);
-    return std::make_pair(vertexes, new_element_array);
+    element_array = generate_sphere_mesh(radius);
 }
 
-std::vector<int> generate_sphere_mesh(std::vector<int> &element_array,
-                                      std::vector<float> &vertexes,
-                                      float radius) {
+std::vector<int> sphere::generate_sphere_mesh(float radius) {
     int vertex_number = vertexes.size() / 3;
     vertexes.reserve(vertexes.size() * 5 + 1);
     int num_tri = element_array.size() / 3;
@@ -144,44 +140,12 @@ std::vector<int> generate_sphere_mesh(std::vector<int> &element_array,
         vertex_number = *std::max_element(std::begin(new_element_array),
                                           std::end(new_element_array)) +
                         1;
-
-        // print_vertex(&vertexes[0], "ver0");
-        // print_vertex(&vertexes[3], "ver1");
-        // print_vertex(&vertexes[15], "ver5");
     }
-    if (vertexes.size() > 1500) return new_element_array;
+    if (vertexes.size() > min_vertexes) return new_element_array;
     return generate_sphere_mesh(new_element_array, vertexes, radius);
 }
 
-void draw_sphere(std::array<float, 3> &center, float radius,
-                 float rotation_angle) {
-    std::pair<std::vector<float>, std::vector<int>> sphere_data =
-        generate_sphere_mesh(center, radius);
-    std::vector<float> vertexes = sphere_data.first;
-    std::vector<int> element_array = sphere_data.second;
-    /*
-    std::cout << "vertexes:  \n" << vertexes << std::endl;
-    std::cout << "vertexes size: " << vertexes.size() << std::endl;
-    std::cout << *std::max_element(std::begin(element_array),
-    std::end(element_array));
-    */
-
-    unsigned int VAO;
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
-
-    unsigned int VBO;
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertexes.size(), &vertexes[0],
-                 GL_STATIC_DRAW);
-
-    unsigned int EBO;
-    glGenBuffers(1, &EBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * element_array.size(),
-                 &(element_array[0]), GL_STATIC_DRAW);
-
+void sphere::compile_shaders() {
     // create empty shader
     unsigned int vertexShader;
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -199,7 +163,6 @@ void draw_sphere(std::array<float, 3> &center, float radius,
     glCompileShader(fragmentShader);
     check_fragment_shader(fragmentShader);
 
-    unsigned int shaderProgram;
     shaderProgram = glCreateProgram();
     glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);
@@ -208,6 +171,35 @@ void draw_sphere(std::array<float, 3> &center, float radius,
     glUseProgram(shaderProgram);
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
+}
+
+
+void initialize_buffers() {
+
+
+}
+
+void sphere::draw(float radius, std::array<float, 3> &translate,
+                  std::array<float> &rotation_axis, float angle) {
+    if (!vertexes_generated)
+        std::pair<std::vector<float>, std::vector<int>> sphere_data =
+            generate_sphere_mesh(center, radius);
+
+    unsigned int VAO;
+    glGenVertexArrays(1, &VAO);
+    glBindVertexArray(VAO);
+
+    unsigned int VBO;
+    glGenBuffers(1, &VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertexes.size(), &vertexes[0],
+                 GL_STATIC_DRAW);
+
+    unsigned int EBO;
+    glGenBuffers(1, &EBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * element_array.size(),
+                 &(element_array[0]), GL_STATIC_DRAW);
 
     /* scale, rotate and translate
     glm::mat4 scalar = glm::scale(glm::vec3(1.0f, 1.0f, 1.0f));
