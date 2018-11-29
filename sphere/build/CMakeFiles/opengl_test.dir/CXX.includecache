@@ -6,10 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/jure/Documents/opengl_ucenje/sphere/opengl_test.cpp
-opengl_test.hpp
-/home/jure/Documents/opengl_ucenje/sphere/opengl_test.hpp
-
 /home/jure/Documents/opengl_ucenje/sphere/opengl_test.hpp
 GLFW/glfw3.h
 -
@@ -51,6 +47,10 @@ glm/gtx/string_cast.hpp
 /home/jure/Documents/opengl_ucenje/sphere/print_functions.hpp
 
 /home/jure/Documents/opengl_ucenje/sphere/shaders.hpp
+
+/home/jure/Documents/opengl_ucenje/sphere/sphere_generation.cpp
+opengl_test.hpp
+/home/jure/Documents/opengl_ucenje/sphere/opengl_test.hpp
 
 /home/jure/Documents/opengl_ucenje/sphere/sphere_generation.hpp
 

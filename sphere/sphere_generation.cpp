@@ -202,8 +202,12 @@ void sphere::initialize_buffers() {
 
 void sphere::draw(float radius, std::array<float, 3> translate,
                   std::array<float, 3> rotation_axis, float angle) {
-    if (!vertexes_generated)
-        generate_sphere_mesh({0, 0, 0}, radius);
+
+
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glUseProgram(shaderProgram);
 
     glm::mat4 trans = glm::mat4(1.0);
     // make rotation by appropriate angle
