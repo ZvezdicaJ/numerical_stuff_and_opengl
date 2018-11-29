@@ -25,7 +25,9 @@ int main() {
         return -1;
     }
 
+
     float fi = 0;
+    sphere sphere1({0,0,0}, 1.0);
 
     while (!glfwWindowShouldClose(window)) {
         OnMinusPressed(window);
@@ -35,9 +37,13 @@ int main() {
         std::array<float,3> center({0, 0, 0});
         //draw_sphere(center, 0.5, fi);
         fi += 0.01;
-        draw_sphere(center, 0.5, fi);
+        sphere1.draw(0.2, {0,0,0},{0,1,1}, fi);
+        sphere1.draw(0.1, {0.5*std::cos(fi), 0.5*std::sin(fi) ,0}, {0,1,1}, 2.0*fi);
+
+
+
         glfwPollEvents();  // check if any events happend (mouse press, key
-                           // press)
+                           // pres)
 
         // The glfwSwapBuffers will swap the color buffer (a large buffer that
         // contains color values for each pixel in GLFW’s window) that has been
