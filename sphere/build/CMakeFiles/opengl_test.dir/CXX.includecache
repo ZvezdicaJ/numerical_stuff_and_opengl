@@ -6,6 +6,14 @@
 
 #IncludeRegexTransform: 
 
+/home/jure/Documents/opengl_ucenje/sphere/functions.cpp
+opengl_test.hpp
+/home/jure/Documents/opengl_ucenje/sphere/opengl_test.hpp
+
+/home/jure/Documents/opengl_ucenje/sphere/opengl_test.cpp
+opengl_test.hpp
+/home/jure/Documents/opengl_ucenje/sphere/opengl_test.hpp
+
 /home/jure/Documents/opengl_ucenje/sphere/opengl_test.hpp
 GLFW/glfw3.h
 -
@@ -39,8 +47,8 @@ limits
 -
 xmmintrin.h
 -
-sphere_generation.hpp
-/home/jure/Documents/opengl_ucenje/sphere/sphere_generation.hpp
+sphere.hpp
+/home/jure/Documents/opengl_ucenje/sphere/sphere.hpp
 print_functions.hpp
 /home/jure/Documents/opengl_ucenje/sphere/print_functions.hpp
 glm/gtx/string_cast.hpp
@@ -50,11 +58,11 @@ glm/gtx/string_cast.hpp
 
 /home/jure/Documents/opengl_ucenje/sphere/shaders.hpp
 
-/home/jure/Documents/opengl_ucenje/sphere/sphere_generation.cpp
+/home/jure/Documents/opengl_ucenje/sphere/sphere.cpp
 opengl_test.hpp
 /home/jure/Documents/opengl_ucenje/sphere/opengl_test.hpp
 
-/home/jure/Documents/opengl_ucenje/sphere/sphere_generation.hpp
+/home/jure/Documents/opengl_ucenje/sphere/sphere.hpp
 
 /home/jure/Downloads/glad/include/KHR/khrplatform.h
 stdint.h

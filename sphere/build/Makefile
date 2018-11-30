@@ -217,32 +217,32 @@ opengl_test.cpp.s:
 	$(MAKE) -f CMakeFiles/opengl_test.dir/build.make CMakeFiles/opengl_test.dir/opengl_test.cpp.s
 .PHONY : opengl_test.cpp.s
 
-sphere_generation.o: sphere_generation.cpp.o
+sphere.o: sphere.cpp.o
 
-.PHONY : sphere_generation.o
+.PHONY : sphere.o
 
 # target to build an object file
-sphere_generation.cpp.o:
-	$(MAKE) -f CMakeFiles/opengl_test.dir/build.make CMakeFiles/opengl_test.dir/sphere_generation.cpp.o
-.PHONY : sphere_generation.cpp.o
+sphere.cpp.o:
+	$(MAKE) -f CMakeFiles/opengl_test.dir/build.make CMakeFiles/opengl_test.dir/sphere.cpp.o
+.PHONY : sphere.cpp.o
 
-sphere_generation.i: sphere_generation.cpp.i
+sphere.i: sphere.cpp.i
 
-.PHONY : sphere_generation.i
+.PHONY : sphere.i
 
 # target to preprocess a source file
-sphere_generation.cpp.i:
-	$(MAKE) -f CMakeFiles/opengl_test.dir/build.make CMakeFiles/opengl_test.dir/sphere_generation.cpp.i
-.PHONY : sphere_generation.cpp.i
+sphere.cpp.i:
+	$(MAKE) -f CMakeFiles/opengl_test.dir/build.make CMakeFiles/opengl_test.dir/sphere.cpp.i
+.PHONY : sphere.cpp.i
 
-sphere_generation.s: sphere_generation.cpp.s
+sphere.s: sphere.cpp.s
 
-.PHONY : sphere_generation.s
+.PHONY : sphere.s
 
 # target to generate assembly for a file
-sphere_generation.cpp.s:
-	$(MAKE) -f CMakeFiles/opengl_test.dir/build.make CMakeFiles/opengl_test.dir/sphere_generation.cpp.s
-.PHONY : sphere_generation.cpp.s
+sphere.cpp.s:
+	$(MAKE) -f CMakeFiles/opengl_test.dir/build.make CMakeFiles/opengl_test.dir/sphere.cpp.s
+.PHONY : sphere.cpp.s
 
 # Help Target
 help:
@@ -263,9 +263,9 @@ help:
 	@echo "... opengl_test.o"
 	@echo "... opengl_test.i"
 	@echo "... opengl_test.s"
-	@echo "... sphere_generation.o"
-	@echo "... sphere_generation.i"
-	@echo "... sphere_generation.s"
+	@echo "... sphere.o"
+	@echo "... sphere.i"
+	@echo "... sphere.s"
 .PHONY : help
 
 

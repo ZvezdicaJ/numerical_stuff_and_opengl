@@ -83,31 +83,31 @@ CMakeFiles/opengl_test.dir/functions.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/opengl_test.dir/functions.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jure/Documents/opengl_ucenje/sphere/functions.cpp -o CMakeFiles/opengl_test.dir/functions.cpp.s
 
-CMakeFiles/opengl_test.dir/sphere_generation.cpp.o: CMakeFiles/opengl_test.dir/flags.make
-CMakeFiles/opengl_test.dir/sphere_generation.cpp.o: ../sphere_generation.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jure/Documents/opengl_ucenje/sphere/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/opengl_test.dir/sphere_generation.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/opengl_test.dir/sphere_generation.cpp.o -c /home/jure/Documents/opengl_ucenje/sphere/sphere_generation.cpp
+CMakeFiles/opengl_test.dir/sphere.cpp.o: CMakeFiles/opengl_test.dir/flags.make
+CMakeFiles/opengl_test.dir/sphere.cpp.o: ../sphere.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jure/Documents/opengl_ucenje/sphere/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/opengl_test.dir/sphere.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/opengl_test.dir/sphere.cpp.o -c /home/jure/Documents/opengl_ucenje/sphere/sphere.cpp
 
-CMakeFiles/opengl_test.dir/sphere_generation.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/opengl_test.dir/sphere_generation.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jure/Documents/opengl_ucenje/sphere/sphere_generation.cpp > CMakeFiles/opengl_test.dir/sphere_generation.cpp.i
+CMakeFiles/opengl_test.dir/sphere.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/opengl_test.dir/sphere.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jure/Documents/opengl_ucenje/sphere/sphere.cpp > CMakeFiles/opengl_test.dir/sphere.cpp.i
 
-CMakeFiles/opengl_test.dir/sphere_generation.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/opengl_test.dir/sphere_generation.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jure/Documents/opengl_ucenje/sphere/sphere_generation.cpp -o CMakeFiles/opengl_test.dir/sphere_generation.cpp.s
+CMakeFiles/opengl_test.dir/sphere.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/opengl_test.dir/sphere.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jure/Documents/opengl_ucenje/sphere/sphere.cpp -o CMakeFiles/opengl_test.dir/sphere.cpp.s
 
 # Object files for target opengl_test
 opengl_test_OBJECTS = \
 "CMakeFiles/opengl_test.dir/opengl_test.cpp.o" \
 "CMakeFiles/opengl_test.dir/functions.cpp.o" \
-"CMakeFiles/opengl_test.dir/sphere_generation.cpp.o"
+"CMakeFiles/opengl_test.dir/sphere.cpp.o"
 
 # External object files for target opengl_test
 opengl_test_EXTERNAL_OBJECTS =
 
 ../bin/opengl_test: CMakeFiles/opengl_test.dir/opengl_test.cpp.o
 ../bin/opengl_test: CMakeFiles/opengl_test.dir/functions.cpp.o
-../bin/opengl_test: CMakeFiles/opengl_test.dir/sphere_generation.cpp.o
+../bin/opengl_test: CMakeFiles/opengl_test.dir/sphere.cpp.o
 ../bin/opengl_test: CMakeFiles/opengl_test.dir/build.make
 ../bin/opengl_test: ../lib/libglad.so
 ../bin/opengl_test: /usr/local/lib/libglfw.so

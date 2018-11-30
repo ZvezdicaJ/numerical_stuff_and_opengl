@@ -23,7 +23,7 @@
 #include <vector>
 #include <limits>
 #include <xmmintrin.h>
-#include "sphere_generation.hpp"
+#include "sphere.hpp"
 #include "print_functions.hpp"
 
 

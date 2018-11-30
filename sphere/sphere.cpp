@@ -230,7 +230,7 @@ void sphere::draw(float radius, std::array<float, 3> translate,
     glEnableVertexAttribArray(0);
     glDrawElements(GL_TRIANGLES, element_array.size(), GL_UNSIGNED_INT, 0);
 
-    col = glm::vec4(1.0f, 0.0f, 0.0f, 0.5f);
+    col = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
     glUniform4fv(triangle_color, 1, glm::value_ptr(col));
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // render as wireframe
     glDrawElements(GL_TRIANGLES, element_array.size(), GL_UNSIGNED_INT, 0);

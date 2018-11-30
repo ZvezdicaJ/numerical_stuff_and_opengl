@@ -6,7 +6,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/jure/Documents/opengl_ucenje/sphere/functions.cpp" "/home/jure/Documents/opengl_ucenje/sphere/build/CMakeFiles/opengl_test.dir/functions.cpp.o"
   "/home/jure/Documents/opengl_ucenje/sphere/opengl_test.cpp" "/home/jure/Documents/opengl_ucenje/sphere/build/CMakeFiles/opengl_test.dir/opengl_test.cpp.o"
-  "/home/jure/Documents/opengl_ucenje/sphere/sphere_generation.cpp" "/home/jure/Documents/opengl_ucenje/sphere/build/CMakeFiles/opengl_test.dir/sphere_generation.cpp.o"
+  "/home/jure/Documents/opengl_ucenje/sphere/sphere.cpp" "/home/jure/Documents/opengl_ucenje/sphere/build/CMakeFiles/opengl_test.dir/sphere.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
