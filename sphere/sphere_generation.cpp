@@ -246,7 +246,7 @@ void sphere::generate_sphere_mesh_improved(float radius) {
     std::vector<int> new_element_array;  // = element_array;
     new_element_array.reserve(4 * element_array.size() + 1);
 
-    std::unordered_map<, int> new_vertex_indexing;
+    std::unordered_map<std::pair<int, int>, int> new_vertex_indexing;
     new_vertex_indexing.reserve(vertex_number + 1);
 
     for (int tri = 0; tri < num_tri; tri++) {
