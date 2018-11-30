@@ -19,12 +19,12 @@ float CalcDotProductSse(__m128 x, __m128 y) {
 
     // Calculates the sum of SSE Register -
     // https://stackoverflow.com/a/35270026/195787
-    shufReg = _mm_movehdup_ps(mulRes);  // Broadcast elements 3,1 to 2,0
+    shufReg = _mm_movehdup_ps(mulRes); // Broadcast elements 3,1 to 2,0
     sumsReg = _mm_add_ps(mulRes, shufReg);
-    shufReg = _mm_movehl_ps(shufReg, sumsReg);  // High Half -> Low Half
+    shufReg = _mm_movehl_ps(shufReg, sumsReg); // High Half -> Low Half
     sumsReg = _mm_add_ss(sumsReg, shufReg);
     return _mm_cvtss_f32(
-        sumsReg);  // Result in the lower part of the SSE Register
+        sumsReg); // Result in the lower part of the SSE Register
 }
 
 void sphere::generate_sphere_mesh(std::array<float, 3> center, float radius) {
@@ -62,8 +62,8 @@ void sphere::generate_sphere_mesh(std::array<float, 3> center, float radius) {
     element_array = std::vector<int>(
         {0, 1, 3, 0, 1, 4, 0, 2, 3, 0, 2, 4, 1, 2, 3, 1, 2, 4});
     float triangles[6][3][3];
-    for (int i = 0; i < 6; i++) {      // index i teče po trikotnikih
-        for (int j = 0; j < 3; j++) {  // index j teče po ogljiščih
+    for (int i = 0; i < 6; i++) {     // index i teče po trikotnikih
+        for (int j = 0; j < 3; j++) { // index j teče po ogljiščih
             triangles[i][j][0] = vertexes[(element_array[3 * i + j] - 1) * 3];
             triangles[i][j][1] = vertexes[element_array[i * 3 + j] * 3 + 1];
             triangles[i][j][2] = vertexes[element_array[i * 3 + j] * 3 + 2];
@@ -77,7 +77,7 @@ void sphere::generate_sphere_mesh(float radius) {
     int vertex_number = vertexes.size() / 3;
     vertexes.reserve(vertexes.size() * 5 + 1);
     int num_tri = element_array.size() / 3;
-    std::vector<int> new_element_array;  // = element_array;
+    std::vector<int> new_element_array; // = element_array;
     new_element_array.reserve(4 * element_array.size() + 1);
 
     for (int tri = 0; tri < num_tri; tri++) {
@@ -152,7 +152,8 @@ void sphere::generate_sphere_mesh(float radius) {
                         1;
     }
     element_array = new_element_array;
-    if (vertexes.size() < min_vertexes) generate_sphere_mesh(radius);
+    if (vertexes.size() < min_vertexes)
+        generate_sphere_mesh(radius);
 }
 
 void sphere::compile_shaders() {
@@ -231,9 +232,9 @@ void sphere::draw(float radius, std::array<float, 3> translate,
 
     col = glm::vec4(0.0f, 0.0f, 0.0f, 0.5f);
     glUniform4fv(triangle_color, 1, glm::value_ptr(col));
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);  // render as wireframe
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // render as wireframe
     glDrawElements(GL_TRIANGLES, element_array.size(), GL_UNSIGNED_INT, 0);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);  // render as wireframe
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // render as wireframe
     // col = glm::vec4(0.0f, 0.0f, 0.0f, 0.5f);
     // glUniform4fv(triangle_color, 1, glm::value_ptr(col));
     // glDrawArrays(GL_LINE_STRIP, 0, 18);
@@ -243,7 +244,7 @@ void sphere::generate_sphere_mesh_improved(float radius) {
     int vertex_number = vertexes.size() / 3;
     vertexes.reserve(vertexes.size() * 5 + 1);
     int num_tri = element_array.size() / 3;
-    std::vector<int> new_element_array;  // = element_array;
+    std::vector<int> new_element_array; // = element_array;
     new_element_array.reserve(4 * element_array.size() + 1);
 
     std::unordered_map<std::pair<int, int>, int> new_vertex_indexing;
@@ -253,7 +254,42 @@ void sphere::generate_sphere_mesh_improved(float radius) {
         int vert1_ind = element_array[3 * tri] * 3;
         int vert2_ind = element_array[3 * tri + 1] * 3;
         int vert3_ind = element_array[3 * tri + 2] * 3;
-        if( (int vert_ind = new_vertex_indeksing({vert1_ind, vert2_ind}) )
+        int p12=-1;
+        int p23=-1;
+        int p13=-1;
+
+        std::pair<int, int> ind_pair1;
+        std::pair<int, int> ind_pair2;
+        std::pair<int, int> ind_pair3;
+        // setting up index pairs to be checked
+        if (vert1_ind < vert2_ind)
+            ind_pair1 = std::pair<int, int>(vert1_ind, vert2_ind);
+        else
+            ind_pair1 = std::pair<int, int>(vert2_ind, vert1_ind);
+
+        if (vert2_ind < vert3_ind)
+            ind_pair2 = std::pair<int, int>(vert2_ind, vert3_ind);
+        else
+            ind_pair2 = std::pair<int, int>(vert2_ind, vert3_ind);
+
+        if (vert1_ind < vert3_ind)
+            ind_pair3 = std::pair<int, int>(vert1_ind, vert3_ind);
+        else
+            ind_pair3 = std::pair<int, int>(vert3_ind, vert1_ind);
+
+        // checking index pairs
+        auto iter = new_vertex_indexing.find(ind_pair1);
+        if (iter != new_vertex_indexing.end())
+            p12 = iter->second;
+
+        iter = new_vertex_indexing.find(ind_pair2);
+        if (iter != new_vertex_indexing.end())
+            p23 = iter->second;
+
+        iter = new_vertex_indexing.find(ind_pair3);
+        if (iter != new_vertex_indexing.end())
+            p13 = iter->second;
+
 
         __m128 vert1 = _mm_loadu_ps(&vertexes[element_array[3 * tri] * 3]);
         __m128 vert2 = _mm_loadu_ps(&vertexes[element_array[3 * tri + 1] * 3]);
@@ -311,17 +347,6 @@ void sphere::generate_sphere_mesh_improved(float radius) {
                         1;
     }
     element_array = new_element_array;
-    if (vertexes.size() < min_vertexes) generate_sphere_mesh(radius);
+    if (vertexes.size() < min_vertexes)
+        generate_sphere_mesh(radius);
 }
-
-// two index sets from here on
-bool 2index_set ::operator==(2index_set & set2) {
-    if (this->a == set2.a && this->b == set2.b)
-        return true;
-    else if (this->a == set2.b && this->b == set2.a)
-        return true;
-    else
-        return false;
-}
-void 2index_set :: seta(int a_) { a = a_; }
-void 2index_set :: setb(int b_) { b = b_; }

@@ -31,19 +31,6 @@ class sphere {
                               float radius = 1);
     // this one just helps the one found in public section
     void generate_sphere_mesh(float radius = 1);
-
+    void generate_sphere_mesh_improved(float );
     void initialize_buffers();
 };
-
-class 2index_set {
-   private
-    int a, b;
-
-   public:
-    2index_set(std::initializer_list<int> list)
-        : a(*list.begin()), b(*list.end()){};
-    2index_set() = default;
-    bool operator==(2index_set &);
-    void seta(int);
-    void setb(int);
-}

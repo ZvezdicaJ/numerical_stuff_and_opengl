@@ -1,4 +1,4 @@
-/home/jure/Documents/opengl/sphere/build/CMakeFiles/rebuild_cache.dir
-/home/jure/Documents/opengl/sphere/build/CMakeFiles/edit_cache.dir
-/home/jure/Documents/opengl/sphere/build/CMakeFiles/glad.dir
-/home/jure/Documents/opengl/sphere/build/CMakeFiles/opengl_test.dir
+/home/jure/Documents/opengl_ucenje/sphere/build/CMakeFiles/rebuild_cache.dir
+/home/jure/Documents/opengl_ucenje/sphere/build/CMakeFiles/edit_cache.dir
+/home/jure/Documents/opengl_ucenje/sphere/build/CMakeFiles/glad.dir
+/home/jure/Documents/opengl_ucenje/sphere/build/CMakeFiles/opengl_test.dir
