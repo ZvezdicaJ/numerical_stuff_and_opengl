@@ -19,12 +19,14 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 #include <string>
+#include <unordered_map>
 #include <vector>
 #include <limits>
 #include <xmmintrin.h>
-#include "print_functions.hpp"
 #include "sphere_generation.hpp"
-#include <unordered_map>
+#include "print_functions.hpp"
+
+
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>

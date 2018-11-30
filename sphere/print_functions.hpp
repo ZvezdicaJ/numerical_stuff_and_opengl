@@ -1,8 +1,9 @@
 inline void print_vertex(float *ver, const std::string vertex_name = "",
                          unsigned vert_size = 3) {
-  std::cout<<"\n " << vertex_name << "  ";
-    for (int i = 0; i < vert_size; i++) std::cout << *(ver + i) << " ";
-    std::cout<<std::endl;
+    std::cout << "\n " << vertex_name << "  ";
+    for (int i = 0; i < vert_size; i++)
+        std::cout << *(ver + i) << " ";
+    std::cout << std::endl;
 }
 
 template <class T>
@@ -16,7 +17,8 @@ inline std::ostream &operator<<(std::ostream &out, std::vector<T> vec) {
 template <class T, int size>
 inline void print_vertexes(const std::array<T, size> &vertexes,
                            int number_to_print = 0, int vertex_size = 3) {
-    if (number_to_print == 0) number_to_print = size / vertex_size;
+    if (number_to_print == 0)
+        number_to_print = size / vertex_size;
 
     for (int i = 0; i < number_to_print; i++) {
         std::cout << "vertex " << i << ":   ";
@@ -41,7 +43,8 @@ inline void print_vertexes(float *vertexes, int number_to_print,
 template <class T, int size>
 void print_triangles(const std::array<std::array<T, 9>, size> &triangles,
                      int number_to_print = size, int vertex_size = 3) {
-    if (number_to_print == 0) number_to_print = triangles.size();
+    if (number_to_print == 0)
+        number_to_print = triangles.size();
 
     for (int i = 0; i < number_to_print; i++) {
         std::cout << "triangle " << i << std::endl;
@@ -63,3 +66,16 @@ inline void print_triangles(float *triangles, int number_to_print,
 }
 
 inline void print(std::string str) { std::cout << str << std::endl; }
+
+inline std::ostream &operator<<(std::ostream &out, std::pair<int, int> pair) {
+    std::cout << "<" << pair.first << ", " << pair.second<<">";
+    return out;
+}
+
+inline std::ostream &operator<<(std::ostream &out,
+                         std::unordered_map<std::pair<int, int>, int> umap) {
+    for (const auto &element : umap) {
+        std::cout << element.first << "  " << element.second << std::endl;
+    }
+    return out;
+}

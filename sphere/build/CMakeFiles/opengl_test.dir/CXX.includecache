@@ -6,14 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/jure/Documents/opengl_ucenje/sphere/functions.cpp
-opengl_test.hpp
-/home/jure/Documents/opengl_ucenje/sphere/opengl_test.hpp
-
-/home/jure/Documents/opengl_ucenje/sphere/opengl_test.cpp
-opengl_test.hpp
-/home/jure/Documents/opengl_ucenje/sphere/opengl_test.hpp
-
 /home/jure/Documents/opengl_ucenje/sphere/opengl_test.hpp
 GLFW/glfw3.h
 -
@@ -39,18 +31,18 @@ iostream
 -
 string
 -
+unordered_map
+-
 vector
 -
 limits
 -
 xmmintrin.h
 -
-print_functions.hpp
-/home/jure/Documents/opengl_ucenje/sphere/print_functions.hpp
 sphere_generation.hpp
 /home/jure/Documents/opengl_ucenje/sphere/sphere_generation.hpp
-unordered_map
--
+print_functions.hpp
+/home/jure/Documents/opengl_ucenje/sphere/print_functions.hpp
 glm/gtx/string_cast.hpp
 -
 

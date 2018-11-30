@@ -31,10 +31,10 @@ void sphere::generate_sphere_mesh(std::array<float, 3> center, float radius) {
     vertexes.reserve(15);
     vertexes.resize(15);
     std::array<float, 3> dir1({radius, 0, 0});
-    std::array<float, 3> dir2 = {radius * std::cos(2.0 * M_PI / 3),
-                                 radius * std::sin(2.0 * M_PI / 3), 0};
-    std::array<float, 3> dir3 = {radius * std::cos(4.0 * M_PI / 3),
-                                 radius * std::sin(4.0 * M_PI / 3), 0};
+    std::array<float, 3> dir2 = {radius * std::cos(2.0f * M_PI / 3.0f),
+                                 radius * std::sin(2.0f * M_PI / 3.0f), 0};
+    std::array<float, 3> dir3 = {radius * std::cos(4.0f * M_PI / 3.0f),
+                                 radius * std::sin(4.0f * M_PI / 3.0f), 0};
     std::array<float, 3> z_dir = {0, 0, radius};
     // vertex 1
     vertexes[0] = center[0] + dir1[0];
@@ -70,7 +70,7 @@ void sphere::generate_sphere_mesh(std::array<float, 3> center, float radius) {
         }
     }
     //    std::cout << "radius" << radius << std::endl;
-    generate_sphere_mesh(radius);
+    generate_sphere_mesh_improved(radius);
 }
 
 void sphere::generate_sphere_mesh(float radius) {
@@ -230,7 +230,7 @@ void sphere::draw(float radius, std::array<float, 3> translate,
     glEnableVertexAttribArray(0);
     glDrawElements(GL_TRIANGLES, element_array.size(), GL_UNSIGNED_INT, 0);
 
-    col = glm::vec4(0.0f, 0.0f, 0.0f, 0.5f);
+    col = glm::vec4(1.0f, 0.0f, 0.0f, 0.5f);
     glUniform4fv(triangle_color, 1, glm::value_ptr(col));
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // render as wireframe
     glDrawElements(GL_TRIANGLES, element_array.size(), GL_UNSIGNED_INT, 0);
@@ -246,21 +246,21 @@ void sphere::generate_sphere_mesh_improved(float radius) {
     int num_tri = element_array.size() / 3;
     std::vector<int> new_element_array; // = element_array;
     new_element_array.reserve(4 * element_array.size() + 1);
-
     std::unordered_map<std::pair<int, int>, int> new_vertex_indexing;
     new_vertex_indexing.reserve(vertex_number + 1);
-
+    //print_vertexes(&vertexes[0], vertex_number);
     for (int tri = 0; tri < num_tri; tri++) {
-        int vert1_ind = element_array[3 * tri] * 3;
-        int vert2_ind = element_array[3 * tri + 1] * 3;
-        int vert3_ind = element_array[3 * tri + 2] * 3;
-        int p12=-1;
-        int p23=-1;
-        int p13=-1;
+        int vert1_ind = element_array[3 * tri];
+        int vert2_ind = element_array[3 * tri + 1];
+        int vert3_ind = element_array[3 * tri + 2];
+        int p12_ind = -1;
+        int p23_ind = -1;
+        int p13_ind = -1;
 
         std::pair<int, int> ind_pair1;
         std::pair<int, int> ind_pair2;
         std::pair<int, int> ind_pair3;
+
         // setting up index pairs to be checked
         if (vert1_ind < vert2_ind)
             ind_pair1 = std::pair<int, int>(vert1_ind, vert2_ind);
@@ -280,16 +280,15 @@ void sphere::generate_sphere_mesh_improved(float radius) {
         // checking index pairs
         auto iter = new_vertex_indexing.find(ind_pair1);
         if (iter != new_vertex_indexing.end())
-            p12 = iter->second;
+            p12_ind = iter->second;
 
         iter = new_vertex_indexing.find(ind_pair2);
         if (iter != new_vertex_indexing.end())
-            p23 = iter->second;
+            p23_ind = iter->second;
 
         iter = new_vertex_indexing.find(ind_pair3);
         if (iter != new_vertex_indexing.end())
-            p13 = iter->second;
-
+            p13_ind = iter->second;
 
         __m128 vert1 = _mm_loadu_ps(&vertexes[element_array[3 * tri] * 3]);
         __m128 vert2 = _mm_loadu_ps(&vertexes[element_array[3 * tri + 1] * 3]);
@@ -312,24 +311,39 @@ void sphere::generate_sphere_mesh_improved(float radius) {
         p13 = _mm_div_ps(p13, _mm_set_ps(1.0, norm13, norm13, norm13));
         p23 = _mm_div_ps(p23, _mm_set_ps(1.0, norm23, norm23, norm23));
 
-        float norm = CalcDotProductSse(p12, p12);
         int vertexes_size = vertexes.size();
-        vertexes.resize(vertexes.size() + 9);
-
-        _mm_storeu_ps(&vertexes[vertexes_size], p12);
-        _mm_storeu_ps(&vertexes[vertexes_size + 3], p23);
-        _mm_storeu_ps(&vertexes[vertexes_size + 6], p13);
+        if (p12_ind == -1) {
+            vertexes.resize(vertexes.size() + 3);
+            _mm_storeu_ps(&vertexes[vertexes_size], p12);
+            p12_ind = vertex_number;
+            new_vertex_indexing[ind_pair1] = p12_ind;
+            vertex_number += 1;
+            vertexes_size += 3;
+        }
+        if (p23_ind == -1) {
+            vertexes.resize(vertexes.size() + 3);
+            _mm_storeu_ps(&vertexes[vertexes_size], p23);
+            p23_ind = vertex_number;
+            new_vertex_indexing[ind_pair2] = p23_ind;
+            vertex_number += 1;
+            vertexes_size += 3;
+        }
+        if (p13_ind == -1) {
+            vertexes.resize(vertexes.size() + 3);
+            _mm_storeu_ps(&vertexes[vertexes_size], p13);
+            p13_ind = vertex_number;
+            new_vertex_indexing[ind_pair3] = p13_ind;
+            vertex_number += 1;
+            vertexes_size += 3;
+        }
         // set the correct vertex element numbers
-        __m128i new_tri1 = _mm_set_epi32(-1, vertex_number, vertex_number + 1,
-                                         element_array[3 * tri + 1]);
-
+        __m128i new_tri1 =
+            _mm_set_epi32(-1, p12_ind, p23_ind, element_array[3 * tri + 1]);
         __m128i new_tri2 =
-            _mm_set_epi32(-1, vertex_number + 1, vertex_number + 2,
-                          element_array[3 * tri + 2]);
-        __m128i new_tri3 = _mm_set_epi32(-1, vertex_number, vertex_number + 2,
-                                         element_array[3 * tri]);
-        __m128i new_tri4 = _mm_set_epi32(-1, vertex_number, vertex_number + 1,
-                                         vertex_number + 2);
+            _mm_set_epi32(-1, p23_ind, p13_ind, element_array[3 * tri + 2]);
+        __m128i new_tri3 =
+            _mm_set_epi32(-1, p12_ind, p13_ind, element_array[3 * tri]);
+        __m128i new_tri4 = _mm_set_epi32(-1, p12_ind, p23_ind, p13_ind);
 
         int el_array_size = new_element_array.size();
         new_element_array.resize(el_array_size + 12);
@@ -342,11 +356,15 @@ void sphere::generate_sphere_mesh_improved(float radius) {
         _mm_storeu_si128((__m128i_u *)&new_element_array[el_array_size + 9],
                          new_tri4);
 
-        vertex_number = *std::max_element(std::begin(new_element_array),
-                                          std::end(new_element_array)) +
-                        1;
+        // vertex_number = *std::max_element(std::begin(new_element_array),
+        //                                  std::end(new_element_array)) +
+        //                1;
+        // std::cout << "new_vertex_indexing:\n"
+        //          << new_vertex_indexing << std::endl;
+        //std::cout << "new element array:  \n" << new_element_array << std::endl;
+        //print_vertexes(&vertexes[0], vertex_number);
     }
     element_array = new_element_array;
-    if (vertexes.size() < min_vertexes)
-        generate_sphere_mesh(radius);
+    if (vertexes.size() <  min_vertexes)
+        generate_sphere_mesh_improved(radius);
 }
