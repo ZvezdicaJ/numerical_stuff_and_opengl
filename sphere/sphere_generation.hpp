@@ -1,5 +1,5 @@
 class sphere {
-  private:
+   private:
     std::vector<float> vertexes;
     std::vector<int> element_array;
     bool vertexes_generated = false;
@@ -11,7 +11,7 @@ class sphere {
     unsigned EBO;
     int min_vertexes = 300;
 
-  public:
+   public:
     // sphere() = default;
     sphere(sphere &&) = default;
     sphere &operator=(sphere &&) = default;
@@ -20,10 +20,10 @@ class sphere {
     sphere();
     sphere(std::array<float, 3> center, float radius);
 
-    void draw(float radius = 0.5, std::array<float, 3> translate = {0,0,0},
-              std::array<float, 3> rotation_axis = {0,0,1}, float angle = 0);
-    void draw_wireframe(float radius, std::array<float,3> translate,
-                        std::array<float,3> rotation_axis, float angle);
+    void draw(float radius = 0.5, std::array<float, 3> translate = {0, 0, 0},
+              std::array<float, 3> rotation_axis = {0, 0, 1}, float angle = 0);
+    void draw_wireframe(float radius, std::array<float, 3> translate,
+                        std::array<float, 3> rotation_axis, float angle);
     void compile_shaders();
     void set_number_of_vertexes();
 
@@ -34,3 +34,16 @@ class sphere {
 
     void initialize_buffers();
 };
+
+class 2index_set {
+   private
+    int a, b;
+
+   public:
+    2index_set(std::initializer_list<int> list)
+        : a(*list.begin()), b(*list.end()){};
+    2index_set() = default;
+    bool operator==(2index_set &);
+    void seta(int);
+    void setb(int);
+}
