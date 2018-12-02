@@ -3,11 +3,6 @@
 #define GLFW_INCLUDE_NONE
 #endif
 
-#include <GLFW/glfw3.h>
-#include <array>
-#include <cmath>
-#include <ctime>
-
 #ifndef __glad_h_
 #include <glad/glad.h>
 #endif
@@ -23,6 +18,11 @@
 #include <vector>
 #include <limits>
 #include <xmmintrin.h>
+#include <GLFW/glfw3.h>
+#include <array>
+#include <cmath>
+#include <ctime>
+
 #include "sphere.hpp"
 #include "print_functions.hpp"
 

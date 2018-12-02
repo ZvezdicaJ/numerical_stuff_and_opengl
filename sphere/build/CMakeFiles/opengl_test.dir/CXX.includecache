@@ -15,14 +15,6 @@ opengl_test.hpp
 /home/jure/Documents/opengl_ucenje/sphere/opengl_test.hpp
 
 /home/jure/Documents/opengl_ucenje/sphere/opengl_test.hpp
-GLFW/glfw3.h
--
-array
--
-cmath
--
-ctime
--
 glad/glad.h
 -
 shaders.hpp
@@ -46,6 +38,14 @@ vector
 limits
 -
 xmmintrin.h
+-
+GLFW/glfw3.h
+-
+array
+-
+cmath
+-
+ctime
 -
 sphere.hpp
 /home/jure/Documents/opengl_ucenje/sphere/sphere.hpp

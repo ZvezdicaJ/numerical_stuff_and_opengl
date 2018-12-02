@@ -1,5 +1,7 @@
-class sphere {
-   private:
+enum class RENDER_TYPE { UNIFORM_COLOR, CUSTOM_COLOR };
+
+template <RENDER_TYPE T> class Sphere {
+  private:
     std::vector<float> vertexes;
     std::vector<int> element_array;
     bool vertexes_generated = false;
@@ -9,52 +11,51 @@ class sphere {
     unsigned VBO;
     unsigned VAO;
     unsigned EBO;
-    int min_vertexes = 500;
 
-   public:
+    unsigned CBO; // color buffer object
+    int min_vertexes = 400;
+    RENDER_TYPE Rtype = T;
+
+  public:
     // sphere() = default;
-    sphere(sphere &&) = default;
-    sphere &operator=(sphere &&) = default;
-    sphere(const sphere &) = default;
-    sphere &operator=(const sphere &) = default;
-    sphere();
-    sphere(std::array<float, 3> center, float radius);
-
-    void draw(float radius = 0.5, std::array<float, 3> translate = {0, 0, 0},
-              std::array<float, 3> rotation_axis = {0, 0, 1}, float angle = 0);
+    Sphere(Sphere &&) = default;
+    Sphere &operator=(Sphere &&) = default;
+    Sphere(const Sphere &) = default;
+    Sphere &operator=(const Sphere &) = default;
+    Sphere();
     void draw_wireframe(float radius, std::array<float, 3> translate,
                         std::array<float, 3> rotation_axis, float angle);
     void compile_shaders();
-    void set_number_of_vertexes();
+    void set_min_number_of_vertexes(unsigned);
 
-    void generate_sphere_mesh(std::array<float, 3> center = {0, 0, 0},
-                              float radius = 1);
+    void generate_sphere_mesh();
     // this one just helps the one found in public section
-    void generate_sphere_mesh(float radius = 1);
-    void generate_sphere_mesh_improved(float);
+    void generate_sphere_mesh_helper();
+    void generate_sphere_mesh_helper_improved();
     void initialize_buffers();
+
+    std::enable_if<T == REMDER_TYPE::UNIFORM_COLOR, void>::type
+    draw(float radius = 0.5, std::array<float, 3> translate = {0, 0, 0},
+         std::array<float, 3> rotation_axis = {0, 0, 1}, float angle = 0,
+         glm::vec4 color = {0.5, 0.5, 0.5, 0.5});
+
+    void draw(float radius = 0.5, std::array<float, 3> translate = {0, 0, 0},
+              std::array<float, 3> rotation_axis = {0, 0, 1}, float angle = 0,
+              std::vector<glm::vec4> color);
 };
 
-
-
-
-template <class T>
-inline void hash_combine(std::size_t & seed, const T & v)
-{
+template <class T> inline void hash_combine(std::size_t &seed, const T &v) {
     std::hash<T> hasher;
     seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
 }
- 
-namespace std
-{
-    template<typename S, typename T> struct hash<pair<S, T>>
-    {
-        inline size_t operator()(const pair<S, T> & v) const
-        {
-            size_t seed = 0;
-            ::hash_combine(seed, v.first);
-            ::hash_combine(seed, v.second);
-            return seed;
-        }
-    };
-}
+
+namespace std {
+template <typename S, typename T> struct hash<pair<S, T>> {
+    inline size_t operator()(const pair<S, T> &v) const {
+        size_t seed = 0;
+        ::hash_combine(seed, v.first);
+        ::hash_combine(seed, v.second);
+        return seed;
+    }
+};
+} // namespace std
