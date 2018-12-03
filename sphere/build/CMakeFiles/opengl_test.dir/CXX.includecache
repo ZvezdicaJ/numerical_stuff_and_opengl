@@ -6,19 +6,19 @@
 
 #IncludeRegexTransform: 
 
-/home/jure/Documents/opengl_ucenje/sphere/functions.cpp
+/home/jure/Documents/opengl/sphere/functions.cpp
 opengl_test.hpp
-/home/jure/Documents/opengl_ucenje/sphere/opengl_test.hpp
+/home/jure/Documents/opengl/sphere/opengl_test.hpp
 
-/home/jure/Documents/opengl_ucenje/sphere/opengl_test.cpp
+/home/jure/Documents/opengl/sphere/opengl_test.cpp
 opengl_test.hpp
-/home/jure/Documents/opengl_ucenje/sphere/opengl_test.hpp
+/home/jure/Documents/opengl/sphere/opengl_test.hpp
 
-/home/jure/Documents/opengl_ucenje/sphere/opengl_test.hpp
+/home/jure/Documents/opengl/sphere/opengl_test.hpp
 glad/glad.h
 -
 shaders.hpp
-/home/jure/Documents/opengl_ucenje/sphere/shaders.hpp
+/home/jure/Documents/opengl/sphere/shaders.hpp
 algorithm
 -
 glm/glm.hpp
@@ -47,22 +47,24 @@ cmath
 -
 ctime
 -
+type_traits
+-
 sphere.hpp
-/home/jure/Documents/opengl_ucenje/sphere/sphere.hpp
+/home/jure/Documents/opengl/sphere/sphere.hpp
 print_functions.hpp
-/home/jure/Documents/opengl_ucenje/sphere/print_functions.hpp
+/home/jure/Documents/opengl/sphere/print_functions.hpp
 glm/gtx/string_cast.hpp
 -
 
-/home/jure/Documents/opengl_ucenje/sphere/print_functions.hpp
+/home/jure/Documents/opengl/sphere/print_functions.hpp
 
-/home/jure/Documents/opengl_ucenje/sphere/shaders.hpp
+/home/jure/Documents/opengl/sphere/shaders.hpp
 
-/home/jure/Documents/opengl_ucenje/sphere/sphere.cpp
+/home/jure/Documents/opengl/sphere/sphere.cpp
 opengl_test.hpp
-/home/jure/Documents/opengl_ucenje/sphere/opengl_test.hpp
+/home/jure/Documents/opengl/sphere/opengl_test.hpp
 
-/home/jure/Documents/opengl_ucenje/sphere/sphere.hpp
+/home/jure/Documents/opengl/sphere/sphere.hpp
 
 /home/jure/Downloads/glad/include/KHR/khrplatform.h
 stdint.h

@@ -26,7 +26,7 @@ int main() {
     }
 
     float fi = 0;
-    Sphere sphere1(RENDER_TYPE::UNIFORM_COLOR);
+    Sphere<RENDER_TYPE::UNIFORM_COLOR> sphere1();
 
     while (!glfwWindowShouldClose(window)) {
         OnMinusPressed(window);
@@ -36,12 +36,12 @@ int main() {
         std::array<float, 3> center({0, 0, 0});
         // draw_sphere(center, 0.5, fi);
         fi += 0.01;
-        sphere1.draw(0.2, {0, 0, 0}, {0, 1, 1}, fi);
+        sphere1.draw(0.2, {0, 0, 0}, {0, 1, 1}, fi, {0.2, 0.3, 0.4, 0.5});
         sphere1.draw(0.1, {0.5 * std::cos(fi), 0.5 * std::sin(fi), 0},
-                     {0, 1, 1}, 2.0 * fi);
+                     {0, 1, 1}, 2.0 * fi, {0.2, 0.3, 0.4, 0.5});
 
-        glfwPollEvents(); // check if any events happend (mouse press, key
-                          // pres)
+        glfwPollEvents();  // check if any events happend (mouse press, key
+                           // pres)
 
         // The glfwSwapBuffers will swap the color buffer (a large buffer that
         // contains color values for each pixel in GLFW’s window) that has been
@@ -50,7 +50,7 @@ int main() {
         glfwSwapBuffers(window);
 
         glClearColor(0.2f, 0.3f, 0.3f,
-                     1.0f); // set which color to clear the screen with
+                     1.0f);  // set which color to clear the screen with
         // GL_COLOR_BUFFER_BIT, GL_DEPTH_BUFFER_BIT and GL_STENCIL_BUFFER_BIT.
         // set which buffer to use to clear the screen
 

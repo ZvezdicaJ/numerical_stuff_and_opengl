@@ -22,6 +22,7 @@
 #include <array>
 #include <cmath>
 #include <ctime>
+#include <type_traits>
 
 #include "sphere.hpp"
 #include "print_functions.hpp"

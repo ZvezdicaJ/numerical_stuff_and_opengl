@@ -1,6 +1,7 @@
 #include "opengl_test.hpp"
 
-Sphere::Sphere(RENDER_TYPE type) {
+template <RENDER_TYPE T>
+Sphere<T>::Sphere() {
     generate_sphere_mesh();
     compile_shaders();
     initialize_buffers();
@@ -13,15 +14,16 @@ float CalcDotProductSse(__m128 x, __m128 y) {
 
     // Calculates the sum of SSE Register -
     // https://stackoverflow.com/a/35270026/195787
-    shufReg = _mm_movehdup_ps(mulRes); // Broadcast elements 3,1 to 2,0
+    shufReg = _mm_movehdup_ps(mulRes);  // Broadcast elements 3,1 to 2,0
     sumsReg = _mm_add_ps(mulRes, shufReg);
-    shufReg = _mm_movehl_ps(shufReg, sumsReg); // High Half -> Low Half
+    shufReg = _mm_movehl_ps(shufReg, sumsReg);  // High Half -> Low Half
     sumsReg = _mm_add_ss(sumsReg, shufReg);
     return _mm_cvtss_f32(
-        sumsReg); // Result in the lower part of the SSE Register
+        sumsReg);  // Result in the lower part of the SSE Register
 }
 
-void Sphere::generate_sphere_mesh() {
+template <RENDER_TYPE T>
+void Sphere<T>::generate_sphere_mesh() {
     vertexes.reserve(15);
     vertexes.resize(15);
     std::array<float, 3> dir1({1.0f, 0, 0});
@@ -58,11 +60,12 @@ void Sphere::generate_sphere_mesh() {
     generate_sphere_mesh_helper_improved();
 }
 
-void Sphere::generate_sphere_mesh_helper_improved() {
+template <RENDER_TYPE T>
+void Sphere<T>::generate_sphere_mesh_helper_improved() {
     int vertex_number = vertexes.size() / 3;
     vertexes.reserve(vertexes.size() * 5 + 1);
     int num_tri = element_array.size() / 3;
-    std::vector<int> new_element_array; // = element_array;
+    std::vector<int> new_element_array;  // = element_array;
     new_element_array.reserve(4 * element_array.size() + 1);
     std::unordered_map<std::pair<int, int>, int> new_vertex_indexing;
     new_vertex_indexing.reserve(vertex_number + 1);
@@ -97,16 +100,13 @@ void Sphere::generate_sphere_mesh_helper_improved() {
 
         // checking index pairs
         auto iter = new_vertex_indexing.find(ind_pair1);
-        if (iter != new_vertex_indexing.end())
-            p12_ind = iter->second;
+        if (iter != new_vertex_indexing.end()) p12_ind = iter->second;
 
         iter = new_vertex_indexing.find(ind_pair2);
-        if (iter != new_vertex_indexing.end())
-            p23_ind = iter->second;
+        if (iter != new_vertex_indexing.end()) p23_ind = iter->second;
 
         iter = new_vertex_indexing.find(ind_pair3);
-        if (iter != new_vertex_indexing.end())
-            p13_ind = iter->second;
+        if (iter != new_vertex_indexing.end()) p13_ind = iter->second;
 
         __m128 vert1 = _mm_loadu_ps(&vertexes[element_array[3 * tri] * 3]);
         __m128 vert2 = _mm_loadu_ps(&vertexes[element_array[3 * tri + 1] * 3]);
@@ -183,17 +183,17 @@ void Sphere::generate_sphere_mesh_helper_improved() {
         // std::endl; print_vertexes(&vertexes[0], vertex_number);
     }
     element_array = new_element_array;
-    if (vertexes.size() < min_vertexes)
-        generate_sphere_mesh_helper_improved();
+    if (vertexes.size() < min_vertexes) generate_sphere_mesh_helper_improved();
     print_vertexes(&vertexes[0], vertexes.size() / 3);
     std::cout << "\n\n" << element_array << std::endl;
 }
 
-void Sphere::generate_sphere_mesh_helper() {
+template <RENDER_TYPE T>
+void Sphere<T>::generate_sphere_mesh_helper() {
     int vertex_number = vertexes.size() / 3;
     vertexes.reserve(vertexes.size() * 5 + 1);
     int num_tri = element_array.size() / 3;
-    std::vector<int> new_element_array; // = element_array;
+    std::vector<int> new_element_array;  // = element_array;
     new_element_array.reserve(4 * element_array.size() + 1);
 
     for (int tri = 0; tri < num_tri; tri++) {
@@ -254,11 +254,11 @@ void Sphere::generate_sphere_mesh_helper() {
                         1;
     }
     element_array = new_element_array;
-    if (vertexes.size() < min_vertexes)
-        generate_sphere_mesh_helper();
+    if (vertexes.size() < min_vertexes) generate_sphere_mesh_helper();
 }
 
-void Sphere::compile_shaders() {
+template <RENDER_TYPE T>
+void Sphere<T>::compile_shaders() {
     // create empty shader
     unsigned int vertexShader;
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -297,8 +297,8 @@ void Sphere::compile_shaders() {
     glDeleteShader(fragmentShader);
 }
 
-void Sphere::initialize_buffers() {
-
+template <RENDER_TYPE T>
+void Sphere<T>::initialize_buffers() {
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 
@@ -313,11 +313,11 @@ void Sphere::initialize_buffers() {
                  &(element_array[0]), GL_STATIC_DRAW);
 }
 
-template<>
-void Sphere<RENDER_TYPE::UNIFORM_COLOR>::draw(float radius, std::array<float, 3> position,
-                  std::array<float, 3> rotation_axis, float angle,
-                  glm::vec4 color) {
-
+template <RENDER_TYPE T>
+template <RENDER_TYPE Q>
+typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR>::type Sphere<T>::draw(
+    float radius, std::array<float, 3> position,
+    std::array<float, 3> rotation_axis, float angle, glm::vec4 color) {
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -351,22 +351,22 @@ void Sphere<RENDER_TYPE::UNIFORM_COLOR>::draw(float radius, std::array<float, 3>
     color = glm::vec4(0.5f, 0.5f, 0.5f, 0.5f);
     glUniform4fv(triangle_color, 1, glm::value_ptr(color));
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // render as wireframe
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);  // render as wireframe
     glDrawElements(GL_TRIANGLES, element_array.size(), GL_UNSIGNED_INT, 0);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // render as filled triangles
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);  // render as filled triangles
 
     // col = glm::vec4(0.0f, 0.0f, 0.0f, 0.5f);
     // glUniform4fv(triangle_color, 1, glm::value_ptr(col));
     // glDrawArrays(GL_LINE_STRIP, 0, 18);
 }
 
-
-
-template<>
-void Sphere<RENDER_TYPE::UNIFORM_COLOR>::draw(float radius, std::array<float, 3> position,
-                  std::array<float, 3> rotation_axis, float angle,
-                  glm::vec4 color) {
-
+template <RENDER_TYPE T>
+template <RENDER_TYPE Q>
+typename std::enable_if<Q == RENDER_TYPE::CUSTOM_COLOR>::type
+Sphere<T>::draw(float radius,
+                                        std::array<float, 3> position,
+                                        std::array<float, 3> rotation_axis,
+                                        float angle) {
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -389,7 +389,7 @@ void Sphere<RENDER_TYPE::UNIFORM_COLOR>::draw(float radius, std::array<float, 3>
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
     unsigned int triangle_color = glGetUniformLocation(shaderProgram, "color");
-    color = glm::vec4(1.0f, 0.5f, 0.2f, 0.3f);
+    glm::vec4 color = glm::vec4(1.0f, 0.5f, 0.2f, 0.3f);
     glUniform4fv(triangle_color, 1, glm::value_ptr(color));
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, 3 * sizeof(float),
@@ -400,64 +400,16 @@ void Sphere<RENDER_TYPE::UNIFORM_COLOR>::draw(float radius, std::array<float, 3>
     color = glm::vec4(0.5f, 0.5f, 0.5f, 0.5f);
     glUniform4fv(triangle_color, 1, glm::value_ptr(color));
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // render as wireframe
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);  // render as wireframe
     glDrawElements(GL_TRIANGLES, element_array.size(), GL_UNSIGNED_INT, 0);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // render as filled triangles
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);  // render as filled triangles
 
     // col = glm::vec4(0.0f, 0.0f, 0.0f, 0.5f);
     // glUniform4fv(triangle_color, 1, glm::value_ptr(col));
     // glDrawArrays(GL_LINE_STRIP, 0, 18);
 }
 
-
-template<>
-void Sphere<RENDER_TYPE::CUSTOM_COLOR>::draw(float radius, std::array<float, 3> position,
-                  std::array<float, 3> rotation_axis, float angle,
-                  glm::vec4 color) {
-
-    glBindVertexArray(VAO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glUseProgram(shaderProgram);
-
-    glm::mat4 trans = glm::mat4(1.0);
-    // make rotation by appropriate angle
-
-    trans =
-        glm::translate(trans, glm::vec3(position[0], position[1], position[2]));
-    trans = glm::rotate(
-        trans, (float)angle,
-        glm::vec3(rotation_axis[0], rotation_axis[1], rotation_axis[2]));
-    trans = glm::scale(trans, glm::vec3(radius, radius, radius));
-
-    // std::cout << glm::to_string(trans) << std::endl;
-
-    unsigned int transformLoc =
-        glGetUniformLocation(shaderProgram, "transform");
-    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-
-    unsigned int triangle_color = glGetUniformLocation(shaderProgram, "color");
-    color = glm::vec4(1.0f, 0.5f, 0.2f, 0.3f);
-    glUniform4fv(triangle_color, 1, glm::value_ptr(color));
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, 3 * sizeof(float),
-                          (void *)0);
-    glEnableVertexAttribArray(0);
-    glDrawElements(GL_TRIANGLES, element_array.size(), GL_UNSIGNED_INT, 0);
-
-    color = glm::vec4(0.5f, 0.5f, 0.5f, 0.5f);
-    glUniform4fv(triangle_color, 1, glm::value_ptr(color));
-
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // render as wireframe
-    glDrawElements(GL_TRIANGLES, element_array.size(), GL_UNSIGNED_INT, 0);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // render as filled triangles
-
-    // col = glm::vec4(0.0f, 0.0f, 0.0f, 0.5f);
-    // glUniform4fv(triangle_color, 1, glm::value_ptr(col));
-    // glDrawArrays(GL_LINE_STRIP, 0, 18);
-}
-
-void Sphere::set_min_number_of_vertexes(unsigned num) {
-    min_vertexes=num;
+template <RENDER_TYPE T>
+void Sphere<T>::set_min_number_of_vertexes(unsigned num) {
+    min_vertexes = num;
 }
