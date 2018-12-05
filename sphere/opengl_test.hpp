@@ -7,7 +7,7 @@
 #include <glad/glad.h>
 #endif
 
-#include "shaders.hpp"
+
 #include <algorithm>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -24,8 +24,14 @@
 #include <ctime>
 #include <type_traits>
 
-#include "sphere.hpp"
+#include "shaders.hpp"
+#include "check_shaders.hpp"
+
+#include "auxiliary_functions.hpp"
 #include "print_functions.hpp"
+#include "sphere.hpp"
+
+#include "display_functions.hpp"
 
 
 
@@ -33,20 +39,3 @@
 #include <glm/gtx/string_cast.hpp>
 
 #define M_PI 3.14159265358979323846 /* pi */
-
-void draw_triangle();
-bool check_shader_program(unsigned);
-bool check_vertex_shader(unsigned);
-bool check_fragment_shader(unsigned);
-void pause();
-void print(std::string);
-void OnPlusPressed(GLFWwindow *);
-void OnMinusPressed(GLFWwindow *);
-void OnClosePressed(GLFWwindow *);
-void draw_triangle_boundary();
-void draw_double_pyramid(std::vector<float> &, float, float);
-std::pair<std::vector<float>, std::vector<int>>
-generate_sphere_mesh(std::array<float, 3>, float);
-std::vector<int> generate_sphere_mesh(std::vector<int> &, std::vector<float> &,
-                                      float);
-void draw_sphere(std::array<float, 3> &, float, float);

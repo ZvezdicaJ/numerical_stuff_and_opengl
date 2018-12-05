@@ -27,7 +27,7 @@ set(GLAD_DIR /home/jure/Downloads/glad)
 add_library(glad SHARED "${GLAD_DIR}/src/glad.c")
 target_include_directories(glad PRIVATE "${GLAD_DIR}/include")
 
-add_executable(opengl_test opengl_test.cpp functions.cpp sphere.cpp)
+add_executable(opengl_test opengl_test.cpp check_shaders.cpp display_functions.cpp)
 target_include_directories(opengl_test PRIVATE "${GLAD_DIR}/include")
 target_link_libraries(opengl_test glad /usr/local/lib/libglfw.so)
 

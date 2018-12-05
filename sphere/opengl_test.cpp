@@ -26,7 +26,7 @@ int main() {
     }
 
     float fi = 0;
-    Sphere<RENDER_TYPE::UNIFORM_COLOR> sphere1();
+    Sphere<> sphere1;
 
     while (!glfwWindowShouldClose(window)) {
         OnMinusPressed(window);
@@ -39,7 +39,7 @@ int main() {
         sphere1.draw(0.2, {0, 0, 0}, {0, 1, 1}, fi, {0.2, 0.3, 0.4, 0.5});
         sphere1.draw(0.1, {0.5 * std::cos(fi), 0.5 * std::sin(fi), 0},
                      {0, 1, 1}, 2.0 * fi, {0.2, 0.3, 0.4, 0.5});
-
+        //sphere1.set_min_number_of_vertexes(100);
         glfwPollEvents();  // check if any events happend (mouse press, key
                            // pres)
 

@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/opengl_test.dir/opengl_test.cpp.o"
-  "CMakeFiles/opengl_test.dir/functions.cpp.o"
-  "CMakeFiles/opengl_test.dir/sphere.cpp.o"
+  "CMakeFiles/opengl_test.dir/check_shaders.cpp.o"
+  "CMakeFiles/opengl_test.dir/display_functions.cpp.o"
   "../bin/opengl_test.pdb"
   "../bin/opengl_test"
 )
