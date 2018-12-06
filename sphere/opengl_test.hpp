@@ -7,33 +7,30 @@
 #include <glad/glad.h>
 #endif
 
-
+#include <GLFW/glfw3.h>
+#include <xmmintrin.h>
 #include <algorithm>
+#include <array>
+#include <cmath>
+#include <ctime>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
+#include <limits>
 #include <string>
+#include <type_traits>
 #include <unordered_map>
 #include <vector>
-#include <limits>
-#include <xmmintrin.h>
-#include <GLFW/glfw3.h>
-#include <array>
-#include <cmath>
-#include <ctime>
-#include <type_traits>
 
-#include "shaders.hpp"
-#include "check_shaders.hpp"
-
+#include "Shapes.hpp"
 #include "auxiliary_functions.hpp"
+#include "check_shaders.hpp"
 #include "print_functions.hpp"
+#include "shaders.hpp"
 #include "sphere.hpp"
 
 #include "display_functions.hpp"
-
-
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>

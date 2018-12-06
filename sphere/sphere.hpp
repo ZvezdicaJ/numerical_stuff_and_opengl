@@ -498,11 +498,8 @@ float Sphere<T>::area() {
         __m128 vert3 = load_vertex(&vertexes[vert3_ind * 3]);
 
         float *v = (float *)&vert1;
-        //print_vertex(v, "vertex1 ");
         v = (float *)&vert2;
-        //print_vertex(v, "vertex2 ");
         v = (float *)&vert3;
-        //print_vertex(v, "vertex3 ");
         __m128 vec12 = _mm_sub_ps(vert1, vert2);
         __m128 vec23 = _mm_sub_ps(vert2, vert3);
         __m128 vec13 = _mm_sub_ps(vert1, vert3);
@@ -510,13 +507,9 @@ float Sphere<T>::area() {
         float distance12 = std::sqrt(CalcDotProductSse(vec12, vec12));
         float distance23 = std::sqrt(CalcDotProductSse(vec23, vec23));
         float distance13 = std::sqrt(CalcDotProductSse(vec13, vec13));
-        //std::cout << "dist12: " << distance12 << "  dist23: " << distance23
-        //          << "  dist13: " << distance13 << std::endl;
 
         float s = (distance12 + distance23 + distance13) / 2.0;
-
         ar += std::sqrt(s * (s - distance12) * (s - distance13) * (s - distance23));
-        //std::cout <<"s: "<<s<< "  ar: " << ar << std::endl;
     }
 
     return ar;
