@@ -2,9 +2,8 @@
 
 enum class RENDER_TYPE { UNIFORM_COLOR = 0, CUSTOM_COLOR = 1 };
 
-template <RENDER_TYPE T = RENDER_TYPE::UNIFORM_COLOR>
-class Sphere {
-   private:
+template <RENDER_TYPE T = RENDER_TYPE::UNIFORM_COLOR> class Sphere {
+  private:
     std::vector<float> vertexes;
     std::vector<int> element_array;
     bool vertexes_generated = false;
@@ -15,11 +14,17 @@ class Sphere {
     unsigned VAO;
     unsigned EBO;
 
-    unsigned CBO;  // color buffer object
-    int min_vertexes = 1000000;
+    unsigned CBO; // color buffer object
+    int min_vertexes = 100;
     RENDER_TYPE Rtype = T;
 
-   public:
+    void generate_vertexes_helper();
+    void generate_vertexes_helper_improved();
+    void initialize_buffers();
+    void generate_vertexes();
+    void compile_shaders();
+
+  public:
     // sphere() = default;
     Sphere();
     Sphere(Sphere &&) = default;
@@ -30,24 +35,16 @@ class Sphere {
     void draw_wireframe(float radius, std::array<float, 3> translate,
                         std::array<float, 3> rotation_axis, float angle);
     void set_min_number_of_vertexes(unsigned);
-
-    void generate_sphere_mesh();
-    // this one just helps the one found in public section
-    void generate_sphere_mesh_helper();
-    void generate_sphere_mesh_helper_improved();
-    void initialize_buffers();
-
     template <RENDER_TYPE Q = T>
-    typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR, void>::type draw(
-        float radius = 0.5, std::array<float, 3> translate = {0, 0, 0},
-        std::array<float, 3> rotation_axis = {0, 0, 1}, float angle = 0,
-        glm::vec4 color = {0.5, 0.5, 0.5, 0.5});
+    typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR, void>::type
+    draw(float radius = 0.5, std::array<float, 3> translate = {0, 0, 0},
+         std::array<float, 3> rotation_axis = {0, 0, 1}, float angle = 0,
+         glm::vec4 color = {0.5, 0.5, 0.5, 0.5});
     template <RENDER_TYPE Q = T>
-    typename std::enable_if<Q == RENDER_TYPE::CUSTOM_COLOR, void>::type draw(
-        float radius = 0.5, std::array<float, 3> translate = {0, 0, 0},
-        std::array<float, 3> rotation_axis = {0, 0, 1}, float angle = 0);
+    typename std::enable_if<Q == RENDER_TYPE::CUSTOM_COLOR, void>::type
+    draw(float radius = 0.5, std::array<float, 3> translate = {0, 0, 0},
+         std::array<float, 3> rotation_axis = {0, 0, 1}, float angle = 0);
 
-    void compile_shaders();
     void refine();
     float area();
     float quality();
@@ -57,15 +54,13 @@ class Sphere {
     compile_shaders();
 };
 
-template <RENDER_TYPE T>
-Sphere<T>::Sphere() {
-    generate_sphere_mesh();
+template <RENDER_TYPE T> Sphere<T>::Sphere() {
+    generate_vertexes();
     compile_shaders();
     initialize_buffers();
 }
 
-template <RENDER_TYPE T>
-void Sphere<T>::generate_sphere_mesh() {
+template <RENDER_TYPE T> void Sphere<T>::generate_vertexes() {
     vertexes.reserve(15);
     vertexes.resize(15);
     std::array<float, 3> dir1({1.0f, 0, 0});
@@ -99,15 +94,15 @@ void Sphere<T>::generate_sphere_mesh() {
     // out sphere print_vertexes<float, 15>(vertexes);
     element_array = std::vector<int>(
         {0, 1, 3, 0, 1, 4, 0, 2, 3, 0, 2, 4, 1, 2, 3, 1, 2, 4});
-    generate_sphere_mesh_helper_improved();
+    generate_vertexes_helper_improved();
 }
 
 template <RENDER_TYPE T>
-void Sphere<T>::generate_sphere_mesh_helper_improved() {
+void Sphere<T>::generate_vertexes_helper_improved() {
     int vertex_number = vertexes.size() / 3;
     vertexes.reserve(vertexes.size() * 5 + 1);
     int num_tri = element_array.size() / 3;
-    std::vector<int> new_element_array;  // = element_array;
+    std::vector<int> new_element_array; // = element_array;
     new_element_array.reserve(4 * element_array.size() + 1);
     std::unordered_map<std::pair<int, int>, int> new_vertex_indexing;
     new_vertex_indexing.reserve(vertex_number + 1);
@@ -142,13 +137,16 @@ void Sphere<T>::generate_sphere_mesh_helper_improved() {
 
         // checking index pairs
         auto iter = new_vertex_indexing.find(ind_pair1);
-        if (iter != new_vertex_indexing.end()) p12_ind = iter->second;
+        if (iter != new_vertex_indexing.end())
+            p12_ind = iter->second;
 
         iter = new_vertex_indexing.find(ind_pair2);
-        if (iter != new_vertex_indexing.end()) p23_ind = iter->second;
+        if (iter != new_vertex_indexing.end())
+            p23_ind = iter->second;
 
         iter = new_vertex_indexing.find(ind_pair3);
-        if (iter != new_vertex_indexing.end()) p13_ind = iter->second;
+        if (iter != new_vertex_indexing.end())
+            p13_ind = iter->second;
 
         __m128 vert1 = _mm_loadu_ps(&vertexes[vert1_ind * 3]);
         __m128 vert2 = _mm_loadu_ps(&vertexes[vert2_ind * 3]);
@@ -225,17 +223,17 @@ void Sphere<T>::generate_sphere_mesh_helper_improved() {
         // std::endl; print_vertexes(&vertexes[0], vertex_number);
     }
     element_array = new_element_array;
-    if (vertexes.size() < min_vertexes) generate_sphere_mesh_helper_improved();
+    if (vertexes.size() < min_vertexes)
+        generate_vertexes_helper_improved();
     // print_vertexes(&vertexes[0], vertexes.size() / 3);
     // std::cout << "\n\n" << element_array << std::endl;
 }
 
-template <RENDER_TYPE T>
-void Sphere<T>::generate_sphere_mesh_helper() {
+template <RENDER_TYPE T> void Sphere<T>::generate_vertexes_helper() {
     int vertex_number = vertexes.size() / 3;
     vertexes.reserve(vertexes.size() * 5 + 1);
     int num_tri = element_array.size() / 3;
-    std::vector<int> new_element_array;  // = element_array;
+    std::vector<int> new_element_array; // = element_array;
     new_element_array.reserve(4 * element_array.size() + 1);
 
     for (int tri = 0; tri < num_tri; tri++) {
@@ -296,14 +294,13 @@ void Sphere<T>::generate_sphere_mesh_helper() {
                         1;
     }
     element_array = new_element_array;
-    if (vertexes.size() < min_vertexes) generate_sphere_mesh_helper();
+    if (vertexes.size() < min_vertexes)
+        generate_vertexes_helper();
 }
 
-template <RENDER_TYPE T>
-void Sphere<T>::compile_shaders(){};
+template <RENDER_TYPE T> void Sphere<T>::compile_shaders(){};
 
-template <>
-inline void Sphere<RENDER_TYPE::UNIFORM_COLOR>::compile_shaders() {
+template <> inline void Sphere<RENDER_TYPE::UNIFORM_COLOR>::compile_shaders() {
     // create empty shader
     unsigned int vertexShader;
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -334,8 +331,7 @@ inline void Sphere<RENDER_TYPE::UNIFORM_COLOR>::compile_shaders() {
     glDeleteShader(fragmentShader);
 }
 
-template <>
-inline void Sphere<RENDER_TYPE::CUSTOM_COLOR>::compile_shaders() {
+template <> inline void Sphere<RENDER_TYPE::CUSTOM_COLOR>::compile_shaders() {
     // create empty shader
     unsigned int vertexShader;
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -365,8 +361,7 @@ inline void Sphere<RENDER_TYPE::CUSTOM_COLOR>::compile_shaders() {
     glDeleteShader(fragmentShader);
 }
 
-template <RENDER_TYPE T>
-void Sphere<T>::initialize_buffers() {
+template <RENDER_TYPE T> void Sphere<T>::initialize_buffers() {
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 
@@ -383,9 +378,10 @@ void Sphere<T>::initialize_buffers() {
 
 template <RENDER_TYPE T>
 template <RENDER_TYPE Q>
-typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR>::type Sphere<T>::draw(
-    float radius, std::array<float, 3> position,
-    std::array<float, 3> rotation_axis, float angle, glm::vec4 color) {
+typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR>::type
+Sphere<T>::draw(float radius, std::array<float, 3> position,
+                std::array<float, 3> rotation_axis, float angle,
+                glm::vec4 color) {
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -419,9 +415,9 @@ typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR>::type Sphere<T>::draw(
     color = glm::vec4(0.5f, 0.5f, 0.5f, 0.5f);
     glUniform4fv(triangle_color, 1, glm::value_ptr(color));
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);  // render as wireframe
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // render as wireframe
     glDrawElements(GL_TRIANGLES, element_array.size(), GL_UNSIGNED_INT, 0);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);  // render as filled triangles
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // render as filled triangles
 
     // col = glm::vec4(0.0f, 0.0f, 0.0f, 0.5f);
     // glUniform4fv(triangle_color, 1, glm::value_ptr(col));
@@ -430,9 +426,9 @@ typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR>::type Sphere<T>::draw(
 
 template <RENDER_TYPE T>
 template <RENDER_TYPE Q>
-typename std::enable_if<Q == RENDER_TYPE::CUSTOM_COLOR>::type Sphere<T>::draw(
-    float radius, std::array<float, 3> position,
-    std::array<float, 3> rotation_axis, float angle) {
+typename std::enable_if<Q == RENDER_TYPE::CUSTOM_COLOR>::type
+Sphere<T>::draw(float radius, std::array<float, 3> position,
+                std::array<float, 3> rotation_axis, float angle) {
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -466,9 +462,9 @@ typename std::enable_if<Q == RENDER_TYPE::CUSTOM_COLOR>::type Sphere<T>::draw(
     color = glm::vec4(0.5f, 0.5f, 0.5f, 0.5f);
     glUniform4fv(triangle_color, 1, glm::value_ptr(color));
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);  // render as wireframe
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // render as wireframe
     glDrawElements(GL_TRIANGLES, element_array.size(), GL_UNSIGNED_INT, 0);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);  // render as filled triangles
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // render as filled triangles
 
     // col = glm::vec4(0.0f, 0.0f, 0.0f, 0.5f);
     // glUniform4fv(triangle_color, 1, glm::value_ptr(col));
@@ -480,13 +476,11 @@ void Sphere<T>::set_min_number_of_vertexes(unsigned num) {
     min_vertexes = num;
 }
 
-template <RENDER_TYPE T>
-void Sphere<T>::refine() {
-    generate_sphere_mesh_helper_improved();
+template <RENDER_TYPE T> void Sphere<T>::refine() {
+    generate_vertexes_helper_improved();
 }
 
-template <RENDER_TYPE T>
-float Sphere<T>::area() {
+template <RENDER_TYPE T> float Sphere<T>::area() {
     float ar = 0;
     for (int tri = 0; tri < element_array.size() / 3; tri += 1) {
         int vert1_ind = element_array[3 * tri];
@@ -509,14 +503,14 @@ float Sphere<T>::area() {
         float distance13 = std::sqrt(CalcDotProductSse(vec13, vec13));
 
         float s = (distance12 + distance23 + distance13) / 2.0;
-        ar += std::sqrt(s * (s - distance12) * (s - distance13) * (s - distance23));
+        ar += std::sqrt(s * (s - distance12) * (s - distance13) *
+                        (s - distance23));
     }
 
     return ar;
 }
 
-template <RENDER_TYPE T>
-float Sphere<T>::quality() {
+template <RENDER_TYPE T> float Sphere<T>::quality() {
     return std::fabs(area() - M_PI);
 }
 

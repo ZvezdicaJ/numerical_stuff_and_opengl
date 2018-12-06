@@ -23,7 +23,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "Shapes.hpp"
+#include "shape.hpp"
 #include "auxiliary_functions.hpp"
 #include "check_shaders.hpp"
 #include "print_functions.hpp"
