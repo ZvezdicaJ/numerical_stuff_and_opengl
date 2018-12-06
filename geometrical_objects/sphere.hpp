@@ -2,25 +2,12 @@
 
 enum class RENDER_TYPE { UNIFORM_COLOR = 0, CUSTOM_COLOR = 1 };
 
-template <RENDER_TYPE T = RENDER_TYPE::UNIFORM_COLOR> class Sphere {
+template <RENDER_TYPE T = RENDER_TYPE::UNIFORM_COLOR>
+class Sphere : public Shape {
   private:
-    std::vector<float> vertexes;
-    std::vector<int> element_array;
-    bool vertexes_generated = false;
-
-    unsigned shaderProgram;
-    bool shaders_compiled = false;
-    unsigned VBO;
-    unsigned VAO;
-    unsigned EBO;
-
-    unsigned CBO; // color buffer object
-    int min_vertexes = 100;
     RENDER_TYPE Rtype = T;
-
     void generate_vertexes_helper();
     void generate_vertexes_helper_improved();
-    void initialize_buffers();
     void generate_vertexes();
     void compile_shaders();
 
@@ -34,7 +21,6 @@ template <RENDER_TYPE T = RENDER_TYPE::UNIFORM_COLOR> class Sphere {
 
     void draw_wireframe(float radius, std::array<float, 3> translate,
                         std::array<float, 3> rotation_axis, float angle);
-    void set_min_number_of_vertexes(unsigned);
     template <RENDER_TYPE Q = T>
     typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR, void>::type
     draw(float radius = 0.5, std::array<float, 3> translate = {0, 0, 0},
@@ -97,8 +83,7 @@ template <RENDER_TYPE T> void Sphere<T>::generate_vertexes() {
     generate_vertexes_helper_improved();
 }
 
-template <RENDER_TYPE T>
-void Sphere<T>::generate_vertexes_helper_improved() {
+template <RENDER_TYPE T> void Sphere<T>::generate_vertexes_helper_improved() {
     int vertex_number = vertexes.size() / 3;
     vertexes.reserve(vertexes.size() * 5 + 1);
     int num_tri = element_array.size() / 3;
@@ -361,21 +346,6 @@ template <> inline void Sphere<RENDER_TYPE::CUSTOM_COLOR>::compile_shaders() {
     glDeleteShader(fragmentShader);
 }
 
-template <RENDER_TYPE T> void Sphere<T>::initialize_buffers() {
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
-
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertexes.size(), &vertexes[0],
-                 GL_STATIC_DRAW);
-
-    glGenBuffers(1, &EBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * element_array.size(),
-                 &(element_array[0]), GL_STATIC_DRAW);
-}
-
 template <RENDER_TYPE T>
 template <RENDER_TYPE Q>
 typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR>::type
@@ -469,11 +439,6 @@ Sphere<T>::draw(float radius, std::array<float, 3> position,
     // col = glm::vec4(0.0f, 0.0f, 0.0f, 0.5f);
     // glUniform4fv(triangle_color, 1, glm::value_ptr(col));
     // glDrawArrays(GL_LINE_STRIP, 0, 18);
-}
-
-template <RENDER_TYPE T>
-void Sphere<T>::set_min_number_of_vertexes(unsigned num) {
-    min_vertexes = num;
 }
 
 template <RENDER_TYPE T> void Sphere<T>::refine() {
