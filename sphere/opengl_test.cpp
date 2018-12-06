@@ -24,10 +24,7 @@ int main() {
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
-
-    float fi = 0;
-    Sphere<> sphere1;
-
+    /*
     while (!glfwWindowShouldClose(window)) {
         OnMinusPressed(window);
         OnPlusPressed(window);
@@ -36,10 +33,10 @@ int main() {
         std::array<float, 3> center({0, 0, 0});
         // draw_sphere(center, 0.5, fi);
         fi += 0.01;
-        sphere1.draw(0.2, {0, 0, 0}, {0, 1, 1}, fi, {0.2, 0.3, 0.4, 0.5});
-        sphere1.draw(0.1, {0.5 * std::cos(fi), 0.5 * std::sin(fi), 0},
-                     {0, 1, 1}, 2.0 * fi, {0.2, 0.3, 0.4, 0.5});
-        //sphere1.set_min_number_of_vertexes(100);
+        // sphere1.draw(0.2, {0, 0, 0}, {0, 1, 1}, fi, {0.2, 0.3, 0.4, 0.5});
+        // sphere1.draw(0.1, {0.5 * std::cos(fi), 0.5 * std::sin(fi), 0},
+        //             {0, 1, 1}, 2.0 * fi, {0.2, 0.3, 0.4, 0.5});
+        // sphere1.set_min_number_of_vertexes(100);
         glfwPollEvents();  // check if any events happend (mouse press, key
                            // pres)
 
@@ -55,13 +52,16 @@ int main() {
         // set which buffer to use to clear the screen
 
         glClear(GL_COLOR_BUFFER_BIT);
-    }
-    glfwTerminate();
+        }*/
 
     // std::array<float, 3> center2({0,0,0});
     // std::pair<std::vector<float>, std::vector<int>> sphere =
     // generate_sphere_mesh(center2, 0.5); print_vertexes(&(sphere.first[0]),
     // sphere.first.size()/3, 3 );
 
+    float fi = 0;
+    Sphere<> sphere1;
+    std::cout << "pi = " << sphere1.area()/4.0 << std::endl;
+    glfwTerminate();
     return 0;
 }
