@@ -1,3 +1,6 @@
+
+enum class RENDER_TYPE { UNIFORM_COLOR = 0, CUSTOM_COLOR = 1 };
+
 class Shape {
   protected:
     std::vector<float> vertexes;
