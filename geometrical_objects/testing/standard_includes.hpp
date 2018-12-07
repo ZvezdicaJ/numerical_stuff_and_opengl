@@ -1,8 +1,9 @@
-#include <xmmintrin.h>
+#include <emmintrin.h>
 #include <algorithm>
 #include <array>
 #include <cmath>
 #include <ctime>
+#include <fstream>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -12,3 +13,4 @@
 #include <type_traits>
 #include <unordered_map>
 #include <vector>
+#include <xmmintrin.h>

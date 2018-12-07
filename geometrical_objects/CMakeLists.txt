@@ -35,5 +35,5 @@ add_executable(opengl_test
 target_include_directories(opengl_test PRIVATE "${GLAD_DIR}/include")
 target_link_libraries(opengl_test glad /usr/local/lib/libglfw.so)
 
-add_executable(test_auxiliary_functions testing/auxiliary_functions_test.cpp)
+add_executable(test_auxiliary_functions testing/auxliary_functions_test.cpp)
 
