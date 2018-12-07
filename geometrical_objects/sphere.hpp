@@ -1,6 +1,6 @@
 #ifndef __SPHERE__
 
-enum class RENDER_TYPE { UNIFORM_COLOR = 0, CUSTOM_COLOR = 1 };
+
 
 template <RENDER_TYPE T = RENDER_TYPE::UNIFORM_COLOR>
 class Sphere : public Shape {

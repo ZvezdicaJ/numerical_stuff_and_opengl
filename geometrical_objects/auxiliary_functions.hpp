@@ -106,8 +106,9 @@ inline _mm128 J2n(int n, _mm128 x = _mm_set_ps(1.0, 1.0, 1.0, 1.0)) {
 
 inline sse_cos(_m128 x_vec) {
   _mm128 sum = J2n(0);
-  for(int n=0; n<100; n++) {
+  for(int n=1; n<=100; n++) {
     _mm128 m1 = _mm_set_ps(-1.0, -1.0, -1.0, -1.0);
-
+    sum=_mm_add_ps(sum, _mm_mul_ps(J2n(n))*chebyshev(2*n, x_vec));
   }
+  return sum;
 }

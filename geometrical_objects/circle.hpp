@@ -16,4 +16,7 @@ template <RENDER_TYPE T>
 void circle<T>::circle() : min_vertexes(10){};
 
 template <RENDER_TYPE T>
-void circle<T>::generate_vertexes() {}
+void circle<T>::generate_vertexes() {
+
+
+}
