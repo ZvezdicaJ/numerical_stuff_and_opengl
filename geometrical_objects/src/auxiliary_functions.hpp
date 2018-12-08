@@ -49,14 +49,23 @@ template <typename S, typename T> struct hash<pair<S, T>> {
 };
 } // namespace std
 
-inline __m128i factorial(int n) {
-    __m128i factor = _mm_set_epi32(n, n, n, n);
-    __m128i prod = _mm_set_epi32(1, 1, 1, 1);
+inline __m128i sse_factorial(int n) {
+        __m128i prod = _mm_set_epi32(1, 1, 1, 1);
     for (int i = 2; i <= n; i++) {
+        __m128i factor = _mm_set_epi32(i, i, i, i);
         prod = _mm_mul_epi32(prod, factor);
     }
     return prod;
 }
+
+inline int scalar_factorial(int n) {
+    int prod = 1;
+    for (int i = 2; i <= n; i++) {
+        prod *= i;
+    }
+    return prod;
+}
+
 inline __m128 chebyshev(int n, __m128 x_vec) {
     // T0
     __m128 T0 = _mm_set_ps(1.0, 1.0, 1.0, 1.0);
@@ -91,7 +100,7 @@ inline __m128 chebyshev(int n, __m128 x_vec) {
     return Tnp1;
 }
 
-inline __m128 chebyshev_next(__m128& p1, __m128& p2, __m128& x_vec) {
+inline __m128 chebyshev_next(__m128 &p1, __m128 &p2, __m128 &x_vec) {
     return _mm_sub_ps(
         _mm_mul_ps(_mm_mul_ps(_mm_set_ps(2.0, 2.0, 2.0, 2.0), p1), x_vec), p2);
 }
@@ -104,7 +113,7 @@ inline __m128 J2n(int n, __m128 x = _mm_set_ps(1.0, 1.0, 1.0, 1.0)) {
     }
     __m128 sum = _mm_set_ps(0.0, 0.0, 0.0, 0.0);
     __m128 m1 = _mm_set_ps(-1.0, -1.0, -1.0, -1.0);
-    __m128i fact = factorial(n);
+    __m128i fact = sse_factorial(n);
     for (int l = 0; l < 1000; l++) {
         __m128 tmp = _mm_mul_ps(ln_power, _mm_cvtepi32_ps(fact));
         sum = _mm_add_ps(_mm_div_ps(m1, tmp), sum);

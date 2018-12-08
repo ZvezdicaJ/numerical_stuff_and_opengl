@@ -25,8 +25,9 @@ void test_chebyshev() {
         std::cout << "failed to open file5" << std::endl;
 
     for (int i = 0; i < 50; i += 1) {
-        x_vec = _mm_set_ps(-1.0 + 4*i * 0.01, -1.0 + (4*i + 1) * 0.01,
-                           -1.0 + (4*i + 2) * 0.01, -1.0 + (4*i + 3) * 0.01);
+        x_vec =
+            _mm_set_ps(-1.0 + 4 * i * 0.01, -1.0 + (4 * i + 1) * 0.01,
+                       -1.0 + (4 * i + 2) * 0.01, -1.0 + (4 * i + 3) * 0.01);
         __m128 result0 = chebyshev(0, x_vec);
         __m128 result1 = chebyshev(1, x_vec);
         __m128 result2 = chebyshev(2, x_vec);
@@ -34,13 +35,12 @@ void test_chebyshev() {
         __m128 result4 = chebyshev(4, x_vec);
         __m128 result5 = chebyshev(5, x_vec);
 
-        result0=_mm_shuffle_ps(result0, result0, _MM_SHUFFLE(0, 1, 2, 3));
-        result1=_mm_shuffle_ps(result1, result1, _MM_SHUFFLE(0, 1, 2, 3));
-        result2=_mm_shuffle_ps(result2, result2, _MM_SHUFFLE(0, 1, 2, 3));
-        result3=_mm_shuffle_ps(result3, result3, _MM_SHUFFLE(0, 1, 2, 3));
-        result4=_mm_shuffle_ps(result4, result4, _MM_SHUFFLE(0, 1, 2, 3));
-        result5=_mm_shuffle_ps(result5, result5, _MM_SHUFFLE(0, 1, 2, 3));
-
+        result0 = _mm_shuffle_ps(result0, result0, _MM_SHUFFLE(0, 1, 2, 3));
+        result1 = _mm_shuffle_ps(result1, result1, _MM_SHUFFLE(0, 1, 2, 3));
+        result2 = _mm_shuffle_ps(result2, result2, _MM_SHUFFLE(0, 1, 2, 3));
+        result3 = _mm_shuffle_ps(result3, result3, _MM_SHUFFLE(0, 1, 2, 3));
+        result4 = _mm_shuffle_ps(result4, result4, _MM_SHUFFLE(0, 1, 2, 3));
+        result5 = _mm_shuffle_ps(result5, result5, _MM_SHUFFLE(0, 1, 2, 3));
 
         float *r0 = (float *)&result0;
         float *r1 = (float *)&result1;
@@ -61,7 +61,6 @@ void test_chebyshev() {
                   << *(r4 + 3) << " ";
         out_file5 << *(r5) << " " << *(r5 + 1) << " " << *(r5 + 2) << " "
                   << *(r5 + 3) << " ";
-
     }
     out_file0 << std::endl;
     out_file1 << std::endl;
@@ -71,7 +70,42 @@ void test_chebyshev() {
     out_file5 << std::endl;
 }
 
+#pragma GCC push_options
+#pragma GCC optimize ("-O0")
+void test_factorial(int n_min, int n_max) {
+    std::string file_path = "../testing/data/";
+    std::string file_name = "sse_factorial_test_data.dat";
+    std::ofstream file(file_path + file_name, std::ios::out);
+    file << "sse_version scalar_version" << std::endl;
+    for (int i = n_min; i <= n_max; i++) {
+        __m128i sse_fac = sse_factorial(i);
+        file << *((int *)&sse_fac) << " ";
+        int sca_fac = scalar_factorial(i);
+        file << sca_fac << std::endl;
+    }
+    auto start = std::chrono::high_resolution_clock::now();
+    for (int i = 1; i <= 300; i++) {
+        __m128i sse_fac = sse_factorial(i);
+    }
+    auto finish = std::chrono::high_resolution_clock::now();
+    auto microseconds =
+        std::chrono::duration_cast<std::chrono::microseconds>(finish - start);
+    std::cout << "sse version took: "<< microseconds.count() << "µs\n";
+
+    start = std::chrono::high_resolution_clock::now();
+    for (int i = 1; i <= 300; i++) {
+        int sca_fac = scalar_factorial(i);
+    }
+    finish = std::chrono::high_resolution_clock::now();
+    microseconds =
+        std::chrono::duration_cast<std::chrono::microseconds>(finish - start);
+    std::cout << "scalar version took: "<< microseconds.count() << "µs\n";
+    return;
+}
+#pragma GCC pop_options
+
 int main() {
     test_chebyshev();
+    test_factorial(1, 10);
     return 0;
 }
