@@ -72,6 +72,7 @@ void test_chebyshev() {
 
 #pragma GCC push_options
 #pragma GCC optimize ("-O0")
+#pragma GCC target("sse")
 void test_factorial(int n_min, int n_max) {
     std::string file_path = "../testing/data/";
     std::string file_name = "sse_factorial_test_data.dat";
