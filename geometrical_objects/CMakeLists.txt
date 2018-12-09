@@ -9,7 +9,12 @@ set (CMAKE_CXX_STANDARD 14)
 find_package(glfw3 REQUIRED)
 message(STATUS "glfw libraries: ${GLFW_LIBRARIES}")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native")
+#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -march=native")
+
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -msse -mavx -mfma")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -msse -mavx -mfma")
 
 # GLFW
 #set(GLFW_DIR "../../../Downloads/glfw")

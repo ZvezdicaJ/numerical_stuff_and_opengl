@@ -5,3 +5,12 @@
 *#
 ~*
 *~
+*.aux
+*.idx
+*.ilg
+*.ind
+*.log
+*.synctex.gz
+/build
+/bin
+/lib

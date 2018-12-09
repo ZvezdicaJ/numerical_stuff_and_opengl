@@ -65,7 +65,7 @@ Cell[BoxData[
 }, Open  ]]
 },
 WindowSize->{808, 911},
-WindowMargins->{{491, Automatic}, {57, Automatic}},
+WindowMargins->{{107, Automatic}, {Automatic, 65}},
 FrontEndVersion->"11.3 for Linux x86 (64-bit) (March 6, 2018)",
 StyleDefinitions->"Default.nb"
 ]
@@ -82,11 +82,9 @@ CellTagsIndex->{}
 Notebook[{
 Cell[CellGroupData[{
 Cell[580, 22, 1156, 33, 124, "Input",ExpressionUUID->"b3aab545-183f-45fd-ac90-91e97f38c207"],
-Cell[1739, 57, 335, 6, 68, "Output",ExpressionUUID->"c5dfc32c-da99-4c59-9651-00fb24bb1f08"]
+Cell[1739, 57, 335, 6, 35, "Output",ExpressionUUID->"c5dfc32c-da99-4c59-9651-00fb24bb1f08"]
 }, Open  ]]
 }
 ]
 *)
-
-(* End of internal cache information *)
 

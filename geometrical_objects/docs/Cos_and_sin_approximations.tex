@@ -1,0 +1,164 @@
+\documentclass[openany, longbibliography,slovene,a4paper,12pt]{article}
+%\documentclass[openany,slovene,a4paper,12pt]{article}
+\usepackage[a4paper,inner=3.5cm,outer=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+
+\usepackage{braket}
+\usepackage{float}
+\usepackage{afterpage}
+\usepackage{graphicx}
+\usepackage{amssymb}
+
+\usepackage[tbtags]{amsmath}
+\usepackage[T1]{fontenc}
+\graphicspath{{./slike/}{../slike_vezikel_z_robom/}{/home/jure/sola/magisterij/uporabljene_slike/}
+{../eps_pdf/}}
+\DeclareGraphicsExtensions{.eps,.jpeg,.png,.gif,.pdf}
+\usepackage[outdir=./slike/]{epstopdf}
+\epstopdfsetup{
+	suffix=,
+}
+\usepackage[multidot]{grffile}
+
+%\usepackage[slovene]{babel}      % slovenski delilni vzorci (!)
+%\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{makeidx}
+\usepackage{enumerate}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[tbtags]{mathtools}
+
+\usepackage[section]{placeins}
+
+\usepackage[hyphens,spaces,obeyspaces]{url}
+\usepackage{breakurl}
+
+
+\usepackage{ragged2e}
+\edef\UrlBreaks{\do\-\UrlBreaks}
+
+\usepackage{makeidx}
+\pagestyle{headings}
+\makeindex
+\usepackage{fancyhdr}
+\usepackage[titletoc,title]{appendix}
+
+
+\usepackage[sort, numbers]{natbib}
+\usepackage[pdfa]{hyperref}
+\usepackage[x-1a]{pdfx}
+\usepackage{pdfpages}
+\usepackage{breqn}
+
+
+\DeclareMathOperator{\arcsinh}{arcsinh}
+
+\def\epsfg#1#2{\epsfig{file=#1.eps,width=#2}}
+\def\legendamp#1#2{\vbox{\hsize=#1\caption{\small #2}}}
+
+\setcounter{topnumber}{4}
+\setcounter{bottomnumber}{4}
+\setcounter{totalnumber}{5}
+\renewcommand{\topfraction}{0.99}
+\renewcommand{\bottomfraction}{0.99}
+\renewcommand{\textfraction}{0.0}
+\setlength{\tabcolsep}{10pt}
+\renewcommand{\arraystretch}{1.5}
+
+\def\bi#1{\hbox{\boldmath{$#1$}}}
+\let\oldvec\vec
+\def\vec#1{\mbox{\boldmath$#1$}}
+\def\pol{{\textstyle{1\over2}}}
+\def\svec#1{\mbox{{\scriptsize \boldmath$#1$}}}
+
+\newcommand{\dif}{\mathrm{d}}
+\usepackage{xparse}
+\DeclareDocumentCommand{\myint}{o m o o}  
+{%
+	\int \IfValueT{#1}{#1} \dif #2 \IfValueT{#3}{\dif#3} \IfValueT{#4}{\dif#4}
+}
+\newcommand{\Alpha}{A}
+\newcommand{\Beta}{B}
+\newcommand{\Epsilon}{E}
+\newcommand{\Kappa}{K}
+
+
+\begin{document}
+\section*{Chebyshev polynomials}
+Chebyshev polynomials of the first kind are solutions to differential equation:
+\begin{equation}
+  (1-x^2)y''-xy'+n^2y=0.
+  \end{equation}
+  They are defined by recursion formula:
+  \begin{equation}
+    T_{n+1}(x)=2xT_n(x)-T_{n-1}(x) \quad \mathrm{with} \quad T_0(x)=0 \quad\mathrm{and}\quad T_1(x)=x.
+  \end{equation}
+On an interval $[-1,1]$ they form a complete basis set, similar to $\cos(x)$ and
+$\sin(x)$ for  $x\in[-\pi, \pi]$. Of course one can expand these intervals to
+arbitrary intervals $[-a,a]$ by a simple transformation $x\rightarrow x/a$.
+Basis polynomials $T_n(x)$ are orthogonal with respect to the following scalar
+product:
+\[
+  \braket{T_m(x)|T_n(x)}=\int_{-1}^{1}\frac{T_m(x)T_n(x)}{\sqrt{1-x^2}}\dif x = \begin{cases}
+                                   \pi & n=m=0  \\
+                                   \pi/2 & n=m \neq 0\\
+                                   0 & n \neq m \\
+  \end{cases}
+\]
+or, written for arbitrary interval $[-a, a]$:
+\[
+  \braket{T_m(x/a)|T_n(x/a)}=\int_{-a}^{a}\frac{T_m(x/a)T_n(x/a)}{\sqrt{1-(x/a)^2}}
+  \frac{\dif x}{a} = \begin{cases}
+                                   \pi & n=m=0  \\
+                                   \pi/2 & n=m \neq 0\\
+                                   0 & n \neq m \\
+  \end{cases}
+\].
+
+One can now expand sin and cos functions into series on an interval $[-\pi,
+\pi]$ using transformation $x\rightarrow x/\pi$:
+\begin{equation}
+  cos(x)=\sum_na_nT_n\left(\frac{x}{\pi}\right).
+  \end{equation}
+Multiplying both sides by $T_m(\frac{x}{\pi})/\sqrt{1-(x/\pi)^2}$ and
+integrating over the interval $[-\pi, \pi]$ yields for $m\neq0$:
+\begin{equation} \label{coeffm}
+ \frac{1}{\pi}\int_{-\pi}^{\pi}\frac{\cos(x)T_m(\frac{x}{\pi})}{\sqrt{1-(x/\pi)^2}} \dif x = \frac{\pi}{2}a_m
+\end{equation}
+and for $m=0$:
+\begin{equation}\label{coeff0}
+ \frac{1}{\pi}\int_{-\pi}^{\pi}\frac{\cos(x)T_0(\frac{x}{\pi})}{\sqrt{1-(x/\pi)^2}} \dif x = \pi a_0.
+\end{equation}
+
+To simplify integral calculation we use relation between $T_n(x)$ and $\cos(x)$:
+\begin{equation}
+  T_n(\cos\theta)=\cos n\theta.
+\end{equation}
+Using $x/\pi = cos(z)$  in equations \label{coeffm} leads to:
+\begin{equation}
+  a_m = \frac{2}{\pi^2} \int_{-1}^{1}\frac{\cos(\pi\cos z)\cos(mz)}{\sqrt{1-\cos^2z}} \dif (\pi cosz)=-\frac{2}{\pi} \int_{\pi}^{0}\cos(\pi\cos z)\cos(mz) \dif z, 
+  \end{equation}
+where we took into account that $\cos z = -1$ when $z=\pi$ and $1$ when $z=-\pi$.
+  For $m=0$ we get:
+  \begin{equation}
+    a_0 = \frac{1}{\pi^2} \int_{-1}^{1}\frac{\cos(\pi\cos z)}{\sqrt{1-\cos^2z}} \dif (\pi cos\theta)=-\frac{1}{\pi} \int_{\pi}^{0}\cos(\pi\cos z) \dif z.
+  \end{equation}
+
+  Chebyshev polynomial can be divided into even and odd polynomials. For even
+  $n$ polynomial is even and for odd $n$ polynomial is odd. Thus the integral
+  $\int cos(x) T_n(x\pi)$ will be zeo for all odd n. Only even $n$ polynomials
+  will participate in expansion of $\cos(x)$ into a series using Chebyshev
+  polynomials.
+  The opposite happens when we expand $sin(x)$ into such series. Therefore only odd
+  $n$ polynomials will participate in series expansion. For $m\neq0$ we get:
+
+\begin{equation}
+  a_m = \frac{2}{\pi} \int_{0}^{\pi}\sin(\pi\cos z)\cos(mz) \dif z, 
+  \end{equation}
+where we took into account that $\cos z = -1$ when $z=\pi$ and $1$ when $z=-\pi$.
+  For $m=0$ we get:
+  \begin{equation}
+    a_0 = \frac{1}{\pi} \int_{0}^{\pi}\sin(\pi\cos z) \dif z.
+  \end{equation}
+  
+\end{document}

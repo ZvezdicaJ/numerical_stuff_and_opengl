@@ -49,10 +49,15 @@ template <typename S, typename T> struct hash<pair<S, T>> {
 };
 } // namespace std
 
+// this is slow; do not use
 inline __m128i sse_factorial(int n) {
-        __m128i prod = _mm_set_epi32(1, 1, 1, 1);
+    __m128i prod = _mm_set_epi32(1, 1, 1, 1);
+    __m128i onse = prod;
+    __m128i factor = _mm_set_epi32(2, 2, 2, 2);
+    //__m128i prod;
+    // prod = _mm_cmpeq_epi32(prod, prod);
     for (int i = 2; i <= n; i++) {
-        __m128i factor = _mm_set_epi32(i, i, i, i);
+        factor = _mm_add_epi32(factor, onse);
         prod = _mm_mul_epi32(prod, factor);
     }
     return prod;
@@ -100,34 +105,54 @@ inline __m128 chebyshev(int n, __m128 x_vec) {
     return Tnp1;
 }
 
-inline __m128 chebyshev_next(__m128 &p1, __m128 &p2, __m128 &x_vec) {
-    return _mm_sub_ps(
-        _mm_mul_ps(_mm_mul_ps(_mm_set_ps(2.0, 2.0, 2.0, 2.0), p1), x_vec), p2);
+inline __m128 chebyshev_next(__m128 &cn, __m128 &cn_1, __m128 &x_vec) {
+    return _mm_fmsub_ps(_mm_mul_ps(_mm_set_ps1(2.0), cn), x_vec, cn_1);
 }
 
-inline __m128 J2n(int n, __m128 x = _mm_set_ps(1.0, 1.0, 1.0, 1.0)) {
-    __m128 ln = _mm_set_ps(4.0, 4.0, 4.0, 4.0);
-    __m128 ln_power = _mm_set_ps(1.0, 1.0, 1.0, 1.0);
-    for (int i = 0; i < n; i++) {
-        ln_power = _mm_mul_ps(ln_power, ln);
-    }
-    __m128 sum = _mm_set_ps(0.0, 0.0, 0.0, 0.0);
-    __m128 m1 = _mm_set_ps(-1.0, -1.0, -1.0, -1.0);
-    __m128i fact = sse_factorial(n);
-    for (int l = 0; l < 1000; l++) {
-        __m128 tmp = _mm_mul_ps(ln_power, _mm_cvtepi32_ps(fact));
-        sum = _mm_add_ps(_mm_div_ps(m1, tmp), sum);
-        int tmpf = 2 * n + 1;
-        fact = _mm_mul_epi32(fact, _mm_set_epi32(tmpf, tmpf, tmpf, tmpf));
+inline __m128 sse_cos(__m128 x_vec_) {
+    float coeff[] = {-0.3042421776440938642020349128177049239697,
+                     -0.9708678652630182194109914323663784757039,
+                     0.3028491552626994215074191186309676140775,
+                     -0.02909193396501112114732073920800360778849,
+                     0.001392243991176231859984622208952274539411,
+                     -0.00004018994451075494298816526236368837878949,
+                     7.782767011815306088573057896947073998291e-7,
+                     -1.082653034185828481093421492678695775590e-8,
+                     1.135109177911507701030194019523024834037e-10,
+                     -9.295296632678756552885410084526215786661e-13,
+                     6.111364188334767723806229076684641965132e-15,
+                     -3.297657841343458986382435554107381460019e-17};
+
+    __m128 sum = _mm_set_ps1(-0.3042421776440938642020349128177049239697);
+    __m128 x_vec = _mm_div_ps(x_vec_, _mm_set_ps1(M_PI));
+    __m128 T2n = _mm_set_ps1(1.0);
+    __m128 T2np1 = x_vec;
+    for (int n = 1; n < 9; n++) {
+        __m128 coeff4 = _mm_set1_ps(coeff[n]);
+        T2n = chebyshev_next(T2np1, T2n, x_vec);
+        T2np1 = chebyshev_next(T2n, T2np1, x_vec);
+        sum = _mm_fmadd_ps(coeff4, T2n, sum);
     }
     return sum;
 }
 
-inline __m128 sse_cos(__m128 x_vec) {
-    __m128 sum = J2n(0);
-    for (int n = 1; n <= 100; n++) {
-        __m128 m1 = _mm_set_ps(-1.0, -1.0, -1.0, -1.0);
-        sum = _mm_add_ps(sum, _mm_mul_ps(J2n(n), chebyshev(2 * n, x_vec)));
+inline __m128 sse_sin(__m128 x_vec_) {
+    float coeff[] = {0.56923068635950551469,    -0.66691667240597907078,
+                     0.10428236873423694948,    -0.0068406335369915790099,
+                     0.00025000688495038622765, -5.8502483086391436917e-6,
+                     9.5347727502994011400e-8,  -1.1456384417094631513e-9,
+                     1.0574272617539128589e-11, -7.7352709954043070942e-14,
+                     4.5959561461829594592e-16, -2.2623059281974111043e-18};
+
+    __m128 sum = _mm_set_ps1(0);
+    __m128 x_vec = _mm_div_ps(x_vec_, _mm_set_ps1(M_PI));
+    __m128 T2n = _mm_set_ps1(1.0);
+    __m128 T2np1 = x_vec;
+    for (int n = 0; n < 9; n++) {
+        __m128 coeff4 = _mm_set1_ps(coeff[n]);
+        sum = _mm_fmadd_ps(coeff4, T2np1, sum);
+        T2n = chebyshev_next(T2np1, T2n, x_vec);
+        T2np1 = chebyshev_next(T2n, T2np1, x_vec);
     }
     return sum;
 }

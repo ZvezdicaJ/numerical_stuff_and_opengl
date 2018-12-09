@@ -1,4 +1,4 @@
-#include <emmintrin.h>
+
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -14,4 +14,7 @@
 #include <unordered_map>
 #include <vector>
 #include <xmmintrin.h>
+#include <immintrin.h>
+#include <emmintrin.h>
 #include <chrono>
+#include "../src/auxiliary_functions.hpp"

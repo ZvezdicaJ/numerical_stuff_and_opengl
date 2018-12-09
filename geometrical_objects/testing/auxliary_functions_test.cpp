@@ -1,9 +1,7 @@
 #include "standard_includes.hpp"
-#include "../src/auxiliary_functions.hpp"
-
 
 void test_chebyshev() {
-    __m128 x_vec;
+
     int num_points = 200;
     std::ofstream out_file0("../testing/data/chebyshev0.dat", std::ios::out);
     if (!out_file0.is_open())
@@ -25,7 +23,7 @@ void test_chebyshev() {
         std::cout << "failed to open file5" << std::endl;
 
     for (int i = 0; i < 50; i += 1) {
-        x_vec =
+        __m128 x_vec =
             _mm_set_ps(-1.0 + 4 * i * 0.01, -1.0 + (4 * i + 1) * 0.01,
                        -1.0 + (4 * i + 2) * 0.01, -1.0 + (4 * i + 3) * 0.01);
         __m128 result0 = chebyshev(0, x_vec);
@@ -70,9 +68,6 @@ void test_chebyshev() {
     out_file5 << std::endl;
 }
 
-#pragma GCC push_options
-#pragma GCC optimize ("-O0")
-#pragma GCC target("sse")
 void test_factorial(int n_min, int n_max) {
     std::string file_path = "../testing/data/";
     std::string file_name = "sse_factorial_test_data.dat";
@@ -84,29 +79,132 @@ void test_factorial(int n_min, int n_max) {
         int sca_fac = scalar_factorial(i);
         file << sca_fac << std::endl;
     }
+
+    int num_fac = 12;
+    int sse_factorials[num_fac + 4];
+    int scalar_factorials[num_fac];
     auto start = std::chrono::high_resolution_clock::now();
-    for (int i = 1; i <= 300; i++) {
-        __m128i sse_fac = sse_factorial(i);
+    for (int j = 0; j < 10000; j++) {
+        for (int i = 1; i <= num_fac; i++) {
+            __m128i sse_fac = sse_factorial(i);
+            _mm_storeu_si128((__m128i *)&sse_factorials[i - 1], sse_fac);
+        }
     }
     auto finish = std::chrono::high_resolution_clock::now();
     auto microseconds =
         std::chrono::duration_cast<std::chrono::microseconds>(finish - start);
-    std::cout << "sse version took: "<< microseconds.count() << "µs\n";
+    std::cout << "factorials timing:\n  sse version took: "
+              << microseconds.count() << "µs\n";
 
     start = std::chrono::high_resolution_clock::now();
-    for (int i = 1; i <= 300; i++) {
-        int sca_fac = scalar_factorial(i);
+    int k;
+    for (int j = 0; j < 10000; j++) {
+        for (int i = 1; i <= num_fac; i++) {
+            k = scalar_factorial(i);
+            scalar_factorials[i - 1] = k;
+        }
     }
     finish = std::chrono::high_resolution_clock::now();
     microseconds =
         std::chrono::duration_cast<std::chrono::microseconds>(finish - start);
-    std::cout << "scalar version took: "<< microseconds.count() << "µs\n";
+    std::cout << "  scalar version took: " << microseconds.count() << "µs\n";
+
+    int sum = 0;
+    for (int i = 0; i < num_fac; i++) {
+        sum += scalar_factorials[i];
+    }
+    std::cout << "sumof first 12 factorials: " << sum << std::endl;
+
     return;
 }
-#pragma GCC pop_options
+
+void test_chebyshev_next() {
+    __m128 T0 = _mm_set_ps1(1.0);
+    std::ofstream out_file2("../testing/data/chebyshev2_next_test.dat",
+                            std::ios::out);
+    if (!out_file2.is_open())
+        std::cout << "Unable to open a file in function test_chebyshev_next!"
+                  << std::endl;
+    std::ofstream out_file3("../testing/data/chebyshev3_next_test.dat",
+                            std::ios::out);
+    if (!out_file3.is_open())
+        std::cout << "Unable to open a file in function test_chebyshev_next!"
+                  << std::endl;
+    for (int i = 0; i < 50; i += 1) {
+        __m128 x_vec;
+        x_vec =
+            _mm_set_ps(-1.0 + 4 * i * 0.01, -1.0 + (4 * i + 1) * 0.01,
+                       -1.0 + (4 * i + 2) * 0.01, -1.0 + (4 * i + 3) * 0.01);
+        __m128 T1 = x_vec;
+        __m128 T2 = chebyshev_next(T1, T0, x_vec);
+        __m128 T3 = chebyshev_next(T2, T1, x_vec);
+        T2 = _mm_shuffle_ps(T2, T2, _MM_SHUFFLE(0, 1, 2, 3));
+        T3 = _mm_shuffle_ps(T3, T3, _MM_SHUFFLE(0, 1, 2, 3));
+
+        float *r = (float *)&T2;
+        out_file2 << *(r) << " " << *(r + 1) << "  " << *(r + 2) << " "
+                  << *(r + 3) << " ";
+        r = (float *)&T3;
+        out_file3 << *(r) << " " << *(r + 1) << "  " << *(r + 2) << " "
+                  << *(r + 3) << " ";
+    }
+}
+
+void test_sse_cos() {
+    __m128 T0 = _mm_set_ps1(1.0);
+    std::ofstream out_file0("../testing/data/sse_cos_test.dat", std::ios::out);
+    if (!out_file0.is_open())
+        std::cout << "Unable to open a file in function test_sse_cos!"
+                  << std::endl;
+    float min = -M_PI;
+    float max = M_PI;
+    int steps = 100;
+    float korak = (max - min) / (float)(steps-1);
+
+    for (int i = 0; i < steps/4; i += 1) {
+        __m128 x_vec;
+        x_vec =
+            _mm_set_ps(min + 4 * i * korak, min + (4 * i + 1) * korak,
+                       min + (4 * i + 2) * korak, min + (4 * i + 3) * korak);
+        ;
+        __m128 cos = sse_cos(x_vec);
+        cos = _mm_shuffle_ps(cos, cos, _MM_SHUFFLE(0, 1, 2, 3));
+        float *r = (float *)&cos;
+        out_file0 << *(r) << " " << *(r + 1) << "  " << *(r + 2) << " "
+                  << *(r + 3) << " ";
+    }
+}
+
+void test_sse_sin() {
+    __m128 T0 = _mm_set_ps1(1.0);
+    std::ofstream out_file0("../testing/data/sse_sin_test.dat", std::ios::out);
+    if (!out_file0.is_open())
+        std::cout << "Unable to open a file in function test_sse_sin!"
+                  << std::endl;
+    float min = -M_PI;
+    float max = M_PI;
+    int steps = 100;
+    float korak = (max - min) / (float)(steps-1);
+
+    for (int i = 0; i < steps/4; i += 1) {
+        __m128 x_vec;
+        x_vec =
+            _mm_set_ps(min + 4 * i * korak, min + (4 * i + 1) * korak,
+                       min + (4 * i + 2) * korak, min + (4 * i + 3) * korak);
+        ;
+        __m128 sin = sse_sin(x_vec);
+        sin = _mm_shuffle_ps(sin, sin, _MM_SHUFFLE(0, 1, 2, 3));
+        float *r = (float *)&sin;
+        out_file0 << *(r) << " " << *(r + 1) << "  " << *(r + 2) << " "
+                  << *(r + 3) << " ";
+    }
+}
 
 int main() {
     test_chebyshev();
     test_factorial(1, 10);
+    test_chebyshev_next();
+    test_sse_cos();
+    test_sse_sin();
     return 0;
 }
