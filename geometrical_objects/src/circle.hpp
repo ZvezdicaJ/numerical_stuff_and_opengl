@@ -1,22 +1,57 @@
 
-template <RENDER_TYPE T>
-class Circle : public shape {
-   public:
-    circle();
-  Circle(Circle &&) = default;
-  Circle &operator=(Circle &&) = default;
-  Circle(const Circle &) = default;
-  Circle &operator=(const Circle &) = default;
+template <RENDER_TYPE T = RENDER_TYPE::UNIFORM_COLOR>
+class Circle : public Shape {
+  public:
+    Circle();
+    Circle(Circle &&) = default;
+    Circle &operator=(Circle &&) = default;
+    Circle(const Circle &) = default;
+    Circle &operator=(const Circle &) = default;
 
-    void generate_vertexes();
+    void generate_vertexes(int num_vert = -1);
     float perimeter();
-}
+};
 
-template <RENDER_TYPE T>
-void circle<T>::circle() : min_vertexes(10){};
+template <RENDER_TYPE T> Circle<T>::Circle() { min_vertexes = 20; };
 
-template <RENDER_TYPE T>
-void circle<T>::generate_vertexes() {
+template <RENDER_TYPE T> void Circle<T>::generate_vertexes(int num_vert) {
+    // this function always generates 4n-1 different vertexes;
+    // -1 becase the last point is the same as the first one
+    int reminder;
+    int number_of_vertexes; // actual total number of vertexes generated
+    if ((reminder = min_vertexes % 4) != 0)
+        number_of_vertexes = min_vertexes + reminder;
+    else
+        number_of_vertexes = min_vertexes;
+    //   std::cout << "number of vertexes:  " << number_of_vertexes <<
+    //   std::endl;
 
+    if (num_vert != -1 && num_vert > 0) {
+        number_of_vertexes = num_vert;
+    }
+    vertexes.reserve(2 * number_of_vertexes);
+    vertexes.resize(2 * number_of_vertexes);
+    float korak = 2.0 * M_PI / (float)(number_of_vertexes - 1);
+    int vertexes_size = 0;
+    for (int i = 0; i < number_of_vertexes / 4; i++) {
+        __m128 fi_vec = _mm_set_ps(
+            -M_PI + 4 * i * korak, -M_PI + (4 * i + 1) * korak,
+            -M_PI + (4 * i + 2) * korak, -M_PI + (4 * i + 3) * korak);
 
+        __m128 cos_vec = sse_cos(fi_vec);
+        __m128 sin_vec = sse_sin(fi_vec);
+        __m128 tocki12 = _mm_unpackhi_ps(cos_vec, sin_vec);
+        tocki12 = _mm_shuffle_ps(tocki12, tocki12, _MM_SHUFFLE(1, 0, 3, 2));
+        __m128 tocki34 = _mm_unpacklo_ps(cos_vec, sin_vec);
+        tocki34 = _mm_shuffle_ps(tocki34, tocki34, _MM_SHUFFLE(1, 0, 3, 2));
+        // print_sse_float(tocki12);
+        // print_sse_float(tocki34);
+
+        _mm_storeu_ps(&vertexes[0] + vertexes_size, tocki12);
+        vertexes_size += 4;
+        _mm_storeu_ps(&vertexes[0] + vertexes_size, tocki34);
+        vertexes_size += 4;
+    }
+    //    std::cout << "\n\n" << std::endl;
+    // print_vertexes(&vertexes[0], vertexes.size() / 2, 2);
 }

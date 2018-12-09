@@ -73,7 +73,7 @@ inline int scalar_factorial(int n) {
 
 inline __m128 chebyshev(int n, __m128 x_vec) {
     // T0
-    __m128 T0 = _mm_set_ps(1.0, 1.0, 1.0, 1.0);
+    __m128 T0 = _mm_set_ps1(1.0);
     if (n == 0)
         return T0;
     // T1
@@ -81,24 +81,21 @@ inline __m128 chebyshev(int n, __m128 x_vec) {
     if (n == 1)
         return x_vec;
     // T2
-    __m128 T2 = _mm_sub_ps(
-        _mm_mul_ps(_mm_mul_ps(_mm_set_ps(2.0, 2.0, 2.0, 2.0), x_vec), x_vec),
-        T0);
+    __m128 T2 =
+        _mm_sub_ps(_mm_mul_ps(_mm_mul_ps(_mm_set_ps1(2.0), x_vec), x_vec), T0);
     if (n == 2)
         return T2;
     // T3
-    __m128 T3 = _mm_sub_ps(
-        _mm_mul_ps(_mm_mul_ps(_mm_set_ps(2.0, 2.0, 2.0, 2.0), T2), x_vec),
-        x_vec);
+    __m128 T3 =
+        _mm_sub_ps(_mm_mul_ps(_mm_mul_ps(_mm_set_ps1(2.0), T2), x_vec), x_vec);
     if (n == 3)
         return T3;
     __m128 Tn = T3;
     __m128 Tnm1 = T2;
     __m128 Tnp1;
     for (int i = 4; i <= n; i++) {
-        Tnp1 = _mm_sub_ps(
-            _mm_mul_ps(_mm_mul_ps(_mm_set_ps(2.0, 2.0, 2.0, 2.0), Tn), x_vec),
-            Tnm1);
+        Tnp1 = _mm_sub_ps(_mm_mul_ps(_mm_mul_ps(_mm_set_ps1(2.0), Tn), x_vec),
+                          Tnm1);
         Tnm1 = Tn;
         Tn = Tnp1;
     }

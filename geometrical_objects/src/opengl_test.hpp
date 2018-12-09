@@ -29,6 +29,7 @@
 #include "print_functions.hpp"
 #include "shaders.hpp"
 #include "sphere.hpp"
+#include "circle.hpp"
 
 #include "display_functions.hpp"
 

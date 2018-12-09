@@ -34,7 +34,7 @@ inline void print_vertexes(float *vertexes, int number_to_print,
     for (int i = 0; i < number_to_print; i++) {
         std::cout << "vertex " << i << ":   ";
         for (int j = 0; j < vertex_size; j++) {
-            std::cout << vertexes[vertex_size * i + j] << "  ";
+            std::cout << *(vertexes+vertex_size * i + j) << "  ";
         }
         std::cout << std::endl;
     }
@@ -68,14 +68,21 @@ inline void print_triangles(float *triangles, int number_to_print,
 inline void print(std::string str) { std::cout << str << std::endl; }
 
 inline std::ostream &operator<<(std::ostream &out, std::pair<int, int> pair) {
-    std::cout << "<" << pair.first << ", " << pair.second<<">";
+    std::cout << "<" << pair.first << ", " << pair.second << ">";
     return out;
 }
 
-inline std::ostream &operator<<(std::ostream &out,
-                         std::unordered_map<std::pair<int, int>, int> umap) {
+inline std::ostream &
+operator<<(std::ostream &out,
+           std::unordered_map<std::pair<int, int>, int> umap) {
     for (const auto &element : umap) {
         std::cout << element.first << "  " << element.second << std::endl;
     }
     return out;
+}
+
+inline void print_sse_float(__m128 reg) {
+    float *r = (float *)&reg;
+    std::cout << *r << " " << *(r + 1) << " " << *(r + 2) << " " << *(r + 3)
+              << std::endl;
 }
