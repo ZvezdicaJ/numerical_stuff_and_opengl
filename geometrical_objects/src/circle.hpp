@@ -19,7 +19,13 @@ class Circle : public Shape {
     Circle &operator=(Circle &&) = default;
     Circle(const Circle &) = default;
     Circle &operator=(const Circle &) = default;
+
     float perimeter();
+
+    template <RENDER_TYPE Q = T>
+    typename std::enable_if<Q == RENDER_TYPE::CUSTOM_COLOR, void>::type
+    void set_colors();
+
 
     template <RENDER_TYPE Q = T>
     typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR, void>::type
