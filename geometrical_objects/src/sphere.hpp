@@ -15,6 +15,8 @@ class Sphere : public Shape {
     template <RENDER_TYPE Q = T>
     typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR, void>::type
     compile_shaders();
+ 
+
 
   public:
     // sphere() = default;
@@ -47,6 +49,7 @@ template <RENDER_TYPE T> Sphere<T>::Sphere() {
     compile_shaders();
     initialize_buffers();
 }
+
 
 template <RENDER_TYPE T> void Sphere<T>::generate_vertexes() {
     vertexes.reserve(15);
@@ -367,8 +370,6 @@ Sphere<T>::draw(float radius, std::array<float, 3> position,
     glUseProgram(shaderProgram);
 
     glm::mat4 trans = glm::mat4(1.0);
-    // make rotation by appropriate angle
-
     trans =
         glm::translate(trans, glm::vec3(position[0], position[1], position[2]));
     trans = glm::rotate(
@@ -392,8 +393,9 @@ Sphere<T>::draw(float radius, std::array<float, 3> position,
     glDrawElements(GL_TRIANGLES, element_array.size(), GL_UNSIGNED_INT, 0);
 
     color = glm::vec4(0.5f, 0.5f, 0.5f, 0.5f);
-   glUniform4fv(triangle_color, 1, glm::value_ptr(color));
+    glUniform4fv(triangle_color, 1, glm::value_ptr(color));
 
+    // std::cout<<vertexes<<std::endl;
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // render as wireframe
     glDrawElements(GL_TRIANGLES, element_array.size(), GL_UNSIGNED_INT, 0);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // render as filled triangles

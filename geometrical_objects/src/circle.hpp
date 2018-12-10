@@ -11,7 +11,7 @@ class Circle : public Shape {
     typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR, void>::type
     compile_shaders();
 
-    void generate_vertexes(int num_vert = -1);
+    void generate_vertexes(int = -1);
 
   public:
     Circle();
@@ -34,7 +34,7 @@ class Circle : public Shape {
 };
 
 template <RENDER_TYPE T> Circle<T>::Circle() {
-    min_vertexes = 20;
+    min_vertexes = 100;
     generate_vertexes();
     compile_shaders();
     initialize_buffers();
@@ -79,7 +79,7 @@ template <RENDER_TYPE T> void Circle<T>::generate_vertexes(int num_vert) {
         vertexes_size += 4;
     }
     //    std::cout << "\n\n" << std::endl;
-    // print_vertexes(&vertexes[0], vertexes.size() / 2, 2);
+    //print_vertexes(&vertexes[0], vertexes.size() / 2, 2);
 }
 
 template <RENDER_TYPE T>
@@ -158,6 +158,7 @@ typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR>::type
 Circle<T>::draw(float radius, std::array<float, 3> position,
                 std::array<float, 3> rotation_axis, float angle,
                 glm::vec4 color) {
+
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glUseProgram(shaderProgram);
@@ -174,24 +175,24 @@ Circle<T>::draw(float radius, std::array<float, 3> position,
 
     // std::cout << glm::to_string(trans) << std::endl;
 
+    // set transformation
     unsigned int transformLoc =
         glGetUniformLocation(shaderProgram, "transform");
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
-    unsigned int triangle_color = glGetUniformLocation(shaderProgram, "color");
+    // set color
+    unsigned int circle_color = glGetUniformLocation(shaderProgram, "color");
     color = glm::vec4(1.0f, 0.5f, 0.2f, 0.3f);
-    glUniform4fv(triangle_color, 1, glm::value_ptr(color));
+    glUniform4fv(circle_color, 1, glm::value_ptr(color));
 
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_TRUE, 2 * sizeof(float),
+    // set vertex attribute array
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float),
                           (void *)0);
     glEnableVertexAttribArray(0);
-    glDrawElements(GL_TRIANGLES, element_array.size(), GL_UNSIGNED_INT, 0);
 
-    color = glm::vec4(0.5f, 0.5f, 0.5f, 0.5f);
-    glUniform4fv(triangle_color, 1, glm::value_ptr(color));
-
+    // draw
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // render as wireframe
-    glDrawArrays(GL_LINE_STRIP, 0, vertexes.size() / 2);
+    glDrawArrays(GL_LINE_STRIP, 0, vertexes.size()/2);
 }
 
 template <RENDER_TYPE T>

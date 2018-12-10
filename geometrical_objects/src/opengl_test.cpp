@@ -5,7 +5,7 @@ int main() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    // glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
     GLFWwindow *window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
     if (window == NULL) {
@@ -25,45 +25,43 @@ int main() {
         return -1;
     }
 
-    float fi=0;
+    float fi = 0;
+    Circle<> circle1;
+    Sphere<RENDER_TYPE::UNIFORM_COLOR> sphere1;
     while (!glfwWindowShouldClose(window)) {
         OnMinusPressed(window);
         OnPlusPressed(window);
         OnClosePressed(window);
-
-        std::array<float, 3> center({0, 0, 0});
+        glfwPollEvents(); // check if any events happend (mouse press, key
+                          // pres)
         // draw_sphere(center, 0.5, fi);
         fi += 0.01;
-        // sphere1.draw(0.2, {0, 0, 0}, {0, 1, 1}, fi, {0.2, 0.3, 0.4, 0.5});
-        // sphere1.draw(0.1, {0.5 * std::cos(fi), 0.5 * std::sin(fi), 0},
+        //sphere1.draw(0.2, {0, 0, 0}, {0, 1, 1}, fi, {0.2, 0.3, 0.4, 0.5});
+        //sphere1.draw(0.1, {0.5 * std::cos(fi), 0.5 * std::sin(fi), 0},
         //             {0, 1, 1}, 2.0 * fi, {0.2, 0.3, 0.4, 0.5});
         // sphere1.set_min_number_of_vertexes(100);
-        glfwPollEvents();  // check if any events happend (mouse press, key
-                           // pres)
 
+        circle1.draw(0.5);
         // The glfwSwapBuffers will swap the color buffer (a large buffer that
         // contains color values for each pixel in GLFW’s window) that has been
         // used to draw in during this iteration and show it as output to the
         // screen.
         glfwSwapBuffers(window);
-
         glClearColor(0.2f, 0.3f, 0.3f,
-                     1.0f);  // set which color to clear the screen with
+                     1.0f); // set which color to clear the screen with
         // GL_COLOR_BUFFER_BIT, GL_DEPTH_BUFFER_BIT and GL_STENCIL_BUFFER_BIT.
         // set which buffer to use to clear the screen
-
         glClear(GL_COLOR_BUFFER_BIT);
-        }
+    }
 
     // std::array<float, 3> center2({0,0,0});
     // std::pair<std::vector<float>, std::vector<int>> sphere =
     // generate_sphere_mesh(center2, 0.5); print_vertexes(&(sphere.first[0]),
     // sphere.first.size()/3, 3 );
 
-    Sphere<> sphere1;
-    std::cout << "pi = " << sphere1.area()/4.0 << std::endl;
+    std::cout << "pi = " << sphere1.area() / 4.0 << std::endl;
 
-    //circle.generate_vertexes();
+    // circle.generate_vertexes();
     glfwTerminate();
     return 0;
 }
