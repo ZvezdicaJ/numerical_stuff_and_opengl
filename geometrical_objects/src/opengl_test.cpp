@@ -64,7 +64,7 @@ int main() {
     std::cout << "pi = " << sphere1.area()/4.0 << std::endl;
 
     Circle<> circle;
-    circle.generate_vertexes();
+    //circle.generate_vertexes();
     glfwTerminate();
     return 0;
 }

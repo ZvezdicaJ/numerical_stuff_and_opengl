@@ -1,7 +1,5 @@
 #ifndef __SPHERE__
 
-
-
 template <RENDER_TYPE T = RENDER_TYPE::UNIFORM_COLOR>
 class Sphere : public Shape {
   private:
@@ -9,7 +7,14 @@ class Sphere : public Shape {
     void generate_vertexes_helper();
     void generate_vertexes_helper_improved();
     void generate_vertexes();
-    void compile_shaders();
+    // different shaders are compiled for different color schemes
+    template <RENDER_TYPE Q = T>
+    typename std::enable_if<Q == RENDER_TYPE::CUSTOM_COLOR, void>::type
+    compile_shaders();
+
+    template <RENDER_TYPE Q = T>
+    typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR, void>::type
+    compile_shaders();
 
   public:
     // sphere() = default;
@@ -26,6 +31,7 @@ class Sphere : public Shape {
     draw(float radius = 0.5, std::array<float, 3> translate = {0, 0, 0},
          std::array<float, 3> rotation_axis = {0, 0, 1}, float angle = 0,
          glm::vec4 color = {0.5, 0.5, 0.5, 0.5});
+
     template <RENDER_TYPE Q = T>
     typename std::enable_if<Q == RENDER_TYPE::CUSTOM_COLOR, void>::type
     draw(float radius = 0.5, std::array<float, 3> translate = {0, 0, 0},
@@ -34,10 +40,6 @@ class Sphere : public Shape {
     void refine();
     float area();
     float quality();
-
-    template <RENDER_TYPE Q = T>
-    typename std::enable_if<Q == RENDER_TYPE::CUSTOM_COLOR, void>::type
-    compile_shaders();
 };
 
 template <RENDER_TYPE T> Sphere<T>::Sphere() {
@@ -283,15 +285,17 @@ template <RENDER_TYPE T> void Sphere<T>::generate_vertexes_helper() {
         generate_vertexes_helper();
 }
 
-template <RENDER_TYPE T> void Sphere<T>::compile_shaders(){};
-
-template <> inline void Sphere<RENDER_TYPE::UNIFORM_COLOR>::compile_shaders() {
+template <RENDER_TYPE T>
+template <RENDER_TYPE Q>
+typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR, void>::type
+Sphere<T>::compile_shaders() {
     // create empty shader
     unsigned int vertexShader;
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
     // load  vertex  shader and compile it
-    glShaderSource(vertexShader, 1, &(shaders::uniform_vertex_shader), NULL);
+    glShaderSource(vertexShader, 1, &(sphere_shaders::uniform_vertex_shader),
+                   NULL);
     glCompileShader(vertexShader);
     // check if successfully compiled
     check_vertex_shader(vertexShader);
@@ -301,8 +305,8 @@ template <> inline void Sphere<RENDER_TYPE::UNIFORM_COLOR>::compile_shaders() {
     fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 
     // load fragment shader and compile it
-    glShaderSource(fragmentShader, 1, &(shaders::uniform_fragment_shader),
-                   NULL);
+    glShaderSource(fragmentShader, 1,
+                   &(sphere_shaders::uniform_fragment_shader), NULL);
     glCompileShader(fragmentShader);
     check_fragment_shader(fragmentShader);
 
@@ -316,13 +320,17 @@ template <> inline void Sphere<RENDER_TYPE::UNIFORM_COLOR>::compile_shaders() {
     glDeleteShader(fragmentShader);
 }
 
-template <> inline void Sphere<RENDER_TYPE::CUSTOM_COLOR>::compile_shaders() {
+template <RENDER_TYPE T>
+template <RENDER_TYPE Q>
+typename std::enable_if<Q == RENDER_TYPE::CUSTOM_COLOR, void>::type
+Sphere<T>::compile_shaders() {
     // create empty shader
     unsigned int vertexShader;
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
     // load  vertex  shader and compile it
-    glShaderSource(vertexShader, 1, &(shaders::custom_vertex_shader), NULL);
+    glShaderSource(vertexShader, 1, &(sphere_shaders::custom_vertex_shader),
+                   NULL);
     glCompileShader(vertexShader);
     // check if successfully compiled
     check_vertex_shader(vertexShader);
@@ -332,7 +340,8 @@ template <> inline void Sphere<RENDER_TYPE::CUSTOM_COLOR>::compile_shaders() {
     fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 
     // load fragment shader and compile it
-    glShaderSource(fragmentShader, 1, &(shaders::custom_fragment_shader), NULL);
+    glShaderSource(fragmentShader, 1, &(sphere_shaders::custom_fragment_shader),
+                   NULL);
     glCompileShader(fragmentShader);
     check_fragment_shader(fragmentShader);
 

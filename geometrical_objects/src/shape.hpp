@@ -12,7 +12,8 @@ class Shape {
     unsigned EBO;
     unsigned CBO; // color buffer object
     int min_vertexes = 100;
-    virtual void initialize_buffers() {
+
+  virtual void initialize_buffers() {
         glGenVertexArrays(1, &VAO);
         glBindVertexArray(VAO);
         glGenBuffers(1, &VBO);
@@ -27,6 +28,8 @@ class Shape {
                      GL_STATIC_DRAW);
     }
 
+
   public:
     virtual void set_min_number_of_vertexes(unsigned num) { min_vertexes = num; };
+
 };
