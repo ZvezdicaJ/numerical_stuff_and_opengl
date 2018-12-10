@@ -392,7 +392,7 @@ Sphere<T>::draw(float radius, std::array<float, 3> position,
     glDrawElements(GL_TRIANGLES, element_array.size(), GL_UNSIGNED_INT, 0);
 
     color = glm::vec4(0.5f, 0.5f, 0.5f, 0.5f);
-    glUniform4fv(triangle_color, 1, glm::value_ptr(color));
+   glUniform4fv(triangle_color, 1, glm::value_ptr(color));
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // render as wireframe
     glDrawElements(GL_TRIANGLES, element_array.size(), GL_UNSIGNED_INT, 0);
