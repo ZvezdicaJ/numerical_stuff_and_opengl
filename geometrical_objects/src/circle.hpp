@@ -236,3 +236,18 @@ Circle<T>::draw(float radius, std::array<float, 3> position,
     glDrawArrays(GL_LINE_STRIP, 0, vertexes.size() / 2);
     // glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // render as filled triangles
 }
+
+template <RENDER_TYPE T> float Circle<T>::perimeter() {
+    float perimeter = 0;
+    for (int i = 0; i < vertexes.size() / 4; i += 8) {
+        __m128 vert12 = _mm_loadu_ps(&vertexes[i]);
+        __m128 vert34 = _mm_loadu_ps(&vertexes[i + 4]);
+        __m128 vert13 = _mm_shuffle_ps(vert12, vert34, _MM_SHUFFLE(3, 2, 3, 2));
+        __m128 vert24 = _mm_shuffle_ps(vert12, vert34, _MM_SHUFFLE(1, 0, 1, 0));
+        __m128 dif_vec = _mm_sub_ps(vert13, vert24);
+        float dist2 = CalcDotProductSse(dif_vec, dif_vec);
+        perimeter += std::sqrt(dist2);
+    }
+
+    return perimeter;
+}
