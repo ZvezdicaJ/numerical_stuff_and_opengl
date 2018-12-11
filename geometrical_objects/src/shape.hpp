@@ -166,8 +166,9 @@ template <RENDER_TYPE T> class Shape {
         vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
         // load  vertex  shader and compile it
-        glShaderSource(vertexShader, 1,
-                       (shaders::uniform_vertex_shaders[vertex_size].c_str()), NULL);
+        const char *source =
+            shaders::uniform_vertex_shaders[vertex_size].c_str();
+        glShaderSource(vertexShader, 1, &source, NULL);
         glCompileShader(vertexShader);
         // check if successfully compiled
         check_vertex_shader(vertexShader);
@@ -200,8 +201,9 @@ template <RENDER_TYPE T> class Shape {
         vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
         // load  vertex  shader and compile it
-        glShaderSource(vertexShader, 1,
-                       (shaders::custom_vertex_shaders[vertex_size].c_str()), NULL);
+        const char *source =
+            shaders::custom_vertex_shaders[vertex_size].c_str();
+        glShaderSource(vertexShader, 1, &source, NULL);
         glCompileShader(vertexShader);
         // check if successfully compiled
         check_vertex_shader(vertexShader);
