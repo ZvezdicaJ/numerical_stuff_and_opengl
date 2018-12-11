@@ -1,8 +1,25 @@
-namespace sphere_shaders {
+namespace shaders {
 // vertex shader
 // it accepts a single vertex (3D, 4D,... coordinate) and transforms it into
 // something or it just set the gl_Position
-static const GLchar *uniform_vertex_shader = R"(
+
+std::array<GLchar *> uniform_vertex_shaders({
+    R"(
+#version 330 core
+
+layout (location = 0) in vec2 aPos;
+
+uniform mat4 transform;
+
+void main()
+{
+gl_PointSize=10.0f;
+
+gl_Position = transform*vec4(aPos.x, aPos.y, 1.0, 1.0f);
+
+}
+)",
+    R"(
 #version 330 core
 
 layout (location = 0) in vec3 aPos;
@@ -16,7 +33,25 @@ gl_PointSize=10.0f;
 gl_Position = transform*vec4(aPos.x, aPos.y, aPos.z, 1.0f);
 
 }
-)";
+)",
+
+    R"(
+#version 330 core
+
+layout (location = 0) in vec4 aPos;
+
+uniform mat4 transform;
+
+void main()
+{
+gl_PointSize=10.0f;
+
+gl_Position = transform*aPos;
+
+}
+)"
+
+});
 
 //  fragment shader
 static const GLchar *uniform_fragment_shader = R"(
@@ -32,7 +67,9 @@ FragColor = color; //vec4(1.0f, 0.5f, 0.2f, 1.0f);
 }
 )";
 
-static const GLchar *custom_vertex_shader = R"(
+// namespace shaders
+
+static const GLchar *custom_vertex_shaders = R"(
 #version 330 core
 layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec4 CustomColor;
@@ -64,9 +101,7 @@ FragColor = Color; //vec4(1.0f, 0.5f, 0.2f, 1.0f);
 }
 )";
 
-} // namespace sphere_shaders
 
-namespace circle_shaders {
 // vertex shader
 // it accepts a single vertex (3D, 4D,... coordinate) and transforms it into
 // something or it just set the gl_Position
@@ -100,9 +135,10 @@ FragColor = color; //vec4(1.0f, 0.5f, 0.2f, 1.0f);
 }
 )";
 
-static const GLchar *custom_vertex_shader = R"(
+std::array<GLchar *> custom_vertex_shaders = ({
+    R"(
 #version 330 core
-layout (location = 0) in vec3 aPos;
+layout (location = 0) in vec2 aPos;
 layout (location = 1) in vec4 CustomColor;
 
 layout (location = 0) out vec4 Color;
@@ -116,7 +152,42 @@ gl_PointSize=10.0f;
 gl_Position = transform*vec4(aPos, 0.0f, 1.0f);
 
 }
-)";
+)",
+    R"(
+#version 330 core
+layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec4 CustomColor;
+
+layout (location = 0) out vec4 Color;
+
+uniform mat4 transform;
+
+void main()
+{
+gl_PointSize=10.0f;
+
+gl_Position = transform*vec4(aPos, 1.0f);
+
+}
+)",
+    R"(
+#version 330 core
+layout (location = 0) in vec4 aPos;
+layout (location = 1) in vec4 CustomColor;
+
+layout (location = 0) out vec4 Color;
+
+uniform mat4 transform;
+
+void main()
+{
+gl_PointSize=10.0f;
+
+gl_Position = transform*aPos;
+
+}
+)"
+  });
 
 //  fragment shader
 static const GLchar *custom_fragment_shader = R"(
@@ -132,4 +203,4 @@ FragColor = Color; //vec4(1.0f, 0.5f, 0.2f, 1.0f);
 }
 )";
 
-} // namespace circle_shaders
+} // namespace shaders

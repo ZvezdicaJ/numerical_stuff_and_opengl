@@ -21,17 +21,6 @@ class Circle : public Shape<T> {
     Circle &operator=(const Circle &) = default;
 
     float perimeter();
-
-    template <RENDER_TYPE Q = T>
-    typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR, void>::type
-    draw(float radius = 0.5, std::array<float, 3> translate = {0, 0, 0},
-         std::array<float, 3> rotation_axis = {0, 0, 1}, float angle = 0,
-         glm::vec4 color = {0.5, 0.5, 0.5, 0.5});
-
-    template <RENDER_TYPE Q = T>
-    typename std::enable_if<Q == RENDER_TYPE::CUSTOM_COLOR, void>::type
-    draw(float radius = 0.5, std::array<float, 3> translate = {0, 0, 0},
-         std::array<float, 3> rotation_axis = {0, 0, 1}, float angle = 0);
 };
 
 template <RENDER_TYPE T> Circle<T>::Circle() {
@@ -153,98 +142,11 @@ Circle<T>::compile_shaders() {
     glDeleteShader(fragmentShader);
 }
 
-template <RENDER_TYPE T>
-template <RENDER_TYPE Q>
-typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR>::type
-Circle<T>::draw(float radius, std::array<float, 3> position,
-                std::array<float, 3> rotation_axis, float angle,
-                glm::vec4 color) {
-
-  glBindVertexArray(this->VAO);
-  glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
-    glUseProgram(this->shaderProgram);
-
-    glm::mat4 trans = glm::mat4(1.0);
-    // make rotation by appropriate angle
-
-    trans =
-        glm::translate(trans, glm::vec3(position[0], position[1], position[2]));
-    trans = glm::rotate(
-        trans, (float)angle,
-        glm::vec3(rotation_axis[0], rotation_axis[1], rotation_axis[2]));
-    trans = glm::scale(trans, glm::vec3(radius, radius, radius));
-
-    // std::cout << glm::to_string(trans) << std::endl;
-
-    // set transformation
-    unsigned int transformLoc =
-        glGetUniformLocation(this->shaderProgram, "transform");
-    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-
-    // set color
-    unsigned int circle_color =
-        glGetUniformLocation(this->shaderProgram, "color");
-    color = glm::vec4(1.0f, 0.5f, 0.2f, 0.3f);
-    glUniform4fv(circle_color, 1, glm::value_ptr(color));
-
-    // set vertex attribute array
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float),
-                          (void *)0);
-    glEnableVertexAttribArray(0);
-
-    // draw
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // render as wireframe
-    glDrawArrays(GL_LINE_STRIP, 0, this->vertexes.size() / 2);
-}
-
-template <RENDER_TYPE T>
-template <RENDER_TYPE Q>
-typename std::enable_if<Q == RENDER_TYPE::CUSTOM_COLOR>::type
-Circle<T>::draw(float radius, std::array<float, 3> position,
-                std::array<float, 3> rotation_axis, float angle) {
-    glBindVertexArray(this->VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);
-    glUseProgram(this->shaderProgram);
-
-    glm::mat4 trans = glm::mat4(1.0);
-    // make rotation by appropriate angle
-
-    trans =
-        glm::translate(trans, glm::vec3(position[0], position[1], position[2]));
-    trans = glm::rotate(
-        trans, (float)angle,
-        glm::vec3(rotation_axis[0], rotation_axis[1], rotation_axis[2]));
-    trans = glm::scale(trans, glm::vec3(radius, radius, radius));
-
-    // std::cout << glm::to_string(trans) << std::endl;
-
-    unsigned int transformLoc =
-      glGetUniformLocation(this->shaderProgram, "transform");
-    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-
-    unsigned int triangle_color = glGetUniformLocation(this->shaderProgram, "color");
-    glm::vec4 color = glm::vec4(1.0f, 0.5f, 0.2f, 0.3f);
-    glUniform4fv(triangle_color, 1, glm::value_ptr(color));
-
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_TRUE, 2 * sizeof(float),
-                          (void *)0);
-    glEnableVertexAttribArray(0);
-    glDrawElements(GL_TRIANGLES, this->element_array.size(), GL_UNSIGNED_INT, 0);
-
-    color = glm::vec4(0.5f, 0.5f, 0.5f, 0.5f);
-    glUniform4fv(triangle_color, 1, glm::value_ptr(color));
-
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // render as wireframe
-    glDrawArrays(GL_LINE_STRIP, 0, this->vertexes.size() / 2);
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // render as filled triangles
-}
-
 template <RENDER_TYPE T> float Circle<T>::perimeter() {
     float perimeter = 0;
     for (int i = 0; i < this->vertexes.size() / 4; i += 8) {
-      __m128 vert12 = _mm_loadu_ps(&(this->vertexes[i]));
-      __m128 vert34 = _mm_loadu_ps(&(this->vertexes[i + 4]));
+        __m128 vert12 = _mm_loadu_ps(&(this->vertexes[i]));
+        __m128 vert34 = _mm_loadu_ps(&(this->vertexes[i + 4]));
         __m128 vert13 = _mm_shuffle_ps(vert12, vert34, _MM_SHUFFLE(3, 2, 3, 2));
         __m128 vert24 = _mm_shuffle_ps(vert12, vert34, _MM_SHUFFLE(1, 0, 1, 0));
         __m128 dif_vec = _mm_sub_ps(vert13, vert24);
@@ -254,7 +156,6 @@ template <RENDER_TYPE T> float Circle<T>::perimeter() {
 
     return perimeter;
 }
-
 
 #define __CIRCLE__
 #endif

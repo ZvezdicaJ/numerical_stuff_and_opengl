@@ -27,7 +27,13 @@ int main() {
 
     float fi = 0;
     Circle<> circle1;
-    Sphere<RENDER_TYPE::CUSTOM_COLOR> sphere1;
+    Sphere<RENDER_TYPE::UNIFORM_COLOR> sphere1;
+
+    std::vector<Shape<RENDER_TYPE::UNIFORM_COLOR> *> uniform_color_shapes;
+    std::vector<Shape<RENDER_TYPE::CUSTOM_COLOR> *> custom_color_shapes;
+
+    uniform_color_shapes.push_back(new Sphere<>);
+
     while (!glfwWindowShouldClose(window)) {
         OnMinusPressed(window);
         OnPlusPressed(window);
@@ -36,12 +42,15 @@ int main() {
                           // pres)
         // draw_sphere(center, 0.5, fi);
         fi += 0.01;
-        //sphere1.draw(0.2, {0, 0, 0}, {0, 1, 1}, fi, {0.2, 0.3, 0.4, 0.5});
-        //sphere1.draw(0.1, {0.5 * std::cos(fi), 0.5 * std::sin(fi), 0},
-        //             {0, 1, 1}, 2.0 * fi, {0.2, 0.3, 0.4, 0.5});
-        // sphere1.set_min_number_of_vertexes(100);
+        uniform_color_shapes[0]->draw({0.5, 0.5, 0.5}, {0, 0, 0}, {0, 1, 1}, fi,
+                                      {0.2, 0.3, 0.4, 0.5});
+        uniform_color_shapes[0]->draw({0.1, 0.1, 0.1},
+                                   {0.5 * std::cos(fi), 0.5 * std::sin(fi), 0},
+                                   {0, 1, 1}, 2.0 * fi, {0.2, 0.3, 0.4, 0.5});
 
-        circle1.draw(0.5);
+        // sphere1.set_min_number_of_vertexes(100);
+        // std::array<float, 3> scale({0.5, 0.5, 0.5});
+        // circle1.draw(scale);
         // The glfwSwapBuffers will swap the color buffer (a large buffer that
         // contains color values for each pixel in GLFW’s window) that has been
         // used to draw in during this iteration and show it as output to the
@@ -54,14 +63,7 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT);
     }
 
-    // std::array<float, 3> center2({0,0,0});
-    // std::pair<std::vector<float>, std::vector<int>> sphere =
-    // generate_sphere_mesh(center2, 0.5); print_vertexes(&(sphere.first[0]),
-    // sphere.first.size()/3, 3 );
-
     std::cout << "pi = " << sphere1.area() / 4.0 << std::endl;
-
-    // circle.generate_vertexes();
     glfwTerminate();
     return 0;
 }
