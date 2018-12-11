@@ -7,14 +7,6 @@ class Sphere : public Shape<T> {
     void generate_vertexes_helper();
     void generate_vertexes_helper_improved();
     void generate_vertexes();
-    // different shaders are compiled for different color schemes
-    template <RENDER_TYPE Q = T>
-    typename std::enable_if<Q == RENDER_TYPE::CUSTOM_COLOR, void>::type
-    compile_shaders();
-
-    template <RENDER_TYPE Q = T>
-    typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR, void>::type
-    compile_shaders();
 
   public:
     // sphere() = default;

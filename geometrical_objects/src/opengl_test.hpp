@@ -13,6 +13,7 @@
 #include <array>
 #include <cmath>
 #include <ctime>
+#include <string>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -23,11 +24,11 @@
 #include <unordered_map>
 #include <vector>
 
+#include "check_shaders.hpp"
+#include "shaders.hpp"
 #include "shape.hpp"
 #include "auxiliary_functions.hpp"
-#include "check_shaders.hpp"
 #include "print_functions.hpp"
-#include "shaders.hpp"
 #include "sphere.hpp"
 #include "circle.hpp"
 
