@@ -1,3 +1,5 @@
+void display();
+
 
 void pause();
 void OnPlusPressed(GLFWwindow *window);

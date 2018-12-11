@@ -27,7 +27,7 @@ int main() {
 
     float fi = 0;
     Circle<> circle1;
-    Sphere<RENDER_TYPE::UNIFORM_COLOR> sphere1;
+    Sphere<RENDER_TYPE::CUSTOM_COLOR> sphere1;
     while (!glfwWindowShouldClose(window)) {
         OnMinusPressed(window);
         OnPlusPressed(window);
