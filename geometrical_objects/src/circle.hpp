@@ -1,4 +1,4 @@
-
+#ifndef __CIRCLE__
 template <RENDER_TYPE T = RENDER_TYPE::UNIFORM_COLOR>
 class Circle : public Shape<T> {
   private:
@@ -254,3 +254,7 @@ template <RENDER_TYPE T> float Circle<T>::perimeter() {
 
     return perimeter;
 }
+
+
+#define __CIRCLE__
+#endif

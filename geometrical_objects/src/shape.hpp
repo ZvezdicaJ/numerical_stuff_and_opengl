@@ -1,9 +1,10 @@
+#ifndef __SHAPE__
 
 enum class RENDER_TYPE { UNIFORM_COLOR = 0, CUSTOM_COLOR = 1 };
 
-template<RENDER_TYPE T>
-class Shape {
+template <RENDER_TYPE T> class Shape {
   protected:
+    RENDER_TYPE Rtype = T;
     std::vector<float> vertexes;
     std::vector<int> element_array;
     unsigned shaderProgram;
@@ -53,3 +54,6 @@ class Shape {
     std::vector<float> get_vertexes() { return vertexes; }
     unsigned num_vertexes() { return vertexes.size() / vertex_size; }
 };
+
+#define __SHAPE__
+#endif
