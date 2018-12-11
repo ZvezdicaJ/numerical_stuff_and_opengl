@@ -10,7 +10,7 @@ template <RENDER_TYPE T> class Shape {
     unsigned shaderProgram;
     bool shaders_compiled = false;
     bool colors_loaded = false;
-    unsigned vertex_size;
+    unsigned vertex_size = 3;
     unsigned VBO;
     unsigned VAO;
     unsigned EBO;
@@ -108,7 +108,6 @@ template <RENDER_TYPE T> class Shape {
          std::array<float, 3> rotation_axis = {0, 0, 1}, float angle = 0) {
 
         glUseProgram(shaderProgram);
-
         glm::mat4 trans = glm::mat4(1.0);
         // make rotation by appropriate angle
 
@@ -157,6 +156,74 @@ template <RENDER_TYPE T> class Shape {
         // col = glm::vec4(0.0f, 0.0f, 0.0f, 0.5f);
         // glUniform4fv(triangle_color, 1, glm::value_ptr(col));
         // glDrawArrays(GL_LINE_STRIP, 0, 18);
+    }
+
+    template <RENDER_TYPE Q = T>
+    typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR, void>::type
+    compile_shaders() {
+        // create empty shader
+        unsigned int vertexShader;
+        vertexShader = glCreateShader(GL_VERTEX_SHADER);
+
+        // load  vertex  shader and compile it
+        glShaderSource(vertexShader, 1,
+                       &(shaders::uniform_vertex_shader[vertex_size]), NULL);
+        glCompileShader(vertexShader);
+        // check if successfully compiled
+        check_vertex_shader(vertexShader);
+
+        // create empty fragment shader
+        unsigned int fragmentShader;
+        fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+
+        // load fragment shader and compile it
+        glShaderSource(fragmentShader, 1, &(shaders::uniform_fragment_shader),
+                       NULL);
+        glCompileShader(fragmentShader);
+        check_fragment_shader(fragmentShader);
+
+        this->shaderProgram = glCreateProgram();
+        glAttachShader(this->shaderProgram, vertexShader);
+        glAttachShader(this->shaderProgram, fragmentShader);
+        glLinkProgram(this->shaderProgram);
+        check_shader_program(this->shaderProgram);
+        glUseProgram(this->shaderProgram);
+        glDeleteShader(vertexShader);
+        glDeleteShader(fragmentShader);
+    }
+
+    template <RENDER_TYPE Q = T>
+    typename std::enable_if<Q == RENDER_TYPE::CUSTOM_COLOR, void>::type
+    compile_shaders() {
+        // create empty shader
+        unsigned int vertexShader;
+        vertexShader = glCreateShader(GL_VERTEX_SHADER);
+
+        // load  vertex  shader and compile it
+        glShaderSource(vertexShader, 1,
+                       &(shaders::custom_vertex_shader[vertex_size]), NULL);
+        glCompileShader(vertexShader);
+        // check if successfully compiled
+        check_vertex_shader(vertexShader);
+
+        // create empty fragment shader
+        unsigned int fragmentShader;
+        fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+
+        // load fragment shader and compile it
+        glShaderSource(fragmentShader, 1, &(shaders::custom_fragment_shader),
+                       NULL);
+        glCompileShader(fragmentShader);
+        check_fragment_shader(fragmentShader);
+
+        this->shaderProgram = glCreateProgram();
+        glAttachShader(this->shaderProgram, vertexShader);
+        glAttachShader(this->shaderProgram, fragmentShader);
+        glLinkProgram(this->shaderProgram);
+        check_shader_program(this->shaderProgram);
+        glUseProgram(this->shaderProgram);
+        glDeleteShader(vertexShader);
+        glDeleteShader(fragmentShader);
     }
 };
 

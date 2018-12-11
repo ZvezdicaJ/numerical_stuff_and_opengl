@@ -2,15 +2,6 @@
 template <RENDER_TYPE T = RENDER_TYPE::UNIFORM_COLOR>
 class Circle : public Shape<T> {
   private:
-    // different shaders are compiled for different color schemes
-    template <RENDER_TYPE Q = T>
-    typename std::enable_if<Q == RENDER_TYPE::CUSTOM_COLOR, void>::type
-    compile_shaders();
-
-    template <RENDER_TYPE Q = T>
-    typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR, void>::type
-    compile_shaders();
-
     void generate_vertexes(int = -1);
 
   public:
@@ -19,11 +10,11 @@ class Circle : public Shape<T> {
     Circle &operator=(Circle &&) = default;
     Circle(const Circle &) = default;
     Circle &operator=(const Circle &) = default;
-
     float perimeter();
 };
 
 template <RENDER_TYPE T> Circle<T>::Circle() {
+    this->vertex_size = 2;
     this->min_vertexes = 100;
     this->generate_vertexes();
     this->compile_shaders();
@@ -70,76 +61,6 @@ template <RENDER_TYPE T> void Circle<T>::generate_vertexes(int num_vert) {
     }
     //    std::cout << "\n\n" << std::endl;
     // print_vertexes(&vertexes[0], vertexes.size() / 2, 2);
-}
-
-template <RENDER_TYPE T>
-template <RENDER_TYPE Q>
-typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR, void>::type
-Circle<T>::compile_shaders() {
-    // create empty shader
-    unsigned int vertexShader;
-    vertexShader = glCreateShader(GL_VERTEX_SHADER);
-
-    // load  vertex  shader and compile it
-    glShaderSource(vertexShader, 1, &(circle_shaders::uniform_vertex_shader),
-                   NULL);
-    glCompileShader(vertexShader);
-    // check if successfully compiled
-    check_vertex_shader(vertexShader);
-
-    // create empty fragment shader
-    unsigned int fragmentShader;
-    fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-    // load fragment shader and compile it
-    glShaderSource(fragmentShader, 1,
-                   &(circle_shaders::uniform_fragment_shader), NULL);
-    glCompileShader(fragmentShader);
-    check_fragment_shader(fragmentShader);
-
-    this->shaderProgram = glCreateProgram();
-    glAttachShader(this->shaderProgram, vertexShader);
-    glAttachShader(this->shaderProgram, fragmentShader);
-    glLinkProgram(this->shaderProgram);
-    check_shader_program(this->shaderProgram);
-    glUseProgram(this->shaderProgram);
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-}
-
-template <RENDER_TYPE T>
-template <RENDER_TYPE Q>
-typename std::enable_if<Q == RENDER_TYPE::CUSTOM_COLOR, void>::type
-Circle<T>::compile_shaders() {
-    // create empty shader
-    unsigned int vertexShader;
-    vertexShader = glCreateShader(GL_VERTEX_SHADER);
-
-    // load  vertex  shader and compile it
-    glShaderSource(vertexShader, 1, &(circle_shaders::custom_vertex_shader),
-                   NULL);
-    glCompileShader(vertexShader);
-    // check if successfully compiled
-    check_vertex_shader(vertexShader);
-
-    // create empty fragment shader
-    unsigned int fragmentShader;
-    fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-    // load fragment shader and compile it
-    glShaderSource(fragmentShader, 1, &(circle_shaders::custom_fragment_shader),
-                   NULL);
-    glCompileShader(fragmentShader);
-    check_fragment_shader(fragmentShader);
-
-    this->shaderProgram = glCreateProgram();
-    glAttachShader(this->shaderProgram, vertexShader);
-    glAttachShader(this->shaderProgram, fragmentShader);
-    glLinkProgram(this->shaderProgram);
-    check_shader_program(this->shaderProgram);
-    glUseProgram(this->shaderProgram);
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
 }
 
 template <RENDER_TYPE T> float Circle<T>::perimeter() {

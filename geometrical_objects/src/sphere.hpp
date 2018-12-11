@@ -26,7 +26,7 @@ class Sphere : public Shape<T> {
 
     void draw_wireframe(float radius, std::array<float, 3> translate,
                         std::array<float, 3> rotation_axis, float angle);
-  
+
     void refine();
     float area();
     float quality();
@@ -281,75 +281,7 @@ template <RENDER_TYPE T> void Sphere<T>::generate_vertexes_helper() {
         generate_vertexes_helper();
 }
 
-template <RENDER_TYPE T>
-template <RENDER_TYPE Q>
-typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR, void>::type
-Sphere<T>::compile_shaders() {
-    // create empty shader
-    unsigned int vertexShader;
-    vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
-    // load  vertex  shader and compile it
-    glShaderSource(vertexShader, 1, &(sphere_shaders::uniform_vertex_shader),
-                   NULL);
-    glCompileShader(vertexShader);
-    // check if successfully compiled
-    check_vertex_shader(vertexShader);
-
-    // create empty fragment shader
-    unsigned int fragmentShader;
-    fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-    // load fragment shader and compile it
-    glShaderSource(fragmentShader, 1,
-                   &(sphere_shaders::uniform_fragment_shader), NULL);
-    glCompileShader(fragmentShader);
-    check_fragment_shader(fragmentShader);
-
-    this->shaderProgram = glCreateProgram();
-    glAttachShader(this->shaderProgram, vertexShader);
-    glAttachShader(this->shaderProgram, fragmentShader);
-    glLinkProgram(this->shaderProgram);
-    check_shader_program(this->shaderProgram);
-    glUseProgram(this->shaderProgram);
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-}
-
-template <RENDER_TYPE T>
-template <RENDER_TYPE Q>
-typename std::enable_if<Q == RENDER_TYPE::CUSTOM_COLOR, void>::type
-Sphere<T>::compile_shaders() {
-    // create empty shader
-    unsigned int vertexShader;
-    vertexShader = glCreateShader(GL_VERTEX_SHADER);
-
-    // load  vertex  shader and compile it
-    glShaderSource(vertexShader, 1, &(sphere_shaders::custom_vertex_shader),
-                   NULL);
-    glCompileShader(vertexShader);
-    // check if successfully compiled
-    check_vertex_shader(vertexShader);
-
-    // create empty fragment shader
-    unsigned int fragmentShader;
-    fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-    // load fragment shader and compile it
-    glShaderSource(fragmentShader, 1, &(sphere_shaders::custom_fragment_shader),
-                   NULL);
-    glCompileShader(fragmentShader);
-    check_fragment_shader(fragmentShader);
-
-    this->shaderProgram = glCreateProgram();
-    glAttachShader(this->shaderProgram, vertexShader);
-    glAttachShader(this->shaderProgram, fragmentShader);
-    glLinkProgram(this->shaderProgram);
-    check_shader_program(this->shaderProgram);
-    glUseProgram(this->shaderProgram);
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-}
 
 template <RENDER_TYPE T> void Sphere<T>::refine() {
     generate_vertexes_helper_improved();
