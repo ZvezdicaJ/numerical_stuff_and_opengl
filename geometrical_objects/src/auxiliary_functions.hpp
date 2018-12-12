@@ -19,6 +19,15 @@ inline __m128 load_vertex2(float *value) {
     return _mm_movelh_ps(_mm_castsi128_ps(xy), z);
 }
 
+inline __m128 cross_product(__m128 a, __m128 b) {
+    __m128 result =
+        _mm_fmsub(_mm_shuffle_ps(a, a, MM_SHUFFLE(3, 0, 2, 1) _),
+                  _mm_shuffle_ps(b, b, MM_SHUFFLE(3, 1, 0, 2) _),
+                  _mm_mul_ps(_mm_shuffle_ps(a, a, MM_SHUFFLE(3, 1, 0, 2) _),
+                             _mm_shuffle_ps(b, b, MM_SHUFFLE(3, 0, 2, 1) _)));
+    return result;
+}
+
 inline float CalcDotProductSse(__m128 x, __m128 y) {
     __m128 mulRes, shufReg, sumsReg;
     mulRes = _mm_mul_ps(x, y);

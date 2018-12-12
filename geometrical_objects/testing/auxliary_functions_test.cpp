@@ -159,9 +159,9 @@ void test_sse_cos() {
     float min = -M_PI;
     float max = M_PI;
     int steps = 100;
-    float korak = (max - min) / (float)(steps-1);
+    float korak = (max - min) / (float)(steps - 1);
 
-    for (int i = 0; i < steps/4; i += 1) {
+    for (int i = 0; i < steps / 4; i += 1) {
         __m128 x_vec;
         x_vec =
             _mm_set_ps(min + 4 * i * korak, min + (4 * i + 1) * korak,
@@ -184,9 +184,9 @@ void test_sse_sin() {
     float min = -M_PI;
     float max = M_PI;
     int steps = 100;
-    float korak = (max - min) / (float)(steps-1);
+    float korak = (max - min) / (float)(steps - 1);
 
-    for (int i = 0; i < steps/4; i += 1) {
+    for (int i = 0; i < steps / 4; i += 1) {
         __m128 x_vec;
         x_vec =
             _mm_set_ps(min + 4 * i * korak, min + (4 * i + 1) * korak,
@@ -198,6 +198,12 @@ void test_sse_sin() {
         out_file0 << *(r) << " " << *(r + 1) << "  " << *(r + 2) << " "
                   << *(r + 3) << " ";
     }
+}
+
+void test_cross_product() {
+    _mm128 a = _mm_set_ps(1, 0, 0, 0);
+    _mm128 b = _mm_set_ps(0, 1, 0, 0);
+    _mm128 c = cross_product()
 }
 
 int main() {
