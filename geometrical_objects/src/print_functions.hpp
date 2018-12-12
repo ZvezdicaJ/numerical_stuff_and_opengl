@@ -34,7 +34,7 @@ inline void print_vertexes(float *vertexes, int number_to_print,
     for (int i = 0; i < number_to_print; i++) {
         std::cout << "vertex " << i << ":   ";
         for (int j = 0; j < vertex_size; j++) {
-            std::cout << *(vertexes+vertex_size * i + j) << "  ";
+            std::cout << *(vertexes + vertex_size * i + j) << "  ";
         }
         std::cout << std::endl;
     }
@@ -81,7 +81,8 @@ operator<<(std::ostream &out,
     return out;
 }
 
-inline void print_sse_float(__m128 reg) {
+inline void print_sse_float(__m128 reg, std::string name = "") {
+    std::cout << name << " ";
     float *r = (float *)&reg;
     std::cout << *r << " " << *(r + 1) << " " << *(r + 2) << " " << *(r + 3)
               << std::endl;

@@ -201,9 +201,19 @@ void test_sse_sin() {
 }
 
 void test_cross_product() {
-    _mm128 a = _mm_set_ps(1, 0, 0, 0);
-    _mm128 b = _mm_set_ps(0, 1, 0, 0);
-    _mm128 c = cross_product()
+    float arr1[4] = {0, 1, 0, 0};
+    __m128 a = _mm_load_ps(arr1);
+
+    float arr2[4] = {1, 0, 0, 0};
+    __m128 b = _mm_load_ps(arr2);
+
+    __m128 c = cross_product(a, b);
+    print_sse_float(c);
+
+    float arr[4] = {1, 0, 0, 0};
+    __m128 t = _mm_load_ps(arr);
+    print_sse_float(t, "t");
+    print_sse_float(a, "a");
 }
 
 int main() {
@@ -212,5 +222,6 @@ int main() {
     test_chebyshev_next();
     test_sse_cos();
     test_sse_sin();
+    test_cross_product();
     return 0;
 }

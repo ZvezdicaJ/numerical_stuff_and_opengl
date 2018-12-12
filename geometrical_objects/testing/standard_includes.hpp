@@ -18,3 +18,4 @@
 #include <emmintrin.h>
 #include <chrono>
 #include "../src/auxiliary_functions.hpp"
+#include "../src/print_functions.hpp"
