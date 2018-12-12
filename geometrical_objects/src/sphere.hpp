@@ -15,10 +15,6 @@ class Sphere : public Shape<T> {
     Sphere &operator=(Sphere &&) = default;
     Sphere(const Sphere &) = default;
     Sphere &operator=(const Sphere &) = default;
-
-    void draw_wireframe(float radius, std::array<float, 3> translate,
-                        std::array<float, 3> rotation_axis, float angle);
-
     void refine();
     float area();
     float quality();
@@ -27,10 +23,10 @@ class Sphere : public Shape<T> {
 };
 
 template <RENDER_TYPE T> Sphere<T>::Sphere() {
+    this->vertex_size = 3;
     this->generate_vertexes();
     this->compile_shaders();
     this->initialize_buffers();
-    this->vertex_size = 3;
 }
 
 template <RENDER_TYPE T> void Sphere<T>::generate_vertexes() {
@@ -272,8 +268,6 @@ template <RENDER_TYPE T> void Sphere<T>::generate_vertexes_helper() {
     if (this->vertexes.size() < this->min_vertexes)
         generate_vertexes_helper();
 }
-
-
 
 template <RENDER_TYPE T> void Sphere<T>::refine() {
     generate_vertexes_helper_improved();

@@ -145,17 +145,43 @@ template <RENDER_TYPE T> class Shape {
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
         glDrawElements(GL_TRIANGLES, element_array.size(), GL_UNSIGNED_INT, 0);
+    }
 
-        color = glm::vec4(0.5f, 0.5f, 0.5f, 0.5f);
+    template <RENDER_TYPE Q = T>
+    typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR>::type
+    draw_wireframe(std::array<float, 3> scale = {0.5, 0.5, 0.5},
+                   std::array<float, 3> position = {0, 0, 0},
+                   std::array<float, 3> rotation_axis = {0, 0, 1},
+                   float angle = 0) {
+        glBindVertexArray(VAO);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+        glUseProgram(shaderProgram);
+
+        glm::mat4 trans = glm::mat4(1.0);
+        trans = glm::translate(
+            trans, glm::vec3(position[0], position[1], position[2]));
+        trans = glm::rotate(
+            trans, (float)angle,
+            glm::vec3(rotation_axis[0], rotation_axis[1], rotation_axis[2]));
+        trans = glm::scale(trans, glm::vec3(scale[0], scale[1], scale[2]));
+
+        unsigned int transformLoc =
+            glGetUniformLocation(shaderProgram, "transform");
+        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+
+        unsigned int triangle_color =
+            glGetUniformLocation(shaderProgram, "color");
+        glm::vec4 color = glm::vec4(1.0f, 1.0f, 1.0f, 0.8f);
+
         glUniform4fv(triangle_color, 1, glm::value_ptr(color));
+        glVertexAttribPointer(0, vertex_size, GL_FLOAT, GL_TRUE,
+                              vertex_size * sizeof(float), (void *)0);
+        glEnableVertexAttribArray(0);
 
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // render as wireframe
         glDrawElements(GL_TRIANGLES, element_array.size(), GL_UNSIGNED_INT, 0);
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // render as filled triangles
-
-        // col = glm::vec4(0.0f, 0.0f, 0.0f, 0.5f);
-        // glUniform4fv(triangle_color, 1, glm::value_ptr(col));
-        // glDrawArrays(GL_LINE_STRIP, 0, 18);
     }
 
     template <RENDER_TYPE Q = T>
@@ -167,7 +193,7 @@ template <RENDER_TYPE T> class Shape {
 
         // load  vertex  shader and compile it
         const char *source =
-            shaders::uniform_vertex_shaders[vertex_size].c_str();
+            shaders::uniform_vertex_shaders[vertex_size - 2].c_str();
         glShaderSource(vertexShader, 1, &source, NULL);
         glCompileShader(vertexShader);
         // check if successfully compiled
@@ -183,12 +209,12 @@ template <RENDER_TYPE T> class Shape {
         glCompileShader(fragmentShader);
         check_fragment_shader(fragmentShader);
 
-        this->shaderProgram = glCreateProgram();
-        glAttachShader(this->shaderProgram, vertexShader);
-        glAttachShader(this->shaderProgram, fragmentShader);
-        glLinkProgram(this->shaderProgram);
-        check_shader_program(this->shaderProgram);
-        glUseProgram(this->shaderProgram);
+        shaderProgram = glCreateProgram();
+        glAttachShader(shaderProgram, vertexShader);
+        glAttachShader(shaderProgram, fragmentShader);
+        glLinkProgram(shaderProgram);
+        check_shader_program(shaderProgram);
+        glUseProgram(shaderProgram);
         glDeleteShader(vertexShader);
         glDeleteShader(fragmentShader);
     }
@@ -202,7 +228,7 @@ template <RENDER_TYPE T> class Shape {
 
         // load  vertex  shader and compile it
         const char *source =
-            shaders::custom_vertex_shaders[vertex_size].c_str();
+            shaders::custom_vertex_shaders[vertex_size - 2].c_str();
         glShaderSource(vertexShader, 1, &source, NULL);
         glCompileShader(vertexShader);
         // check if successfully compiled
@@ -218,12 +244,12 @@ template <RENDER_TYPE T> class Shape {
         glCompileShader(fragmentShader);
         check_fragment_shader(fragmentShader);
 
-        this->shaderProgram = glCreateProgram();
-        glAttachShader(this->shaderProgram, vertexShader);
-        glAttachShader(this->shaderProgram, fragmentShader);
-        glLinkProgram(this->shaderProgram);
-        check_shader_program(this->shaderProgram);
-        glUseProgram(this->shaderProgram);
+        shaderProgram = glCreateProgram();
+        glAttachShader(shaderProgram, vertexShader);
+        glAttachShader(shaderProgram, fragmentShader);
+        glLinkProgram(shaderProgram);
+        check_shader_program(shaderProgram);
+        glUseProgram(shaderProgram);
         glDeleteShader(vertexShader);
         glDeleteShader(fragmentShader);
     }
