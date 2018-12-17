@@ -24,8 +24,7 @@ inline __m128 cross_product(__m128 a, __m128 b) {
         _mm_fmsub_ps(_mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 0, 2, 1)),
                      _mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 1, 0, 2)),
                      _mm_mul_ps(_mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 1, 0, 2)),
-                                _mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 0, 2, 1))
-                                ));
+                                _mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 0, 2, 1))));
     return result;
 }
 
@@ -163,3 +162,20 @@ inline __m128 sse_sin(__m128 x_vec_) {
     }
     return sum;
 }
+
+inline __m128 legendre_next(__m128 Pn, __m128 Pnm1, __m128 x_vec, int n) {
+    __m128 n_vec = _mm_set_ps1(n);
+    __m128 np1_vec = _mm_set_ps1(n + 1);
+
+    __m128 coeff1 = _mm_div_ps(
+        _mm_mul_ps(_mm_fmadd_ps(_mm_set_ps1(2.0), np_vec, _mm_set_ps1(1.0)),
+                   x_vec),
+        np1_vec);
+    __m128 result =
+        _mm_fmsub_ps(coeff1, Pn, _mm_mul_ps(_mm_div_ps(n_vec, np1_vec), Pnm1));
+    return result;
+}
+
+
+
+

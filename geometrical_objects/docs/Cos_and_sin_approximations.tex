@@ -160,5 +160,60 @@ where we took into account that $\cos z = -1$ when $z=\pi$ and $1$ when $z=-\pi$
   \begin{equation}
     a_0 = \frac{1}{\pi} \int_{0}^{\pi}\sin(\pi\cos z) \dif z.
   \end{equation}
-  
+
+\section{Legendre polynomials}
+Legendre polynomials are solutions to a differential eqaution:
+\begin{equation}
+  \frac{\dif}{\dif x}\left[ (1-x^2)\frac{\dif P_n(x)}{\dif x} + n(n+1)P_n(x) \right] =0.
+\end{equation}
+They can also be obtained from a taylor series:
+\begin{equation}
+  \frac{1}{\sqrt{1-2xt+t^2}}=\sum_{n=0}^{\infty} P_n(x)t^n
+  \end{equation}
+Legendre polynomials are defined by equation:
+\begin{equation}
+  P_0 = 1 \quad P_1=1 \quad P_{n+1}(x)=\frac{2n+1}{n+1}xP_{n}(x) -  \frac{n}{n+1}P_{n-1}(x).
+\end{equation}
+They form an orthonormal basis set on the interval $[-1,1]$ with respect to the
+following dot product:
+
+\[   \braket{P_i, P_j}=\int_{-1}^{1} P_i(x) P_j(x) \dif x=
+  \left\{
+\begin{array}{ll}
+      0 & i\neq j \\
+      \frac{2}{2i+1} & \mathrm{otherwise} \\
+\end{array} 
+\right. \]
+
+
+\section{Laguerre polynomials}
+Laguerre poylnomials are a solution to the following differential equation:
+\begin{equation}
+  xy'' + (1-x)y'+ny=0,
+  \end{equation}
+where $n$ is non-negative integer. The generating function for these polynomials
+is:
+\begin{equation}
+  \frac{1}{1-t}e^{-tx/(1-t)}=\sum_{n=0}^\infty t^nL_n(x).
+  \end{equation}
+  The polynomials can be calculated using derivation:
+  \begin{equation}
+    L_n(x)=\frac{e^x}{n!}\frac{\dif^n}{\dif x^n}\left(e^{-x}x^n \right)
+    \end{equation}
+    or recursive relation:
+    \begin{equation}
+      L_{k+1}(x)=\frac{(2k+1-x)L_k(x)-kL_{k-1}(x)}{k+1}.
+    \end{equation}
+    They are orthonormal with respect to the following scalar product:
+    \[
+      \braket{L_k(x), L_j(x)}= \int_0^\infty L_k(x)L_j(x)e^{-x} \dif x =
+        \left\{
+\begin{array}{ll}
+      0 & k\neq j \\
+      1 & k=j \\
+\end{array} 
+\right.
+\]
+
+
 \end{document}
