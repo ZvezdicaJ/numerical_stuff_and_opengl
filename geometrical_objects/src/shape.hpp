@@ -2,18 +2,29 @@
 
 enum class RENDER_TYPE { UNIFORM_COLOR = 0, CUSTOM_COLOR = 1 };
 
+/**
+@class Shape
+@brief virtual base class
+@
+ */
 template <RENDER_TYPE T> class Shape {
   protected:
-    std::vector<float> vertexes;
-    std::vector<int> element_array;
-    unsigned shaderProgram;
-    bool shaders_compiled = false;
-    bool colors_loaded = false;
-    unsigned vertex_size = 3;
-    unsigned VBO;
-    unsigned VAO;
-    unsigned EBO;
-    unsigned CBO; // color buffer object
+    std::vector<float> vertexes; /**< Vector holding all vertexes; 2,3 or 4
+                                    consequtive numbers form a  vertex */
+    std::vector<int>
+        element_array;      /**< vector holding all elements in correct order */
+    unsigned shaderProgram; /**< shader program for chosen render type */
+    bool shaders_compiled =
+        false; /**< true/false depending on whether the shaders were compiled*/
+    bool colors_loaded =
+        false; /**< indicator whether color have been loaded or not  */
+    unsigned vertex_size =
+        3; /**< vertex size can consist of 2, 3 or 4 points; this is important
+              for correct interpretation of vertexes vector*/
+    unsigned VBO; /**< vertex buffer object */
+    unsigned VAO; /**< vertex array object*/
+    unsigned EBO; /**< element buffer address */
+    unsigned CBO; /**< color buffer address */
     int min_vertexes = 5;
     std::vector<float> vertex_colors;
     void initialize_buffers() {
