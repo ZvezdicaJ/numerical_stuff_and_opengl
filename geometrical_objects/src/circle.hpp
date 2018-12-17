@@ -1,6 +1,6 @@
 #ifndef __CIRCLE__
 template <RENDER_TYPE T = RENDER_TYPE::UNIFORM_COLOR>
-class Circle : public Shape<T> {
+class Circle : public Shape2D<T> {
   private:
     void generate_vertexes(int = -1);
 
