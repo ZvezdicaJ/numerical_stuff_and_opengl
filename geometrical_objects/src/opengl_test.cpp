@@ -26,14 +26,8 @@ int main() {
     }
 
     float fi = 0;
-    Circle<> circle1;
-    Sphere<RENDER_TYPE::UNIFORM_COLOR> sphere1;
-
-    std::vector<Shape<RENDER_TYPE::UNIFORM_COLOR> *> uniform_color_shapes;
-    std::vector<Shape<RENDER_TYPE::CUSTOM_COLOR> *> custom_color_shapes;
-
-    uniform_color_shapes.push_back(new Sphere<>);
-
+    Circle<float> circle1;
+    Sphere<float> sphere1;
     while (!glfwWindowShouldClose(window)) {
         OnMinusPressed(window);
         OnPlusPressed(window);
@@ -42,12 +36,11 @@ int main() {
                           // pres)
         // draw_sphere(center, 0.5, fi);
         fi += 0.01;
-        uniform_color_shapes[0]->draw({0.5, 0.5, 0.5}, {0, 0, 0}, {0, 1, 1}, fi,
-                                      {0.2, 0.3, 0.4, 0.5});
-        uniform_color_shapes[0]->draw({0.1, 0.1, 0.1},
-                                   {0.5 * std::cos(fi), 0.5 * std::sin(fi), 0},
-                                   {0, 1, 1}, 2.0 * fi, {0.2, 0.3, 0.4, 0.5});
-
+        /*
+        draw({0.5, 0.5, 0.5}, {0, 0, 0}, {0, 1, 1}, fi, {0.2, 0.3, 0.4, 0.5});
+        draw({0.1, 0.1, 0.1}, {0.5 * std::cos(fi), 0.5 * std::sin(fi), 0},
+             {0, 1, 1}, 2.0 * fi, {0.2, 0.3, 0.4, 0.5});
+        */
         // sphere1.set_min_number_of_vertexes(100);
         // std::array<float, 3> scale({0.5, 0.5, 0.5});
         // circle1.draw(scale);

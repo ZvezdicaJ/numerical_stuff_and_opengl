@@ -168,7 +168,7 @@ inline __m128 legendre_next(__m128 Pn, __m128 Pnm1, __m128 x_vec, int n) {
     __m128 np1_vec = _mm_set_ps1(n + 1);
 
     __m128 coeff1 = _mm_div_ps(
-        _mm_mul_ps(_mm_fmadd_ps(_mm_set_ps1(2.0), np_vec, _mm_set_ps1(1.0)),
+        _mm_mul_ps(_mm_fmadd_ps(_mm_set_ps1(2.0), n_vec, _mm_set_ps1(1.0)),
                    x_vec),
         np1_vec);
     __m128 result =

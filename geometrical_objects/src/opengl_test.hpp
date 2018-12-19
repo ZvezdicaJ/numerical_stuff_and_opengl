@@ -26,8 +26,8 @@
 
 #include "check_shaders.hpp"
 #include "shaders.hpp"
-#include "shape.hpp"
 #include "auxiliary_functions.hpp"
+#include "shape.hpp"
 #include "print_functions.hpp"
 #include "sphere.hpp"
 #include "circle.hpp"

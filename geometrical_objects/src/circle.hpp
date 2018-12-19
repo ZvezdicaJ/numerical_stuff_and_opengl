@@ -1,6 +1,6 @@
 #ifndef __CIRCLE__
-template <RENDER_TYPE T = RENDER_TYPE::UNIFORM_COLOR>
-class Circle : public Shape2D<T> {
+
+template <typename T = float> class Circle : public Shape2D<T> {
   private:
     void generate_vertexes(int = -1);
 
@@ -10,18 +10,16 @@ class Circle : public Shape2D<T> {
     Circle &operator=(Circle &&) = default;
     Circle(const Circle &) = default;
     Circle &operator=(const Circle &) = default;
-    float perimeter();
+    T perimeter();
 };
 
-template <RENDER_TYPE T> Circle<T>::Circle() {
-    this->vertex_size = 2;
+template <typename T> Circle<T>::Circle() {
     this->min_vertexes = 100;
     this->generate_vertexes();
-    this->compile_shaders();
     this->initialize_buffers();
 };
 
-template <RENDER_TYPE T> void Circle<T>::generate_vertexes(int num_vert) {
+template <typename T> void Circle<T>::generate_vertexes(int num_vert) {
     // this function always generates 4n-1 different vertexes;
     // -1 becase the last point is the same as the first one
     int reminder;
@@ -63,7 +61,7 @@ template <RENDER_TYPE T> void Circle<T>::generate_vertexes(int num_vert) {
     // print_vertexes(&vertexes[0], vertexes.size() / 2, 2);
 }
 
-template <RENDER_TYPE T> float Circle<T>::perimeter() {
+template <typename T> T Circle<T>::perimeter() {
     float perimeter = 0;
     for (int i = 0; i < this->vertexes.size() / 4; i += 8) {
         __m128 vert12 = _mm_loadu_ps(&(this->vertexes[i]));

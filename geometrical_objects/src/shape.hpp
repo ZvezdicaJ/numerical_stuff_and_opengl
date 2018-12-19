@@ -1,32 +1,33 @@
 #ifndef __SHAPE__
 
-enum class RENDER_TYPE { UNIFORM_COLOR = 0, CUSTOM_COLOR = 1 };
-
 /**
 @class Shape
 @brief virtual base class
 @
  */
-template <RENDER_TYPE T> class Shape {
+template <typename T>
+class Shape {
+    static_assert(std::is_floating_point<T>::value,
+                  "Shapes can only be instantiated with floating point types: "
+                  "float, double, long double!");
+
   protected:
-    std::vector<float> vertexes; /**< Vector holding all vertexes; 2,3 or 4
+    unsigned vertex_size = 0;
+    std::vector<T> vertexes; /**< Vector holding all vertexes; 2,3 or 4
                                     consequtive numbers form a  vertex */
     std::vector<int>
-        element_array;      /**< vector holding all elements in correct order */
-    unsigned shaderProgram; /**< shader program for chosen render type */
-    bool shaders_compiled =
-        false; /**< true/false depending on whether the shaders were compiled*/
+        element_array; /**< vector holding all elements in correct order */
     bool colors_loaded =
         false; /**< indicator whether color have been loaded or not  */
-    unsigned vertex_size =
-        3; /**< vertex size can consist of 2, 3 or 4 points; this is important
-              for correct interpretation of vertexes vector*/
+    /**< vertex size can consist of 2, 3 or 4 points; this is important
+             for correct interpretation of vertexes vector*/
     unsigned VBO; /**< vertex buffer object */
     unsigned VAO; /**< vertex array object*/
     unsigned EBO; /**< element buffer address */
     unsigned CBO; /**< color buffer address */
     int min_vertexes = 5;
     std::vector<float> vertex_colors;
+
     void initialize_buffers() {
         glGenVertexArrays(1, &VAO);
         // glBindVertexArray(VAO);
@@ -34,15 +35,14 @@ template <RENDER_TYPE T> class Shape {
         // generate and bind and fill vertex data
         glGenBuffers(1, &VBO);
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertexes.size(),
-                     &vertexes[0], GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(T) * vertexes.size(), &vertexes[0],
+                     GL_STATIC_DRAW);
 
         // generate and bind and fill element data
         glGenBuffers(1, &EBO);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-                     sizeof(float) * element_array.size(), &(element_array[0]),
-                     GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(T) * element_array.size(),
+                     &(element_array[0]), GL_STATIC_DRAW);
 
         // generate color buffer but do not load data;
         // load data
@@ -54,318 +54,59 @@ template <RENDER_TYPE T> class Shape {
         min_vertexes = num;
     };
 
-    virtual void set_vertex_colors(std::vector<float> &colors_) {
+    virtual void set_vertex_colors(std::vector<T> &colors_) {
         assert(colors_.size() / 4 == vertexes.size() / vertex_size &&
                "Each vertex should have a color value in the form of vec4: "
                "incorrect size of color vector!");
         vertex_colors = colors_;
     }
 
-    std::vector<float> get_vertexes() { return vertexes; }
+    std::vector<T> get_vertexes() { return vertexes; }
     unsigned num_vertexes() { return vertexes.size() / vertex_size; }
-
-    template <RENDER_TYPE Q = T>
-    typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR, void>::type
-    compile_shaders() {
-        // create empty shader
-        unsigned int vertexShader;
-        vertexShader = glCreateShader(GL_VERTEX_SHADER);
-
-        // load  vertex  shader and compile it
-        const char *source =
-            shaders::uniform_vertex_shaders[vertex_size - 2].c_str();
-        glShaderSource(vertexShader, 1, &source, NULL);
-        glCompileShader(vertexShader);
-        // check if successfully compiled
-        check_vertex_shader(vertexShader);
-
-        // create empty fragment shader
-        unsigned int fragmentShader;
-        fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-        // load fragment shader and compile it
-        glShaderSource(fragmentShader, 1, &(shaders::uniform_fragment_shader),
-                       NULL);
-        glCompileShader(fragmentShader);
-        check_fragment_shader(fragmentShader);
-
-        shaderProgram = glCreateProgram();
-        glAttachShader(shaderProgram, vertexShader);
-        glAttachShader(shaderProgram, fragmentShader);
-        glLinkProgram(shaderProgram);
-        check_shader_program(shaderProgram);
-        glUseProgram(shaderProgram);
-        glDeleteShader(vertexShader);
-        glDeleteShader(fragmentShader);
-    }
-
-    template <RENDER_TYPE Q = T>
-    typename std::enable_if<Q == RENDER_TYPE::CUSTOM_COLOR, void>::type
-    compile_shaders() {
-        // create empty shader
-        unsigned int vertexShader;
-        vertexShader = glCreateShader(GL_VERTEX_SHADER);
-
-        // load  vertex  shader and compile it
-        const char *source =
-            shaders::custom_vertex_shaders[vertex_size - 2].c_str();
-        glShaderSource(vertexShader, 1, &source, NULL);
-        glCompileShader(vertexShader);
-        // check if successfully compiled
-        check_vertex_shader(vertexShader);
-
-        // create empty fragment shader
-        unsigned int fragmentShader;
-        fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-        // load fragment shader and compile it
-        glShaderSource(fragmentShader, 1, &(shaders::custom_fragment_shader),
-                       NULL);
-        glCompileShader(fragmentShader);
-        check_fragment_shader(fragmentShader);
-
-        shaderProgram = glCreateProgram();
-        glAttachShader(shaderProgram, vertexShader);
-        glAttachShader(shaderProgram, fragmentShader);
-        glLinkProgram(shaderProgram);
-        check_shader_program(shaderProgram);
-        glUseProgram(shaderProgram);
-        glDeleteShader(vertexShader);
-        glDeleteShader(fragmentShader);
-    }
 };
 
-template <RENDER_TYPE T> class Shape2D : public Shape<T> {
+template <typename T>
+class Shape2D : public Shape<T> {
   protected:
-    RENDER_TYPE Rtype = T;
+    const unsigned vertex_size = 2;
 
   public:
-    template <RENDER_TYPE Q = T>
-    typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR>::type
-    draw(std::array<float, 3> scale = {0.5, 0.5, 0.5},
-         std::array<float, 3> position = {0, 0, 0},
-         std::array<float, 3> rotation_axis = {0, 0, 1}, float angle = 0,
-         glm::vec4 color = {0.5, 0.5, 0.5, 0.5}) {
-        glBindVertexArray(VAO);
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-        glUseProgram(shaderProgram);
-
-        glm::mat4 trans = glm::mat4(1.0);
-        trans = glm::translate(
-            trans, glm::vec3(position[0], position[1], position[2]));
-        trans = glm::rotate(
-            trans, (float)angle,
-            glm::vec3(rotation_axis[0], rotation_axis[1], rotation_axis[2]));
-        trans = glm::scale(trans, glm::vec3(scale[0], scale[1], scale[2]));
-
-        // std::cout << glm::to_string(trans) << std::endl;
-
-        unsigned int transformLoc =
-            glGetUniformLocation(shaderProgram, "transform");
-        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-
-        unsigned int triangle_color =
-            glGetUniformLocation(shaderProgram, "color");
-        color = glm::vec4(1.0f, 0.5f, 0.2f, 0.3f);
-        glUniform4fv(triangle_color, 1, glm::value_ptr(color));
-
-        glVertexAttribPointer(0, vertex_size, GL_FLOAT, GL_TRUE,
-                              vertex_size * sizeof(float), (void *)0);
-        glEnableVertexAttribArray(0);
-        glDrawElements(GL_TRIANGLES, element_array.size(), GL_UNSIGNED_INT, 0);
-
-        color = glm::vec4(0.5f, 0.5f, 0.5f, 0.5f);
-        glUniform4fv(triangle_color, 1, glm::value_ptr(color));
-
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // render as wireframe
-        glDrawElements(GL_LINE_STRIP, element_array.size(), GL_UNSIGNED_INT, 0);
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // render as filled triangles
-
-        // col = glm::vec4(0.0f, 0.0f, 0.0f, 0.5f);
-        // glUniform4fv(triangle_color, 1, glm::value_ptr(col));
-        // glDrawArrays(GL_LINE_STRIP, 0, 18);
-    }
-
-    template <RENDER_TYPE Q = T>
-    typename std::enable_if<Q == RENDER_TYPE::CUSTOM_COLOR>::type
-    draw(std::array<float, 3> scale, std::array<float, 3> position = {0, 0, 0},
-         std::array<float, 3> rotation_axis = {0, 0, 1}, float angle = 0) {
-
-        glUseProgram(shaderProgram);
-        glm::mat4 trans = glm::mat4(1.0);
-        // make rotation by appropriate angle
-
-        trans = glm::translate(
-            trans, glm::vec3(position[0], position[1], position[2]));
-        trans = glm::rotate(
-            trans, (float)angle,
-            glm::vec3(rotation_axis[0], rotation_axis[1], rotation_axis[2]));
-        trans = glm::scale(trans, glm::vec3(scale[0], scale[1], scale[2]));
-
-        // std::cout << glm::to_string(trans) << std::endl;
-
-        unsigned int transformLoc =
-            glGetUniformLocation(shaderProgram, "transform");
-        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-
-        unsigned int triangle_color =
-            glGetUniformLocation(shaderProgram, "color");
-        glm::vec4 color = glm::vec4(1.0f, 0.5f, 0.2f, 0.3f);
-        glUniform4fv(triangle_color, 1, glm::value_ptr(color));
-
-        glBindVertexArray(VAO);
-
-        glBindBuffer(GL_ARRAY_BUFFER, CBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * (vertex_colors.size()),
-                     &(vertex_colors[0]), GL_STATIC_DRAW);
-        glVertexAttribPointer(1, 4, GL_FLOAT, GL_TRUE, 4 * sizeof(float),
-                              (void *)0);
-        glEnableVertexAttribArray(1);
-
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glVertexAttribPointer(0, vertex_size, GL_FLOAT, GL_TRUE,
-                              vertex_size * sizeof(float), (void *)0);
-        glEnableVertexAttribArray(0);
-
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-        glDrawElements(GL_LINE_STRIP, element_array.size(), GL_UNSIGNED_INT, 0);
-    }
 };
 
-template <RENDER_TYPE T> class Shape3D : public Shape<T> {
+template <typename T>
+class Shape3D : public Shape<T> {
   protected:
-    RENDER_TYPE Rtype = T;
 
   public:
-    template <RENDER_TYPE Q = T>
-    typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR>::type
-    draw(std::array<float, 3> scale = {0.5, 0.5, 0.5},
-         std::array<float, 3> position = {0, 0, 0},
-         std::array<float, 3> rotation_axis = {0, 0, 1}, float angle = 0,
-         glm::vec4 color = {0.5, 0.5, 0.5, 0.5}) {
-        glBindVertexArray(VAO);
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-        glUseProgram(shaderProgram);
 
-        glm::mat4 trans = glm::mat4(1.0);
-        trans = glm::translate(
-            trans, glm::vec3(position[0], position[1], position[2]));
-        trans = glm::rotate(
-            trans, (float)angle,
-            glm::vec3(rotation_axis[0], rotation_axis[1], rotation_axis[2]));
-        trans = glm::scale(trans, glm::vec3(scale[0], scale[1], scale[2]));
+    template <typename Q = T>
+    typename std::enable_if<std::is_same<Q, float>::value, Q>::type area() {
+        float ar = 0;
+        for (int tri = 0; tri < this->element_array.size() / 3; tri += 1) {
+            int vert1_ind = this->element_array[3 * tri];
+            int vert2_ind = this->element_array[3 * tri + 1];
+            int vert3_ind = this->element_array[3 * tri + 2];
 
-        // std::cout << glm::to_string(trans) << std::endl;
+            __m128 vert1 = load_vertex(&(this->vertexes[vert1_ind * 3]));
+            __m128 vert2 = load_vertex(&(this->vertexes[vert2_ind * 3]));
+            __m128 vert3 = load_vertex(&(this->vertexes[vert3_ind * 3]));
 
-        unsigned int transformLoc =
-            glGetUniformLocation(shaderProgram, "transform");
-        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+            T *v = (T *)&vert1;
+            v = (T *)&vert2;
+            v = (T *)&vert3;
+            __m128 vec12 = _mm_sub_ps(vert1, vert2);
+            __m128 vec23 = _mm_sub_ps(vert2, vert3);
+            __m128 vec13 = _mm_sub_ps(vert1, vert3);
 
-        unsigned int triangle_color =
-            glGetUniformLocation(shaderProgram, "color");
-        color = glm::vec4(1.0f, 0.5f, 0.2f, 0.3f);
-        glUniform4fv(triangle_color, 1, glm::value_ptr(color));
+            float distance12 = std::sqrt(CalcDotProductSse(vec12, vec12));
+            float distance23 = std::sqrt(CalcDotProductSse(vec23, vec23));
+            float distance13 = std::sqrt(CalcDotProductSse(vec13, vec13));
 
-        glVertexAttribPointer(0, vertex_size, GL_FLOAT, GL_TRUE,
-                              vertex_size * sizeof(float), (void *)0);
-        glEnableVertexAttribArray(0);
-        glDrawElements(GL_TRIANGLES, element_array.size(), GL_UNSIGNED_INT, 0);
-
-        color = glm::vec4(0.5f, 0.5f, 0.5f, 0.5f);
-        glUniform4fv(triangle_color, 1, glm::value_ptr(color));
-
-        // std::cout<<vertexes<<std::endl;
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // render as wireframe
-        glDrawElements(GL_TRIANGLES, element_array.size(), GL_UNSIGNED_INT, 0);
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // render as filled triangles
-
-        // col = glm::vec4(0.0f, 0.0f, 0.0f, 0.5f);
-        // glUniform4fv(triangle_color, 1, glm::value_ptr(col));
-        // glDrawArrays(GL_LINE_STRIP, 0, 18);
-    }
-
-    template <RENDER_TYPE Q = T>
-    typename std::enable_if<Q == RENDER_TYPE::CUSTOM_COLOR>::type
-    draw(std::array<float, 3> scale, std::array<float, 3> position = {0, 0, 0},
-         std::array<float, 3> rotation_axis = {0, 0, 1}, float angle = 0) {
-
-        glUseProgram(shaderProgram);
-        glm::mat4 trans = glm::mat4(1.0);
-        // make rotation by appropriate angle
-
-        trans = glm::translate(
-            trans, glm::vec3(position[0], position[1], position[2]));
-        trans = glm::rotate(
-            trans, (float)angle,
-            glm::vec3(rotation_axis[0], rotation_axis[1], rotation_axis[2]));
-        trans = glm::scale(trans, glm::vec3(scale[0], scale[1], scale[2]));
-
-        // std::cout << glm::to_string(trans) << std::endl;
-
-        unsigned int transformLoc =
-            glGetUniformLocation(shaderProgram, "transform");
-        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-
-        unsigned int triangle_color =
-            glGetUniformLocation(shaderProgram, "color");
-        glm::vec4 color = glm::vec4(1.0f, 0.5f, 0.2f, 0.3f);
-        glUniform4fv(triangle_color, 1, glm::value_ptr(color));
-
-        glBindVertexArray(VAO);
-
-        glBindBuffer(GL_ARRAY_BUFFER, CBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * (vertex_colors.size()),
-                     &(vertex_colors[0]), GL_STATIC_DRAW);
-        glVertexAttribPointer(1, 4, GL_FLOAT, GL_TRUE, 4 * sizeof(float),
-                              (void *)0);
-        glEnableVertexAttribArray(1);
-
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glVertexAttribPointer(0, vertex_size, GL_FLOAT, GL_TRUE,
-                              vertex_size * sizeof(float), (void *)0);
-        glEnableVertexAttribArray(0);
-
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-        glDrawElements(GL_TRIANGLES, element_array.size(), GL_UNSIGNED_INT, 0);
-    }
-
-    template <RENDER_TYPE Q = T>
-    typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR>::type
-    draw_wireframe(std::array<float, 3> scale = {0.5, 0.5, 0.5},
-                   std::array<float, 3> position = {0, 0, 0},
-                   std::array<float, 3> rotation_axis = {0, 0, 1},
-                   float angle = 0) {
-        glBindVertexArray(VAO);
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-        glUseProgram(shaderProgram);
-
-        glm::mat4 trans = glm::mat4(1.0);
-        trans = glm::translate(
-            trans, glm::vec3(position[0], position[1], position[2]));
-        trans = glm::rotate(
-            trans, (float)angle,
-            glm::vec3(rotation_axis[0], rotation_axis[1], rotation_axis[2]));
-        trans = glm::scale(trans, glm::vec3(scale[0], scale[1], scale[2]));
-
-        unsigned int transformLoc =
-            glGetUniformLocation(shaderProgram, "transform");
-        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-
-        unsigned int triangle_color =
-            glGetUniformLocation(shaderProgram, "color");
-        glm::vec4 color = glm::vec4(1.0f, 1.0f, 1.0f, 0.8f);
-
-        glUniform4fv(triangle_color, 1, glm::value_ptr(color));
-        glVertexAttribPointer(0, vertex_size, GL_FLOAT, GL_TRUE,
-                              vertex_size * sizeof(float), (void *)0);
-        glEnableVertexAttribArray(0);
-
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // render as wireframe
-        glDrawElements(GL_TRIANGLES, element_array.size(), GL_UNSIGNED_INT, 0);
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // render as filled triangles
+            T s = (distance12 + distance23 + distance13) / 2.0;
+            ar += std::sqrt(s * (s - distance12) * (s - distance13) *
+                            (s - distance23));
+        }
+        return ar;
     }
 };
 
