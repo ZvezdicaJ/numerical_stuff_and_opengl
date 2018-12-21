@@ -25,10 +25,8 @@ int main() {
         return -1;
     }
 
-    float fi = 0;
-    Circle<float> circle1;
-    Sphere<float> sphere1;
-    Shader<RENDER_TYPE::UNIFORM_COLOR> uniform_color_shader;
+    std::vector<Shape<float> *> shapes;
+    initialize_shapes(shapes);
 
     while (!glfwWindowShouldClose(window)) {
         OnMinusPressed(window);
@@ -36,23 +34,12 @@ int main() {
         OnClosePressed(window);
         glfwPollEvents(); // check if any events happend (mouse press, key
                           // pres)
+        display(shapes);
         // draw_sphere(center, 0.5, fi);
-        fi += 0.01;
-        Shape<float> test_sphere = static_cast<Shape<float>>(sphere1);
-        std::array<float, 3> scale({0.5, 0.5, 0.5});
-        std::array<float, 3> axis({0.5, 0.5, 0.5});
-        std::array<float, 3> translate({0.0, 0.0, 0.0});
-        glm::vec4 test_color({0.2, 0.4, 0.5, 0.7});
-        draw(test_sphere, uniform_color_shader, scale, translate, axis, fi,
-             test_color);
-        /*
-        draw({0.5, 0.5, 0.5}, {0, 0, 0}, {0, 1, 1}, fi, {0.2, 0.3, 0.4,
-        0.5}); draw({0.1, 0.1, 0.1}, {0.5 * std::cos(fi), 0.5 *
-        std::sin(fi), 0}, {0, 1, 1}, 2.0 * fi, {0.2, 0.3, 0.4, 0.5});
-        */
-        // sphere1.set_min_number_of_vertexes(100);
-        // std::array<float, 3> scale({0.5, 0.5, 0.5});
-        // circle1.draw(scale);
+        // Shape<float> test_sphere = static_cast<Shape<float>>(sphere1);
+        // draw(sphere1, uniform_color_shader, {0.2, 0.2, 0.2}, {0.4, 0.5, 0},
+        //     {0.5, 0.5, 0.5}, fi, {0.2, 0.4, 0.5, 0.7});
+
         // The glfwSwapBuffers will swap the color buffer (a large buffer
         // that contains color values for each pixel in GLFW’s window) that
         // has been used to draw in during this iteration and show it as
@@ -66,7 +53,7 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT);
     }
 
-    std::cout << "pi = " << sphere1.area() / 4.0 << std::endl;
+    // std::cout << "pi = " << sphere1.area() / 4.0 << std::endl;
     glfwTerminate();
     return 0;
 }

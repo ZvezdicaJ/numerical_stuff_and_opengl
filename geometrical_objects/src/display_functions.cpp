@@ -3,7 +3,8 @@
 void pause() {
     bool run = true;
     while (run) {
-        if (std::cin.get()) run = false;
+        if (std::cin.get())
+            run = false;
     }
 }
 
@@ -46,3 +47,11 @@ void OnClosePressed(GLFWwindow *window) {
         glfwSetWindowShouldClose(window, true);
 }
 
+void initialize_shapes(std::vector<Shape<float> *> &shapes) {
+    shapes.emplace_back(new (Sphere<float>));
+}
+
+void display(std::vector<Shape<float> *> &shapes) {
+    Shader<RENDER_TYPE::UNIFORM_COLOR> shader;
+    rotate_all_shapes(shapes, shader);
+}
