@@ -13,8 +13,7 @@ message(STATUS "glfw libraries: ${GLFW_LIBRARIES}")
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -march=native")
 
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O1 -msse -mavx -mfma")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O1 -msse -mavx -mfma")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O1 -msse -mavx -mfma -Wnon-template-friend")
 
 # GLFW
 #set(GLFW_DIR "../../../Downloads/glfw")

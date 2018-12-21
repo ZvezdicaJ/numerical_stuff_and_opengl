@@ -1,7 +1,7 @@
 enum class RENDER_TYPE { UNIFORM_COLOR = 0, CUSTOM_COLOR = 1 };
 
 template <RENDER_TYPE T>
-class Shaders {
+class Shader {
   protected:
     unsigned shader_program[3]; /**< shader program array depending on which
                                   vertex size is chosen*/
@@ -35,10 +35,10 @@ class Shaders {
             check_fragment_shader(fragmentShader);
 
             shader_program[i] = glCreateProgram();
-            glAttachShader(shaderProgram, vertexShader);
-            glAttachShader(shaderProgram, fragmentShader);
-            glLinkProgram(shaderProgram);
-            check_shader_program(shaderProgram);
+            glAttachShader(shader_program[i], vertexShader);
+            glAttachShader(shader_program[i], fragmentShader);
+            glLinkProgram(shader_program[i]);
+            check_shader_program(shader_program[i]);
             shaders_compiled[i] = true;
             // glUseProgram(shaderProgram);
             glDeleteShader(vertexShader);
@@ -72,13 +72,23 @@ class Shaders {
             check_fragment_shader(fragmentShader);
 
             shader_program[i] = glCreateProgram();
-            glAttachShader(shaderProgram, vertexShader);
-            glAttachShader(shaderProgram, fragmentShader);
-            glLinkProgram(shaderProgram);
-            check_shader_program(shaderProgram);
-            glUseProgram(shaderProgram);
+            glAttachShader(shader_program[i], vertexShader);
+            glAttachShader(shader_program[i], fragmentShader);
+            glLinkProgram(shader_program[i]);
+            check_shader_program(shader_program[i]);
+            shaders_compiled[i] = true;
+            glUseProgram(shader_program[i]);
             glDeleteShader(vertexShader);
             glDeleteShader(fragmentShader);
         }
     }
+
+  public:
+    Shader() { compile_shaders(); };
+    Shader(Shader &&) = default;
+    Shader &operator=(Shader &&) = delete;
+    Shader(const Shader &) = delete;
+    Shader &operator=(const Shader &) = delete;
+
+    unsigned get_shader_program(int i) { return shader_program[i]; }
 };

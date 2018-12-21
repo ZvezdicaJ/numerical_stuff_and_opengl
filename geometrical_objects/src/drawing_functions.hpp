@@ -1,14 +1,21 @@
-#include "opengl_test.hpp"
+// this header file has to be included before  shape.hpp and after
+// shader_class.hpp
 
 template <typename T>
-void draw(Shape<T> &shape, Shader<RENDER_TYPE::UNIFORM_COLOR> &shader_object,
-          std::array<float, 3> scale, std::array<float, 3> position,
-          std::array<float, 3> rotation_axis, float angle, glm::vec4 color) {
+class Shape;
+
+template <typename T>
+void draw(Shape<T>& shape, Shader<RENDER_TYPE::UNIFORM_COLOR>& shader_object,
+          std::array<float, 3> scale = {0.5, 0.5, 0.5},
+          std::array<float, 3> position = {0, 0, 0},
+          std::array<float, 3> rotation_axis = {0, 0, 1}, float angle = 0,
+          glm::vec4 color = {0.5, 0.5, 0.5, 0.5}) {
 
     glBindVertexArray(shape.VAO);
     glBindBuffer(GL_ARRAY_BUFFER, shape.VBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shape.EBO);
-    unsigned shaderProgram = shader_object.shader_program[shape.vertex_size - 1];
+    unsigned shaderProgram =
+        shader_object.get_shader_program(shape.vertex_size - 1);
     glUseProgram(shaderProgram);
 
     glm::mat4 trans = glm::mat4(1.0);
@@ -32,7 +39,8 @@ void draw(Shape<T> &shape, Shader<RENDER_TYPE::UNIFORM_COLOR> &shader_object,
     glVertexAttribPointer(0, shape.vertex_size, GL_FLOAT, GL_TRUE,
                           shape.vertex_size * sizeof(T), (void *)0);
     glEnableVertexAttribArray(0);
-    glDrawElements(GL_TRIANGLES, shape.element_array.size(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, shape.element_array.size(), GL_UNSIGNED_INT,
+                   0);
 
     color = glm::vec4(0.5f, 0.5f, 0.5f, 0.5f);
     glUniform4fv(triangle_color, 1, glm::value_ptr(color));
@@ -48,11 +56,13 @@ void draw(Shape<T> &shape, Shader<RENDER_TYPE::UNIFORM_COLOR> &shader_object,
 }
 
 template <typename T>
-void draw(Shape<T> &shape, Shader<RENDER_TYPE::CUSTOM_COLOR> &shader_object,
-     std::array<float, 3> scale, std::array<float, 3> position,
-     std::array<float, 3> rotation_axis, float angle) {
+void draw(Shape<T>& shape, Shader<RENDER_TYPE::CUSTOM_COLOR>& shader_object,
+          std::array<float, 3> scale = {0.5, 0.5, 0.5},
+          std::array<float, 3> position = {0, 0, 0},
+          std::array<float, 3> rotation_axis = {0, 0, 1}, float angle = 0) {
 
-    unsigned shaderProgram = shader_object.shader_program[shape.vertex_size - 1];
+    unsigned shaderProgram =
+        shader_object.shader_program[shape.vertex_size - 1];
     glUseProgram(shaderProgram);
     glUseProgram(shaderProgram);
     glm::mat4 trans = glm::mat4(1.0);
@@ -90,16 +100,19 @@ void draw(Shape<T> &shape, Shader<RENDER_TYPE::CUSTOM_COLOR> &shader_object,
     glEnableVertexAttribArray(0);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shape.EBO);
-    glDrawElements(GL_LINE_STRIP, shape.element_array.size(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_LINE_STRIP, shape.element_array.size(), GL_UNSIGNED_INT,
+                   0);
 };
 
 template <typename T>
-void draw_wireframe(Shape<T> &shape,
-               Shader<RENDER_TYPE::UNIFORM_COLOR> &shader_object,
-               std::array<float, 3> scale, std::array<float, 3> position,
-               std::array<float, 3> rotation_axis, float angle,
-               glm::vec4 color) {
-    unsigned shaderProgram = shader_object.shader_program[shape.vertex_size - 1];
+void draw_wireframe(Shape<T>& shape,
+                    Shader<RENDER_TYPE::UNIFORM_COLOR>& shader_object,
+                    std::array<float, 3> scale = {0.5, 0.5, 0.5},
+                    std::array<float, 3> position = {0, 0, 0},
+                    std::array<float, 3> rotation_axis = {0, 0, 1},
+                    float angle = 0, glm::vec4 color = {0.5, 0.5, 0.5, 0.5}) {
+    unsigned shaderProgram =
+        shader_object.shader_program[shape.vertex_size - 1];
     glBindVertexArray(shape.VAO);
     glBindBuffer(GL_ARRAY_BUFFER, shape.VBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shape.EBO);
@@ -124,6 +137,7 @@ void draw_wireframe(Shape<T> &shape,
     glEnableVertexAttribArray(0);
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // render as wireframe
-    glDrawElements(GL_TRIANGLES, shape.element_array.size(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, shape.element_array.size(), GL_UNSIGNED_INT,
+                   0);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // render as filled triangles
 }

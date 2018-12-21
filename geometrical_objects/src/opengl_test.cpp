@@ -28,6 +28,8 @@ int main() {
     float fi = 0;
     Circle<float> circle1;
     Sphere<float> sphere1;
+    Shader<RENDER_TYPE::UNIFORM_COLOR> uniform_color_shader;
+
     while (!glfwWindowShouldClose(window)) {
         OnMinusPressed(window);
         OnPlusPressed(window);
@@ -36,23 +38,31 @@ int main() {
                           // pres)
         // draw_sphere(center, 0.5, fi);
         fi += 0.01;
+        Shape<float> test_sphere = static_cast<Shape<float>>(sphere1);
+        std::array<float, 3> scale({0.5, 0.5, 0.5});
+        std::array<float, 3> axis({0.5, 0.5, 0.5});
+        std::array<float, 3> translate({0.0, 0.0, 0.0});
+        glm::vec4 test_color({0.2, 0.4, 0.5, 0.7});
+        draw(test_sphere, uniform_color_shader, scale, translate, axis, fi,
+             test_color);
         /*
-        draw({0.5, 0.5, 0.5}, {0, 0, 0}, {0, 1, 1}, fi, {0.2, 0.3, 0.4, 0.5});
-        draw({0.1, 0.1, 0.1}, {0.5 * std::cos(fi), 0.5 * std::sin(fi), 0},
-             {0, 1, 1}, 2.0 * fi, {0.2, 0.3, 0.4, 0.5});
+        draw({0.5, 0.5, 0.5}, {0, 0, 0}, {0, 1, 1}, fi, {0.2, 0.3, 0.4,
+        0.5}); draw({0.1, 0.1, 0.1}, {0.5 * std::cos(fi), 0.5 *
+        std::sin(fi), 0}, {0, 1, 1}, 2.0 * fi, {0.2, 0.3, 0.4, 0.5});
         */
         // sphere1.set_min_number_of_vertexes(100);
         // std::array<float, 3> scale({0.5, 0.5, 0.5});
         // circle1.draw(scale);
-        // The glfwSwapBuffers will swap the color buffer (a large buffer that
-        // contains color values for each pixel in GLFW’s window) that has been
-        // used to draw in during this iteration and show it as output to the
-        // screen.
+        // The glfwSwapBuffers will swap the color buffer (a large buffer
+        // that contains color values for each pixel in GLFW’s window) that
+        // has been used to draw in during this iteration and show it as
+        // output to the screen.
         glfwSwapBuffers(window);
         glClearColor(0.2f, 0.3f, 0.3f,
                      1.0f); // set which color to clear the screen with
-        // GL_COLOR_BUFFER_BIT, GL_DEPTH_BUFFER_BIT and GL_STENCIL_BUFFER_BIT.
-        // set which buffer to use to clear the screen
+        // GL_COLOR_BUFFER_BIT, GL_DEPTH_BUFFER_BIT and
+        // GL_STENCIL_BUFFER_BIT. set which buffer to use to clear the
+        // screen
         glClear(GL_COLOR_BUFFER_BIT);
     }
 

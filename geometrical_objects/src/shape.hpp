@@ -63,6 +63,21 @@ class Shape {
 
     std::vector<T> get_vertexes() { return vertexes; }
     unsigned num_vertexes() { return vertexes.size() / vertex_size; }
+    virtual unsigned get_vertex_size() { return vertex_size; }
+
+
+    friend void draw<T>(Shape<T>& , Shader<RENDER_TYPE::UNIFORM_COLOR>& ,
+                     std::array<float, 3>, std::array<float, 3>,
+                     std::array<float, 3>, float, glm::vec4);
+
+    friend void draw<T>(Shape<T>& , Shader<RENDER_TYPE::CUSTOM_COLOR>& ,
+                     std::array<float, 3>, std::array<float, 3>,
+                     std::array<float, 3>, float);
+    friend void
+    draw_wireframe<T>(Shape<T> &shape,
+                   Shader<RENDER_TYPE::UNIFORM_COLOR> &shader_object,
+                   std::array<float, 3> scale, std::array<float, 3> position,
+                   std::array<float, 3> rotation_axis, float angle, glm::vec4);
 };
 
 template <typename T>
@@ -76,9 +91,7 @@ class Shape2D : public Shape<T> {
 template <typename T>
 class Shape3D : public Shape<T> {
   protected:
-
   public:
-
     template <typename Q = T>
     typename std::enable_if<std::is_same<Q, float>::value, Q>::type area() {
         float ar = 0;

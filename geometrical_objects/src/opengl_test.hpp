@@ -26,6 +26,8 @@
 
 #include "check_shaders.hpp"
 #include "shaders.hpp"
+#include "shader_class.hpp"
+#include "drawing_functions.hpp"
 #include "auxiliary_functions.hpp"
 #include "shape.hpp"
 #include "print_functions.hpp"
