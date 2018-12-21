@@ -245,31 +245,34 @@ inline void Sphere<double>::generate_vertexes_helper() {
         if (iter != new_vertex_indexing.end())
             p13_ind = iter->second;
 
-        __m128 vert1 = _mm_loadu_ps(&(this->vertexes[vert1_ind * 3]));
-        __m128 vert2 = _mm_loadu_ps(&(this->vertexes[vert2_ind * 3]));
-        __m128 vert3 = _mm_loadu_ps(&(this->vertexes[vert3_ind * 3]));
-        __m128 p12 = _mm_div_ps(
-            _mm_add_ps(vert1, vert2),
-            _mm_set_ps(std::numeric_limits<float>::infinity(), 2.0, 2.0, 2.0));
-        __m128 p23 = _mm_div_ps(
-            _mm_add_ps(vert2, vert3),
-            _mm_set_ps(std::numeric_limits<float>::infinity(), 2.0, 2.0, 2.0));
-        __m128 p13 = _mm_div_ps(
-            _mm_add_ps(vert1, vert3),
-            _mm_set_ps(std::numeric_limits<float>::infinity(), 2.0, 2.0, 2.0));
+        __m256d vert1 = _mm256_loadu_pd(&(this->vertexes[vert1_ind * 3]));
+        __m256d vert2 = _mm256_loadu_pd(&(this->vertexes[vert2_ind * 3]));
+        __m256d vert3 = _mm256_loadu_pd(&(this->vertexes[vert3_ind * 3]));
+        __m256d p12 =
+            _mm256_div_pd(_mm256_add_pd(vert1, vert2),
+                          _mm256_set_pd(std::numeric_limits<double>::infinity(),
+                                        2.0, 2.0, 2.0));
+        __m256d p23 =
+            _mm256_div_pd(_mm256_add_pd(vert2, vert3),
+                          _mm256_set_pd(std::numeric_limits<double>::infinity(),
+                                        2.0, 2.0, 2.0));
+        __m256d p13 =
+            _mm256_div_ps(_mm256_add_pd(vert1, vert3),
+                          _mm256_set_pd(std::numeric_limits<double>::infinity(),
+                                        2.0, 2.0, 2.0));
 
-        float norm12 = std::sqrt(CalcDotProductSse(p12, p12));
-        float norm23 = std::sqrt(CalcDotProductSse(p23, p23));
-        float norm13 = std::sqrt(CalcDotProductSse(p13, p13));
+        double norm12 = std::sqrt(CalcDotProductSse(p12, p12));
+        double norm23 = std::sqrt(CalcDotProductSse(p23, p23));
+        double norm13 = std::sqrt(CalcDotProductSse(p13, p13));
 
-        p12 = _mm_div_ps(p12, _mm_set_ps(1.0, norm12, norm12, norm12));
-        p13 = _mm_div_ps(p13, _mm_set_ps(1.0, norm13, norm13, norm13));
-        p23 = _mm_div_ps(p23, _mm_set_ps(1.0, norm23, norm23, norm23));
+        p12 = _mm256_div_pd(p12, _mm256_set_pd(1.0, norm12, norm12, norm12));
+        p13 = _mm256_div_pd(p13, _mm256_set_pd(1.0, norm13, norm13, norm13));
+        p23 = _mm256_div_pd(p23, _mm256_set_pd(1.0, norm23, norm23, norm23));
 
         int vertexes_size = this->vertexes.size();
         if (p12_ind == -1) {
             this->vertexes.resize(this->vertexes.size() + 3);
-            _mm_storeu_ps(&(this->vertexes[vertexes_size]), p12);
+            _mm256_storeu_pd(&(this->vertexes[vertexes_size]), p12);
             p12_ind = vertex_number;
             new_vertex_indexing[ind_pair1] = p12_ind;
             vertex_number += 1;
@@ -277,7 +280,7 @@ inline void Sphere<double>::generate_vertexes_helper() {
         }
         if (p23_ind == -1) {
             this->vertexes.resize(this->vertexes.size() + 3);
-            _mm_storeu_ps(&(this->vertexes[vertexes_size]), p23);
+            _mm256_storeu_pd(&(this->vertexes[vertexes_size]), p23);
             p23_ind = vertex_number;
             new_vertex_indexing[ind_pair2] = p23_ind;
             vertex_number += 1;
@@ -285,7 +288,7 @@ inline void Sphere<double>::generate_vertexes_helper() {
         }
         if (p13_ind == -1) {
             this->vertexes.resize(this->vertexes.size() + 3);
-            _mm_storeu_ps(&(this->vertexes[vertexes_size]), p13);
+            _mm256_storeu_pd(&(this->vertexes[vertexes_size]), p13);
             p13_ind = vertex_number;
             new_vertex_indexing[ind_pair3] = p13_ind;
             vertex_number += 1;

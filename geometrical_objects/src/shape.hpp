@@ -55,7 +55,7 @@ class Shape {
         min_vertexes = num;
     };
 
-    virtual void set_vertex_colors(std::vector<T> &colors_) {
+    virtual void set_vertex_colors(std::vector<float> &colors_) {
         assert(colors_.size() / 4 == vertexes.size() / vertex_size &&
                "Each vertex should have a color value in the form of vec4: "
                "incorrect size of color vector!");

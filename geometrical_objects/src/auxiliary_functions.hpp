@@ -28,6 +28,14 @@ inline __m128 cross_product(__m128 a, __m128 b) {
     return result;
 }
 
+inline __m128 cross_product(__m256d a, __m256d b) {
+    return _mm256_fmsubadd_pd(
+        _mm256_permute4x64_pd(xyzw, mskYZX),
+        _mm256_permute4x64_pd(rhs.xyzw, mskZXY),
+        _mm256_mul_pd(_mm256_permute4x64_pd(xyzw, mskZXY),
+                      _mm256_permute4x64_pd(rhs.xyzw, mskYZX)))
+}
+
 inline float CalcDotProductSse(__m128 x, __m128 y) {
     __m128 mulRes, shufReg, sumsReg;
     mulRes = _mm_mul_ps(x, y);
@@ -42,13 +50,21 @@ inline float CalcDotProductSse(__m128 x, __m128 y) {
         sumsReg); // Result in the lower part of the SSE Register
 }
 
-template <class T> inline void hash_combine(std::size_t &seed, const T &v) {
+inline float CalcDotProductSse(__m256d x, __m256d y) {
+
+    __m256d tmp = _mm256_mul_pd(x, y);
+    
+}
+
+template <class T>
+inline void hash_combine(std::size_t &seed, const T &v) {
     std::hash<T> hasher;
     seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
 }
 
 namespace std {
-template <typename S, typename T> struct hash<pair<S, T>> {
+template <typename S, typename T>
+struct hash<pair<S, T>> {
     inline size_t operator()(const pair<S, T> &v) const {
         size_t seed = 0;
         ::hash_combine(seed, v.first);
@@ -175,7 +191,3 @@ inline __m128 legendre_next(__m128 Pn, __m128 Pnm1, __m128 x_vec, int n) {
         _mm_fmsub_ps(coeff1, Pn, _mm_mul_ps(_mm_div_ps(n_vec, np1_vec), Pnm1));
     return result;
 }
-
-
-
-
