@@ -5,8 +5,6 @@ void OnPlusPressed(GLFWwindow *window);
 void OnMinusPressed(GLFWwindow *window);
 void OnEnterPressed(GLFWwindow *window, unsigned &enter_count);
 void OnClosePressed(GLFWwindow *window);
-void initialize_shapes(std::vector<Shape<float> *> &);
-void display(std::vector<Shape<float> *> &);
 
 template <typename U>
 void initialize_shapes(std::vector<Shape<U> *> &shapes) {

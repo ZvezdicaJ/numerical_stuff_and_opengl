@@ -28,12 +28,13 @@ inline __m128 cross_product(__m128 a, __m128 b) {
     return result;
 }
 
-inline __m128 cross_product(__m256d a, __m256d b) {
-    return _mm256_fmsubadd_pd(
-        _mm256_permute4x64_pd(xyzw, mskYZX),
-        _mm256_permute4x64_pd(rhs.xyzw, mskZXY),
-        _mm256_mul_pd(_mm256_permute4x64_pd(xyzw, mskZXY),
-                      _mm256_permute4x64_pd(rhs.xyzw, mskYZX)))
+inline __m256d cross_product(__m256d a, __m256d b) {
+    __m256d c = _mm256_permute4x64_pd(
+        _mm256_fmsub_pd(a, _mm256_permute4x64_pd(b, _MM_SHUFFLE(3, 0, 2, 1)),
+                        _mm256_mul_pd(b, _mm256_permute4x64_pd(
+                                             a, _MM_SHUFFLE(3, 0, 2, 1)))),
+        _MM_SHUFFLE(3, 0, 2, 1));
+    return c;
 }
 
 inline float CalcDotProductSse(__m128 x, __m128 y) {
@@ -51,9 +52,7 @@ inline float CalcDotProductSse(__m128 x, __m128 y) {
 }
 
 inline float CalcDotProductSse(__m256d x, __m256d y) {
-
     __m256d tmp = _mm256_mul_pd(x, y);
-    
 }
 
 template <class T>

@@ -1,5 +1,11 @@
-inline void print_vertex(float *ver, const std::string vertex_name = "",
+template <typename T>
+inline void print_vertex(T *ver, const std::string vertex_name = "",
                          unsigned vert_size = 3) {
+
+    static_assert(std::is_same<float, T>::value ||
+                      std::is_same<double, T>::value,
+                  "Shapes can only be instantiated with floating point types: "
+                  "float, double, long double!");
     std::cout << "\n " << vertex_name << "  ";
     for (int i = 0; i < vert_size; i++)
         std::cout << *(ver + i) << " ";
@@ -8,6 +14,10 @@ inline void print_vertex(float *ver, const std::string vertex_name = "",
 
 template <class T>
 inline std::ostream &operator<<(std::ostream &out, std::vector<T> vec) {
+    static_assert(std::is_same<float, T>::value ||
+                      std::is_same<double, T>::value,
+                  "Shapes can only be instantiated with floating point types: "
+                  "float, double, long double!");
     for (int i = 0; i < vec.size(); i++) {
         out << vec[i] << " ";
     }
@@ -18,7 +28,7 @@ template <class T, int size>
 inline void print_vertexes(const std::array<T, size> &vertexes,
                            int number_to_print = 0, int vertex_size = 3) {
     if (number_to_print == 0)
-        number_to_print = size / vertex_size;
+        number_to_print = vertexes.size() / vertex_size;
 
     for (int i = 0; i < number_to_print; i++) {
         std::cout << "vertex " << i << ":   ";
@@ -29,7 +39,22 @@ inline void print_vertexes(const std::array<T, size> &vertexes,
     }
 }
 
-inline void print_vertexes(float *vertexes, int number_to_print,
+template <class T>
+inline void print_vertexes(const std::vector<T> &vertexes,
+                           int number_to_print = 0, int vertex_size = 3) {
+    if (number_to_print == 0)
+        number_to_print = vertexes.size() / vertex_size;
+    for (int i = 0; i < number_to_print; i++) {
+        std::cout << "vertex " << i << ":   ";
+        for (int j = 0; j < vertex_size; j++) {
+            std::cout << vertexes[vertex_size * i + j] << "  ";
+        }
+        std::cout << std::endl;
+    }
+}
+
+template <typename T>
+inline void print_vertexes(T *vertexes, int number_to_print,
                            int vertex_size = 3) {
     for (int i = 0; i < number_to_print; i++) {
         std::cout << "vertex " << i << ":   ";

@@ -29,7 +29,7 @@ void draw(Shape<T> &shape, Shader<RENDER_TYPE::UNIFORM_COLOR> &shader_object,
     color = glm::vec4(1.0f, 0.5f, 0.2f, 0.3f);
     glUniform4fv(triangle_color, 1, glm::value_ptr(color));
 
-    glVertexAttribPointer(0, shape.vertex_size, GL_FLOAT, GL_TRUE,
+    glVertexAttribPointer(0, shape.vertex_size, T, GL_TRUE,
                           shape.vertex_size * sizeof(T), (void *)0);
     glEnableVertexAttribArray(0);
     glDrawElements(GL_TRIANGLES, shape.element_array.size(), GL_UNSIGNED_INT, 0);
@@ -85,8 +85,8 @@ void draw(Shape<T> &shape, Shader<RENDER_TYPE::CUSTOM_COLOR> &shader_object,
     glEnableVertexAttribArray(1);
 
     glBindBuffer(GL_ARRAY_BUFFER, shape.VBO);
-    glVertexAttribPointer(0, shape.vertex_size, GL_FLOAT, GL_TRUE,
-                          shape.vertex_size * sizeof(float), (void *)0);
+    glVertexAttribPointer(0, shape.vertex_size, T, GL_TRUE,
+                          shape.vertex_size * sizeof(T), (void *)0);
     glEnableVertexAttribArray(0);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shape.EBO);
@@ -120,7 +120,7 @@ void draw_wireframe(Shape<T> &shape,
 
     glUniform4fv(triangle_color, 1, glm::value_ptr(color));
     glVertexAttribPointer(0, shape.vertex_size, GL_FLOAT, GL_TRUE,
-                          shape.vertex_size * sizeof(float), (void *)0);
+                          shape.vertex_size * sizeof(T), (void *)0);
     glEnableVertexAttribArray(0);
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // render as wireframe

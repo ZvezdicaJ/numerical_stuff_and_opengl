@@ -25,10 +25,12 @@ int main() {
         return -1;
     }
 
-    std::vector<Shape<float> *> shapes;
+    std::vector<Shape<float> *> shapes1;
     std::vector<Shape<double> *> shapes2;
+    initialize_shapes(shapes1);
     initialize_shapes(shapes2);
-
+    print_vertexes(shapes1[0]->get_vertexes());
+    print_vertexes(shapes2[0]->get_vertexes());
     while (!glfwWindowShouldClose(window)) {
         OnMinusPressed(window);
         OnPlusPressed(window);
@@ -36,6 +38,7 @@ int main() {
         glfwPollEvents(); // check if any events happend (mouse press, key
                           // pres)
         display(shapes2);
+        display(shapes1);
         // draw_sphere(center, 0.5, fi);
         // Shape<float> test_sphere = static_cast<Shape<float>>(sphere1);
         // draw(sphere1, uniform_color_shader, {0.2, 0.2, 0.2}, {0.4, 0.5, 0},

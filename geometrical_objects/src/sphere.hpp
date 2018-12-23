@@ -64,6 +64,7 @@ void Sphere<T>::generate_vertexes() {
 // typename std::enable_if_t<std::is_same<float, T>::value, float>
 template <>
 inline void Sphere<float>::generate_vertexes_helper() {
+    std::cout << "generate_vertexes_helper" << std::endl;
     int vertex_number = this->vertexes.size() / 3;
     this->vertexes.reserve(this->vertexes.size() * 5 + 1);
     int num_tri = this->element_array.size() / 3;
@@ -73,6 +74,7 @@ inline void Sphere<float>::generate_vertexes_helper() {
     new_vertex_indexing.reserve(vertex_number + 1);
     // print_vertexes(&vertexes[0], vertex_number);
     for (int tri = 0; tri < num_tri; tri++) {
+        //std::cout<<"vertexes size: "<<(this->vertexes).size()<<std::endl;
         int vert1_ind = this->element_array[3 * tri];
         int vert2_ind = this->element_array[3 * tri + 1];
         int vert3_ind = this->element_array[3 * tri + 2];
@@ -257,7 +259,7 @@ inline void Sphere<double>::generate_vertexes_helper() {
                           _mm256_set_pd(std::numeric_limits<double>::infinity(),
                                         2.0, 2.0, 2.0));
         __m256d p13 =
-            _mm256_div_ps(_mm256_add_pd(vert1, vert3),
+            _mm256_div_pd(_mm256_add_pd(vert1, vert3),
                           _mm256_set_pd(std::numeric_limits<double>::infinity(),
                                         2.0, 2.0, 2.0));
 
