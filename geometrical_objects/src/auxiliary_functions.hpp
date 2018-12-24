@@ -28,6 +28,7 @@ inline __m128 cross_product(__m128 a, __m128 b) {
     return result;
 }
 
+#ifdef __AVX2__
 inline __m256d cross_product(__m256d a, __m256d b) {
     __m256d c = _mm256_permute4x64_pd(
         _mm256_fmsub_pd(a, _mm256_permute4x64_pd(b, _MM_SHUFFLE(3, 0, 2, 1)),
@@ -36,6 +37,7 @@ inline __m256d cross_product(__m256d a, __m256d b) {
         _MM_SHUFFLE(3, 0, 2, 1));
     return c;
 }
+#endif
 
 inline float CalcDotProductSse(__m128 x, __m128 y) {
     __m128 mulRes, shufReg, sumsReg;
@@ -51,19 +53,21 @@ inline float CalcDotProductSse(__m128 x, __m128 y) {
         sumsReg); // Result in the lower part of the SSE Register
 }
 
-inline float CalcDotProductSse(__m256d x, __m256d y) {
+#ifdef __AVX2__
+inline double CalcDotProductSse(__m256d x, __m256d y) {
     __m256d tmp = _mm256_mul_pd(x, y);
+    double *tmp_d = (double *)(&tmp);
+    return tmp_d[0] + tmp_d[1] + tmp_d[2];
 }
+#endif
 
-template <class T>
-inline void hash_combine(std::size_t &seed, const T &v) {
+template <class T> inline void hash_combine(std::size_t &seed, const T &v) {
     std::hash<T> hasher;
     seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
 }
 
 namespace std {
-template <typename S, typename T>
-struct hash<pair<S, T>> {
+template <typename S, typename T> struct hash<pair<S, T>> {
     inline size_t operator()(const pair<S, T> &v) const {
         size_t seed = 0;
         ::hash_combine(seed, v.first);
@@ -104,22 +108,40 @@ inline __m128 chebyshev(int n, __m128 x_vec) {
     __m128 T1 = x_vec;
     if (n == 1)
         return x_vec;
-    // T2
+
+        // T2
+#ifdef __FMA__
+    __m128 T2 = _mm_fmsub_ps(_mm_mul_ps(_mm_set_ps1(2.0), x_vec), x_vec, T0);
+#endif
+#ifndef __FMA__
     __m128 T2 =
         _mm_sub_ps(_mm_mul_ps(_mm_mul_ps(_mm_set_ps1(2.0), x_vec), x_vec), T0);
+#endif
     if (n == 2)
         return T2;
-    // T3
+
+        // T3
+#ifdef __FMA__
+    __m128 T3 = _mm_fmsub_ps(_mm_mul_ps(_mm_set_ps1(2.0), T2), x_vec, x_vec);
+#endif
+#ifndef __FMA__
     __m128 T3 =
         _mm_sub_ps(_mm_mul_ps(_mm_mul_ps(_mm_set_ps1(2.0), T2), x_vec), x_vec);
+#endif
+
     if (n == 3)
         return T3;
     __m128 Tn = T3;
     __m128 Tnm1 = T2;
     __m128 Tnp1;
     for (int i = 4; i <= n; i++) {
+#ifdef __FMA__
+        Tnp1 = _mm_fmsub_ps(_mm_mul_ps(_mm_set_ps1(2.0), Tn), x_vec, Tnm1);
+#endif
+#ifndef __FMA__
         Tnp1 = _mm_sub_ps(_mm_mul_ps(_mm_mul_ps(_mm_set_ps1(2.0), Tn), x_vec),
                           Tnm1);
+#endif
         Tnm1 = Tn;
         Tn = Tnp1;
     }
@@ -127,7 +149,13 @@ inline __m128 chebyshev(int n, __m128 x_vec) {
 }
 
 inline __m128 chebyshev_next(__m128 &cn, __m128 &cn_1, __m128 &x_vec) {
+#ifdef __FMA__
     return _mm_fmsub_ps(_mm_mul_ps(_mm_set_ps1(2.0), cn), x_vec, cn_1);
+#endif
+#ifndef __FMA__
+    return _mm_sub_ps(_mm_mul_ps(_mm_mul_ps(_mm_set_ps1(2.0), cn), x_vec),
+                      cn_1);
+#endif
 }
 
 inline __m128 sse_cos(__m128 x_vec_) {
@@ -152,7 +180,12 @@ inline __m128 sse_cos(__m128 x_vec_) {
         __m128 coeff4 = _mm_set1_ps(coeff[n]);
         T2n = chebyshev_next(T2np1, T2n, x_vec);
         T2np1 = chebyshev_next(T2n, T2np1, x_vec);
+#ifdef __FMA__
         sum = _mm_fmadd_ps(coeff4, T2n, sum);
+#endif
+#ifdef __FMA__
+        sum = _mm_fmadd_ps(coeff4, T2n, sum);
+#endif
     }
     return sum;
 }
@@ -171,7 +204,12 @@ inline __m128 sse_sin(__m128 x_vec_) {
     __m128 T2np1 = x_vec;
     for (int n = 0; n < 9; n++) {
         __m128 coeff4 = _mm_set1_ps(coeff[n]);
+#ifdef __FMA__
         sum = _mm_fmadd_ps(coeff4, T2np1, sum);
+#endif
+#ifndef __FMA__
+        sum = _mm_add_ps(_mm_mul_ps(coeff4, T2np1), sum);
+#endif
         T2n = chebyshev_next(T2np1, T2n, x_vec);
         T2np1 = chebyshev_next(T2n, T2np1, x_vec);
     }
@@ -181,12 +219,23 @@ inline __m128 sse_sin(__m128 x_vec_) {
 inline __m128 legendre_next(__m128 Pn, __m128 Pnm1, __m128 x_vec, int n) {
     __m128 n_vec = _mm_set_ps1(n);
     __m128 np1_vec = _mm_set_ps1(n + 1);
-
+#ifdef __FMA__
     __m128 coeff1 = _mm_div_ps(
         _mm_mul_ps(_mm_fmadd_ps(_mm_set_ps1(2.0), n_vec, _mm_set_ps1(1.0)),
                    x_vec),
         np1_vec);
     __m128 result =
         _mm_fmsub_ps(coeff1, Pn, _mm_mul_ps(_mm_div_ps(n_vec, np1_vec), Pnm1));
+#endif
+
+#ifndef __FMA__
+    __m128 coeff1 =
+        _mm_div_ps(_mm_mul_ps(_mm_add_ps(_mm_mul_ps(_mm_set_ps1(2.0), n_vec),
+                                         _mm_set_ps1(1.0)),
+                              x_vec),
+                   np1_vec);
+    __m128 result = _mm_sub_ps(_mm_mul_ps(coeff1, Pn),
+                               _mm_mul_ps(_mm_div_ps(n_vec, np1_vec), Pnm1));
+#endif
     return result;
 }

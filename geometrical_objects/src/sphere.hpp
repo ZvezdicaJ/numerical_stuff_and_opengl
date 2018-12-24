@@ -1,7 +1,6 @@
 #ifndef __SPHERE__
 
-template <typename T = float>
-class Sphere : public Shape3D<T> {
+template <typename T = float> class Sphere : public Shape3D<T> {
   private:
     void generate_vertexes_helper_old();
     void generate_vertexes_helper();
@@ -22,8 +21,7 @@ class Sphere : public Shape3D<T> {
     using Shape3D<T>::area;
 };
 
-template <typename T>
-void Sphere<T>::generate_vertexes() {
+template <typename T> void Sphere<T>::generate_vertexes() {
     this->vertexes.reserve(15);
     this->vertexes.resize(15);
     std::array<T, 3> dir1({1.0, 0, 0});
@@ -60,10 +58,10 @@ void Sphere<T>::generate_vertexes() {
     generate_vertexes_helper();
 }
 
+#ifdef __SSE__
 // template <typename T>
 // typename std::enable_if_t<std::is_same<float, T>::value, float>
-template <>
-inline void Sphere<float>::generate_vertexes_helper() {
+template <> inline void Sphere<float>::generate_vertexes_helper() {
     std::cout << "generate_vertexes_helper" << std::endl;
     int vertex_number = this->vertexes.size() / 3;
     this->vertexes.reserve(this->vertexes.size() * 5 + 1);
@@ -74,7 +72,7 @@ inline void Sphere<float>::generate_vertexes_helper() {
     new_vertex_indexing.reserve(vertex_number + 1);
     // print_vertexes(&vertexes[0], vertex_number);
     for (int tri = 0; tri < num_tri; tri++) {
-        //std::cout<<"vertexes size: "<<(this->vertexes).size()<<std::endl;
+        // std::cout<<"vertexes size: "<<(this->vertexes).size()<<std::endl;
         int vert1_ind = this->element_array[3 * tri];
         int vert2_ind = this->element_array[3 * tri + 1];
         int vert3_ind = this->element_array[3 * tri + 2];
@@ -195,9 +193,10 @@ inline void Sphere<float>::generate_vertexes_helper() {
     // print_vertexes(&vertexes[0], vertexes.size() / 3);
     // std::cout << "\n\n" << element_array << std::endl;
 }
+#endif
 
-template <>
-inline void Sphere<double>::generate_vertexes_helper() {
+#ifdef __AVX2__
+template <> inline void Sphere<double>::generate_vertexes_helper() {
     int vertex_number = this->vertexes.size() / 3;
     this->vertexes.reserve(this->vertexes.size() * 5 + 1);
     int num_tri = this->element_array.size() / 3;
@@ -330,11 +329,13 @@ inline void Sphere<double>::generate_vertexes_helper() {
     // print_vertexes(&vertexes[0], vertexes.size() / 3);
     // std::cout << "\n\n" << element_array << std::endl;
 }
+#endif
+
+#ifndef __SSE__
 
 // template <typename T>
 // typename std::enable_if_t<std::is_same<float, T>::value, float>
-template <>
-inline void Sphere<float>::generate_vertexes_helper_old() {
+template <typename T> inline void Sphere<T>::generate_vertexes_helper_old() {
     int vertex_number = this->vertexes.size() / 3;
     this->vertexes.reserve(this->vertexes.size() * 5 + 1);
     int num_tri = this->element_array.size() / 3;
@@ -350,13 +351,13 @@ inline void Sphere<float>::generate_vertexes_helper_old() {
             &(this->vertexes[this->element_array[3 * tri + 2] * 3]));
         __m128 p12 = _mm_div_ps(
             _mm_add_ps(vert1, vert2),
-            _mm_set_ps(std::numeric_limits<float>::infinity(), 2.0, 2.0, 2.0));
+            _mm_set_ps(std::numeric_limits<T>::infinity(), 2.0, 2.0, 2.0));
         __m128 p23 = _mm_div_ps(
             _mm_add_ps(vert2, vert3),
-            _mm_set_ps(std::numeric_limits<float>::infinity(), 2.0, 2.0, 2.0));
+            _mm_set_ps(std::numeric_limits<T>::infinity(), 2.0, 2.0, 2.0));
         __m128 p13 = _mm_div_ps(
             _mm_add_ps(vert1, vert3),
-            _mm_set_ps(std::numeric_limits<float>::infinity(), 2.0, 2.0, 2.0));
+            _mm_set_ps(std::numeric_limits<T>::infinity(), 2.0, 2.0, 2.0));
 
         float norm12 = std::sqrt(CalcDotProductSse(p12, p12));
         float norm23 = std::sqrt(CalcDotProductSse(p23, p23));
@@ -405,14 +406,11 @@ inline void Sphere<float>::generate_vertexes_helper_old() {
     if (this->vertexes.size() < this->min_vertexes)
         generate_vertexes_helper();
 }
+#endif
 
-template <typename T>
-void Sphere<T>::refine() {
-    generate_vertexes_helper();
-}
+template <typename T> void Sphere<T>::refine() { generate_vertexes_helper(); }
 
-template <typename T>
-T Sphere<T>::quality() {
+template <typename T> T Sphere<T>::quality() {
     return std::fabs(this->area() - M_PI);
 }
 
