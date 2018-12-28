@@ -26,7 +26,7 @@ class Shape {
     unsigned VAO; /**< vertex array object*/
     unsigned EBO; /**< element buffer address */
     unsigned CBO; /**< color buffer address */
-    int min_vertexes = 5;
+    unsigned min_vertexes = 5;
     std::vector<float> vertex_colors;
 
     void initialize_buffers() {
@@ -110,9 +110,9 @@ class Shape3D : public Shape<T> {
             __m128 vec23 = _mm_sub_ps(vert2, vert3);
             __m128 vec13 = _mm_sub_ps(vert1, vert3);
 
-            float distance12 = std::sqrt(CalcDotProductSse(vec12, vec12));
-            float distance23 = std::sqrt(CalcDotProductSse(vec23, vec23));
-            float distance13 = std::sqrt(CalcDotProductSse(vec13, vec13));
+            float distance12 = std::sqrt(CalcDotProduct(vec12, vec12));
+            float distance23 = std::sqrt(CalcDotProduct(vec23, vec23));
+            float distance13 = std::sqrt(CalcDotProduct(vec13, vec13));
 
             T s = (distance12 + distance23 + distance13) / 2.0;
             ar += std::sqrt(s * (s - distance12) * (s - distance13) *

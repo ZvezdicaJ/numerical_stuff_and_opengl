@@ -69,7 +69,7 @@ template <typename T> T Circle<T>::perimeter() {
         __m128 vert13 = _mm_shuffle_ps(vert12, vert34, _MM_SHUFFLE(3, 2, 3, 2));
         __m128 vert24 = _mm_shuffle_ps(vert12, vert34, _MM_SHUFFLE(1, 0, 1, 0));
         __m128 dif_vec = _mm_sub_ps(vert13, vert24);
-        float dist2 = CalcDotProductSse(dif_vec, dif_vec);
+        float dist2 = CalcDotProduct(dif_vec, dif_vec);
         perimeter += std::sqrt(dist2);
     }
 

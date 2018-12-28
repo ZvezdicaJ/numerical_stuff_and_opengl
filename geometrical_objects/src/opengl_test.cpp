@@ -18,10 +18,11 @@ int main() {
     print("Window created!");
 
     std::vector<Shape<float> *> shapes1;
-    std::vector<Shape<double> *> shapes2;
-    initialize_shapes(shapes1);
+    Sphere<float> sphere1;
+    //std::vector<Shape<double> *> shapes2;
+    //initialize_shapes(shapes1);
     //initialize_shapes(shapes2);
-    print_vertexes(shapes1[0]->get_vertexes());
+    //print_vertexes(shapes1[0]->get_vertexes());
     //print_vertexes(shapes2[0]->get_vertexes());
 
     // glad takes care of opengl function pointers
@@ -39,7 +40,7 @@ int main() {
         glfwPollEvents(); // check if any events happend (mouse press, key
                           // pres)
         //display(shapes2);
-        display(shapes1);
+        //display(shapes1);
         // draw_sphere(center, 0.5, fi);
         // Shape<float> test_sphere = static_cast<Shape<float>>(sphere1);
         // draw(sphere1, uniform_color_shader, {0.2, 0.2, 0.2}, {0.4, 0.5, 0},

@@ -13,7 +13,8 @@ message(STATUS "glfw libraries: ${GLFW_LIBRARIES}")
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -march=native")
 
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O1 -msse -mavx -mfma -Wnon-template-friend")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O1 -msse -mavx -mavx2 -mfma -Wall -Wnon-template-friend -Wno-unused-variable")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse -msse4.1 -mno-avx -mno-avx2 -mno-fma -Wall -Wnon-template-friend -Wno-unused-variable")
 
 # GLFW
 #set(GLFW_DIR "../../../Downloads/glfw")
@@ -39,5 +40,12 @@ add_executable(opengl_test
 target_include_directories(opengl_test PRIVATE "${GLAD_DIR}/include")
 target_link_libraries(opengl_test glad /usr/local/lib/libglfw.so)
 
-add_executable(test_auxiliary_functions testing/auxliary_functions_test.cpp)
 
+# Locate GTest
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS})
+
+add_executable(test_auxiliary_functions testing/auxiliary_functions_test.cpp)
+add_executable(runTests
+  testing/gtest_tests.cpp)
+target_link_libraries(runTests ${GTEST_LIBRARIES} pthread)

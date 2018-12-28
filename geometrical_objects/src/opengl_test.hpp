@@ -39,4 +39,4 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
 
-#define M_PI 3.14159265358979323846 /* pi */
+#define M_PI 3.1415926535897932385 /* pi */

@@ -216,6 +216,30 @@ void test_cross_product() {
     print_sse_float(a, "a");
 }
 
+void test_avx_cos() {
+    __m256d T0 = _mm256_set1_pd(1.0);
+    std::ofstream out_file0("../testing/data/avx_cos_test.dat", std::ios::out);
+    if (!out_file0.is_open())
+        std::cout << "Unable to open a file in function test_avx_cos!"
+                  << std::endl;
+    double min = -M_PI;
+    double max = M_PI;
+    int steps = 100;
+    double korak = (max - min) / (double)(steps - 1);
+
+    for (int i = 0; i < steps / 4; i += 1) {
+        __m256d x_vec;
+        x_vec = _mm256_setr_pd(min + 4 * i * korak, min + (4 * i + 1) * korak,
+                               min + (4 * i + 2) * korak,
+                               min + (4 * i + 3) * korak);
+        __m256d cos = avx_cos(x_vec);
+        //        cos = _mm256_shuffle_pd(cos, cos, _MM_SHUFFLE(0, 1, 2, 3));
+        double *r = (double *)&cos;
+        out_file0 << std::setprecision(18) << *(r) << " " << *(r + 1) << "  "
+                  << *(r + 2) << " " << *(r + 3) << " ";
+    }
+}
+
 int main() {
     test_chebyshev();
     test_factorial(1, 10);
@@ -223,5 +247,6 @@ int main() {
     test_sse_cos();
     test_sse_sin();
     test_cross_product();
+    test_avx_cos();
     return 0;
 }
