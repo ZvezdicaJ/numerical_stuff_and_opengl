@@ -303,3 +303,37 @@ TEST(cos, avx2) {
         EXPECT_THAT(p[j], testing::DoubleNear(correct_result[j], 1e-7));
 }
 #endif
+
+TEST(tan, sse) {
+    std::array<float, 4> x_vec({-0.7, -0.3, 0.33, 1.553});
+    __m128 x = _mm_loadu_ps(x_vec.data());
+    __m128 result = sse_tan(x);
+    float *p = (float *)&result;
+    std::array<float, 4> correct_result(
+        {-0.84228838046307941134, -0.30933624960962324835,
+         0.34252486753003896780, 56.185438688872594071});
+    for (int j = 0; j < 4; j++) {
+        double tol = 1e-7;
+        if (j == 3)
+            tol = 1e-4;
+        EXPECT_THAT(p[j], testing::FloatNear(correct_result[j], tol));
+    }
+}
+
+#ifdef __AVX2__
+TEST(tan, avx2) {
+    std::array<double, 4> x_vec({-0.7, -0.3, 0.33, 1.553});
+    __m256d x = _mm256_loadu_pd(x_vec.data());
+    __m256d result = avx_tan(x);
+    double *p = (double *)&result;
+    std::array<double, 4> correct_result(
+        {-0.84228838046307941134, -0.30933624960962324835,
+         0.34252486753003896780, 56.185438688872594071});
+    for (int j = 0; j < 4; j++) {
+        double tol = 1e-11;
+        if (j == 3)
+            tol = 1e-9;
+        EXPECT_THAT(p[j], testing::DoubleNear(correct_result[j], tol));
+    }
+}
+#endif

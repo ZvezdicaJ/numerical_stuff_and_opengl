@@ -358,3 +358,35 @@ inline __m128 sse_tan(__m128 x) {
                          _mm_fmsub_ps(x2, _mm_set_ps1(16216200), coeff1))));
     return _mm_div_ps(numerator, denominator);
 }
+
+#ifdef __AVX2__
+inline __m256d avx_tan(__m256d x) {
+    // this function should calculate tan to 1e-8 precision
+    // stevec : 34459425 * a - 4729725 * a ^ 3 + 135135 * a ^ 5 - 990 a ^ 7 + a
+    // ^ 9;
+    __m256d x2 = _mm256_mul_pd(x, x);
+    __m256d x3 = _mm256_mul_pd(x2, x);
+    __m256d x4 = _mm256_mul_pd(x2, x2);
+    __m256d x5 = _mm256_mul_pd(x3, x2);
+    __m256d x6 = _mm256_mul_pd(x3, x3);
+    __m256d x7 = _mm256_mul_pd(x3, x4);
+    __m256d x8 = _mm256_mul_pd(x4, x4);
+    __m256d x9 = _mm256_mul_pd(x4, x5);
+    __m256d coeff1 = _mm256_set1_pd(34459425);
+    __m256d numerator = _mm256_fmsub_pd(
+        x, coeff1,
+        _mm256_fmsub_pd(
+            x3, _mm256_set1_pd(4729725),
+            _mm256_fmsub_pd(x5, _mm256_set1_pd(135135),
+                            _mm256_fmsub_pd(x7, _mm256_set1_pd(990), x9))));
+    // imenovalec: 34459425 - 16216200*a^2 + 945945 a^4 - 13860*a^6 + 45*a^8
+    __m256d denominator = _mm256_fmsub_pd(
+        x8, _mm256_set1_pd(45),
+        _mm256_fmsub_pd(
+            x6, _mm256_set1_pd(13860),
+            _mm256_fmsub_pd(
+                x4, _mm256_set1_pd(945945),
+                _mm256_fmsub_pd(x2, _mm256_set1_pd(16216200), coeff1))));
+    return _mm256_div_pd(numerator, denominator);
+}
+#endif
