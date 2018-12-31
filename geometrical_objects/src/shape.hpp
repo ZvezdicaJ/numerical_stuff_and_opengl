@@ -30,8 +30,9 @@ class Shape {
     std::vector<float> vertex_colors;
 
     void initialize_buffers() {
+
         glGenVertexArrays(1, &VAO);
-        // glBindVertexArray(VAO);
+        glBindVertexArray(VAO);
 
         // generate and bind and fill vertex data
         glGenBuffers(1, &VBO);
@@ -42,8 +43,9 @@ class Shape {
         // generate and bind and fill element data
         glGenBuffers(1, &EBO);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(T) * element_array.size(),
-                     &(element_array[0]), GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+                     sizeof(int) * element_array.size(), &(element_array[0]),
+                     GL_STATIC_DRAW);
 
         // generate color buffer but do not load data;
         // load data

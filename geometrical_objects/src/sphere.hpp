@@ -10,6 +10,7 @@ class Sphere : public Shape3D<T> {
   public:
     Sphere() {
         this->vertex_size = 3;
+        this->min_vertexes = 5;
         generate_vertexes();
         this->initialize_buffers();
     };
@@ -71,6 +72,7 @@ inline void Sphere<float>::generate_vertexes_helper() {
     std::unordered_map<std::pair<int, int>, int> new_vertex_indexing;
     new_vertex_indexing.reserve(vertex_number + 1);
     // print_vertexes(&vertexes[0], vertex_number);
+
     for (int tri = 0; tri < num_tri; tri++) {
         int vert1_ind = this->element_array[3 * tri];
         int vert2_ind = this->element_array[3 * tri + 1];
@@ -169,13 +171,13 @@ inline void Sphere<float>::generate_vertexes_helper() {
 
         int el_array_size = new_element_array.size();
         new_element_array.resize(el_array_size + 12);
-        _mm_storeu_si128((__m128i_u *)&new_element_array[el_array_size],
+        _mm_storeu_si128((__m128i *)&new_element_array[el_array_size],
                          new_tri1);
-        _mm_storeu_si128((__m128i_u *)&new_element_array[el_array_size + 3],
+        _mm_storeu_si128((__m128i *)&new_element_array[el_array_size + 3],
                          new_tri2);
-        _mm_storeu_si128((__m128i_u *)&new_element_array[el_array_size + 6],
+        _mm_storeu_si128((__m128i *)&new_element_array[el_array_size + 6],
                          new_tri3);
-        _mm_storeu_si128((__m128i_u *)&new_element_array[el_array_size + 9],
+        _mm_storeu_si128((__m128i *)&new_element_array[el_array_size + 9],
                          new_tri4);
 
         // vertex_number = *std::max_element(std::begin(new_element_array),
@@ -187,9 +189,13 @@ inline void Sphere<float>::generate_vertexes_helper() {
         // std::endl; print_vertexes(&vertexes[0], vertex_number);
     }
     this->element_array = new_element_array;
-    if (this->vertexes.size() < this->min_vertexes)
+    if (this->vertexes.size() < this->min_vertexes) {
+        std::cout << "recursive call to generate vertexes" << std::endl;
         generate_vertexes_helper();
-    // print_vertexes(&vertexes[0], vertexes.size() / 3);
+    }
+
+    // std::cout << "vertexes size: " << vertexes.size() << std::endl;
+    // print_vertexes(&(this->vertexes[0]), this->vertexes.size() / 3);
     // std::cout << "\n\n" << element_array << std::endl;
 }
 #endif
@@ -306,13 +312,13 @@ inline void Sphere<double>::generate_vertexes_helper() {
 
         int el_array_size = new_element_array.size();
         new_element_array.resize(el_array_size + 12);
-        _mm_storeu_si128((__m128i_u *)&new_element_array[el_array_size],
+        _mm_storeu_si128((__m128i *)&new_element_array[el_array_size],
                          new_tri1);
-        _mm_storeu_si128((__m128i_u *)&new_element_array[el_array_size + 3],
+        _mm_storeu_si128((__m128i *)&new_element_array[el_array_size + 3],
                          new_tri2);
-        _mm_storeu_si128((__m128i_u *)&new_element_array[el_array_size + 6],
+        _mm_storeu_si128((__m128i *)&new_element_array[el_array_size + 6],
                          new_tri3);
-        _mm_storeu_si128((__m128i_u *)&new_element_array[el_array_size + 9],
+        _mm_storeu_si128((__m128i *)&new_element_array[el_array_size + 9],
                          new_tri4);
 
         // vertex_number = *std::max_element(std::begin(new_element_array),
@@ -333,82 +339,7 @@ inline void Sphere<double>::generate_vertexes_helper() {
 
 #ifndef __SSE__
 template <typename T>
-inline void Sphere<T>::generate_vertexes_helper_old() {
-    int vertex_number = this->vertexes.size() / 3;
-    this->vertexes.reserve(this->vertexes.size() * 5 + 1);
-    int num_tri = this->element_array.size() / 3;
-    std::vector<int> new_element_array; // = element_array;
-    new_element_array.reserve(4 * this->element_array.size() + 1);
-
-    for (int tri = 0; tri < num_tri; tri++) {
-        __m128 vert1 =
-            _mm_loadu_ps(&(this->vertexes[this->element_array[3 * tri] * 3]));
-        __m128 vert2 = _mm_loadu_ps(
-            &(this->vertexes[this->element_array[3 * tri + 1] * 3]));
-        __m128 vert3 = _mm_loadu_ps(
-            &(this->vertexes[this->element_array[3 * tri + 2] * 3]));
-        __m128 p12 = _mm_div_ps(
-            _mm_add_ps(vert1, vert2),
-            _mm_set_ps(std::numeric_limits<T>::infinity(), 2.0, 2.0, 2.0));
-        __m128 p23 = _mm_div_ps(
-            _mm_add_ps(vert2, vert3),
-            _mm_set_ps(std::numeric_limits<T>::infinity(), 2.0, 2.0, 2.0));
-        __m128 p13 = _mm_div_ps(
-            _mm_add_ps(vert1, vert3),
-            _mm_set_ps(std::numeric_limits<T>::infinity(), 2.0, 2.0, 2.0));
-
-        float norm12 = std::sqrt(CalcDotProduct(p12, p12));
-        float norm23 = std::sqrt(CalcDotProduct(p23, p23));
-        float norm13 = std::sqrt(CalcDotProduct(p13, p13));
-        // std::cout << "norm12: " << norm12 << "  norm13:  " << norm13
-        //         << "  norm23  :" << norm23 << std::endl;
-        p12 = _mm_div_ps(p12, _mm_set_ps(1.0, norm12, norm12, norm12));
-        p13 = _mm_div_ps(p13, _mm_set_ps(1.0, norm13, norm13, norm13));
-        p23 = _mm_div_ps(p23, _mm_set_ps(1.0, norm23, norm23, norm23));
-
-        float norm = CalcDotProduct(p12, p12);
-        int vertexes_size = this->vertexes.size();
-        this->vertexes.resize(this->vertexes.size() + 9);
-
-        _mm_storeu_ps(&(this->vertexes[vertexes_size]), p12);
-        _mm_storeu_ps(&(this->vertexes[vertexes_size + 3]), p23);
-        _mm_storeu_ps(&(this->vertexes[vertexes_size + 6]), p13);
-        // set the correct vertex element numbers
-        __m128i new_tri1 = _mm_set_epi32(-1, vertex_number, vertex_number + 1,
-                                         this->element_array[3 * tri + 1]);
-
-        __m128i new_tri2 =
-            _mm_set_epi32(-1, vertex_number + 1, vertex_number + 2,
-                          this->element_array[3 * tri + 2]);
-        __m128i new_tri3 = _mm_set_epi32(-1, vertex_number, vertex_number + 2,
-                                         this->element_array[3 * tri]);
-        __m128i new_tri4 = _mm_set_epi32(-1, vertex_number, vertex_number + 1,
-                                         vertex_number + 2);
-
-        int el_array_size = new_element_array.size();
-        new_element_array.resize(el_array_size + 12);
-        _mm_storeu_si128((__m128i_u *)&new_element_array[el_array_size],
-                         new_tri1);
-        _mm_storeu_si128((__m128i_u *)&new_element_array[el_array_size + 3],
-                         new_tri2);
-        _mm_storeu_si128((__m128i_u *)&new_element_array[el_array_size + 6],
-                         new_tri3);
-        _mm_storeu_si128((__m128i_u *)&new_element_array[el_array_size + 9],
-                         new_tri4);
-
-        vertex_number = *std::max_element(std::begin(new_element_array),
-                                          std::end(new_element_array)) +
-                        1;
-    }
-    this->element_array = new_element_array;
-    if (this->vertexes.size() < this->min_vertexes)
-        generate_vertexes_helper();
-}
-#endif
-
-#ifndef __SSE__
-template <>
-inline void Sphere<double>::generate_vertexes_helper() {
+inline void Sphere<T>::generate_vertexes_helper() {
     int vertex_number = this->vertexes.size() / 3;
     this->vertexes.reserve(this->vertexes.size() * 5 + 1);
     int num_tri = this->element_array.size() / 3;
@@ -459,28 +390,22 @@ inline void Sphere<double>::generate_vertexes_helper() {
             p13_ind = iter->second;
 
         int v1 = (this->vertexes[vert1_ind * 3]);
-        flaot *vert1 = &(this->vertexes[vert1_ind * 3]);
-        float *vert2 = &(this->vertexes[vert2_ind * 3]);
-        float *vert3 = &(this->vertexes[vert3_ind * 3]);
-        __m256d p12 =
-            _mm256_div_pd(_mm256_add_pd(vert1, vert2),
-                          _mm256_set_pd(std::numeric_limits<double>::infinity(),
-                                        2.0, 2.0, 2.0));
-        float p12[3] = {(vert1[0] + vert2[0]) / 2.0,
-                        (vert1[1] + vert2[1]) / 2.0,
-                        (vert1[2] + vert2[2]) / 2.0};
+        T *vert1 = &(this->vertexes[vert1_ind * 3]);
+        T *vert2 = &(this->vertexes[vert2_ind * 3]);
+        T *vert3 = &(this->vertexes[vert3_ind * 3]);
 
-        float p23[3] = {(vert2[0] + vert3[0]) / 2.0,
-                        (vert2[1] + vert3[1]) / 2.0,
-                        (vert2[2] + vert3[2]) / 2.0};
+        T p12[3] = {(vert1[0] + vert2[0]) / 2.0, (vert1[1] + vert2[1]) / 2.0,
+                    (vert1[2] + vert2[2]) / 2.0};
 
-        float p13[3] = {(vert1[0] + vert3[0]) / 2.0,
-                        (vert1[1] + vert3[1]) / 2.0,
-                        (vert1[2] + vert3[2]) / 2.0};
+        T p23[3] = {(vert2[0] + vert3[0]) / 2.0, (vert2[1] + vert3[1]) / 2.0,
+                    (vert2[2] + vert3[2]) / 2.0};
 
-        double norm12 = std::sqrt(CalcDotProduct(p12, p12));
-        double norm23 = std::sqrt(CalcDotProduct(p23, p23));
-        double norm13 = std::sqrt(CalcDotProduct(p13, p13));
+        T p13[3] = {(vert1[0] + vert3[0]) / 2.0, (vert1[1] + vert3[1]) / 2.0,
+                    (vert1[2] + vert3[2]) / 2.0};
+
+        T norm12 = std::sqrt(CalcDotProduct(p12, p12));
+        T norm23 = std::sqrt(CalcDotProduct(p23, p23));
+        T norm13 = std::sqrt(CalcDotProduct(p13, p13));
 
         for (int k = 0; k < 3; k++) {
             p12[k] = p12[k] / norm12;

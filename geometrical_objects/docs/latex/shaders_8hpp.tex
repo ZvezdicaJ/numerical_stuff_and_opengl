@@ -1,0 +1,111 @@
+\hypertarget{shaders_8hpp}{}\section{src/shaders.hpp File Reference}
+\label{shaders_8hpp}\index{src/shaders.\+hpp@{src/shaders.\+hpp}}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceshaders}{shaders}}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static const std\+::array$<$ std\+::string, 3 $>$ \mbox{\hyperlink{namespaceshaders_ab2247ec9fae03a386582be893b9ce9dd}{shaders\+::uniform\+\_\+vertex\+\_\+shaders}} (\{ R\char`\"{}(
+\#version 330 core
+
+layout (location = 0) in vec2 a\+Pos;
+
+uniform mat4 transform;
+
+void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()
+\{
+gl\+\_\+\+Point\+Size=10.\+0f;
+
+gl\+\_\+\+Position = transform$\ast$vec4(a\+Pos.\+x, a\+Pos.\+y, 1.\+0, 1.\+0f);
+
+\}
+)\char`\"{}, R\char`\"{}(
+\#version 330 core
+
+layout (location = 0) in vec3 a\+Pos;
+
+uniform mat4 transform;
+
+void main()
+\{
+gl\+\_\+\+Point\+Size=10.\+0f;
+
+gl\+\_\+\+Position = transform$\ast$vec4(a\+Pos.\+x, a\+Pos.\+y, a\+Pos.\+z, 1.\+0f);
+
+\}
+)\char`\"{}, R\char`\"{}(
+\#version 330 core
+
+layout (location = 0) in vec4 a\+Pos;
+
+uniform mat4 transform;
+
+void main()
+\{
+gl\+\_\+\+Point\+Size=10.\+0f;
+
+gl\+\_\+\+Position = transform$\ast$a\+Pos;
+
+\}
+)\char`\"{} \})
+\item 
+static const std\+::array$<$ std\+::string, 3 $>$ \mbox{\hyperlink{namespaceshaders_ad65f4b831f91212b1f8f7da07ada6898}{shaders\+::custom\+\_\+vertex\+\_\+shaders}} (\{ R\char`\"{}(
+\#version 330 core
+layout (location = 0) in vec2 a\+Pos;
+layout (location = 1) in vec4 Custom\+Color;
+
+layout (location = 0) out vec4 Color;
+
+uniform mat4 transform;
+
+void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()
+\{
+gl\+\_\+\+Point\+Size=10.\+0f;
+
+gl\+\_\+\+Position = transform$\ast$vec4(a\+Pos, 0.\+0f, 1.\+0f);
+
+\}
+)\char`\"{}, R\char`\"{}(
+\#version 330 core
+layout (location = 0) in vec3 a\+Pos;
+layout (location = 1) in vec4 Custom\+Color;
+
+layout (location = 0) out vec4 Color;
+
+uniform mat4 transform;
+
+void main()
+\{
+gl\+\_\+\+Point\+Size=10.\+0f;
+
+gl\+\_\+\+Position = transform$\ast$vec4(a\+Pos, 1.\+0f);
+
+\}
+)\char`\"{}, R\char`\"{}(
+\#version 330 core
+layout (location = 0) in vec4 a\+Pos;
+layout (location = 1) in vec4 Custom\+Color;
+
+layout (location = 0) out vec4 Color;
+
+uniform mat4 transform;
+
+void main()
+\{
+gl\+\_\+\+Point\+Size=10.\+0f;
+
+gl\+\_\+\+Position = transform$\ast$a\+Pos;
+
+\}
+)\char`\"{}\})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+static const G\+Lchar $\ast$ \mbox{\hyperlink{namespaceshaders_adb630ad693498e928fa4fec5657b7fbd}{shaders\+::uniform\+\_\+fragment\+\_\+shader}}
+\item 
+static const G\+Lchar $\ast$ \mbox{\hyperlink{namespaceshaders_a53aefc57e61e6526c0469b6790903754}{shaders\+::custom\+\_\+fragment\+\_\+shader}}
+\end{DoxyCompactItemize}

@@ -5,7 +5,7 @@ template <typename T>
 class Shape;
 
 template <typename T>
-void draw(Shape<T>& shape, Shader<RENDER_TYPE::UNIFORM_COLOR>& shader_object,
+void draw(Shape<T> &shape, Shader<RENDER_TYPE::UNIFORM_COLOR> &shader_object,
           std::array<float, 3> scale = {0.5, 0.5, 0.5},
           std::array<float, 3> position = {0, 0, 0},
           std::array<float, 3> rotation_axis = {0, 0, 1}, float angle = 0,
@@ -36,7 +36,13 @@ void draw(Shape<T>& shape, Shader<RENDER_TYPE::UNIFORM_COLOR>& shader_object,
     color = glm::vec4(1.0f, 0.5f, 0.2f, 0.3f);
     glUniform4fv(triangle_color, 1, glm::value_ptr(color));
 
-    glVertexAttribPointer(0, shape.vertex_size, GL_FLOAT, GL_TRUE,
+    GLenum type;
+    if (std::is_same<double, T>::value)
+        type = GL_DOUBLE;
+    else
+        type = GL_FLOAT;
+
+    glVertexAttribPointer(0, shape.vertex_size, type, GL_TRUE,
                           shape.vertex_size * sizeof(T), (void *)0);
     glEnableVertexAttribArray(0);
     glDrawElements(GL_TRIANGLES, shape.element_array.size(), GL_UNSIGNED_INT,
@@ -56,7 +62,7 @@ void draw(Shape<T>& shape, Shader<RENDER_TYPE::UNIFORM_COLOR>& shader_object,
 }
 
 template <typename T>
-void draw(Shape<T>& shape, Shader<RENDER_TYPE::CUSTOM_COLOR>& shader_object,
+void draw(Shape<T> &shape, Shader<RENDER_TYPE::CUSTOM_COLOR> &shader_object,
           std::array<float, 3> scale = {0.5, 0.5, 0.5},
           std::array<float, 3> position = {0, 0, 0},
           std::array<float, 3> rotation_axis = {0, 0, 1}, float angle = 0) {
@@ -105,8 +111,8 @@ void draw(Shape<T>& shape, Shader<RENDER_TYPE::CUSTOM_COLOR>& shader_object,
 };
 
 template <typename T>
-void draw_wireframe(Shape<T>& shape,
-                    Shader<RENDER_TYPE::UNIFORM_COLOR>& shader_object,
+void draw_wireframe(Shape<T> &shape,
+                    Shader<RENDER_TYPE::UNIFORM_COLOR> &shader_object,
                     std::array<float, 3> scale = {0.5, 0.5, 0.5},
                     std::array<float, 3> position = {0, 0, 0},
                     std::array<float, 3> rotation_axis = {0, 0, 1},

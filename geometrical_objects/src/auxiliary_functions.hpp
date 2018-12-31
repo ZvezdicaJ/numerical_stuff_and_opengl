@@ -1,4 +1,47 @@
-
+/*avx2 compare codes*/
+/* Ordered vs Unordered has to do with whether the comparison is true if one of
+ * the operands contains a NaN. Signaling (S) vs non-signaling (Q for quiet?)
+ * will determine whether an exception is raised if an operand contains a NaN.
+ */
+#ifndef __INTEL_COMPILER
+#define _CMP_EQ_OQ 0x00    /* Equal (ordered, non-signaling)  */
+#define _CMP_LT_OS 0x01    /* Less-than (ordered, signaling)  */
+#define _CMP_LE_OS 0x02    /* Less-than-or-equal (ordered, signaling)  */
+#define _CMP_UNORD_Q 0x03  /* Unordered (non-signaling)  */
+#define _CMP_NEQ_UQ 0x04   /* Not-equal (unordered, non-signaling)  */
+#define _CMP_NLT_US 0x05   /* Not-less-than (unordered, signaling)  */
+#define _CMP_NLE_US 0x06   /* Not-less-than-or-equal (unordered, signaling)  */
+#define _CMP_ORD_Q 0x07    /* Ordered (nonsignaling)   */
+#define _CMP_EQ_UQ 0x08    /* Equal (unordered, non-signaling)  */
+#define _CMP_NGE_US 0x09   /* Not-greater-than-or-equal (unord, signaling)  */
+#define _CMP_NGT_US 0x0a   /* Not-greater-than (unordered, signaling)  */
+#define _CMP_FALSE_OQ 0x0b /* False (ordered, non-signaling)  */
+#define _CMP_NEQ_OQ 0x0c   /* Not-equal (ordered, non-signaling)  */
+#define _CMP_GE_OS 0x0d    /* Greater-than-or-equal (ordered, signaling)  */
+#define _CMP_GT_OS 0x0e    /* Greater-than (ordered, signaling)  */
+#define _CMP_TRUE_UQ 0x0f  /* True (unordered, non-signaling)  */
+#define _CMP_EQ_OS 0x10    /* Equal (ordered, signaling)  */
+#define _CMP_LT_OQ 0x11    /* Less-than (ordered, non-signaling)  */
+#define _CMP_LE_OQ 0x12    /* Less-than-or-equal (ordered, non-signaling)  */
+#define _CMP_UNORD_S 0x13  /* Unordered (signaling)  */
+#define _CMP_NEQ_US 0x14   /* Not-equal (unordered, signaling)  */
+#define _CMP_NLT_UQ 0x15   /* Not-less-than (unordered, non-signaling)  */
+#define _CMP_NLE_UQ 0x16   /* Not-less-than-or-equal (unord, non-signaling)  */
+#define _CMP_ORD_S 0x17    /* Ordered (signaling)  */
+#define _CMP_EQ_US 0x18    /* Equal (unordered, signaling)  */
+#define _CMP_NGE_UQ 0x19   /* Not-greater-than-or-equal (unord, non-sign)  */
+#define _CMP_NGT_UQ 0x1a   /* Not-greater-than (unordered, non-signaling)  */
+#define _CMP_FALSE_OS 0x1b /* False (ordered, signaling)  */
+#define _CMP_NEQ_OS 0x1c   /* Not-equal (ordered, signaling)  */
+#define _CMP_GE_OQ 0x1d    /* Greater-than-or-equal (ordered, non-signaling)  */
+#define _CMP_GT_OQ 0x1e    /* Greater-than (ordered, non-signaling)  */
+#define _CMP_TRUE_US 0x1f  /* True (unordered, signaling)  */
+#endif
+/**
+ *Function loads 3 floats to a sse vector, the last value is set to 0.
+ * @param value float pointer pointing to first element
+ * @return returns __m128 vector, last element is 0.
+ */
 inline __m128 load_vertex(float *value) {
     // load the x and y element of the float3 vector using a 64 bit load
     // and set the upper 64 bits to zero (00YX)
@@ -10,6 +53,11 @@ inline __m128 load_vertex(float *value) {
     return _mm_movelh_ps(xy, z); // (0ZYX)
 }
 
+/**
+ *Function loads 3 floats to a sse vector, the last value is set to 0.
+ * @param value float pointer pointing to first element
+ * @return returns __m128 vector, last element is 0.
+ */
 inline __m128 load_vertex2(float *value) {
     // load x, y with a 64 bit integer load (00YX)
     __m128i xy = _mm_loadl_epi64((__m128i *)value);
@@ -19,6 +67,11 @@ inline __m128 load_vertex2(float *value) {
     return _mm_movelh_ps(_mm_castsi128_ps(xy), z);
 }
 
+/**
+ * @brief Calculates cross product of two __m128 vectors (floats): a x b.
+ * @param a __m128 vector
+ * @param b __m128 vector
+ */
 inline __m128 cross_product(__m128 a, __m128 b) {
 #ifdef __FMA__
     __m128 result =
@@ -39,6 +92,11 @@ inline __m128 cross_product(__m128 a, __m128 b) {
 }
 
 #ifdef __AVX2__
+/**
+ * @brief Calculates cross product of two __m256d vectors (doubles): a x b.
+ * @param a __m256d vector
+ * @param b __m256d vector
+ */
 inline __m256d cross_product(__m256d a, __m256d b) {
     __m256d c = _mm256_permute4x64_pd(
         _mm256_fmsub_pd(a, _mm256_permute4x64_pd(b, _MM_SHUFFLE(3, 0, 2, 1)),
@@ -50,6 +108,11 @@ inline __m256d cross_product(__m256d a, __m256d b) {
 #endif
 
 #ifdef __SSE__
+/**
+ * @brief Calculates scalar product of two __m128 vectors (floats): a x b.
+ * @param a __m128 vector
+ * @param b __m128 vector
+ */
 inline float CalcDotProduct(__m128 x, __m128 y) {
     __m128 mulRes, shufReg, sumsReg;
     mulRes = _mm_mul_ps(x, y);
@@ -65,11 +128,21 @@ inline float CalcDotProduct(__m128 x, __m128 y) {
 }
 #endif
 
+/**
+ * @brief Calculates cross product of two float vectors: a x b.
+ * @param a  vector
+ * @param b  vector
+ */
 inline float CalcDotProduct(float vec1[3], float vec2[3]) {
     return vec1[0] * vec2[0] + vec1[1] * vec2[1] + vec1[2] * vec2[2];
 }
 
 #ifdef __AVX2__
+/**
+ * @brief Calculates cross product of two __m128 vectors (floats): a x b.
+ * @param a __m256d vector
+ * @param b __m256d vector
+ */
 inline double CalcDotProduct(__m256d x, __m256d y) {
     // double *tmp_d = (double *)(&x);
     // std::cout << "CalcDotProduct function: " << tmp_d[0] << " " << tmp_d[1]
@@ -101,6 +174,11 @@ struct hash<pair<S, T>> {
 } // namespace std
 
 // this is slow; do not use
+/**
+ * @brief Calculates factorial of integer and returns vector containing the
+ * result - this is slow and useless - do not use.
+ * @param n calculates n!
+ */
 inline __m128i sse_factorial(int n) {
     __m128i prod = _mm_set_epi32(1, 1, 1, 1);
     __m128i onse = prod;
@@ -114,6 +192,10 @@ inline __m128i sse_factorial(int n) {
     return prod;
 }
 
+/**
+ * @brief Calculates factorial of the parameter.
+ * @param n calculates n!
+ */
 inline int scalar_factorial(int n) {
     int prod = 1;
     for (int i = 2; i <= n; i++) {
@@ -122,6 +204,12 @@ inline int scalar_factorial(int n) {
     return prod;
 }
 
+/**
+ * @brief Calculates Chebyshev polynomials.
+ * @param n number of Chebyshev polynomial to calculate
+ * @param x_vec vector of x values for which the value of polynomial is
+ * calculated
+ */
 inline __m128 chebyshev(int n, __m128 x_vec) {
     // T0
     __m128 T0 = _mm_set_ps1(1.0);
@@ -170,6 +258,12 @@ inline __m128 chebyshev(int n, __m128 x_vec) {
 }
 
 #ifdef __AVX2__
+/**
+ * @brief Calculates Chebyshev polynomials.
+ * @param n number of Chebyshev polynomial to calculate
+ * @param x_vec vector of x values for which the value of polynomial is
+ * calculated
+ */
 inline __m256d chebyshev(int n, __m256d x_vec) {
     __m256d T0 = _mm256_set1_pd(1.0);
     if (n == 0)
@@ -202,6 +296,13 @@ inline __m256d chebyshev(int n, __m256d x_vec) {
 }
 #endif
 
+/**
+ * @brief Given previous two chebyshev polynomials and vector of x values, the
+ * function calculates next chebyshev polynomial.
+ * @param n -th Chebyshev polynomial evaluated in points of x vector
+ * @param n-1 -th Chebyshev polynomial evaluated in points of x vector
+ * @param x_vec vector of x values in which the polynomial is calculated
+ */
 inline __m128 chebyshev_next(__m128 &cn, __m128 &cn_1, __m128 &x_vec) {
 #ifdef __FMA__
     return _mm_fmsub_ps(_mm_mul_ps(_mm_set_ps1(2.0), cn), x_vec, cn_1);
@@ -213,11 +314,26 @@ inline __m128 chebyshev_next(__m128 &cn, __m128 &cn_1, __m128 &x_vec) {
 }
 
 #ifdef __AVX2__
+/**
+ * @brief Given previous two chebyshev polynomials and vector of x values, the
+ * function calculates next chebyshev polynomial.
+ * @param n -th Chebyshev polynomial evaluated in points of x vector
+ * @param n-1 -th Chebyshev polynomial evaluated in points of x vector
+ * @param x_vec vector of x values in which the polynomial is calculated
+ */
 inline __m256d chebyshev_next(__m256d &cn, __m256d &cn_1, __m256d &x_vec) {
     return _mm256_fmsub_pd(_mm256_mul_pd(_mm256_set1_pd(2.0), cn), x_vec, cn_1);
 }
 #endif
 
+
+/**
+ * @brief Given previous two chebyshev polynomials and vector of x values, the
+ * function calculates next chebyshev polynomial.
+ * @param n -th Chebyshev polynomial evaluated in points of x vector
+ * @param n-1 -th Chebyshev polynomial evaluated in points of x vector
+ * @param x_vec vector of x values in which the polynomial is calculated
+ */
 inline __m128 sse_cos(__m128 x_vec_) {
     float coeff[] = {-0.3042421776440938642020349128177049239697,
                      -0.9708678652630182194109914323663784757039,
@@ -388,5 +504,154 @@ inline __m256d avx_tan(__m256d x) {
                 x4, _mm256_set1_pd(945945),
                 _mm256_fmsub_pd(x2, _mm256_set1_pd(16216200), coeff1))));
     return _mm256_div_pd(numerator, denominator);
+}
+#endif
+
+inline __m128 sse_arctan(__m128 x) {
+    // this comparison sets 0xffff if true - which is not 1.0
+    __m128 cmp1 = _mm_cmpgt_ps(_mm_setzero_ps(), x);
+    // now we compare to 1.0 to get desired 0.0 and 1.0 numbers
+    cmp1 = _mm_and_ps(cmp1, _mm_set_ps1(-1.0));
+    __m128 cmp1x2 = _mm_mul_ps(_mm_set_ps1(2.0), cmp1);
+    // cmp1 =_mm_xor_ps(v, _mm_set1_ps(-0.0)); convert 1 to -1
+    // now calculate absolute value
+    x = _mm_fmadd_ps(cmp1x2, x, x);
+
+    __m128 cmp2 = _mm_cmpgt_ps(x, _mm_set_ps1(1.0));
+    // cmp2 = _mm_and_ps(cmp2, _mm_set_ps1(1.0));
+
+    __m128 overx = _mm_div_ps(_mm_set_ps1(1.0), x);
+    x = _mm_blendv_ps(x, overx, cmp2);
+
+    // numerator coefficients a^0, a^1, a^2, a^3,....
+    // {0, 2342475135, 0, 5941060125, 0, 5429886462, 0, 2146898754, 0,
+    //        341536195, 0, 14928225}
+    __m128 numerator = _mm_fmadd_ps(_mm_mul_ps(x, _mm_set_ps1(14928225)), x,
+                                    _mm_set_ps1(341536195));
+    numerator =
+        _mm_fmadd_ps(_mm_mul_ps(x, numerator), x, _mm_set_ps1(2146898754));
+
+    numerator =
+        _mm_fmadd_ps(_mm_mul_ps(x, numerator), x, _mm_set_ps1(5429886462));
+
+    numerator =
+        _mm_fmadd_ps(_mm_mul_ps(x, numerator), x, _mm_set_ps1(5941060125));
+
+    numerator =
+        _mm_fmadd_ps(_mm_mul_ps(x, numerator), x, _mm_set_ps1(2342475135));
+    numerator = _mm_mul_ps(numerator, x);
+
+    // {2342475135, 0, 6721885170, 0, 7202019825, 0, 3537834300, 0,
+    // 780404625, 0, 62432370, 0, 800415}
+    __m128 denominator = _mm_fmadd_ps(x, _mm_mul_ps(x, _mm_set_ps1(800415)),
+                                      _mm_set_ps1(62432370));
+    denominator =
+        _mm_fmadd_ps(x, _mm_mul_ps(denominator, x), _mm_set_ps1(780404625));
+    denominator =
+        _mm_fmadd_ps(x, _mm_mul_ps(denominator, x), _mm_set_ps1(3537834300));
+    denominator =
+        _mm_fmadd_ps(x, _mm_mul_ps(denominator, x), _mm_set_ps1(7202019825));
+    denominator =
+        _mm_fmadd_ps(x, _mm_mul_ps(denominator, x), _mm_set_ps1(6721885170));
+    denominator =
+        _mm_fmadd_ps(x, _mm_mul_ps(denominator, x), _mm_set_ps1(2342475135));
+
+    __m128 result = _mm_div_ps(numerator, denominator);
+    __m128 pi2 = _mm_set_ps1(M_PI / 2.0);
+    __m128 x_pi = _mm_sub_ps(pi2, result);
+    result = _mm_blendv_ps(result, x_pi, cmp2);
+    cmp1 = _mm_fmadd_ps(cmp1, _mm_set_ps1(2.0), _mm_set_ps1(1.0));
+    result = _mm_mul_ps(result, cmp1);
+    return result;
+}
+
+#ifdef __AVX2__
+inline __m256d avx_arctan(__m256d x) {
+    // this comparison sets 0xffff if true - which is not 1.0
+    __m256d cmp1 = _mm256_cmp_pd(_mm256_setzero_pd(), x, _CMP_GT_OS);
+    // now we compare to 1.0 to get desired 0.0 and 1.0 numbers
+    cmp1 = _mm256_and_pd(cmp1, _mm256_set1_pd(-1.0));
+    __m256d cmp1x2 = _mm256_mul_pd(_mm256_set1_pd(2.0), cmp1);
+    // cmp1 =_mm_xor_ps(v, _mm_set1_ps(-0.0)); convert 1 to -1
+    // now calculate absolute value
+    x = _mm256_fmadd_pd(cmp1x2, x, x);
+
+    __m256d cmp2 = _mm256_cmp_pd(x, _mm256_set1_pd(1.0), _CMP_GT_OS);
+    // cmp2 = _mm_and_ps(cmp2, _mm_set_ps1(1.0));
+
+    __m256d overx = _mm256_div_pd(_mm256_set1_pd(1.0), x);
+    x = _mm256_blendv_pd(x, overx, cmp2);
+
+    // numerator coefficients a^0, a^1, a^2, a^3,....
+    // double precision
+    //    {0, 579118415250375, 0, 2338535314915800, 0, 3874828669311600, 0,
+    //        3393172947724560, 0, 1684523959239550, 0, 471862454520600, 0,
+    //        69652545704280, 0, 4581496496640, 0, 87091688691}
+    __m256d numerator =
+        _mm256_fmadd_pd(_mm256_mul_pd(x, _mm256_set1_pd(87091688691)), x,
+                        _mm256_set1_pd(4581496496640));
+
+    numerator = _mm256_fmadd_pd(_mm256_mul_pd(x, numerator), x,
+                                _mm256_set1_pd(69652545704280));
+
+    numerator = _mm256_fmadd_pd(_mm256_mul_pd(x, numerator), x,
+                                _mm256_set1_pd(471862454520600));
+
+    numerator = _mm256_fmadd_pd(_mm256_mul_pd(x, numerator), x,
+                                _mm256_set1_pd(1684523959239550));
+
+    numerator = _mm256_fmadd_pd(_mm256_mul_pd(x, numerator), x,
+                                _mm256_set1_pd(3393172947724560));
+
+    numerator = _mm256_fmadd_pd(_mm256_mul_pd(x, numerator), x,
+                                _mm256_set1_pd(3874828669311600));
+
+    numerator = _mm256_fmadd_pd(_mm256_mul_pd(x, numerator), x,
+                                _mm256_set1_pd(2338535314915800));
+
+    numerator = _mm256_fmadd_pd(_mm256_mul_pd(x, numerator), x,
+                                _mm256_set1_pd(579118415250375));
+
+    numerator = _mm256_mul_pd(numerator, x);
+
+    // denominator
+    // {579118415250375, 0, 2531574786665925, 0, 4602863248483500, 0,
+    // 4503876942064500, 0, 2562550673933250, 0, 854183557977750, 0,
+    // 159447597489180, 0, 14855366225700, 0, 530548793775, 0, 3102624525}
+    __m256d denominator =
+        _mm256_fmadd_pd(x, _mm256_mul_pd(x, _mm256_set1_pd(3102624525)),
+                        _mm256_set1_pd(530548793775));
+
+    denominator = _mm256_fmadd_pd(x, _mm256_mul_pd(denominator, x),
+                                  _mm256_set1_pd(14855366225700));
+
+    denominator = _mm256_fmadd_pd(x, _mm256_mul_pd(denominator, x),
+                                  _mm256_set1_pd(159447597489180));
+
+    denominator = _mm256_fmadd_pd(x, _mm256_mul_pd(denominator, x),
+                                  _mm256_set1_pd(854183557977750));
+
+    denominator = _mm256_fmadd_pd(x, _mm256_mul_pd(denominator, x),
+                                  _mm256_set1_pd(2562550673933250));
+
+    denominator = _mm256_fmadd_pd(x, _mm256_mul_pd(denominator, x),
+                                  _mm256_set1_pd(4503876942064500));
+
+    denominator = _mm256_fmadd_pd(x, _mm256_mul_pd(denominator, x),
+                                  _mm256_set1_pd(4602863248483500));
+
+    denominator = _mm256_fmadd_pd(x, _mm256_mul_pd(denominator, x),
+                                  _mm256_set1_pd(2531574786665925));
+
+    denominator = _mm256_fmadd_pd(x, _mm256_mul_pd(denominator, x),
+                                  _mm256_set1_pd(579118415250375));
+
+    __m256d result = _mm256_div_pd(numerator, denominator);
+    __m256d pi2 = _mm256_set1_pd(M_PI / 2.0);
+    __m256d x_pi = _mm256_sub_pd(pi2, result);
+    result = _mm256_blendv_pd(result, x_pi, cmp2);
+    cmp1 = _mm256_fmadd_pd(cmp1, _mm256_set1_pd(2.0), _mm256_set1_pd(1.0));
+    result = _mm256_mul_pd(result, cmp1);
+    return result;
 }
 #endif

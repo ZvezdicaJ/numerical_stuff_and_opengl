@@ -337,3 +337,45 @@ TEST(tan, avx2) {
     }
 }
 #endif
+
+TEST(arctan, sse) {
+    std::array<float, 4> x_vec({-50, -0.4, 0.37, 0.97});
+    __m128 x = _mm_loadu_ps(x_vec.data());
+    __m128 result = sse_arctan(x);
+    float *p = (float *)&result;
+    std::array<float, 4> correct_result(
+        {-1.55079899282, -0.380506377112, 0.354379919123, 0.770170914020});
+    for (int j = 0; j < 4; j++)
+        EXPECT_THAT(p[j], testing::FloatNear(correct_result[j], 1e-7));
+
+    x_vec = std::array<float, 4>({0.0, -0.1, 0.3333, 0.9999});
+    x = _mm_loadu_ps(x_vec.data());
+    result = sse_arctan(x);
+    p = (float *)&result;
+    correct_result = std::array<float, 4>(
+        {0.0, -0.0996686524912, 0.321720554097, 0.785348160897});
+    for (int j = 0; j < 4; j++)
+        EXPECT_THAT(p[j], testing::FloatNear(correct_result[j], 2e-7));
+}
+
+TEST(arctan, avx2) {
+    std::array<double, 4> x_vec({-50, -0.4, 0.37, 0.97});
+    __m256d x = _mm256_loadu_pd(x_vec.data());
+    __m256d result = avx_arctan(x);
+    double *p = (double *)&result;
+    std::array<double, 4> correct_result(
+        {-1.5507989928217460862, -0.38050637711236490190,
+         0.35437991912343780321, 0.77017091402033099889});
+    for (int j = 0; j < 4; j++)
+        EXPECT_THAT(p[j], testing::DoubleNear(correct_result[j], 1e-13));
+
+    x_vec = std::array<double, 4>({-100.0, -0.1, 0.3333, 0.9999});
+    x = _mm256_loadu_pd(x_vec.data());
+    result = avx_arctan(x);
+    p = (double *)&result;
+    correct_result =
+        std::array<double, 4>({-1.5607966601082313810, -0.099668652491162038065,
+                               0.32172055409664818137, 0.78534816089736503297});
+    for (int j = 0; j < 4; j++)
+        EXPECT_THAT(p[j], testing::DoubleNear(correct_result[j], 1e-13));
+}

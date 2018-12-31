@@ -16,35 +16,32 @@ int main() {
 
     glfwMakeContextCurrent(window);
     print("Window created!");
+    
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+        std::cout << "Failed to initialize GLAD" << std::endl;
+        return -1;
+    }
 
     std::vector<Shape<float> *> shapes1;
     Sphere<float> sphere1;
-    //std::vector<Shape<double> *> shapes2;
-    //initialize_shapes(shapes1);
-    //initialize_shapes(shapes2);
+    std::vector<Shape<double> *> shapes2;
+    initialize_shapes(shapes1);
+    initialize_shapes(shapes2);
     //print_vertexes(shapes1[0]->get_vertexes());
     //print_vertexes(shapes2[0]->get_vertexes());
 
     // glad takes care of opengl function pointers
     // you need this before you call any opengl functions
     // you have to do this after glfwMAkeContextCurrent(window)
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        return -1;
-    }
 
     while (!glfwWindowShouldClose(window)) {
         OnMinusPressed(window);
         OnPlusPressed(window);
         OnClosePressed(window);
         glfwPollEvents(); // check if any events happend (mouse press, key
-                          // pres)
-        //display(shapes2);
+                          // press)
+        display(shapes2);
         //display(shapes1);
-        // draw_sphere(center, 0.5, fi);
-        // Shape<float> test_sphere = static_cast<Shape<float>>(sphere1);
-        // draw(sphere1, uniform_color_shader, {0.2, 0.2, 0.2}, {0.4, 0.5, 0},
-        //     {0.5, 0.5, 0.5}, fi, {0.2, 0.4, 0.5, 0.7});
 
         // The glfwSwapBuffers will swap the color buffer (a large buffer
         // that contains color values for each pixel in GLFW’s window) that
@@ -61,5 +58,6 @@ int main() {
 
     // std::cout << "pi = " << sphere1.area() / 4.0 << std::endl;
     glfwTerminate();
+    
     return 0;
 }

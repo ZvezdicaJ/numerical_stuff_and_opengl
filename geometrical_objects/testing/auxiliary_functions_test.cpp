@@ -248,5 +248,7 @@ int main() {
     test_sse_sin();
     test_cross_product();
     test_avx_cos();
+    __m128 t = _mm_setr_ps(0.4, -0.3, -1.4, -1.27);
+    sse_arctan(t);
     return 0;
 }

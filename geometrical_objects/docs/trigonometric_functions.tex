@@ -1,0 +1,307 @@
+\documentclass[openany, longbibliography,slovene,a4paper,12pt]{article}
+%\documentclass[openany,slovene,a4paper,12pt]{article}
+\usepackage[a4paper,inner=3.5cm,outer=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+
+\usepackage{braket}
+\usepackage{float}
+\usepackage{afterpage}
+\usepackage{graphicx}
+\usepackage{amssymb}
+
+\usepackage[tbtags]{amsmath}
+\usepackage[T1]{fontenc}
+\graphicspath{{./slike/}{../slike_vezikel_z_robom/}{/home/jure/sola/magisterij/uporabljene_slike/}
+{../eps_pdf/}}
+\DeclareGraphicsExtensions{.eps,.jpeg,.png,.gif,.pdf}
+\usepackage[outdir=./slike/]{epstopdf}
+\epstopdfsetup{
+	suffix=,
+}
+\usepackage[multidot]{grffile}
+
+%\usepackage[slovene]{babel}      % slovenski delilni vzorci (!)
+%\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{makeidx}
+\usepackage{enumerate}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[tbtags]{mathtools}
+
+\usepackage[section]{placeins}
+
+\usepackage[hyphens,spaces,obeyspaces]{url}
+\usepackage{breakurl}
+
+
+\usepackage{ragged2e}
+\edef\UrlBreaks{\do\-\UrlBreaks}
+
+\usepackage{makeidx}
+\pagestyle{headings}
+\makeindex
+\usepackage{fancyhdr}
+\usepackage[titletoc,title]{appendix}
+
+
+\usepackage[sort, numbers]{natbib}
+\usepackage[pdfa]{hyperref}
+\usepackage[x-1a]{pdfx}
+\usepackage{pdfpages}
+\usepackage{breqn}
+
+
+\DeclareMathOperator{\arcsinh}{arcsinh}
+
+\def\epsfg#1#2{\epsfig{file=#1.eps,width=#2}}
+\def\legendamp#1#2{\vbox{\hsize=#1\caption{\small #2}}}
+
+\setcounter{topnumber}{4}
+\setcounter{bottomnumber}{4}
+\setcounter{totalnumber}{5}
+\renewcommand{\topfraction}{0.99}
+\renewcommand{\bottomfraction}{0.99}
+\renewcommand{\textfraction}{0.0}
+\setlength{\tabcolsep}{10pt}
+\renewcommand{\arraystretch}{1.5}
+
+\def\bi#1{\hbox{\boldmath{$#1$}}}
+\let\oldvec\vec
+\def\vec#1{\mbox{\boldmath$#1$}}
+\def\pol{{\textstyle{1\over2}}}
+\def\svec#1{\mbox{{\scriptsize \boldmath$#1$}}}
+
+\newcommand{\dif}{\mathrm{d}}
+\usepackage{xparse}
+\DeclareDocumentCommand{\myint}{o m o o}  
+{%
+	\int \IfValueT{#1}{#1} \dif #2 \IfValueT{#3}{\dif#3} \IfValueT{#4}{\dif#4}
+}
+\newcommand{\Alpha}{A}
+\newcommand{\Beta}{B}
+\newcommand{\Epsilon}{E}
+\newcommand{\Kappa}{K}
+
+
+\begin{document}
+\section*{Chebyshev polynomials}
+Chebyshev polynomials of the first kind are solutions to differential equation:
+\begin{equation}
+  (1-x^2)y''-xy'+n^2y=0.
+  \end{equation}
+  They are defined by recursion formula:
+  \begin{equation}
+    T_{n+1}(x)=2xT_n(x)-T_{n-1}(x) \quad \mathrm{with} \quad T_0(x)=0 \quad\mathrm{and}\quad T_1(x)=x.
+  \end{equation}
+On an interval $[-1,1]$ they form a complete basis set, similar to $\cos(x)$ and
+$\sin(x)$ for  $x\in[-\pi, \pi]$. Of course one can expand these intervals to
+arbitrary intervals $[-a,a]$ by a simple transformation $x\rightarrow x/a$.
+Basis polynomials $T_n(x)$ are orthogonal with respect to the following scalar
+product:
+\[
+  \braket{T_m(x)|T_n(x)}=\int_{-1}^{1}\frac{T_m(x)T_n(x)}{\sqrt{1-x^2}}\dif x = \begin{cases}
+                                   \pi & n=m=0  \\
+                                   \pi/2 & n=m \neq 0\\
+                                   0 & n \neq m \\
+  \end{cases}
+\]
+or, written for arbitrary interval $[-a, a]$:
+\[
+  \braket{T_m(x/a)|T_n(x/a)}=\int_{-a}^{a}\frac{T_m(x/a)T_n(x/a)}{\sqrt{1-(x/a)^2}}
+  \frac{\dif x}{a} = \begin{cases}
+                                   \pi & n=m=0  \\
+                                   \pi/2 & n=m \neq 0\\
+                                   0 & n \neq m \\
+  \end{cases}
+\].
+
+One can now expand sin and cos functions into series on an interval $[-\pi,
+\pi]$ using transformation $x\rightarrow x/\pi$:
+\begin{equation}
+  cos(x)=\sum_na_nT_n\left(\frac{x}{\pi}\right).
+  \end{equation}
+Multiplying both sides by $T_m(\frac{x}{\pi})/\sqrt{1-(x/\pi)^2}$ and
+integrating over the interval $[-\pi, \pi]$ yields for $m\neq0$:
+\begin{equation} \label{coeffm}
+ \frac{1}{\pi}\int_{-\pi}^{\pi}\frac{\cos(x)T_m(\frac{x}{\pi})}{\sqrt{1-(x/\pi)^2}} \dif x = \frac{\pi}{2}a_m
+\end{equation}
+and for $m=0$:
+\begin{equation}\label{coeff0}
+ \frac{1}{\pi}\int_{-\pi}^{\pi}\frac{\cos(x)T_0(\frac{x}{\pi})}{\sqrt{1-(x/\pi)^2}} \dif x = \pi a_0.
+\end{equation}
+
+To simplify integral calculation we use relation between $T_n(x)$ and $\cos(x)$:
+\begin{equation}
+  T_n(\cos\theta)=\cos n\theta.
+\end{equation}
+Using $x/\pi = cos(z)$  in equations \label{coeffm} leads to:
+\begin{equation}
+  a_m = \frac{2}{\pi^2} \int_{-1}^{1}\frac{\cos(\pi\cos z)\cos(mz)}{\sqrt{1-\cos^2z}} \dif (\pi cosz)=-\frac{2}{\pi} \int_{\pi}^{0}\cos(\pi\cos z)\cos(mz) \dif z, 
+  \end{equation}
+where we took into account that $\cos z = -1$ when $z=\pi$ and $1$ when $z=-\pi$.
+  For $m=0$ we get:
+  \begin{equation}
+    a_0 = \frac{1}{\pi^2} \int_{-1}^{1}\frac{\cos(\pi\cos z)}{\sqrt{1-\cos^2z}} \dif (\pi cos\theta)=-\frac{1}{\pi} \int_{\pi}^{0}\cos(\pi\cos z) \dif z.
+  \end{equation}
+
+  Chebyshev polynomial can be divided into even and odd polynomials. For even
+  $n$ polynomial is even and for odd $n$ polynomial is odd. Thus the integral
+  $\int cos(x) T_n(x\pi)$ will be zeo for all odd n. Only even $n$ polynomials
+  will participate in expansion of $\cos(x)$ into a series using Chebyshev
+  polynomials.
+  The opposite happens when we expand $sin(x)$ into such series. Therefore only odd
+  $n$ polynomials will participate in series expansion. For $m\neq0$ we get:
+
+\begin{equation}
+  a_m = \frac{2}{\pi} \int_{0}^{\pi}\sin(\pi\cos z)\cos(mz) \dif z, 
+  \end{equation}
+where we took into account that $\cos z = -1$ when $z=\pi$ and $1$ when $z=-\pi$.
+  For $m=0$ we get:
+  \begin{equation}
+    a_0 = \frac{1}{\pi} \int_{0}^{\pi}\sin(\pi\cos z) \dif z.
+  \end{equation}
+
+\section{Legendre polynomials}
+Legendre polynomials are solutions to a differential eqaution:
+\begin{equation}
+  \frac{\dif}{\dif x}\left[ (1-x^2)\frac{\dif P_n(x)}{\dif x} + n(n+1)P_n(x) \right] =0.
+\end{equation}
+They can also be obtained from a taylor series:
+\begin{equation}
+  \frac{1}{\sqrt{1-2xt+t^2}}=\sum_{n=0}^{\infty} P_n(x)t^n
+  \end{equation}
+Legendre polynomials are defined by equation:
+\begin{equation}
+  P_0 = 1 \quad P_1=1 \quad P_{n+1}(x)=\frac{2n+1}{n+1}xP_{n}(x) -  \frac{n}{n+1}P_{n-1}(x).
+\end{equation}
+They form an orthonormal basis set on the interval $[-1,1]$ with respect to the
+following dot product:
+
+\[   \braket{P_i, P_j}=\int_{-1}^{1} P_i(x) P_j(x) \dif x=
+  \left\{
+\begin{array}{ll}
+      0 & i\neq j \\
+      \frac{2}{2i+1} & \mathrm{otherwise} \\
+\end{array} 
+\right. \]
+
+
+\section{Laguerre polynomials}
+Laguerre poylnomials are a solution to the following differential equation:
+\begin{equation}
+  xy'' + (1-x)y'+ny=0,
+  \end{equation}
+where $n$ is non-negative integer. The generating function for these polynomials
+is:
+\begin{equation}
+  \frac{1}{1-t}e^{-tx/(1-t)}=\sum_{n=0}^\infty t^nL_n(x).
+  \end{equation}
+  The polynomials can be calculated using derivation:
+  \begin{equation}
+    L_n(x)=\frac{e^x}{n!}\frac{\dif^n}{\dif x^n}\left(e^{-x}x^n \right)
+    \end{equation}
+    or recursive relation:
+    \begin{equation}
+      L_{k+1}(x)=\frac{(2k+1-x)L_k(x)-kL_{k-1}(x)}{k+1}.
+    \end{equation}
+    They are orthonormal with respect to the following scalar product:
+    \[
+      \braket{L_k(x), L_j(x)}= \int_0^\infty L_k(x)L_j(x)e^{-x} \dif x =
+        \left\{
+\begin{array}{ll}
+      0 & k\neq j \\
+      1 & k=j \\
+\end{array} 
+\right.
+\]
+
+
+\section{Tan approximation}
+
+For numerical tangens calculation is best to use integrals involving Legendre
+polynomials:
+\begin{equation}
+  I(n,a)=\int_{t=0}^{t=1}P_{2n}(t)\cos(at)\dif t = N(n,a)\sin(a)+M(n,a)\cos(a)
+  \end{equation}
+and
+\begin{equation}
+  J(n,a)=\int_{t=0}^{t=1}P_{2n+1}(t)\sin(at)\dif t = K(n,a)\sin(a)+L(n,a)\cos(a),
+\end{equation}
+
+where M,N,K,L are polynomials. Their power depends on parameter $n$. P are
+Legendre polynomials. As $n\rightarrow\infty$ and $a$ stays small, integrals go
+to zero and we get the following approximations:
+\begin{equation}
+  \tan(a)\approx \frac{M(n,a)}{N(n,a)}=C(n,a) \quad \mathrm{and} \quad  \tan(a)\approx \frac{L(n,a)}{K(n,a)}=S(n,a).
+\end{equation}
+Using the above expression we can obtain for increasing $n$ the following
+expressions:
+\begin{equation}
+  C(1,a)=\frac{3a}{3-a^2}
+\end{equation}
+\begin{equation}
+  S(1,a)=\frac{15a-a^3}{15-6a^2}
+\end{equation}
+\begin{equation}
+  C(2,a)=\frac{105a-10a^3}{105-45a^2+a^4}
+\end{equation}
+\begin{equation}
+  S(2,a)=\frac{945a-105a^3+a^5}{945-420a^2+15a^4}
+\end{equation}
+
+\begin{equation}
+  C(3,a)=\frac{10395 a- 1260 a^3 +21 a^5}{10395 - 4725 a^2+ 210a^4- a^6}
+\end{equation}
+\begin{equation}
+  S(3,a)=\frac{135135 a - 17325 a^3+378 a^5 - a^7}{135135 - 62370 a^2+ 3150 a^4- 28 a^6}
+\end{equation}
+
+\begin{equation}
+  C(4,a)=\frac{2027025 a -270270 a^3 +6930 a^5- 36 a^7}{2027025 -945945 a^2 +51975 a^4 -630 a^6 +a^8}
+\end{equation}
+\begin{equation}
+  S(4,a)=\frac{34459425 a -4729725 a^3 +1351355 a^5 -990 a^7+ a^9}{34459425 -16216200 a^2 + 945945 a^4 -138600 a^6+ 45 a^8}
+\end{equation}
+\scriptsize
+\begin{equation}
+  S(5,a)=\frac{3604742431983 t - 600790405215 t^3 + 30039519510 t^5 - 
+ 715224510 t^7 + 9930635 t^9 - 88179 t^{11}}{33 \left(29393 t^{10}-2708355 t^8+151714290 t^6-4551442350 t^4+54617309565 t^2-109234619151\right)}
+\end{equation}
+\normalsize
+
+This library implements S(4,a) routine to calculate tangens.
+
+\section{ArcTan approximation}
+To calculate $\arctan$ we start with the basic definition:
+\begin{equation}
+  F(a)=\frac{1}{a}\arctan(1/a)=\int_{t=0}^{t=1}\frac{\dif t}{t^2+a^2}
+  \end{equation}
+  and then look at the formula:
+  \begin{equation} \label{besselI_P2n}
+    I(n,a)=\int_{t=0}^{t=1}\frac{P_{2n}(t)\dif t}{t^2+a^2},
+  \end{equation}
+  where $P_{2n}$ represents the even Legendre polynomial which can be defined by
+  Rodrigues formula:
+  \begin{equation}
+    P_{2n}(t)=\frac{1}{2^{2n}(2n)!}\frac{\dif^{2n}}{\dif t^{2n}}(t^2-1)^{2n}.
+  \end{equation}
+  If one then expands equation \ref{besselI_P2n} one finds:
+  \begin{equation}
+    I(n,a)=\int_{t=0}^{t=1}Q(n,a,t)\dif t+ M(n,a)F(a),
+  \end{equation}
+  where Q(n,a,t) is a polynomial obtained by dividing $P_{2n}(t)$ by $t^2+a^2$.
+  The integration then produces the following identity:
+  \begin{equation}
+    I(n,a)=N(n,a)+M(n,a)F(a).
+  \end{equation}
+  As in the case of tangent, when $n$ gets large and $a \ll n$, $I(n,a)$
+  approaches zero. Thus, for large $n$ one can write $I(n,a)=0$ and obtain:
+  \begin{equation}
+    F(a)=\frac{1}{a}\arctan(1/a)=-\frac{N(n,a)}{M(n,a)}
+    \end{equation}
+    and further:
+    \begin{equation}
+      \arctan(1/a)\approx -a\frac{N(n,a)}{M(n,a)} \rightarrow  \arctan(a)\approx -\frac{N(n,1/a)}{aM(n,1/a)}
+      \end{equation}
+  
+\end{document}

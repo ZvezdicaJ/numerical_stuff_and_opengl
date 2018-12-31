@@ -1,0 +1,36 @@
+\hypertarget{drawing__functions_8cpp}{}\section{src/drawing\+\_\+functions.cpp File Reference}
+\label{drawing__functions_8cpp}\index{src/drawing\+\_\+functions.\+cpp@{src/drawing\+\_\+functions.\+cpp}}
+{\ttfamily \#include \char`\"{}opengl\+\_\+test.\+hpp\char`\"{}}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{drawing__functions_8cpp_a3d8be34b1de2e92c135cfc44cfbe6ea1}{draw}} (\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&shape, \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&shader\+\_\+object, std\+::array$<$ float, 3 $>$ scale, std\+::array$<$ float, 3 $>$ position, std\+::array$<$ float, 3 $>$ rotation\+\_\+axis, float angle, glm\+::vec4 color)
+\item 
+{\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{drawing__functions_8cpp_a195c2d99e1b6e5a63a49de1e1eae3c2e}{draw}} (\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&shape, \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60a9d34355b5a26c54b5dbab1e45245a6f4}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&shader\+\_\+object, std\+::array$<$ float, 3 $>$ scale, std\+::array$<$ float, 3 $>$ position, std\+::array$<$ float, 3 $>$ rotation\+\_\+axis, float angle)
+\item 
+{\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{drawing__functions_8cpp_a736c853c5f9b08d18e53745dd60e4616}{draw\+\_\+wireframe}} (\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&shape, \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&shader\+\_\+object, std\+::array$<$ float, 3 $>$ scale, std\+::array$<$ float, 3 $>$ position, std\+::array$<$ float, 3 $>$ rotation\+\_\+axis, float angle, glm\+::vec4 color)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{drawing__functions_8cpp_a3d8be34b1de2e92c135cfc44cfbe6ea1}\label{drawing__functions_8cpp_a3d8be34b1de2e92c135cfc44cfbe6ea1}} 
+\index{drawing\+\_\+functions.\+cpp@{drawing\+\_\+functions.\+cpp}!draw@{draw}}
+\index{draw@{draw}!drawing\+\_\+functions.\+cpp@{drawing\+\_\+functions.\+cpp}}
+\subsubsection{\texorpdfstring{draw()}{draw()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void draw (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&}]{shape,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&}]{shader\+\_\+object,  }\item[{std\+::array$<$ float, 3 $>$}]{scale,  }\item[{std\+::array$<$ float, 3 $>$}]{position,  }\item[{std\+::array$<$ float, 3 $>$}]{rotation\+\_\+axis,  }\item[{float}]{angle,  }\item[{glm\+::vec4}]{color }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{drawing__functions_8cpp_a195c2d99e1b6e5a63a49de1e1eae3c2e}\label{drawing__functions_8cpp_a195c2d99e1b6e5a63a49de1e1eae3c2e}} 
+\index{drawing\+\_\+functions.\+cpp@{drawing\+\_\+functions.\+cpp}!draw@{draw}}
+\index{draw@{draw}!drawing\+\_\+functions.\+cpp@{drawing\+\_\+functions.\+cpp}}
+\subsubsection{\texorpdfstring{draw()}{draw()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void draw (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&}]{shape,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60a9d34355b5a26c54b5dbab1e45245a6f4}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&}]{shader\+\_\+object,  }\item[{std\+::array$<$ float, 3 $>$}]{scale,  }\item[{std\+::array$<$ float, 3 $>$}]{position,  }\item[{std\+::array$<$ float, 3 $>$}]{rotation\+\_\+axis,  }\item[{float}]{angle }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{drawing__functions_8cpp_a736c853c5f9b08d18e53745dd60e4616}\label{drawing__functions_8cpp_a736c853c5f9b08d18e53745dd60e4616}} 
+\index{drawing\+\_\+functions.\+cpp@{drawing\+\_\+functions.\+cpp}!draw\+\_\+wireframe@{draw\+\_\+wireframe}}
+\index{draw\+\_\+wireframe@{draw\+\_\+wireframe}!drawing\+\_\+functions.\+cpp@{drawing\+\_\+functions.\+cpp}}
+\subsubsection{\texorpdfstring{draw\+\_\+wireframe()}{draw\_wireframe()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void draw\+\_\+wireframe (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&}]{shape,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&}]{shader\+\_\+object,  }\item[{std\+::array$<$ float, 3 $>$}]{scale,  }\item[{std\+::array$<$ float, 3 $>$}]{position,  }\item[{std\+::array$<$ float, 3 $>$}]{rotation\+\_\+axis,  }\item[{float}]{angle,  }\item[{glm\+::vec4}]{color }\end{DoxyParamCaption})}
+

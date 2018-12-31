@@ -1,6 +1,7 @@
 #ifndef __CIRCLE__
 
-template <typename T = float> class Circle : public Shape2D<T> {
+template <typename T = float>
+class Circle : public Shape2D<T> {
   private:
     void generate_vertexes(int = -1);
 
@@ -13,13 +14,15 @@ template <typename T = float> class Circle : public Shape2D<T> {
     T perimeter();
 };
 
-template <typename T> Circle<T>::Circle() {
+template <typename T>
+Circle<T>::Circle() {
     this->min_vertexes = 100;
     this->generate_vertexes();
     this->initialize_buffers();
 };
 
-template <typename T> void Circle<T>::generate_vertexes(int num_vert) {
+template <typename T>
+void Circle<T>::generate_vertexes(int num_vert) {
     // this function always generates 4n-1 different vertexes;
     // -1 becase the last point is the same as the first one
     int reminder;
@@ -57,12 +60,11 @@ template <typename T> void Circle<T>::generate_vertexes(int num_vert) {
         _mm_storeu_ps(&(this->vertexes[0]) + vertexes_size, tocki34);
         vertexes_size += 4;
     }
-    //    std::cout << "\n\n" << std::endl;
-    // print_vertexes(&vertexes[0], vertexes.size() / 2, 2);
 }
 
-template <typename T> T Circle<T>::perimeter() {
-    float perimeter = 0;
+template <>
+inline float Circle<float>::perimeter() {
+    float perim = 0;
     for (int i = 0; i < this->vertexes.size() / 4; i += 8) {
         __m128 vert12 = _mm_loadu_ps(&(this->vertexes[i]));
         __m128 vert34 = _mm_loadu_ps(&(this->vertexes[i + 4]));
@@ -70,10 +72,10 @@ template <typename T> T Circle<T>::perimeter() {
         __m128 vert24 = _mm_shuffle_ps(vert12, vert34, _MM_SHUFFLE(1, 0, 1, 0));
         __m128 dif_vec = _mm_sub_ps(vert13, vert24);
         float dist2 = CalcDotProduct(dif_vec, dif_vec);
-        perimeter += std::sqrt(dist2);
+        perim += std::sqrt(dist2);
     }
 
-    return perimeter;
+    return perim;
 }
 
 #define __CIRCLE__

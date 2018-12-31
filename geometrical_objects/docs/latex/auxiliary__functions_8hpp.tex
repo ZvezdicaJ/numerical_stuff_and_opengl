@@ -1,0 +1,478 @@
+\hypertarget{auxiliary__functions_8hpp}{}\section{src/auxiliary\+\_\+functions.hpp File Reference}
+\label{auxiliary__functions_8hpp}\index{src/auxiliary\+\_\+functions.\+hpp@{src/auxiliary\+\_\+functions.\+hpp}}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structstd_1_1hash_3_01pair_3_01S_00_01T_01_4_01_4}{std\+::hash$<$ pair$<$ S, T $>$ $>$}}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacestd}{std}}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_a9dac2ea83695373391286f7f38cf3741}{\+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+OQ}}~0x00    /$\ast$ Equal (ordered, non-\/signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_a8acc16d00029c2cbb343a302de2d2cbd}{\+\_\+\+C\+M\+P\+\_\+\+L\+T\+\_\+\+OS}}~0x01    /$\ast$ Less-\/than (ordered, signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_a3a821a0fb578f35429b73d0b5cb146cb}{\+\_\+\+C\+M\+P\+\_\+\+L\+E\+\_\+\+OS}}~0x02    /$\ast$ Less-\/than-\/or-\/equal (ordered, signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_a2d011afa9bc7d308fbc01189e07dbfcb}{\+\_\+\+C\+M\+P\+\_\+\+U\+N\+O\+R\+D\+\_\+Q}}~0x03  /$\ast$ Unordered (non-\/signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_a68f2d5732ae1d80791f0c0196b55ab8f}{\+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+UQ}}~0x04   /$\ast$ Not-\/equal (unordered, non-\/signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_a89998ee45e7ac0410a46b1f8e64d57b2}{\+\_\+\+C\+M\+P\+\_\+\+N\+L\+T\+\_\+\+US}}~0x05   /$\ast$ Not-\/less-\/than (unordered, signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_aa5f4b9340152a299635c0779a863b522}{\+\_\+\+C\+M\+P\+\_\+\+N\+L\+E\+\_\+\+US}}~0x06   /$\ast$ Not-\/less-\/than-\/or-\/equal (unordered, signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_a46d362e05e93824e64e84e7de6312176}{\+\_\+\+C\+M\+P\+\_\+\+O\+R\+D\+\_\+Q}}~0x07    /$\ast$ Ordered (nonsignaling)   $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_a6ab54df7c6c4579066126f682d6c0217}{\+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+UQ}}~0x08    /$\ast$ Equal (unordered, non-\/signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_a852a2f5a611566f9a0c8abe7627a82f7}{\+\_\+\+C\+M\+P\+\_\+\+N\+G\+E\+\_\+\+US}}~0x09   /$\ast$ Not-\/greater-\/than-\/or-\/equal (unord, signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_acab6035eb643931275c7b99c9b1228cd}{\+\_\+\+C\+M\+P\+\_\+\+N\+G\+T\+\_\+\+US}}~0x0a   /$\ast$ Not-\/greater-\/than (unordered, signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_a7ddf649665d95a38b1ca4ea2d14373b1}{\+\_\+\+C\+M\+P\+\_\+\+F\+A\+L\+S\+E\+\_\+\+OQ}}~0x0b /$\ast$ False (ordered, non-\/signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_abb8269c9390d270fe61447a2dba9a38d}{\+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+OQ}}~0x0c   /$\ast$ Not-\/equal (ordered, non-\/signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_a0b30a579f2262877d150e9a69769dcda}{\+\_\+\+C\+M\+P\+\_\+\+G\+E\+\_\+\+OS}}~0x0d    /$\ast$ Greater-\/than-\/or-\/equal (ordered, signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_a071758ce6dd0e82952d7e90cf7007e98}{\+\_\+\+C\+M\+P\+\_\+\+G\+T\+\_\+\+OS}}~0x0e    /$\ast$ Greater-\/than (ordered, signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_a4dc9cf5f51525b757658c8c94cdcc82c}{\+\_\+\+C\+M\+P\+\_\+\+T\+R\+U\+E\+\_\+\+UQ}}~0x0f  /$\ast$ True (unordered, non-\/signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_a7b218fcc3e42d2a268ce60ee8fcf0c6b}{\+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+OS}}~0x10    /$\ast$ Equal (ordered, signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_a4c068460fd624d9b56d4c0a9e80674ac}{\+\_\+\+C\+M\+P\+\_\+\+L\+T\+\_\+\+OQ}}~0x11    /$\ast$ Less-\/than (ordered, non-\/signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_a2cd21a5fa2b6475fddde86ea3c3c2dbd}{\+\_\+\+C\+M\+P\+\_\+\+L\+E\+\_\+\+OQ}}~0x12    /$\ast$ Less-\/than-\/or-\/equal (ordered, non-\/signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_ab61803e086ab8b8e65b8a726227dd958}{\+\_\+\+C\+M\+P\+\_\+\+U\+N\+O\+R\+D\+\_\+S}}~0x13  /$\ast$ Unordered (signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_a7803b5d00e7a4aec803459b9577be5d5}{\+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+US}}~0x14   /$\ast$ Not-\/equal (unordered, signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_a02518d7d1247c43c0fbba51ba8ec0a8e}{\+\_\+\+C\+M\+P\+\_\+\+N\+L\+T\+\_\+\+UQ}}~0x15   /$\ast$ Not-\/less-\/than (unordered, non-\/signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_a0586cbb60e3476573048bdbf7f47f32c}{\+\_\+\+C\+M\+P\+\_\+\+N\+L\+E\+\_\+\+UQ}}~0x16   /$\ast$ Not-\/less-\/than-\/or-\/equal (unord, non-\/signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_aeb80bedbe94d5fc92e64073545a7c6c6}{\+\_\+\+C\+M\+P\+\_\+\+O\+R\+D\+\_\+S}}~0x17    /$\ast$ Ordered (signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_afa8ae0e20d7ba4e09bbf5ae4e62eec93}{\+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+US}}~0x18    /$\ast$ Equal (unordered, signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_a3ab391f5258d38f2aedd702436c3370a}{\+\_\+\+C\+M\+P\+\_\+\+N\+G\+E\+\_\+\+UQ}}~0x19   /$\ast$ Not-\/greater-\/than-\/or-\/equal (unord, non-\/sign)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_a62dded3c569a7d2473a637e5f7c4b9ad}{\+\_\+\+C\+M\+P\+\_\+\+N\+G\+T\+\_\+\+UQ}}~0x1a   /$\ast$ Not-\/greater-\/than (unordered, non-\/signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_abeb744e5e5dd63ad6164625d232332aa}{\+\_\+\+C\+M\+P\+\_\+\+F\+A\+L\+S\+E\+\_\+\+OS}}~0x1b /$\ast$ False (ordered, signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_a6b3245add36c7f438dbf9a8077703d8c}{\+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+OS}}~0x1c   /$\ast$ Not-\/equal (ordered, signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_afe856cb5767d9ddc4e4acbb4e15205fb}{\+\_\+\+C\+M\+P\+\_\+\+G\+E\+\_\+\+OQ}}~0x1d    /$\ast$ Greater-\/than-\/or-\/equal (ordered, non-\/signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_a0fc78a0be018de411cbc78ecdbdc42e2}{\+\_\+\+C\+M\+P\+\_\+\+G\+T\+\_\+\+OQ}}~0x1e    /$\ast$ Greater-\/than (ordered, non-\/signaling)  $\ast$/
+\item 
+\#define \mbox{\hyperlink{auxiliary__functions_8hpp_a0721d32823001bb249f44211834699b6}{\+\_\+\+C\+M\+P\+\_\+\+T\+R\+U\+E\+\_\+\+US}}~0x1f  /$\ast$ True (unordered, signaling)  $\ast$/
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_a40fb7870d45199fe59a4db693749f966}{load\+\_\+vertex}} (float $\ast$value)
+\item 
+\+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_ab0f5a192faed0940d0608eb9c97523aa}{load\+\_\+vertex2}} (float $\ast$value)
+\item 
+\+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_a14fd50e50074c652da4fe34311bb46fd}{cross\+\_\+product}} (\+\_\+\+\_\+m128 a, \+\_\+\+\_\+m128 b)
+\begin{DoxyCompactList}\small\item\em Calculates cross product of two \+\_\+\+\_\+m128 vectors (floats)\+: a x b. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{auxiliary__functions_8hpp_aca897d81c2bc86dbf6c9100fc6a13f23}{Calc\+Dot\+Product}} (float vec1\mbox{[}3\mbox{]}, float vec2\mbox{[}3\mbox{]})
+\begin{DoxyCompactList}\small\item\em Calculates cross product of two float vectors\+: a x b. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T $>$ }\\void \mbox{\hyperlink{auxiliary__functions_8hpp_a04cc1b733a2f4d205f13f7a59facba64}{hash\+\_\+combine}} (std\+::size\+\_\+t \&seed, const T \&v)
+\item 
+\+\_\+\+\_\+m128i \mbox{\hyperlink{auxiliary__functions_8hpp_af8a321f4f96496363eee1ca32b2afb8b}{sse\+\_\+factorial}} (int n)
+\begin{DoxyCompactList}\small\item\em Calculates factorial of integer and returns vector containing the result -\/ this is slow and useless -\/ do not use. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{auxiliary__functions_8hpp_a5951a99d0212bea2c9fb92a2a0439c44}{scalar\+\_\+factorial}} (int n)
+\begin{DoxyCompactList}\small\item\em Calculates factorial of the parameter. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_a816432e281588deee6316480dd32acea}{chebyshev}} (int n, \+\_\+\+\_\+m128 x\+\_\+vec)
+\begin{DoxyCompactList}\small\item\em Calculates Chebyshev polynomials. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_a97aa85c33137a6ee418f26998eafdfc2}{chebyshev\+\_\+next}} (\+\_\+\+\_\+m128 \&cn, \+\_\+\+\_\+m128 \&cn\+\_\+1, \+\_\+\+\_\+m128 \&x\+\_\+vec)
+\begin{DoxyCompactList}\small\item\em Given previous two chebyshev polynomials and vector of x values, the function calculates next chebyshev polynomial. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_ad943f423331c8eff1008f0f209804062}{sse\+\_\+cos}} (\+\_\+\+\_\+m128 x\+\_\+vec\+\_\+)
+\item 
+\+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_a6ea3f9322c67b11310dc08bb265a02c3}{sse\+\_\+sin}} (\+\_\+\+\_\+m128 x\+\_\+vec\+\_\+)
+\item 
+\+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_a58f28b8e4e0e39b744a712c2da76cc6f}{legendre\+\_\+next}} (\+\_\+\+\_\+m128 Pn, \+\_\+\+\_\+m128 Pnm1, \+\_\+\+\_\+m128 x\+\_\+vec, int n)
+\item 
+\+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_a6071831d48c9c827af8594ff2db9f2d8}{sse\+\_\+tan}} (\+\_\+\+\_\+m128 x)
+\item 
+\+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_af125155449ca8898f9aa0b9a4c8b825b}{sse\+\_\+arctan}} (\+\_\+\+\_\+m128 x)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct std\+::hash$<$ pair$<$ S, T $>$ $>$ \mbox{\hyperlink{namespacestd_acbe04eac5dc3d730864a092d6ef4202c}{std\+::circle}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a9dac2ea83695373391286f7f38cf3741}\label{auxiliary__functions_8hpp_a9dac2ea83695373391286f7f38cf3741}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+OQ@{\+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+OQ}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+OQ@{\+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+OQ}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+OQ}{\_CMP\_EQ\_OQ}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+OQ~0x00    /$\ast$ Equal (ordered, non-\/signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a7b218fcc3e42d2a268ce60ee8fcf0c6b}\label{auxiliary__functions_8hpp_a7b218fcc3e42d2a268ce60ee8fcf0c6b}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+OS@{\+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+OS}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+OS@{\+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+OS}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+OS}{\_CMP\_EQ\_OS}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+OS~0x10    /$\ast$ Equal (ordered, signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a6ab54df7c6c4579066126f682d6c0217}\label{auxiliary__functions_8hpp_a6ab54df7c6c4579066126f682d6c0217}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+UQ@{\+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+UQ}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+UQ@{\+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+UQ}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+UQ}{\_CMP\_EQ\_UQ}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+UQ~0x08    /$\ast$ Equal (unordered, non-\/signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_afa8ae0e20d7ba4e09bbf5ae4e62eec93}\label{auxiliary__functions_8hpp_afa8ae0e20d7ba4e09bbf5ae4e62eec93}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+US@{\+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+US}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+US@{\+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+US}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+US}{\_CMP\_EQ\_US}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+E\+Q\+\_\+\+US~0x18    /$\ast$ Equal (unordered, signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a7ddf649665d95a38b1ca4ea2d14373b1}\label{auxiliary__functions_8hpp_a7ddf649665d95a38b1ca4ea2d14373b1}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+F\+A\+L\+S\+E\+\_\+\+OQ@{\+\_\+\+C\+M\+P\+\_\+\+F\+A\+L\+S\+E\+\_\+\+OQ}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+F\+A\+L\+S\+E\+\_\+\+OQ@{\+\_\+\+C\+M\+P\+\_\+\+F\+A\+L\+S\+E\+\_\+\+OQ}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+F\+A\+L\+S\+E\+\_\+\+OQ}{\_CMP\_FALSE\_OQ}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+F\+A\+L\+S\+E\+\_\+\+OQ~0x0b /$\ast$ False (ordered, non-\/signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_abeb744e5e5dd63ad6164625d232332aa}\label{auxiliary__functions_8hpp_abeb744e5e5dd63ad6164625d232332aa}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+F\+A\+L\+S\+E\+\_\+\+OS@{\+\_\+\+C\+M\+P\+\_\+\+F\+A\+L\+S\+E\+\_\+\+OS}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+F\+A\+L\+S\+E\+\_\+\+OS@{\+\_\+\+C\+M\+P\+\_\+\+F\+A\+L\+S\+E\+\_\+\+OS}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+F\+A\+L\+S\+E\+\_\+\+OS}{\_CMP\_FALSE\_OS}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+F\+A\+L\+S\+E\+\_\+\+OS~0x1b /$\ast$ False (ordered, signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_afe856cb5767d9ddc4e4acbb4e15205fb}\label{auxiliary__functions_8hpp_afe856cb5767d9ddc4e4acbb4e15205fb}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+G\+E\+\_\+\+OQ@{\+\_\+\+C\+M\+P\+\_\+\+G\+E\+\_\+\+OQ}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+G\+E\+\_\+\+OQ@{\+\_\+\+C\+M\+P\+\_\+\+G\+E\+\_\+\+OQ}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+G\+E\+\_\+\+OQ}{\_CMP\_GE\_OQ}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+G\+E\+\_\+\+OQ~0x1d    /$\ast$ Greater-\/than-\/or-\/equal (ordered, non-\/signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a0b30a579f2262877d150e9a69769dcda}\label{auxiliary__functions_8hpp_a0b30a579f2262877d150e9a69769dcda}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+G\+E\+\_\+\+OS@{\+\_\+\+C\+M\+P\+\_\+\+G\+E\+\_\+\+OS}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+G\+E\+\_\+\+OS@{\+\_\+\+C\+M\+P\+\_\+\+G\+E\+\_\+\+OS}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+G\+E\+\_\+\+OS}{\_CMP\_GE\_OS}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+G\+E\+\_\+\+OS~0x0d    /$\ast$ Greater-\/than-\/or-\/equal (ordered, signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a0fc78a0be018de411cbc78ecdbdc42e2}\label{auxiliary__functions_8hpp_a0fc78a0be018de411cbc78ecdbdc42e2}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+G\+T\+\_\+\+OQ@{\+\_\+\+C\+M\+P\+\_\+\+G\+T\+\_\+\+OQ}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+G\+T\+\_\+\+OQ@{\+\_\+\+C\+M\+P\+\_\+\+G\+T\+\_\+\+OQ}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+G\+T\+\_\+\+OQ}{\_CMP\_GT\_OQ}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+G\+T\+\_\+\+OQ~0x1e    /$\ast$ Greater-\/than (ordered, non-\/signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a071758ce6dd0e82952d7e90cf7007e98}\label{auxiliary__functions_8hpp_a071758ce6dd0e82952d7e90cf7007e98}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+G\+T\+\_\+\+OS@{\+\_\+\+C\+M\+P\+\_\+\+G\+T\+\_\+\+OS}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+G\+T\+\_\+\+OS@{\+\_\+\+C\+M\+P\+\_\+\+G\+T\+\_\+\+OS}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+G\+T\+\_\+\+OS}{\_CMP\_GT\_OS}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+G\+T\+\_\+\+OS~0x0e    /$\ast$ Greater-\/than (ordered, signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a2cd21a5fa2b6475fddde86ea3c3c2dbd}\label{auxiliary__functions_8hpp_a2cd21a5fa2b6475fddde86ea3c3c2dbd}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+L\+E\+\_\+\+OQ@{\+\_\+\+C\+M\+P\+\_\+\+L\+E\+\_\+\+OQ}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+L\+E\+\_\+\+OQ@{\+\_\+\+C\+M\+P\+\_\+\+L\+E\+\_\+\+OQ}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+L\+E\+\_\+\+OQ}{\_CMP\_LE\_OQ}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+L\+E\+\_\+\+OQ~0x12    /$\ast$ Less-\/than-\/or-\/equal (ordered, non-\/signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a3a821a0fb578f35429b73d0b5cb146cb}\label{auxiliary__functions_8hpp_a3a821a0fb578f35429b73d0b5cb146cb}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+L\+E\+\_\+\+OS@{\+\_\+\+C\+M\+P\+\_\+\+L\+E\+\_\+\+OS}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+L\+E\+\_\+\+OS@{\+\_\+\+C\+M\+P\+\_\+\+L\+E\+\_\+\+OS}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+L\+E\+\_\+\+OS}{\_CMP\_LE\_OS}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+L\+E\+\_\+\+OS~0x02    /$\ast$ Less-\/than-\/or-\/equal (ordered, signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a4c068460fd624d9b56d4c0a9e80674ac}\label{auxiliary__functions_8hpp_a4c068460fd624d9b56d4c0a9e80674ac}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+L\+T\+\_\+\+OQ@{\+\_\+\+C\+M\+P\+\_\+\+L\+T\+\_\+\+OQ}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+L\+T\+\_\+\+OQ@{\+\_\+\+C\+M\+P\+\_\+\+L\+T\+\_\+\+OQ}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+L\+T\+\_\+\+OQ}{\_CMP\_LT\_OQ}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+L\+T\+\_\+\+OQ~0x11    /$\ast$ Less-\/than (ordered, non-\/signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a8acc16d00029c2cbb343a302de2d2cbd}\label{auxiliary__functions_8hpp_a8acc16d00029c2cbb343a302de2d2cbd}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+L\+T\+\_\+\+OS@{\+\_\+\+C\+M\+P\+\_\+\+L\+T\+\_\+\+OS}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+L\+T\+\_\+\+OS@{\+\_\+\+C\+M\+P\+\_\+\+L\+T\+\_\+\+OS}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+L\+T\+\_\+\+OS}{\_CMP\_LT\_OS}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+L\+T\+\_\+\+OS~0x01    /$\ast$ Less-\/than (ordered, signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_abb8269c9390d270fe61447a2dba9a38d}\label{auxiliary__functions_8hpp_abb8269c9390d270fe61447a2dba9a38d}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+OQ@{\+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+OQ}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+OQ@{\+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+OQ}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+OQ}{\_CMP\_NEQ\_OQ}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+OQ~0x0c   /$\ast$ Not-\/equal (ordered, non-\/signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a6b3245add36c7f438dbf9a8077703d8c}\label{auxiliary__functions_8hpp_a6b3245add36c7f438dbf9a8077703d8c}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+OS@{\+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+OS}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+OS@{\+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+OS}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+OS}{\_CMP\_NEQ\_OS}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+OS~0x1c   /$\ast$ Not-\/equal (ordered, signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a68f2d5732ae1d80791f0c0196b55ab8f}\label{auxiliary__functions_8hpp_a68f2d5732ae1d80791f0c0196b55ab8f}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+UQ@{\+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+UQ}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+UQ@{\+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+UQ}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+UQ}{\_CMP\_NEQ\_UQ}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+UQ~0x04   /$\ast$ Not-\/equal (unordered, non-\/signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a7803b5d00e7a4aec803459b9577be5d5}\label{auxiliary__functions_8hpp_a7803b5d00e7a4aec803459b9577be5d5}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+US@{\+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+US}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+US@{\+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+US}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+US}{\_CMP\_NEQ\_US}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+N\+E\+Q\+\_\+\+US~0x14   /$\ast$ Not-\/equal (unordered, signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a3ab391f5258d38f2aedd702436c3370a}\label{auxiliary__functions_8hpp_a3ab391f5258d38f2aedd702436c3370a}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+N\+G\+E\+\_\+\+UQ@{\+\_\+\+C\+M\+P\+\_\+\+N\+G\+E\+\_\+\+UQ}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+N\+G\+E\+\_\+\+UQ@{\+\_\+\+C\+M\+P\+\_\+\+N\+G\+E\+\_\+\+UQ}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+N\+G\+E\+\_\+\+UQ}{\_CMP\_NGE\_UQ}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+N\+G\+E\+\_\+\+UQ~0x19   /$\ast$ Not-\/greater-\/than-\/or-\/equal (unord, non-\/sign)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a852a2f5a611566f9a0c8abe7627a82f7}\label{auxiliary__functions_8hpp_a852a2f5a611566f9a0c8abe7627a82f7}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+N\+G\+E\+\_\+\+US@{\+\_\+\+C\+M\+P\+\_\+\+N\+G\+E\+\_\+\+US}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+N\+G\+E\+\_\+\+US@{\+\_\+\+C\+M\+P\+\_\+\+N\+G\+E\+\_\+\+US}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+N\+G\+E\+\_\+\+US}{\_CMP\_NGE\_US}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+N\+G\+E\+\_\+\+US~0x09   /$\ast$ Not-\/greater-\/than-\/or-\/equal (unord, signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a62dded3c569a7d2473a637e5f7c4b9ad}\label{auxiliary__functions_8hpp_a62dded3c569a7d2473a637e5f7c4b9ad}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+N\+G\+T\+\_\+\+UQ@{\+\_\+\+C\+M\+P\+\_\+\+N\+G\+T\+\_\+\+UQ}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+N\+G\+T\+\_\+\+UQ@{\+\_\+\+C\+M\+P\+\_\+\+N\+G\+T\+\_\+\+UQ}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+N\+G\+T\+\_\+\+UQ}{\_CMP\_NGT\_UQ}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+N\+G\+T\+\_\+\+UQ~0x1a   /$\ast$ Not-\/greater-\/than (unordered, non-\/signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_acab6035eb643931275c7b99c9b1228cd}\label{auxiliary__functions_8hpp_acab6035eb643931275c7b99c9b1228cd}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+N\+G\+T\+\_\+\+US@{\+\_\+\+C\+M\+P\+\_\+\+N\+G\+T\+\_\+\+US}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+N\+G\+T\+\_\+\+US@{\+\_\+\+C\+M\+P\+\_\+\+N\+G\+T\+\_\+\+US}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+N\+G\+T\+\_\+\+US}{\_CMP\_NGT\_US}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+N\+G\+T\+\_\+\+US~0x0a   /$\ast$ Not-\/greater-\/than (unordered, signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a0586cbb60e3476573048bdbf7f47f32c}\label{auxiliary__functions_8hpp_a0586cbb60e3476573048bdbf7f47f32c}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+N\+L\+E\+\_\+\+UQ@{\+\_\+\+C\+M\+P\+\_\+\+N\+L\+E\+\_\+\+UQ}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+N\+L\+E\+\_\+\+UQ@{\+\_\+\+C\+M\+P\+\_\+\+N\+L\+E\+\_\+\+UQ}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+N\+L\+E\+\_\+\+UQ}{\_CMP\_NLE\_UQ}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+N\+L\+E\+\_\+\+UQ~0x16   /$\ast$ Not-\/less-\/than-\/or-\/equal (unord, non-\/signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_aa5f4b9340152a299635c0779a863b522}\label{auxiliary__functions_8hpp_aa5f4b9340152a299635c0779a863b522}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+N\+L\+E\+\_\+\+US@{\+\_\+\+C\+M\+P\+\_\+\+N\+L\+E\+\_\+\+US}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+N\+L\+E\+\_\+\+US@{\+\_\+\+C\+M\+P\+\_\+\+N\+L\+E\+\_\+\+US}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+N\+L\+E\+\_\+\+US}{\_CMP\_NLE\_US}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+N\+L\+E\+\_\+\+US~0x06   /$\ast$ Not-\/less-\/than-\/or-\/equal (unordered, signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a02518d7d1247c43c0fbba51ba8ec0a8e}\label{auxiliary__functions_8hpp_a02518d7d1247c43c0fbba51ba8ec0a8e}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+N\+L\+T\+\_\+\+UQ@{\+\_\+\+C\+M\+P\+\_\+\+N\+L\+T\+\_\+\+UQ}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+N\+L\+T\+\_\+\+UQ@{\+\_\+\+C\+M\+P\+\_\+\+N\+L\+T\+\_\+\+UQ}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+N\+L\+T\+\_\+\+UQ}{\_CMP\_NLT\_UQ}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+N\+L\+T\+\_\+\+UQ~0x15   /$\ast$ Not-\/less-\/than (unordered, non-\/signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a89998ee45e7ac0410a46b1f8e64d57b2}\label{auxiliary__functions_8hpp_a89998ee45e7ac0410a46b1f8e64d57b2}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+N\+L\+T\+\_\+\+US@{\+\_\+\+C\+M\+P\+\_\+\+N\+L\+T\+\_\+\+US}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+N\+L\+T\+\_\+\+US@{\+\_\+\+C\+M\+P\+\_\+\+N\+L\+T\+\_\+\+US}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+N\+L\+T\+\_\+\+US}{\_CMP\_NLT\_US}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+N\+L\+T\+\_\+\+US~0x05   /$\ast$ Not-\/less-\/than (unordered, signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a46d362e05e93824e64e84e7de6312176}\label{auxiliary__functions_8hpp_a46d362e05e93824e64e84e7de6312176}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+O\+R\+D\+\_\+Q@{\+\_\+\+C\+M\+P\+\_\+\+O\+R\+D\+\_\+Q}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+O\+R\+D\+\_\+Q@{\+\_\+\+C\+M\+P\+\_\+\+O\+R\+D\+\_\+Q}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+O\+R\+D\+\_\+Q}{\_CMP\_ORD\_Q}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+O\+R\+D\+\_\+Q~0x07    /$\ast$ Ordered (nonsignaling)   $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_aeb80bedbe94d5fc92e64073545a7c6c6}\label{auxiliary__functions_8hpp_aeb80bedbe94d5fc92e64073545a7c6c6}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+O\+R\+D\+\_\+S@{\+\_\+\+C\+M\+P\+\_\+\+O\+R\+D\+\_\+S}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+O\+R\+D\+\_\+S@{\+\_\+\+C\+M\+P\+\_\+\+O\+R\+D\+\_\+S}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+O\+R\+D\+\_\+S}{\_CMP\_ORD\_S}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+O\+R\+D\+\_\+S~0x17    /$\ast$ Ordered (signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a4dc9cf5f51525b757658c8c94cdcc82c}\label{auxiliary__functions_8hpp_a4dc9cf5f51525b757658c8c94cdcc82c}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+T\+R\+U\+E\+\_\+\+UQ@{\+\_\+\+C\+M\+P\+\_\+\+T\+R\+U\+E\+\_\+\+UQ}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+T\+R\+U\+E\+\_\+\+UQ@{\+\_\+\+C\+M\+P\+\_\+\+T\+R\+U\+E\+\_\+\+UQ}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+T\+R\+U\+E\+\_\+\+UQ}{\_CMP\_TRUE\_UQ}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+T\+R\+U\+E\+\_\+\+UQ~0x0f  /$\ast$ True (unordered, non-\/signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a0721d32823001bb249f44211834699b6}\label{auxiliary__functions_8hpp_a0721d32823001bb249f44211834699b6}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+T\+R\+U\+E\+\_\+\+US@{\+\_\+\+C\+M\+P\+\_\+\+T\+R\+U\+E\+\_\+\+US}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+T\+R\+U\+E\+\_\+\+US@{\+\_\+\+C\+M\+P\+\_\+\+T\+R\+U\+E\+\_\+\+US}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+T\+R\+U\+E\+\_\+\+US}{\_CMP\_TRUE\_US}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+T\+R\+U\+E\+\_\+\+US~0x1f  /$\ast$ True (unordered, signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a2d011afa9bc7d308fbc01189e07dbfcb}\label{auxiliary__functions_8hpp_a2d011afa9bc7d308fbc01189e07dbfcb}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+U\+N\+O\+R\+D\+\_\+Q@{\+\_\+\+C\+M\+P\+\_\+\+U\+N\+O\+R\+D\+\_\+Q}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+U\+N\+O\+R\+D\+\_\+Q@{\+\_\+\+C\+M\+P\+\_\+\+U\+N\+O\+R\+D\+\_\+Q}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+U\+N\+O\+R\+D\+\_\+Q}{\_CMP\_UNORD\_Q}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+U\+N\+O\+R\+D\+\_\+Q~0x03  /$\ast$ Unordered (non-\/signaling)  $\ast$/}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_ab61803e086ab8b8e65b8a726227dd958}\label{auxiliary__functions_8hpp_ab61803e086ab8b8e65b8a726227dd958}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!\+\_\+\+C\+M\+P\+\_\+\+U\+N\+O\+R\+D\+\_\+S@{\+\_\+\+C\+M\+P\+\_\+\+U\+N\+O\+R\+D\+\_\+S}}
+\index{\+\_\+\+C\+M\+P\+\_\+\+U\+N\+O\+R\+D\+\_\+S@{\+\_\+\+C\+M\+P\+\_\+\+U\+N\+O\+R\+D\+\_\+S}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{\+\_\+\+C\+M\+P\+\_\+\+U\+N\+O\+R\+D\+\_\+S}{\_CMP\_UNORD\_S}}
+{\footnotesize\ttfamily \#define \+\_\+\+C\+M\+P\+\_\+\+U\+N\+O\+R\+D\+\_\+S~0x13  /$\ast$ Unordered (signaling)  $\ast$/}
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{auxiliary__functions_8hpp_aca897d81c2bc86dbf6c9100fc6a13f23}\label{auxiliary__functions_8hpp_aca897d81c2bc86dbf6c9100fc6a13f23}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!Calc\+Dot\+Product@{Calc\+Dot\+Product}}
+\index{Calc\+Dot\+Product@{Calc\+Dot\+Product}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{Calc\+Dot\+Product()}{CalcDotProduct()}}
+{\footnotesize\ttfamily float Calc\+Dot\+Product (\begin{DoxyParamCaption}\item[{float}]{vec1\mbox{[}3\mbox{]},  }\item[{float}]{vec2\mbox{[}3\mbox{]} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Calculates cross product of two float vectors\+: a x b. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & vector \\
+\hline
+{\em b} & vector \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a816432e281588deee6316480dd32acea}\label{auxiliary__functions_8hpp_a816432e281588deee6316480dd32acea}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!chebyshev@{chebyshev}}
+\index{chebyshev@{chebyshev}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{chebyshev()}{chebyshev()}}
+{\footnotesize\ttfamily \+\_\+\+\_\+m128 chebyshev (\begin{DoxyParamCaption}\item[{int}]{n,  }\item[{\+\_\+\+\_\+m128}]{x\+\_\+vec }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Calculates Chebyshev polynomials. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & number of Chebyshev polynomial to calculate \\
+\hline
+{\em x\+\_\+vec} & vector of x values for which the value of polynomial is calculated \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a97aa85c33137a6ee418f26998eafdfc2}\label{auxiliary__functions_8hpp_a97aa85c33137a6ee418f26998eafdfc2}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!chebyshev\+\_\+next@{chebyshev\+\_\+next}}
+\index{chebyshev\+\_\+next@{chebyshev\+\_\+next}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{chebyshev\+\_\+next()}{chebyshev\_next()}}
+{\footnotesize\ttfamily \+\_\+\+\_\+m128 chebyshev\+\_\+next (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+m128 \&}]{cn,  }\item[{\+\_\+\+\_\+m128 \&}]{cn\+\_\+1,  }\item[{\+\_\+\+\_\+m128 \&}]{x\+\_\+vec }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Given previous two chebyshev polynomials and vector of x values, the function calculates next chebyshev polynomial. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & -\/th Chebyshev polynomial evaluated in points of x vector \\
+\hline
+{\em n-\/1} & -\/th Chebyshev polynomial evaluated in points of x vector \\
+\hline
+{\em x\+\_\+vec} & vector of x values in which the polynomial is calculated \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a14fd50e50074c652da4fe34311bb46fd}\label{auxiliary__functions_8hpp_a14fd50e50074c652da4fe34311bb46fd}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!cross\+\_\+product@{cross\+\_\+product}}
+\index{cross\+\_\+product@{cross\+\_\+product}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{cross\+\_\+product()}{cross\_product()}}
+{\footnotesize\ttfamily \+\_\+\+\_\+m128 cross\+\_\+product (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+m128}]{a,  }\item[{\+\_\+\+\_\+m128}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Calculates cross product of two \+\_\+\+\_\+m128 vectors (floats)\+: a x b. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & \+\_\+\+\_\+m128 vector \\
+\hline
+{\em b} & \+\_\+\+\_\+m128 vector \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a04cc1b733a2f4d205f13f7a59facba64}\label{auxiliary__functions_8hpp_a04cc1b733a2f4d205f13f7a59facba64}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!hash\+\_\+combine@{hash\+\_\+combine}}
+\index{hash\+\_\+combine@{hash\+\_\+combine}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{hash\+\_\+combine()}{hash\_combine()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+void hash\+\_\+combine (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t \&}]{seed,  }\item[{const T \&}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a58f28b8e4e0e39b744a712c2da76cc6f}\label{auxiliary__functions_8hpp_a58f28b8e4e0e39b744a712c2da76cc6f}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!legendre\+\_\+next@{legendre\+\_\+next}}
+\index{legendre\+\_\+next@{legendre\+\_\+next}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{legendre\+\_\+next()}{legendre\_next()}}
+{\footnotesize\ttfamily \+\_\+\+\_\+m128 legendre\+\_\+next (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+m128}]{Pn,  }\item[{\+\_\+\+\_\+m128}]{Pnm1,  }\item[{\+\_\+\+\_\+m128}]{x\+\_\+vec,  }\item[{int}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a40fb7870d45199fe59a4db693749f966}\label{auxiliary__functions_8hpp_a40fb7870d45199fe59a4db693749f966}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!load\+\_\+vertex@{load\+\_\+vertex}}
+\index{load\+\_\+vertex@{load\+\_\+vertex}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{load\+\_\+vertex()}{load\_vertex()}}
+{\footnotesize\ttfamily \+\_\+\+\_\+m128 load\+\_\+vertex (\begin{DoxyParamCaption}\item[{float $\ast$}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Function loads 3 floats to a sse vector, the last value is set to 0. 
+\begin{DoxyParams}{Parameters}
+{\em value} & float pointer pointing to first element \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns \+\_\+\+\_\+m128 vector, last element is 0. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{auxiliary__functions_8hpp_ab0f5a192faed0940d0608eb9c97523aa}\label{auxiliary__functions_8hpp_ab0f5a192faed0940d0608eb9c97523aa}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!load\+\_\+vertex2@{load\+\_\+vertex2}}
+\index{load\+\_\+vertex2@{load\+\_\+vertex2}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{load\+\_\+vertex2()}{load\_vertex2()}}
+{\footnotesize\ttfamily \+\_\+\+\_\+m128 load\+\_\+vertex2 (\begin{DoxyParamCaption}\item[{float $\ast$}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Function loads 3 floats to a sse vector, the last value is set to 0. 
+\begin{DoxyParams}{Parameters}
+{\em value} & float pointer pointing to first element \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns \+\_\+\+\_\+m128 vector, last element is 0. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a5951a99d0212bea2c9fb92a2a0439c44}\label{auxiliary__functions_8hpp_a5951a99d0212bea2c9fb92a2a0439c44}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!scalar\+\_\+factorial@{scalar\+\_\+factorial}}
+\index{scalar\+\_\+factorial@{scalar\+\_\+factorial}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{scalar\+\_\+factorial()}{scalar\_factorial()}}
+{\footnotesize\ttfamily int scalar\+\_\+factorial (\begin{DoxyParamCaption}\item[{int}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Calculates factorial of the parameter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & calculates n! \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{auxiliary__functions_8hpp_af125155449ca8898f9aa0b9a4c8b825b}\label{auxiliary__functions_8hpp_af125155449ca8898f9aa0b9a4c8b825b}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!sse\+\_\+arctan@{sse\+\_\+arctan}}
+\index{sse\+\_\+arctan@{sse\+\_\+arctan}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{sse\+\_\+arctan()}{sse\_arctan()}}
+{\footnotesize\ttfamily \+\_\+\+\_\+m128 sse\+\_\+arctan (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+m128}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_ad943f423331c8eff1008f0f209804062}\label{auxiliary__functions_8hpp_ad943f423331c8eff1008f0f209804062}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!sse\+\_\+cos@{sse\+\_\+cos}}
+\index{sse\+\_\+cos@{sse\+\_\+cos}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{sse\+\_\+cos()}{sse\_cos()}}
+{\footnotesize\ttfamily \+\_\+\+\_\+m128 sse\+\_\+cos (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+m128}]{x\+\_\+vec\+\_\+ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_af8a321f4f96496363eee1ca32b2afb8b}\label{auxiliary__functions_8hpp_af8a321f4f96496363eee1ca32b2afb8b}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!sse\+\_\+factorial@{sse\+\_\+factorial}}
+\index{sse\+\_\+factorial@{sse\+\_\+factorial}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{sse\+\_\+factorial()}{sse\_factorial()}}
+{\footnotesize\ttfamily \+\_\+\+\_\+m128i sse\+\_\+factorial (\begin{DoxyParamCaption}\item[{int}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Calculates factorial of integer and returns vector containing the result -\/ this is slow and useless -\/ do not use. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & calculates n! \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a6ea3f9322c67b11310dc08bb265a02c3}\label{auxiliary__functions_8hpp_a6ea3f9322c67b11310dc08bb265a02c3}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!sse\+\_\+sin@{sse\+\_\+sin}}
+\index{sse\+\_\+sin@{sse\+\_\+sin}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{sse\+\_\+sin()}{sse\_sin()}}
+{\footnotesize\ttfamily \+\_\+\+\_\+m128 sse\+\_\+sin (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+m128}]{x\+\_\+vec\+\_\+ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a6071831d48c9c827af8594ff2db9f2d8}\label{auxiliary__functions_8hpp_a6071831d48c9c827af8594ff2db9f2d8}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!sse\+\_\+tan@{sse\+\_\+tan}}
+\index{sse\+\_\+tan@{sse\+\_\+tan}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{sse\+\_\+tan()}{sse\_tan()}}
+{\footnotesize\ttfamily \+\_\+\+\_\+m128 sse\+\_\+tan (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+m128}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
