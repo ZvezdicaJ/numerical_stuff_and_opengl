@@ -313,9 +313,21 @@ TEST(tan, sse) {
         {-0.84228838046307941134, -0.30933624960962324835,
          0.34252486753003896780, 56.185438688872594071});
     for (int j = 0; j < 4; j++) {
-        double tol = 1e-7;
+        float tol = 1e-7;
         if (j == 3)
             tol = 1e-4;
+        EXPECT_THAT(p[j], testing::FloatNear(correct_result[j], tol));
+    }
+
+    x_vec = std::array<float, 4>({0.00001, -0.00033, 0.01, 0.1});
+    x = _mm_loadu_ps(x_vec.data());
+    result = sse_tan(x);
+    p = (float *)&result;
+    correct_result =
+        std::array<float, 4>({0.0000100000000003, -0.000330000011979,
+                              0.0100003333467, 0.100334672085});
+    for (int j = 0; j < 4; j++) {
+        float tol = 1e-7;
         EXPECT_THAT(p[j], testing::FloatNear(correct_result[j], tol));
     }
 }
@@ -330,9 +342,20 @@ TEST(tan, avx2) {
         {-0.84228838046307941134, -0.30933624960962324835,
          0.34252486753003896780, 56.185438688872594071});
     for (int j = 0; j < 4; j++) {
-        double tol = 1e-11;
+        double tol = 1e-12;
         if (j == 3)
             tol = 1e-9;
+        EXPECT_THAT(p[j], testing::DoubleNear(correct_result[j], tol));
+    }
+    x_vec = std::array<double, 4>({0.00001, -0.00033, 0.01, 0.1});
+    x = _mm256_loadu_pd(x_vec.data());
+    result = avx_tan(x);
+    p = (double *)&result;
+    correct_result =
+        std::array<double, 4>({0.00001000000000033333, -0.0003300000119790005,
+                               0.01000033334666721, 0.1003346720854505});
+    for (int j = 0; j < 4; j++) {
+        double tol = 1e-12;
         EXPECT_THAT(p[j], testing::DoubleNear(correct_result[j], tol));
     }
 }

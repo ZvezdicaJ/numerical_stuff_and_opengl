@@ -12,7 +12,7 @@ void initialize_shapes(std::vector<Shape<T> *> &shapes) {
                       std::is_same<double, T>::value,
                   "Shapes can only be instantiated with floating point types: "
                   "float, double, long double!");
-    shapes.emplace_back(new (Sphere<T>));
+    shapes.emplace_back(new (Circle<T>));
 }
 
 template <typename T>
@@ -22,7 +22,7 @@ void display(std::vector<Shape<T> *> &shapes) {
                   "Shapes can only be instantiated with floating point types: "
                   "float, double, long double!");
     Shader<RENDER_TYPE::UNIFORM_COLOR> shader;
-    rotate_all_shapes(shapes, shader);
+    display_all_shapes(shapes, shader);
 }
 
 template <RENDER_TYPE T, typename U>

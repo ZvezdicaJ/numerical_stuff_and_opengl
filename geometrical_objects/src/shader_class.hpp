@@ -12,6 +12,16 @@ class Shader {
     template <RENDER_TYPE Q = T>
     typename std::enable_if<Q == RENDER_TYPE::UNIFORM_COLOR, void>::type
     compile_shaders() {
+        // create empty fragment shader
+        unsigned int fragmentShader;
+        fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+
+        // load fragment shader and compile it
+        glShaderSource(fragmentShader, 1, &(shaders::uniform_fragment_shader),
+                       NULL);
+        glCompileShader(fragmentShader);
+        check_fragment_shader(fragmentShader);
+
         for (int i = 0; i < 3; i++) {
             // create empty shader
             unsigned int vertexShader;
@@ -21,18 +31,9 @@ class Shader {
             const char *source = shaders::uniform_vertex_shaders[i].c_str();
             glShaderSource(vertexShader, 1, &source, NULL);
             glCompileShader(vertexShader);
+
             // check if successfully compiled
             check_vertex_shader(vertexShader);
-
-            // create empty fragment shader
-            unsigned int fragmentShader;
-            fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-            // load fragment shader and compile it
-            glShaderSource(fragmentShader, 1,
-                           &(shaders::uniform_fragment_shader), NULL);
-            glCompileShader(fragmentShader);
-            check_fragment_shader(fragmentShader);
 
             shader_program[i] = glCreateProgram();
             glAttachShader(shader_program[i], vertexShader);
@@ -42,8 +43,8 @@ class Shader {
             shaders_compiled[i] = true;
             // glUseProgram(shaderProgram);
             glDeleteShader(vertexShader);
-            glDeleteShader(fragmentShader);
         }
+        glDeleteShader(fragmentShader);
     }
 
     template <RENDER_TYPE Q = T>

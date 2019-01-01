@@ -1,3 +1,22 @@
+template <class T>
+inline void hash_combine(std::size_t &seed, const T &v) {
+    std::hash<T> hasher;
+    seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+}
+
+namespace std {
+    template <typename S, typename T>
+    struct hash<pair<S, T>> {
+        inline size_t operator()(const pair<S, T> &v) const {
+            size_t seed = 0;
+            ::hash_combine(seed, v.first);
+            ::hash_combine(seed, v.second);
+            return seed;
+        }
+    };
+} // namespace std
+
+
 /*avx2 compare codes*/
 /* Ordered vs Unordered has to do with whether the comparison is true if one of
  * the operands contains a NaN. Signaling (S) vs non-signaling (Q for quiet?)
@@ -155,24 +174,6 @@ inline double CalcDotProduct(__m256d x, __m256d y) {
 }
 #endif
 
-template <class T>
-inline void hash_combine(std::size_t &seed, const T &v) {
-    std::hash<T> hasher;
-    seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-}
-
-namespace std {
-template <typename S, typename T>
-struct hash<pair<S, T>> {
-    inline size_t operator()(const pair<S, T> &v) const {
-        size_t seed = 0;
-        ::hash_combine(seed, v.first);
-        ::hash_combine(seed, v.second);
-        return seed;
-    }
-};
-} // namespace std
-
 // this is slow; do not use
 /**
  * @brief Calculates factorial of integer and returns vector containing the
@@ -326,7 +327,6 @@ inline __m256d chebyshev_next(__m256d &cn, __m256d &cn_1, __m256d &x_vec) {
 }
 #endif
 
-
 /**
  * @brief Given previous two chebyshev polynomials and vector of x values, the
  * function calculates next chebyshev polynomial.
@@ -423,6 +423,27 @@ inline __m128 sse_sin(__m128 x_vec_) {
     return sum;
 }
 
+inline __m256d avx_sin(__m256d x_vec_) {
+    float coeff[] = {0.56923068635950551469,    -0.66691667240597907078,
+                     0.10428236873423694948,    -0.0068406335369915790099,
+                     0.00025000688495038622765, -5.8502483086391436917e-6,
+                     9.5347727502994011400e-8,  -1.1456384417094631513e-9,
+                     1.0574272617539128589e-11, -7.7352709954043070942e-14,
+                     4.5959561461829594592e-16, -2.2623059281974111043e-18};
+
+    __m256d sum = _mm256_set1_pd(0);
+    __m256d x_vec = _mm256_div_pd(x_vec_, _mm256_set1_pd(M_PI));
+    __m256d T2n = _mm256_set1_pd(1.0);
+    __m256d T2np1 = x_vec;
+    for (int n = 0; n < 9; n++) {
+        __m256d coeff4 = _mm256_set1_pd(coeff[n]);
+        sum = _mm256_fmadd_pd(coeff4, T2np1, sum);
+        T2n = chebyshev_next(T2np1, T2n, x_vec);
+        T2np1 = chebyshev_next(T2n, T2np1, x_vec);
+    }
+    return sum;
+}
+
 inline __m128 legendre_next(__m128 Pn, __m128 Pnm1, __m128 x_vec, int n) {
     __m128 n_vec = _mm_set_ps1(n);
     __m128 np1_vec = _mm_set_ps1(n + 1);
@@ -448,9 +469,13 @@ inline __m128 legendre_next(__m128 Pn, __m128 Pnm1, __m128 x_vec, int n) {
 }
 
 inline __m128 sse_tan(__m128 x) {
+
     // this function should calculate tan to 1e-8 precision
     // stevec : 34459425 * a - 4729725 * a ^ 3 + 135135 * a ^ 5 - 990 a ^ 7 + a
     // ^ 9;
+    //this version seems to work best although it should not
+    // x9 calculation should not work well for small x
+    // since many multiplications loose precision
     __m128 x2 = _mm_mul_ps(x, x);
     __m128 x3 = _mm_mul_ps(x2, x);
     __m128 x4 = _mm_mul_ps(x2, x2);
@@ -473,6 +498,60 @@ inline __m128 sse_tan(__m128 x) {
             _mm_fmsub_ps(x4, _mm_set_ps1(945945),
                          _mm_fmsub_ps(x2, _mm_set_ps1(16216200), coeff1))));
     return _mm_div_ps(numerator, denominator);
+
+    /* version 2 C(5,a)
+    __m128 x2 = _mm_mul_ps(x, x);
+    // stevec    -654729075 a + 91891800 a^3 - 2837835 a^5 + 25740 a^7 - 55 a^9
+    __m128 numerator = _mm_sub_ps(x2, _mm_set_ps1(55));
+    __m128 coeff1 = _mm_set_ps1(654729075);
+
+    numerator = _mm_fmadd_ps(x, _mm_mul_ps(x, numerator), _mm_set_ps1(25740));
+    numerator = _mm_fmsub_ps(x, _mm_mul_ps(x, numerator), _mm_set_ps1(2837835));
+    numerator =
+        _mm_fmadd_ps(x, _mm_mul_ps(x, numerator), _mm_set_ps1(91891800));
+    numerator = _mm_fmsub_ps(x, _mm_mul_ps(x, numerator), coeff1);
+    numerator = _mm_mul_ps(x, numerator);
+
+    // imenovalec
+    //   -654729075 + 310134825 a^2 - 18918900 a^4 + 315315 a^6 -
+    //   1485 a^8 + a^10
+    __m128 denominator = _mm_sub_ps(x2, _mm_set_ps1(-1485));
+    denominator =
+        _mm_fmadd_ps(x, _mm_mul_ps(x, denominator), _mm_set_ps1(315315));
+    denominator =
+        _mm_fmsub_ps(x, _mm_mul_ps(x, denominator), _mm_set_ps1(18918900));
+    denominator =
+        _mm_fmadd_ps(x, _mm_mul_ps(x, denominator), _mm_set_ps1(310134825));
+
+    denominator = _mm_fmsub_ps(x, _mm_mul_ps(x, denominator), coeff1);
+    return _mm_div_ps(numerator, denominator);
+    */
+    /* version 4 S(4,a)
+    // this function should calculate tan to 1e-8 precision
+    // stevec : 34459425 * a - 4729725 * a ^ 3 + 135135 * a ^ 5 - 990 a ^ 7 + a
+    // ^ 9;
+    __m128 x2 = _mm_mul_ps(x, x);
+    __m128 coeff1 = _mm_set_ps1(34459425);
+    __m128 numerator = _mm_sub_ps(x2,_mm_set_ps1(-990));
+    numerator = _mm_fmadd_ps(x, _mm_mul_ps(x, numerator), _mm_set_ps1(135135));
+    numerator =
+        _mm_fmsub_ps(x, _mm_mul_ps(x, numerator), _mm_set_ps1(4729725));
+    numerator =
+        _mm_fmadd_ps(x, _mm_mul_ps(x, numerator), coeff1;
+    numerator = _mm_mul_ps(x, numerator);
+
+    // imenovalec: 34459425 - 16216200*a^2 + 945945 a^4 - 13860*a^6 + 45*a^8
+    __m128 denominator = _mm_add_ps(x2, _mm_set_ps1(45));
+    denominator =
+        _mm_fmsub_ps(x, _mm_mul_ps(x, denominator), _mm_set_ps1(13860));
+    denominator =
+        _mm_fmadd_ps(x, _mm_mul_ps(x, denominator), _mm_set_ps1(945945));
+    denominator =
+        _mm_fmsub_ps(x, _mm_mul_ps(x, denominator), _mm_set_ps1(16216200));
+    denominator =
+        _mm_fmadd_ps(x, _mm_mul_ps(x, denominator), coeff1);
+    return _mm_div_ps(numerator, denominator);
+    */
 }
 
 #ifdef __AVX2__

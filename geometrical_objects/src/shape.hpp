@@ -16,6 +16,9 @@ class Shape {
     unsigned vertex_size = 0;
     std::vector<T> vertexes; /**< Vector holding all vertexes; 2,3 or 4
                                     consequtive numbers form a  vertex */
+    char draw_type; /**< this can either be 'E' or 'V', depending on wheather to
+                     draw elements (element buffer) or vertexes (vertex buffer
+                     object) */
     std::vector<int>
         element_array; /**< vector holding all elements in correct order */
     bool colors_loaded =
@@ -84,8 +87,6 @@ class Shape {
 template <typename T>
 class Shape2D : public Shape<T> {
   protected:
-    const unsigned vertex_size = 2;
-
   public:
 };
 
@@ -93,36 +94,35 @@ template <typename T>
 class Shape3D : public Shape<T> {
   protected:
   public:
-    template <typename Q = T>
-    typename std::enable_if<std::is_same<Q, float>::value, Q>::type area() {
-        float ar = 0;
-        for (int tri = 0; tri < this->element_array.size() / 3; tri += 1) {
-            int vert1_ind = this->element_array[3 * tri];
-            int vert2_ind = this->element_array[3 * tri + 1];
-            int vert3_ind = this->element_array[3 * tri + 2];
-
-            __m128 vert1 = load_vertex(&(this->vertexes[vert1_ind * 3]));
-            __m128 vert2 = load_vertex(&(this->vertexes[vert2_ind * 3]));
-            __m128 vert3 = load_vertex(&(this->vertexes[vert3_ind * 3]));
-
-            T *v = (T *)&vert1;
-            v = (T *)&vert2;
-            v = (T *)&vert3;
-            __m128 vec12 = _mm_sub_ps(vert1, vert2);
-            __m128 vec23 = _mm_sub_ps(vert2, vert3);
-            __m128 vec13 = _mm_sub_ps(vert1, vert3);
-
-            float distance12 = std::sqrt(CalcDotProduct(vec12, vec12));
-            float distance23 = std::sqrt(CalcDotProduct(vec23, vec23));
-            float distance13 = std::sqrt(CalcDotProduct(vec13, vec13));
-
-            T s = (distance12 + distance23 + distance13) / 2.0;
-            ar += std::sqrt(s * (s - distance12) * (s - distance13) *
-                            (s - distance23));
-        }
-        return ar;
-    }
+    T area();
 };
+
+template <>
+inline float Shape3D<float>::area() {
+    float ar = 0;
+    for (unsigned tri = 0; tri < this->element_array.size() / 3; tri += 1) {
+        int vert1_ind = this->element_array[3 * tri];
+        int vert2_ind = this->element_array[3 * tri + 1];
+        int vert3_ind = this->element_array[3 * tri + 2];
+
+        __m128 vert1 = load_vertex(&(this->vertexes[vert1_ind * 3]));
+        __m128 vert2 = load_vertex(&(this->vertexes[vert2_ind * 3]));
+        __m128 vert3 = load_vertex(&(this->vertexes[vert3_ind * 3]));
+
+        __m128 vec12 = _mm_sub_ps(vert1, vert2);
+        __m128 vec23 = _mm_sub_ps(vert2, vert3);
+        __m128 vec13 = _mm_sub_ps(vert1, vert3);
+
+        float distance12 = std::sqrt(CalcDotProduct(vec12, vec12));
+        float distance23 = std::sqrt(CalcDotProduct(vec23, vec23));
+        float distance13 = std::sqrt(CalcDotProduct(vec13, vec13));
+
+        float s = (distance12 + distance23 + distance13) / 2.0;
+        ar += std::sqrt(s * (s - distance12) * (s - distance13) *
+                        (s - distance23));
+    }
+    return ar;
+}
 
 #define __SHAPE__
 #endif

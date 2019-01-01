@@ -15,7 +15,7 @@ void main()
 {
 gl_PointSize=10.0f;
 
-gl_Position = transform*vec4(aPos.x, aPos.y, 1.0, 1.0f);
+gl_Position = transform*vec4(aPos, 2.0f,  1.0f);
 
 }
 )",
@@ -31,7 +31,7 @@ void main()
 {
 gl_PointSize=10.0f;
 
-gl_Position = transform*vec4(aPos.x, aPos.y, aPos.z, 1.0f);
+gl_Position = transform*vec4(aPos, 1.0f);
 
 }
 )",
@@ -84,7 +84,7 @@ void main()
 {
 gl_PointSize=10.0f;
 
-gl_Position = transform*vec4(aPos, 0.0f, 1.0f);
+gl_Position = transform*vec4(aPos, 1.0f, 1.0f);
 
 }
 )",
