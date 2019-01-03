@@ -25,7 +25,7 @@ Cell[BoxData[{
     RowBox[{
     "Import", "[", 
      "\"\</home/jure/Documents/opengl_ucenje/geometrical_objects/testing/data/\
-sse_cos_test.dat\>\"", "]"}], "//", "Flatten"}]}], 
+cos_test.dat\>\"", "]"}], "//", "Flatten"}]}], 
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"len", "=", 
@@ -271,7 +271,7 @@ Cell[BoxData[{
     RowBox[{
     "Import", "[", 
      "\"\</home/jure/Documents/opengl_ucenje/geometrical_objects/testing/data/\
-sse_sin_test.dat\>\"", "]"}], "//", "Flatten"}]}], 
+sin_test.dat\>\"", "]"}], "//", "Flatten"}]}], 
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"len", "=", 
@@ -499,7 +499,7 @@ Cell[BoxData[{
     RowBox[{
     "Import", "[", 
      "\"\</home/jure/Documents/opengl_ucenje/geometrical_objects/testing/data/\
-avx_cos_test.dat\>\"", "]"}], "//", "Flatten"}]}], 
+cos_test.dat\>\"", "]"}], "//", "Flatten"}]}], 
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"len", "=", 

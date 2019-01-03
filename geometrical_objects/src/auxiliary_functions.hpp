@@ -334,7 +334,7 @@ inline __m256d chebyshev_next(__m256d &cn, __m256d &cn_1, __m256d &x_vec) {
  * @param n-1 -th Chebyshev polynomial evaluated in points of x vector
  * @param x_vec vector of x values in which the polynomial is calculated
  */
-inline __m128 sse_cos(__m128 x_vec_) {
+inline __m128 cos(__m128 x_vec_) {
     float coeff[] = {-0.3042421776440938642020349128177049239697,
                      -0.9708678652630182194109914323663784757039,
                      0.3028491552626994215074191186309676140775,
@@ -367,7 +367,7 @@ inline __m128 sse_cos(__m128 x_vec_) {
 }
 
 #ifdef __AVX2__
-inline __m256d avx_cos(__m256d x_vec_) {
+inline __m256d cos(__m256d x_vec_) {
     float coeff[] = {-0.3042421776440938642020349128177049239697,
                      -0.9708678652630182194109914323663784757039,
                      0.3028491552626994215074191186309676140775,
@@ -397,7 +397,7 @@ inline __m256d avx_cos(__m256d x_vec_) {
 }
 #endif
 
-inline __m128 sse_sin(__m128 x_vec_) {
+inline __m128 sin(__m128 x_vec_) {
     float coeff[] = {0.56923068635950551469,    -0.66691667240597907078,
                      0.10428236873423694948,    -0.0068406335369915790099,
                      0.00025000688495038622765, -5.8502483086391436917e-6,
@@ -423,7 +423,7 @@ inline __m128 sse_sin(__m128 x_vec_) {
     return sum;
 }
 
-inline __m256d avx_sin(__m256d x_vec_) {
+inline __m256d sin(__m256d x_vec_) {
     float coeff[] = {0.56923068635950551469,    -0.66691667240597907078,
                      0.10428236873423694948,    -0.0068406335369915790099,
                      0.00025000688495038622765, -5.8502483086391436917e-6,
@@ -468,7 +468,7 @@ inline __m128 legendre_next(__m128 Pn, __m128 Pnm1, __m128 x_vec, int n) {
     return result;
 }
 
-inline __m128 sse_tan(__m128 x) {
+inline __m128 tan(__m128 x) {
 
     // this function should calculate tan to 1e-8 precision
     // stevec : 34459425 * a - 4729725 * a ^ 3 + 135135 * a ^ 5 - 990 a ^ 7 + a
@@ -555,7 +555,7 @@ inline __m128 sse_tan(__m128 x) {
 }
 
 #ifdef __AVX2__
-inline __m256d avx_tan(__m256d x) {
+inline __m256d tan(__m256d x) {
     // this function should calculate tan to 1e-8 precision
     // stevec : 34459425 * a - 4729725 * a ^ 3 + 135135 * a ^ 5 - 990 a ^ 7 + a
     // ^ 9;
@@ -586,7 +586,7 @@ inline __m256d avx_tan(__m256d x) {
 }
 #endif
 
-inline __m128 sse_arctan(__m128 x) {
+inline __m128 arctan(__m128 x) {
     // this comparison sets 0xffff if true - which is not 1.0
     __m128 cmp1 = _mm_cmpgt_ps(_mm_setzero_ps(), x);
     // now we compare to 1.0 to get desired 0.0 and 1.0 numbers
@@ -645,7 +645,7 @@ inline __m128 sse_arctan(__m128 x) {
 }
 
 #ifdef __AVX2__
-inline __m256d avx_arctan(__m256d x) {
+inline __m256d arctan(__m256d x) {
     // this comparison sets 0xffff if true - which is not 1.0
     __m256d cmp1 = _mm256_cmp_pd(_mm256_setzero_pd(), x, _CMP_GT_OS);
     // now we compare to 1.0 to get desired 0.0 and 1.0 numbers

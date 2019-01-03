@@ -283,7 +283,7 @@ TEST(chebyshev_next, avx2_test3) {
 TEST(cos, sse) {
     std::array<float, 4> x_vec({-M_PI, 0, M_PI / 2, M_PI});
     __m128 x = _mm_loadu_ps(x_vec.data());
-    __m128 result = sse_cos(x);
+    __m128 result = cos(x);
     float *p = (float *)&result;
     std::array<float, 4> correct_result({-1.0, 1.0, 0.0, -1.0});
 
@@ -295,7 +295,7 @@ TEST(cos, sse) {
 TEST(cos, avx2) {
     std::array<double, 4> x_vec({-M_PI, 0.0, M_PI / 2.0, M_PI});
     __m256d x = _mm256_loadu_pd(x_vec.data());
-    __m256d result = avx_cos(x);
+    __m256d result = cos(x);
     double *p = (double *)&result;
     std::array<double, 4> correct_result({-1.0, 1.0, 0.0, -1.0});
 
@@ -307,7 +307,7 @@ TEST(cos, avx2) {
 TEST(tan, sse) {
     std::array<float, 4> x_vec({-0.7, -0.3, 0.33, 1.553});
     __m128 x = _mm_loadu_ps(x_vec.data());
-    __m128 result = sse_tan(x);
+    __m128 result = tan(x);
     float *p = (float *)&result;
     std::array<float, 4> correct_result(
         {-0.84228838046307941134, -0.30933624960962324835,
@@ -321,7 +321,7 @@ TEST(tan, sse) {
 
     x_vec = std::array<float, 4>({0.00001, -0.00033, 0.01, 0.1});
     x = _mm_loadu_ps(x_vec.data());
-    result = sse_tan(x);
+    result = tan(x);
     p = (float *)&result;
     correct_result =
         std::array<float, 4>({0.0000100000000003, -0.000330000011979,
@@ -336,7 +336,7 @@ TEST(tan, sse) {
 TEST(tan, avx2) {
     std::array<double, 4> x_vec({-0.7, -0.3, 0.33, 1.553});
     __m256d x = _mm256_loadu_pd(x_vec.data());
-    __m256d result = avx_tan(x);
+    __m256d result = tan(x);
     double *p = (double *)&result;
     std::array<double, 4> correct_result(
         {-0.84228838046307941134, -0.30933624960962324835,
@@ -349,7 +349,7 @@ TEST(tan, avx2) {
     }
     x_vec = std::array<double, 4>({0.00001, -0.00033, 0.01, 0.1});
     x = _mm256_loadu_pd(x_vec.data());
-    result = avx_tan(x);
+    result = tan(x);
     p = (double *)&result;
     correct_result =
         std::array<double, 4>({0.00001000000000033333, -0.0003300000119790005,
@@ -364,7 +364,7 @@ TEST(tan, avx2) {
 TEST(arctan, sse) {
     std::array<float, 4> x_vec({-50, -0.4, 0.37, 0.97});
     __m128 x = _mm_loadu_ps(x_vec.data());
-    __m128 result = sse_arctan(x);
+    __m128 result = arctan(x);
     float *p = (float *)&result;
     std::array<float, 4> correct_result(
         {-1.55079899282, -0.380506377112, 0.354379919123, 0.770170914020});
@@ -373,7 +373,7 @@ TEST(arctan, sse) {
 
     x_vec = std::array<float, 4>({0.0, -0.1, 0.3333, 0.9999});
     x = _mm_loadu_ps(x_vec.data());
-    result = sse_arctan(x);
+    result = arctan(x);
     p = (float *)&result;
     correct_result = std::array<float, 4>(
         {0.0, -0.0996686524912, 0.321720554097, 0.785348160897});
@@ -384,7 +384,7 @@ TEST(arctan, sse) {
 TEST(arctan, avx2) {
     std::array<double, 4> x_vec({-50, -0.4, 0.37, 0.97});
     __m256d x = _mm256_loadu_pd(x_vec.data());
-    __m256d result = avx_arctan(x);
+    __m256d result = arctan(x);
     double *p = (double *)&result;
     std::array<double, 4> correct_result(
         {-1.5507989928217460862, -0.38050637711236490190,
@@ -394,7 +394,7 @@ TEST(arctan, avx2) {
 
     x_vec = std::array<double, 4>({-100.0, -0.1, 0.3333, 0.9999});
     x = _mm256_loadu_pd(x_vec.data());
-    result = avx_arctan(x);
+    result = arctan(x);
     p = (double *)&result;
     correct_result =
         std::array<double, 4>({-1.5607966601082313810, -0.099668652491162038065,

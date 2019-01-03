@@ -150,12 +150,11 @@ void test_chebyshev_next() {
     }
 }
 
-void test_sse_cos() {
+void test_cos_sse() {
     __m128 T0 = _mm_set_ps1(1.0);
-    std::ofstream out_file0("../testing/data/sse_cos_test.dat", std::ios::out);
+    std::ofstream out_file0("../testing/data/cos_test.dat", std::ios::out);
     if (!out_file0.is_open())
-        std::cout << "Unable to open a file in function test_sse_cos!"
-                  << std::endl;
+        std::cout << "Unable to open a file in function test_cos!" << std::endl;
     float min = -M_PI;
     float max = M_PI;
     int steps = 100;
@@ -167,20 +166,19 @@ void test_sse_cos() {
             _mm_set_ps(min + 4 * i * korak, min + (4 * i + 1) * korak,
                        min + (4 * i + 2) * korak, min + (4 * i + 3) * korak);
         ;
-        __m128 cos = sse_cos(x_vec);
-        cos = _mm_shuffle_ps(cos, cos, _MM_SHUFFLE(0, 1, 2, 3));
-        float *r = (float *)&cos;
+        __m128 cos1 = cos(x_vec);
+        cos1 = _mm_shuffle_ps(cos1, cos1, _MM_SHUFFLE(0, 1, 2, 3));
+        float *r = (float *)&cos1;
         out_file0 << *(r) << " " << *(r + 1) << "  " << *(r + 2) << " "
                   << *(r + 3) << " ";
     }
 }
 
-void test_sse_sin() {
+void test_sin() {
     __m128 T0 = _mm_set_ps1(1.0);
-    std::ofstream out_file0("../testing/data/sse_sin_test.dat", std::ios::out);
+    std::ofstream out_file0("../testing/data/sin_test.dat", std::ios::out);
     if (!out_file0.is_open())
-        std::cout << "Unable to open a file in function test_sse_sin!"
-                  << std::endl;
+        std::cout << "Unable to open a file in function test_sin!" << std::endl;
     float min = -M_PI;
     float max = M_PI;
     int steps = 100;
@@ -192,9 +190,9 @@ void test_sse_sin() {
             _mm_set_ps(min + 4 * i * korak, min + (4 * i + 1) * korak,
                        min + (4 * i + 2) * korak, min + (4 * i + 3) * korak);
         ;
-        __m128 sin = sse_sin(x_vec);
-        sin = _mm_shuffle_ps(sin, sin, _MM_SHUFFLE(0, 1, 2, 3));
-        float *r = (float *)&sin;
+        __m128 sin1 = sin(x_vec);
+        sin1 = _mm_shuffle_ps(sin1, sin1, _MM_SHUFFLE(0, 1, 2, 3));
+        float *r = (float *)&sin1;
         out_file0 << *(r) << " " << *(r + 1) << "  " << *(r + 2) << " "
                   << *(r + 3) << " ";
     }
@@ -216,12 +214,11 @@ void test_cross_product() {
     print_sse_float(a, "a");
 }
 
-void test_avx_cos() {
+void test_cos_avx() {
     __m256d T0 = _mm256_set1_pd(1.0);
-    std::ofstream out_file0("../testing/data/avx_cos_test.dat", std::ios::out);
+    std::ofstream out_file0("../testing/data/cos_test.dat", std::ios::out);
     if (!out_file0.is_open())
-        std::cout << "Unable to open a file in function test_avx_cos!"
-                  << std::endl;
+        std::cout << "Unable to open a file in function test_cos!" << std::endl;
     double min = -M_PI;
     double max = M_PI;
     int steps = 100;
@@ -232,7 +229,7 @@ void test_avx_cos() {
         x_vec = _mm256_setr_pd(min + 4 * i * korak, min + (4 * i + 1) * korak,
                                min + (4 * i + 2) * korak,
                                min + (4 * i + 3) * korak);
-        __m256d cos = avx_cos(x_vec);
+        __m256d cos = cos(x_vec);
         //        cos = _mm256_shuffle_pd(cos, cos, _MM_SHUFFLE(0, 1, 2, 3));
         double *r = (double *)&cos;
         out_file0 << std::setprecision(18) << *(r) << " " << *(r + 1) << "  "
@@ -240,15 +237,41 @@ void test_avx_cos() {
     }
 }
 
+void test_avxd_trigonometric(void (*f)(__m256d),double min, double max, std::string file_to write) {
+
+    __m256d T0 = _mm256_set1_pd(1.0);
+    std::ofstream out_file0(file_to_write.c_str(), std::ios::out);
+    if (!out_file0.is_open())
+        std::cout << "Unable to open a file in function test_cos!" << std::endl;
+    int steps = 100;
+    double korak = (max - min) / (double)(steps - 1);
+
+    for (int i = 0; i < steps / 4; i += 1) {
+        __m256d x_vec;
+        x_vec = _mm256_setr_pd(min + 4 * i * korak, min + (4 * i + 1) * korak,
+                               min + (4 * i + 2) * korak,
+                               min + (4 * i + 3) * korak);
+        __m256d cos = f(x_vec);
+        //        cos = _mm256_shuffle_pd(cos, cos, _MM_SHUFFLE(0, 1, 2, 3));
+        double *r = (double *)&cos;
+        out_file0 << std::setprecision(18) << *(r) << " " << *(r + 1) << "  "
+                  << *(r + 2) << " " << *(r + 3) << " ";
+    }
+}
+
+void test_avxf_trigonometric(void (*f)(__m256));
+void test_ssef_trigonometric(void (*f)(__m128));
+void test_ssed_trigonometric(void (*f)(__m128d));
+
 int main() {
     test_chebyshev();
     test_factorial(1, 10);
     test_chebyshev_next();
-    test_sse_cos();
-    test_sse_sin();
+    test_cos();
+    test_sin();
     test_cross_product();
-    test_avx_cos();
+    test_cos();
     __m128 t = _mm_setr_ps(0.4, -0.3, -1.4, -1.27);
-    sse_arctan(t);
+    arctan(t);
     return 0;
 }

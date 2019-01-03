@@ -48,8 +48,8 @@ inline void Circle<float>::generate_vertexes(int num_vert) {
             -M_PI + 4 * i * korak, -M_PI + (4 * i + 1) * korak,
             -M_PI + (4 * i + 2) * korak, -M_PI + (4 * i + 3) * korak);
 
-        __m128 cos_vec = sse_cos(fi_vec);
-        __m128 sin_vec = sse_sin(fi_vec);
+        __m128 cos_vec = cos(fi_vec);
+        __m128 sin_vec = sin(fi_vec);
         __m128 tocki12 = _mm_unpackhi_ps(cos_vec, sin_vec);
         tocki12 = _mm_shuffle_ps(tocki12, tocki12, _MM_SHUFFLE(1, 0, 3, 2));
         __m128 tocki34 = _mm_unpacklo_ps(cos_vec, sin_vec);
@@ -89,8 +89,8 @@ inline void Circle<double>::generate_vertexes(int num_vert) {
             -M_PI + 4 * i * korak, -M_PI + (4 * i + 1) * korak,
             -M_PI + (4 * i + 2) * korak, -M_PI + (4 * i + 3) * korak);
 
-        __m256d cos_vec = avx_cos(fi_vec);
-        __m256d sin_vec = avx_sin(fi_vec);
+        __m256d cos_vec = cos(fi_vec);
+        __m256d sin_vec = sin(fi_vec);
         __m256d tocki12 = _mm256_unpackhi_pd(cos_vec, sin_vec);
         tocki12 = _mm256_shuffle_pd(tocki12, tocki12, _MM_SHUFFLE(1, 0, 3, 2));
         __m256d tocki34 = _mm256_unpacklo_pd(cos_vec, sin_vec);
