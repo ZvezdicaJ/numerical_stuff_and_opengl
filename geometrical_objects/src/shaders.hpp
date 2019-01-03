@@ -13,9 +13,10 @@ uniform mat4 transform;
 
 void main()
 {
-gl_PointSize=10.0f;
+gl_PointSize=30.0f;
 
-gl_Position = transform*vec4(aPos, 2.0f,  1.0f);
+gl_Position = transform*vec4(aPos,0.0f,1.0f);
+
 
 }
 )",
@@ -29,7 +30,7 @@ uniform mat4 transform;
 
 void main()
 {
-gl_PointSize=10.0f;
+gl_PointSize=30.0f;
 
 gl_Position = transform*vec4(aPos, 1.0f);
 

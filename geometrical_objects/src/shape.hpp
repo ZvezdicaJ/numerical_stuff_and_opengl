@@ -36,7 +36,7 @@ class Shape {
 
         glGenVertexArrays(1, &VAO);
         glBindVertexArray(VAO);
-
+        // std::cout << "vertexes size: " << vertexes.size() << std::endl;
         // generate and bind and fill vertex data
         glGenBuffers(1, &VBO);
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -47,12 +47,14 @@ class Shape {
         glGenBuffers(1, &EBO);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-                     sizeof(int) * element_array.size(), &(element_array[0]),
+                     sizeof(int) * element_array.size(), &element_array[0],
                      GL_STATIC_DRAW);
 
         // generate color buffer but do not load data;
         // load data
         glGenBuffers(1, &CBO);
+        //std::cout << "shape buffers:\nVBO: " << this->VBO
+        //          << "\nVAO: " << this->VAO << std::endl;
     }
 
   public:

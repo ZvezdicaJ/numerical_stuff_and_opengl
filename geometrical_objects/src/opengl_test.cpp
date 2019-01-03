@@ -36,7 +36,10 @@ int main() {
     // you have to do this after glfwMAkeContextCurrent(window)
 
     Circle<float> circle1;
+    Rectangle<float> rect1;
     Shader<RENDER_TYPE::UNIFORM_COLOR> shader;
+
+
     while (!glfwWindowShouldClose(window)) {
         OnMinusPressed(window);
         OnPlusPressed(window);
@@ -45,7 +48,7 @@ int main() {
                           // press)
         //display(shapes2);
 
-        draw(circle1, shader);
+        draw(rect1, shader);
         // The glfwSwapBuffers will swap the color buffer (a large buffer
         // that contains color values for each pixel in GLFW’s window) that
         // has been used to draw in during this iteration and show it as

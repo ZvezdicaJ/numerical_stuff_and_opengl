@@ -10,7 +10,7 @@ class Sphere : public Shape3D<T> {
   public:
     Sphere() {
         this->vertex_size = 3;
-        this->min_vertexes = 5;
+        this->min_vertexes = 50;
         generate_vertexes();
         this->initialize_buffers();
     };

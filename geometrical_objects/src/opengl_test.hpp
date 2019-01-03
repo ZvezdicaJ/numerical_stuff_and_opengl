@@ -33,7 +33,7 @@
 #include "shape.hpp"
 #include "sphere.hpp"
 #include "circle.hpp"
-
+#include "rectangle.hpp"
 #include "display_functions.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL

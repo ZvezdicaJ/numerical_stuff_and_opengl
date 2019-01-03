@@ -21,6 +21,9 @@ Circle<T>::Circle() {
     this->min_vertexes = 50;
     this->generate_vertexes();
     this->initialize_buffers();
+
+    // std::cout << "circle buffers:\nVBO: " << this->VBO << "\nVAO: " <<
+    // this->VAO << std::endl;
 };
 
 template <>

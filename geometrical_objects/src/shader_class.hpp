@@ -29,6 +29,7 @@ class Shader {
 
             // load  vertex  shader and compile it
             const char *source = shaders::uniform_vertex_shaders[i].c_str();
+            //std::cout << source << std::endl;
             glShaderSource(vertexShader, 1, &source, NULL);
             glCompileShader(vertexShader);
 
@@ -86,7 +87,7 @@ class Shader {
 
   public:
     Shader() { compile_shaders(); };
-    Shader(Shader &&) = default;
+    Shader(Shader &&) = delete;
     Shader &operator=(Shader &&) = delete;
     Shader(const Shader &) = delete;
     Shader &operator=(const Shader &) = delete;
