@@ -23,6 +23,8 @@
 #include <type_traits>
 #include <unordered_map>
 #include <vector>
+#include <random>
+#include <functional>
 
 #include "check_shaders.hpp"
 #include "shaders.hpp"

@@ -68,7 +68,6 @@ inline void Star<float>::generate_vertexes(int bulges, float ratio) {
 
         _mm_storeu_ps(&(this->vertexes[0]) + 2 * i, tocki12);
         _mm_storeu_ps(&(this->vertexes[0]) + 2 * i + 4, tocki34);
-        std::cout << "tocke: " << tocke << "  r:  " << r << std::endl;
     }
 
     int starting_indeks = 4 * bulges - 2 - reminder * 2;

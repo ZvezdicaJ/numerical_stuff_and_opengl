@@ -70,9 +70,27 @@ class Shape {
     }
 
     std::vector<T> get_vertexes() { return vertexes; }
+    std::vector<T> get_colors() { return vertex_colors; }
     unsigned num_vertexes() { return vertexes.size() / vertex_size; }
     virtual unsigned get_vertex_size() { return vertex_size; }
 
+    void generate_random_colors() {
+        int size = 4 * vertexes.size() / vertex_size;
+        vertex_colors.reserve(size);
+
+        std::default_random_engine generator;
+        std::uniform_real_distribution<float> distribution(0, 1);
+        auto random_real = std::bind(distribution, generator);
+
+        for (int i = 0; i < size; i++) {
+            vertex_colors.emplace_back(random_real());
+        }
+        glBindBuffer(GL_ARRAY_BUFFER, CBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * (vertex_colors.size()),
+                     &(vertex_colors[0]), GL_STATIC_DRAW);
+    }
+
+    // friends
     friend void draw<T>(Shape<T> &, Shader<RENDER_TYPE::UNIFORM_COLOR> &,
                         std::array<float, 3>, std::array<float, 3>,
                         std::array<float, 3>, float, glm::vec4);

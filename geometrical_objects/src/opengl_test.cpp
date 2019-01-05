@@ -23,10 +23,10 @@ int main() {
     }
 
     //    std::vector<Shape<float> *> shapes1;
-    //Sphere<float> sphere1;
-    //std::vector<Shape<double> *> shapes2;
-    //initialize_shapes(shapes1);
-    //initialize_shapes(shapes2);
+    // Sphere<float> sphere1;
+    // std::vector<Shape<double> *> shapes2;
+    // initialize_shapes(shapes1);
+    // initialize_shapes(shapes2);
     // std::vector<float> vert = shapes1[0]->get_vertexes();
     // print_vertexes(vert, vert.size()/2, 2);
     // print_vertexes(shapes2[0]->get_vertexes());
@@ -41,11 +41,19 @@ int main() {
 
     Circle<double> circle1;
     std::vector<double> vert = circle1.get_vertexes();
-    //print_vertexes(vert, vert.size() / 2, 2);
-    //std::cout << "\n\n" << std::endl;
-    //Circle<float> circle2;
-    //std::vector<float> vert2 = circle2.get_vertexes();
-    //print_vertexes(vert2, vert2.size() / 2, 2);
+    // print_vertexes(vert, vert.size() / 2, 2);
+    // std::cout << "\n\n" << std::endl;
+    // Circle<float> circle2;
+    // std::vector<float> vert2 = circle2.get_vertexes();
+    // print_vertexes(vert2, vert2.size() / 2, 2);
+
+    Shader<RENDER_TYPE::CUSTOM_COLOR> shader2;
+
+    Star<float> star2(10, 0.2);
+    star2.generate_random_colors();
+    std::vector<float> colors2 = star2.get_colors();
+    std::cout << "vertex_colors size: " << colors2.size() << std::endl;
+    print_vertexes(colors2, colors2.size() / 4, 4);
 
     while (!glfwWindowShouldClose(window)) {
         OnMinusPressed(window);
@@ -55,7 +63,7 @@ int main() {
                           // press)
         // display(shapes2);
 
-        draw(star1, shader);
+        draw(star2, shader2);
         // The glfwSwapBuffers will swap the color buffer (a large buffer
         // that contains color values for each pixel in GLFW’s window) that
         // has been used to draw in during this iteration and show it as

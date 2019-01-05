@@ -29,7 +29,7 @@ class Shader {
 
             // load  vertex  shader and compile it
             const char *source = shaders::uniform_vertex_shaders[i].c_str();
-            //std::cout << source << std::endl;
+            // std::cout << source << std::endl;
             glShaderSource(vertexShader, 1, &source, NULL);
             glCompileShader(vertexShader);
 
@@ -51,6 +51,16 @@ class Shader {
     template <RENDER_TYPE Q = T>
     typename std::enable_if<Q == RENDER_TYPE::CUSTOM_COLOR, void>::type
     compile_shaders() {
+
+        // create empty fragment shader
+        unsigned int fragmentShader;
+        fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+        // load fragment shader and compile it
+        glShaderSource(fragmentShader, 1, &(shaders::custom_fragment_shader),
+                       NULL);
+        glCompileShader(fragmentShader);
+        check_fragment_shader(fragmentShader);
+
         for (int i = 0; i < 3; i++) {
             // create empty shader
             unsigned int vertexShader;
@@ -63,16 +73,6 @@ class Shader {
             // check if successfully compiled
             check_vertex_shader(vertexShader);
 
-            // create empty fragment shader
-            unsigned int fragmentShader;
-            fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-            // load fragment shader and compile it
-            glShaderSource(fragmentShader, 1,
-                           &(shaders::custom_fragment_shader), NULL);
-            glCompileShader(fragmentShader);
-            check_fragment_shader(fragmentShader);
-
             shader_program[i] = glCreateProgram();
             glAttachShader(shader_program[i], vertexShader);
             glAttachShader(shader_program[i], fragmentShader);
@@ -81,8 +81,8 @@ class Shader {
             shaders_compiled[i] = true;
             glUseProgram(shader_program[i]);
             glDeleteShader(vertexShader);
-            glDeleteShader(fragmentShader);
         }
+        glDeleteShader(fragmentShader);
     }
 
   public:
