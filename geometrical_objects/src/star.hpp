@@ -44,8 +44,8 @@ inline void Star<float>::generate_vertexes(int bulges, float ratio) {
     // this function always generates 4n-1 different vertexes;
     // -1 becase the last point is the same as the first one
 
-    this->vertexes.reserve(4 * bulges + 2);
-    this->vertexes.resize(4 * bulges + 2);
+    this->vertexes.reserve(4 * bulges);
+    this->vertexes.resize(4 * bulges);
     int tocke = 2 * bulges;
     int r = 4 * ((tocke) / 4);
     int reminder = tocke - r; // stevilo preostalih tock
@@ -106,9 +106,9 @@ inline void Star<double>::generate_vertexes(int bulges, double ratio) {
     int r = 4 * ((tocke) / 4);
     int reminder = tocke - r; // stevilo preostalih tock
 
-    float korak = M_PI / (double)bulges;
-    __m256d ansatz = _mm256_set_pd(ratio, 1.0, ratio, 1.0);
-    __m256d cons = _mm256_set_pd(0, 1, 2, 3);
+    double korak = M_PI / (double)bulges;
+    __m256d ansatz = _mm256_setr_pd(ratio, ratio,1.0, 1.0);
+    __m256d cons = _mm256_setr_pd(0, 2, 3, 1);
 
     __m256d korak_vec = _mm256_set1_pd(korak);
     for (int i = 0; i < r; i += 4) {
@@ -117,10 +117,8 @@ inline void Star<double>::generate_vertexes(int bulges, double ratio) {
         __m256d cos_vec = _mm256_mul_pd(cos(fi_vec), ansatz);
         __m256d sin_vec = _mm256_mul_pd(sin(fi_vec), ansatz);
 
-        __m256d tocki12 = _mm256_unpackhi_pd(cos_vec, sin_vec);
-        tocki12 = _mm256_shuffle_pd(tocki12, tocki12, _MM_SHUFFLE(1, 0, 3, 2));
-        __m256d tocki34 = _mm256_unpacklo_pd(cos_vec, sin_vec);
-        tocki34 = _mm256_shuffle_pd(tocki34, tocki34, _MM_SHUFFLE(1, 0, 3, 2));
+        __m256d tocki12 = _mm256_shuffle_pd(cos_vec, sin_vec, 0b1100);
+        __m256d tocki34 = _mm256_shuffle_pd(cos_vec, sin_vec, 0b0011);
 
         _mm256_storeu_pd(&(this->vertexes[0]) + 2 * i, tocki12);
         _mm256_storeu_pd(&(this->vertexes[0]) + 2 * i + 4, tocki34);

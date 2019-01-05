@@ -64,10 +64,10 @@ void draw(Shape<T> &shape, Shader<RENDER_TYPE::UNIFORM_COLOR> &shader_object,
     } else if (shape.vertex_size == 2) {
         if (shape.draw_type == 'E') {
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shape.EBO);
-            glDrawElements(GL_LINE_STRIP, shape.element_array.size(),
+            glDrawElements(GL_LINE_LOOP, shape.element_array.size(),
                            GL_UNSIGNED_INT, 0);
         } else if (shape.draw_type == 'V') {
-            glDrawArrays(GL_LINE_STRIP, 0,
+            glDrawArrays(GL_LINE_LOOP, 0,
                          shape.vertexes.size() / shape.vertex_size);
         }
     }

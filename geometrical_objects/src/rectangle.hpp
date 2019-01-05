@@ -15,7 +15,7 @@ class Rectangle : public Shape2D<T> {
 
 template <typename T>
 Rectangle<T>::Rectangle() {
-    this->draw_type = 'E';
+    this->draw_type = 'V';
     this->vertex_size = 2;
     this->min_vertexes = 4;
     this->generate_vertexes();
@@ -25,7 +25,6 @@ Rectangle<T>::Rectangle() {
 template <typename T>
 void Rectangle<T>::generate_vertexes() {
     this->vertexes = std::vector<T>({-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5});
-    this->element_array = std::vector<int>({0, 1, 2, 3, 0});
 }
 
 template <typename T>

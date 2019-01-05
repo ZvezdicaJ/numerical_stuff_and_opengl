@@ -53,7 +53,7 @@ class Shape {
         // generate color buffer but do not load data;
         // load data
         glGenBuffers(1, &CBO);
-        //std::cout << "shape buffers:\nVBO: " << this->VBO
+        // std::cout << "shape buffers:\nVBO: " << this->VBO
         //          << "\nVAO: " << this->VAO << std::endl;
     }
 

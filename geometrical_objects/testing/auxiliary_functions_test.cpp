@@ -152,7 +152,7 @@ void test_chebyshev_next() {
 
 void test_cos_sse() {
     __m128 T0 = _mm_set_ps1(1.0);
-    std::ofstream out_file0("../testing/data/cos_test.dat", std::ios::out);
+    std::ofstream out_file0("../testing/data/sse_cos_test.dat", std::ios::out);
     if (!out_file0.is_open())
         std::cout << "Unable to open a file in function test_cos!" << std::endl;
     float min = -M_PI;
@@ -176,7 +176,7 @@ void test_cos_sse() {
 
 void test_sin_sse() {
     __m128 T0 = _mm_set_ps1(1.0);
-    std::ofstream out_file0("../testing/data/sin_test.dat", std::ios::out);
+    std::ofstream out_file0("../testing/data/sse_sin_test.dat", std::ios::out);
     if (!out_file0.is_open())
         std::cout << "Unable to open a file in function test_sin!" << std::endl;
     float min = -M_PI;
@@ -206,17 +206,17 @@ void test_cross_product() {
     __m128 b = _mm_load_ps(arr2);
 
     __m128 c = cross_product(a, b);
-    print_sse_float(c);
+    print_sse(c);
 
     float arr[4] = {1, 0, 0, 0};
     __m128 t = _mm_load_ps(arr);
-    print_sse_float(t, "t");
-    print_sse_float(a, "a");
+    print_sse(t, "t");
+    print_sse(a, "a");
 }
 
 void test_cos_avx() {
     __m256d T0 = _mm256_set1_pd(1.0);
-    std::ofstream out_file0("../testing/data/cos_test.dat", std::ios::out);
+    std::ofstream out_file0("../testing/data/avx_cos_test.dat", std::ios::out);
     if (!out_file0.is_open())
         std::cout << "Unable to open a file in function test_cos!" << std::endl;
     double min = -M_PI;
@@ -239,7 +239,7 @@ void test_cos_avx() {
 
 void test_sin_avx() {
     __m256d T0 = _mm256_set1_pd(1.0);
-    std::ofstream out_file0("../testing/data/cos_test.dat", std::ios::out);
+    std::ofstream out_file0("../testing/data/avx_sin_test.dat", std::ios::out);
     if (!out_file0.is_open())
         std::cout << "Unable to open a file in function test_cos!" << std::endl;
     double min = -M_PI;

@@ -22,11 +22,11 @@ int main() {
         return -1;
     }
 
-    std::vector<Shape<float> *> shapes1;
-    Sphere<float> sphere1;
-    std::vector<Shape<double> *> shapes2;
-    initialize_shapes(shapes1);
-    initialize_shapes(shapes2);
+    //    std::vector<Shape<float> *> shapes1;
+    //Sphere<float> sphere1;
+    //std::vector<Shape<double> *> shapes2;
+    //initialize_shapes(shapes1);
+    //initialize_shapes(shapes2);
     // std::vector<float> vert = shapes1[0]->get_vertexes();
     // print_vertexes(vert, vert.size()/2, 2);
     // print_vertexes(shapes2[0]->get_vertexes());
@@ -35,12 +35,17 @@ int main() {
     // you need this before you call any opengl functions
     // you have to do this after glfwMAkeContextCurrent(window)
 
-    Circle<float> circle1;
-    Rectangle<float> rect1;
+    // Rectangle<double> rect1;
     Shader<RENDER_TYPE::UNIFORM_COLOR> shader;
-    Star<float> star1(10, 0.1);
-    std::vector<float> vert = star1.get_vertexes();
-    print_vertexes(vert, vert.size()/2, 2);
+    Star<double> star1(10, 0.2);
+
+    Circle<double> circle1;
+    std::vector<double> vert = circle1.get_vertexes();
+    //print_vertexes(vert, vert.size() / 2, 2);
+    //std::cout << "\n\n" << std::endl;
+    //Circle<float> circle2;
+    //std::vector<float> vert2 = circle2.get_vertexes();
+    //print_vertexes(vert2, vert2.size() / 2, 2);
 
     while (!glfwWindowShouldClose(window)) {
         OnMinusPressed(window);
