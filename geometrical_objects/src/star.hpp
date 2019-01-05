@@ -91,8 +91,6 @@ inline void Star<float>::generate_vertexes(int bulges, float ratio) {
         // std::cout << "kot: " << angle << " cos:  " << std::cos(angle)
         // << " sin:  " << std::sin(angle) << std::endl;
     }
-    (this->vertexes)[4 * bulges] = (this->vertexes)[0];
-    (this->vertexes)[4 * bulges + 1] = (this->vertexes)[1];
 }
 
 template <>
@@ -122,7 +120,6 @@ inline void Star<double>::generate_vertexes(int bulges, double ratio) {
 
         _mm256_storeu_pd(&(this->vertexes[0]) + 2 * i, tocki12);
         _mm256_storeu_pd(&(this->vertexes[0]) + 2 * i + 4, tocki34);
-        std::cout << "tocke: " << tocke << "  r:  " << r << std::endl;
     }
 
     int starting_indeks = 4 * bulges - 2 - reminder * 2;
@@ -145,8 +142,6 @@ inline void Star<double>::generate_vertexes(int bulges, double ratio) {
         // std::cout << "kot: " << angle << " cos:  " << std::cos(angle)
         // << " sin:  " << std::sin(angle) << std::endl;
     }
-    (this->vertexes)[4 * bulges] = (this->vertexes)[0];
-    (this->vertexes)[4 * bulges + 1] = (this->vertexes)[1];
 }
 
 #define __STAR__
