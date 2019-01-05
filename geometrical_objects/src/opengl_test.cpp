@@ -27,8 +27,8 @@ int main() {
     std::vector<Shape<double> *> shapes2;
     initialize_shapes(shapes1);
     initialize_shapes(shapes2);
-    //std::vector<float> vert = shapes1[0]->get_vertexes();
-    //print_vertexes(vert, vert.size()/2, 2);
+    // std::vector<float> vert = shapes1[0]->get_vertexes();
+    // print_vertexes(vert, vert.size()/2, 2);
     // print_vertexes(shapes2[0]->get_vertexes());
 
     // glad takes care of opengl function pointers
@@ -38,7 +38,9 @@ int main() {
     Circle<float> circle1;
     Rectangle<float> rect1;
     Shader<RENDER_TYPE::UNIFORM_COLOR> shader;
-
+    Star<float> star1(10, 0.1);
+    std::vector<float> vert = star1.get_vertexes();
+    print_vertexes(vert, vert.size()/2, 2);
 
     while (!glfwWindowShouldClose(window)) {
         OnMinusPressed(window);
@@ -46,9 +48,9 @@ int main() {
         OnClosePressed(window);
         glfwPollEvents(); // check if any events happend (mouse press, key
                           // press)
-        //display(shapes2);
+        // display(shapes2);
 
-        draw(rect1, shader);
+        draw(star1, shader);
         // The glfwSwapBuffers will swap the color buffer (a large buffer
         // that contains color values for each pixel in GLFW’s window) that
         // has been used to draw in during this iteration and show it as

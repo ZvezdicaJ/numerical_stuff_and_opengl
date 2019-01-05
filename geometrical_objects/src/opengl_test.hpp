@@ -34,6 +34,7 @@
 #include "sphere.hpp"
 #include "circle.hpp"
 #include "rectangle.hpp"
+#include "star.hpp"
 #include "display_functions.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
