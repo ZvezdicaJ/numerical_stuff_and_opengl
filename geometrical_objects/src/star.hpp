@@ -22,7 +22,7 @@ Star<T>::Star() {
     this->min_vertexes = 50;
     this->generate_vertexes();
     this->initialize_buffers();
-
+    this->generate_filling_ebo();
     // std::cout << "circle buffers:\nVBO: " << this->VBO << "\nVAO: " <<
     // this->VAO << std::endl;
 };
@@ -104,7 +104,7 @@ inline void Star<double>::generate_vertexes(int bulges, double ratio) {
     int reminder = tocke - r; // stevilo preostalih tock
 
     double korak = M_PI / (double)bulges;
-    __m256d ansatz = _mm256_setr_pd(ratio, ratio,1.0, 1.0);
+    __m256d ansatz = _mm256_setr_pd(ratio, ratio, 1.0, 1.0);
     __m256d cons = _mm256_setr_pd(0, 2, 3, 1);
 
     __m256d korak_vec = _mm256_set1_pd(korak);

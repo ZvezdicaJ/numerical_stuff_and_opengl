@@ -21,6 +21,7 @@ Circle<T>::Circle() {
     this->min_vertexes = 10;
     this->generate_vertexes();
     this->initialize_buffers();
+    this->generate_filling_ebo();
 
     // std::cout << "circle buffers:\nVBO: " << this->VBO << "\nVAO: " <<
     // this->VAO << std::endl;
@@ -112,7 +113,6 @@ inline void Circle<double>::generate_vertexes(int num_vert) {
         __m256d sin_vec = sin(fi_vec);
         // zadnji bit manipulira mesta 191-255
         __m256d tocki12 = _mm256_shuffle_pd(cos_vec, sin_vec, 0b1100);
-        __m256d test = _mm256_set_pd(1, 2, 3, 4);
         __m256d tocki34 = _mm256_shuffle_pd(cos_vec, sin_vec, 0b0011);
 
         // print_sse_float(tocki12);

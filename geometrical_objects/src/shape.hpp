@@ -102,13 +102,51 @@ class Shape {
         Shape<T> &shape, Shader<RENDER_TYPE::UNIFORM_COLOR> &shader_object,
         std::array<float, 3> scale, std::array<float, 3> position,
         std::array<float, 3> rotation_axis, float angle, glm::vec4);
+
+    friend void
+    draw_polygon<T>(Shape<T> &shape,
+                    Shader<RENDER_TYPE::UNIFORM_COLOR> &shader_object,
+                    std::array<float, 3> scale, std::array<float, 3> position,
+                    std::array<float, 3> rotation_axis, float angle, glm::vec4);
 };
 
 template <typename T>
 class Shape2D : public Shape<T> {
   protected:
+    unsigned FILLING_EBO;
+    std::vector<T> filling_vertexes;
+    void generate_filling_ebo();
+
   public:
+    std::vector<T> get_filling_vertexes() { return filling_vertexes; }
 };
+
+template <>
+inline void Shape2D<float>::generate_filling_ebo() {
+    std::cout << "filing ebo" << std::endl;
+    int number_of_points = (this->vertexes.size()) / (this->vertex_size);
+
+    int filling_number_of_points =
+        (number_of_points + (number_of_points - 1) / 2) * 2;
+    filling_vertexes.reserve(filling_number_of_points + 2);
+    filling_vertexes.resize(filling_number_of_points);
+
+    std::cout << "number of points: " << number_of_points << std::endl;
+    std::cout << "filling_vertexes size: " << filling_vertexes.size()
+              << std::endl;
+
+    for (int i = 0; i < number_of_points - 2; i += 2) {
+        std::cout << i << std::endl;
+        const __m128i point12 =
+            _mm_stream_load_si128((__m128i *)&(this->vertexes[2 * i]));
+        _mm_stream_si128((__m128i *)(&filling_vertexes[0] + 3 * i), point12);
+    }
+    const __m128i point12 = _mm_stream_load_si128(
+        (__m128i *)&(this->vertexes[2 * (number_of_points - 2)]));
+    _mm_stream_si128(
+        (__m128i *)(&filling_vertexes[ filling_number_of_points - 5]),
+        point12);
+}
 
 template <typename T>
 class Shape3D : public Shape<T> {

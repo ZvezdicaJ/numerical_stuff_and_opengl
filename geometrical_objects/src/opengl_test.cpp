@@ -37,10 +37,11 @@ int main() {
 
     // Rectangle<double> rect1;
     Shader<RENDER_TYPE::UNIFORM_COLOR> shader;
-    Star<double> star1(10, 0.2);
+    //Star<double> star1(10, 0.2);
 
-    Circle<double> circle1;
-    std::vector<double> vert = circle1.get_vertexes();
+    //Circle<float> circle2;
+    //circle2.generate_random_colors();
+    //std::vector<float> vert = circle2.get_vertexes();
     // print_vertexes(vert, vert.size() / 2, 2);
     // std::cout << "\n\n" << std::endl;
     // Circle<float> circle2;
@@ -49,11 +50,11 @@ int main() {
 
     Shader<RENDER_TYPE::CUSTOM_COLOR> shader2;
 
-    Star<float> star2(10, 0.2);
-    star2.generate_random_colors();
-    std::vector<float> colors2 = star2.get_colors();
-    std::cout << "vertex_colors size: " << colors2.size() << std::endl;
-    print_vertexes(colors2, colors2.size() / 4, 4);
+    Rectangle<float> rect1;
+    std::vector<float> vert=rect1.get_filling_vertexes();
+    std::cout << "rect filing vertexes: " << std::endl;
+    print_vertexes(vert, vert.size() / 2, 2);
+
 
     while (!glfwWindowShouldClose(window)) {
         OnMinusPressed(window);
@@ -63,7 +64,7 @@ int main() {
                           // press)
         // display(shapes2);
 
-        draw(star2, shader2);
+        //        draw_polygon(circle2, shader);
         // The glfwSwapBuffers will swap the color buffer (a large buffer
         // that contains color values for each pixel in GLFW’s window) that
         // has been used to draw in during this iteration and show it as

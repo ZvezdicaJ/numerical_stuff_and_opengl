@@ -20,6 +20,7 @@ Rectangle<T>::Rectangle() {
     this->min_vertexes = 4;
     this->generate_vertexes();
     this->initialize_buffers();
+    this->generate_filling_ebo();
 };
 
 template <typename T>
