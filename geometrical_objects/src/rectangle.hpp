@@ -25,7 +25,8 @@ Rectangle<T>::Rectangle() {
 
 template <typename T>
 void Rectangle<T>::generate_vertexes() {
-    this->vertexes = std::vector<T>({-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5});
+    this->vertexes =
+        aligned_vector<T>({-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5});
 }
 
 template <typename T>

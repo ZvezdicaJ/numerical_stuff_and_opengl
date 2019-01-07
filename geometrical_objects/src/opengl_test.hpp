@@ -25,6 +25,9 @@
 #include <vector>
 #include <random>
 #include <functional>
+#include <boost/align/aligned_allocator.hpp> // this is for aligned std::vector
+
+#include "type_definitions.hpp"
 
 #include "check_shaders.hpp"
 #include "shaders.hpp"
@@ -41,3 +44,4 @@
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
+

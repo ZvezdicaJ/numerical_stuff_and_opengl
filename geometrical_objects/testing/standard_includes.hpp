@@ -18,5 +18,8 @@
 #include <immintrin.h>
 #include <emmintrin.h>
 #include <chrono>
+#include <boost/align/aligned_allocator.hpp> // this is for aligned std::vector
+
+#include "../src/type_definitions.hpp"
 #include "../src/auxiliary_functions.hpp"
 #include "../src/print_functions.hpp"

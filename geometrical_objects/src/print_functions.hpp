@@ -53,6 +53,20 @@ inline void print_vertexes(const std::vector<T> &vertexes,
     }
 }
 
+template <class T>
+inline void print_vertexes(const aligned_vector<T> &vertexes,
+                           int number_to_print = 0, int vertex_size = 3) {
+    if (number_to_print == 0)
+        number_to_print = vertexes.size() / vertex_size;
+    for (int i = 0; i < number_to_print; i++) {
+        std::cout << "vertex " << i << ":   ";
+        for (int j = 0; j < vertex_size; j++) {
+            std::cout << vertexes[vertex_size * i + j] << "  ";
+        }
+        std::cout << std::endl;
+    }
+}
+
 template <typename T>
 inline void print_vertexes(T *vertexes, int number_to_print,
                            int vertex_size = 3) {

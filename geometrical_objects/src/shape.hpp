@@ -14,12 +14,12 @@ class Shape {
 
   protected:
     unsigned vertex_size = 0;
-    std::vector<T> vertexes; /**< Vector holding all vertexes; 2,3 or 4
-                                    consequtive numbers form a  vertex */
+    aligned_vector<T> vertexes; /**< Vector holding all vertexes; 2,3 or 4
+            consequtive numbers form a  vertex */
     char draw_type; /**< this can either be 'E' or 'V', depending on wheather to
                      draw elements (element buffer) or vertexes (vertex buffer
                      object) */
-    std::vector<int>
+    aligned_vector<int>
         element_array; /**< vector holding all elements in correct order */
     bool colors_loaded =
         false; /**< indicator whether color have been loaded or not  */
@@ -30,7 +30,7 @@ class Shape {
     unsigned EBO; /**< element buffer address */
     unsigned CBO; /**< color buffer address */
     unsigned min_vertexes = 5;
-    std::vector<float> vertex_colors;
+    aligned_vector<float> vertex_colors;
 
     void initialize_buffers() {
 
@@ -62,15 +62,15 @@ class Shape {
         min_vertexes = num;
     };
 
-    virtual void set_vertex_colors(std::vector<float> &colors_) {
+    virtual void set_vertex_colors(aligned_vector<float> &colors_) {
         assert(colors_.size() / 4 == vertexes.size() / vertex_size &&
                "Each vertex should have a color value in the form of vec4: "
                "incorrect size of color vector!");
         vertex_colors = colors_;
     }
 
-    std::vector<T> get_vertexes() { return vertexes; }
-    std::vector<T> get_colors() { return vertex_colors; }
+    aligned_vector<T> get_vertexes() { return vertexes; }
+    aligned_vector<T> get_colors() { return vertex_colors; }
     unsigned num_vertexes() { return vertexes.size() / vertex_size; }
     virtual unsigned get_vertex_size() { return vertex_size; }
 
@@ -114,11 +114,11 @@ template <typename T>
 class Shape2D : public Shape<T> {
   protected:
     unsigned FILLING_EBO;
-    std::vector<T> filling_vertexes;
+    aligned_vector<T> filling_vertexes;
     void generate_filling_ebo();
 
   public:
-    std::vector<T> get_filling_vertexes() { return filling_vertexes; }
+    aligned_vector<T> get_filling_vertexes() { return filling_vertexes; }
 };
 
 template <>
@@ -141,11 +141,17 @@ inline void Shape2D<float>::generate_filling_ebo() {
             _mm_stream_load_si128((__m128i *)&(this->vertexes[2 * i]));
         _mm_stream_si128((__m128i *)(&filling_vertexes[0] + 3 * i), point12);
     }
-    const __m128i point12 = _mm_stream_load_si128(
+
+    const __m128 point12 = (__m128)_mm_stream_load_si128(
         (__m128i *)&(this->vertexes[2 * (number_of_points - 2)]));
-    _mm_stream_si128(
-        (__m128i *)(&filling_vertexes[ filling_number_of_points - 5]),
-        point12);
+    /*std::cout
+        << "address is 16 byte aligned: "
+        << (((unsigned long)(&filling_vertexes[filling_number_of_points - 4]) &
+             15))
+        << std::endl;
+    */
+    _mm_storeu_ps(&filling_vertexes[filling_number_of_points - 4], point12);
+    //print_vertexes(filling_vertexes, filling_vertexes.size() / 2, 2);
 }
 
 template <typename T>

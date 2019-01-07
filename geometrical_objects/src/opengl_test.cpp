@@ -51,7 +51,7 @@ int main() {
     Shader<RENDER_TYPE::CUSTOM_COLOR> shader2;
 
     Rectangle<float> rect1;
-    std::vector<float> vert=rect1.get_filling_vertexes();
+    aligned_vector<float> vert=rect1.get_filling_vertexes();
     std::cout << "rect filing vertexes: " << std::endl;
     print_vertexes(vert, vert.size() / 2, 2);
 

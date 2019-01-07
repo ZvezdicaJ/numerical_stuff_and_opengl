@@ -1,6 +1,6 @@
 #include "opengl_test.hpp"
 
-void pause() {
+void pause_screen() {
     bool run = true;
     while (run) {
         if (std::cin.get())
@@ -46,5 +46,3 @@ void OnClosePressed(GLFWwindow *window) {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 }
-
-

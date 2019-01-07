@@ -67,7 +67,7 @@ inline void Sphere<float>::generate_vertexes_helper() {
     int vertex_number = this->vertexes.size() / 3;
     this->vertexes.reserve(this->vertexes.size() * 5 + 1);
     int num_tri = this->element_array.size() / 3;
-    std::vector<int> new_element_array; // = element_array;
+    aligned_vector<int> new_element_array; // = element_array;
     new_element_array.reserve(4 * this->element_array.size() + 1);
     std::unordered_map<std::pair<int, int>, int> new_vertex_indexing;
     new_vertex_indexing.reserve(vertex_number + 1);
@@ -206,7 +206,7 @@ inline void Sphere<double>::generate_vertexes_helper() {
     int vertex_number = this->vertexes.size() / 3;
     this->vertexes.reserve(this->vertexes.size() * 5 + 1);
     int num_tri = this->element_array.size() / 3;
-    std::vector<int> new_element_array; // = element_array;
+    aligned_vector<int> new_element_array; // = element_array;
     new_element_array.reserve(4 * this->element_array.size() + 1);
     std::unordered_map<std::pair<int, int>, int> new_vertex_indexing;
     new_vertex_indexing.reserve(vertex_number + 1);

@@ -1,6 +1,6 @@
 void display();
 
-void pause();
+void pause_screen();
 void OnPlusPressed(GLFWwindow *window);
 void OnMinusPressed(GLFWwindow *window);
 void OnEnterPressed(GLFWwindow *window, unsigned &enter_count);
