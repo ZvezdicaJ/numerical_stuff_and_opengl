@@ -139,7 +139,9 @@ inline void Shape2D<float>::generate_filling_ebo() {
         std::cout << i << std::endl;
         const __m128i point12 =
             _mm_stream_load_si128((__m128i *)&(this->vertexes[2 * i]));
-        _mm_stream_si128((__m128i *)(&filling_vertexes[0] + 3 * i), point12);
+        _mm_storeu_si128((__m128i *)(&filling_vertexes[0] + 3 * i), point12);
+        _mm_storeu_ps(&filling_vertexes[0] + 3 * i + 4,
+                         _mm_setzero_ps());
     }
 
     const __m128 point12 = (__m128)_mm_stream_load_si128(
@@ -151,7 +153,7 @@ inline void Shape2D<float>::generate_filling_ebo() {
         << std::endl;
     */
     _mm_storeu_ps(&filling_vertexes[filling_number_of_points - 4], point12);
-    //print_vertexes(filling_vertexes, filling_vertexes.size() / 2, 2);
+    // print_vertexes(filling_vertexes, filling_vertexes.size() / 2, 2);
 }
 
 template <typename T>
