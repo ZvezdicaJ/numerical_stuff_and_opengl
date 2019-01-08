@@ -240,7 +240,7 @@ void draw_2d_object(Shape<T> &shape,
                           shape.vertex_size * sizeof(T), (void *)0);
     glEnableVertexAttribArray(0);
 
-    glDrawArrays(GL_POLYGON, 0,
+    glDrawArrays(GL_TRIANGLE_FAN, 0,
                  shape.filling_vertexes.size() / shape.vertex_size);
     // glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // render as filled triangles
 }
