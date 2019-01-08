@@ -5,8 +5,7 @@
 @brief virtual base class
 @
  */
-template <typename T>
-class Shape {
+template <typename T> class Shape {
     static_assert(std::is_same<float, T>::value ||
                       std::is_same<double, T>::value,
                   "Shapes can only be instantiated with floating point types: "
@@ -98,32 +97,30 @@ class Shape {
     friend void draw<T>(Shape<T> &, Shader<RENDER_TYPE::CUSTOM_COLOR> &,
                         std::array<float, 3>, std::array<float, 3>,
                         std::array<float, 3>, float);
+
     friend void draw_wireframe<T>(
         Shape<T> &shape, Shader<RENDER_TYPE::UNIFORM_COLOR> &shader_object,
         std::array<float, 3> scale, std::array<float, 3> position,
         std::array<float, 3> rotation_axis, float angle, glm::vec4);
 
-    friend void
-    draw_polygon<T>(Shape<T> &shape,
-                    Shader<RENDER_TYPE::UNIFORM_COLOR> &shader_object,
-                    std::array<float, 3> scale, std::array<float, 3> position,
-                    std::array<float, 3> rotation_axis, float angle, glm::vec4);
+    friend void draw_2d_object<T>(
+        Shape<T> &shape, Shader<RENDER_TYPE::UNIFORM_COLOR> &shader_object,
+        std::array<float, 3> scale, std::array<float, 3> position,
+        std::array<float, 3> rotation_axis, float angle, glm::vec4);
 };
 
-template <typename T>
-class Shape2D : public Shape<T> {
+template <typename T> class Shape2D : public Shape<T> {
   protected:
-    unsigned FILLING_EBO;
+    unsigned FILLING_VBO;
     aligned_vector<T> filling_vertexes;
-    void generate_filling_ebo();
+    void generate_filling_vbo();
 
   public:
     aligned_vector<T> get_filling_vertexes() { return filling_vertexes; }
 };
 
-template <>
-inline void Shape2D<float>::generate_filling_ebo() {
-    std::cout << "filing ebo" << std::endl;
+template <> inline void Shape2D<float>::generate_filling_vbo() {
+
     int number_of_points = (this->vertexes.size()) / (this->vertex_size);
 
     int filling_number_of_points =
@@ -140,8 +137,7 @@ inline void Shape2D<float>::generate_filling_ebo() {
         const __m128i point12 =
             _mm_stream_load_si128((__m128i *)&(this->vertexes[2 * i]));
         _mm_storeu_si128((__m128i *)(&filling_vertexes[0] + 3 * i), point12);
-        _mm_storeu_ps(&filling_vertexes[0] + 3 * i + 4,
-                         _mm_setzero_ps());
+        _mm_storeu_ps(&filling_vertexes[0] + 3 * i + 4, _mm_setzero_ps());
     }
 
     const __m128 point12 = (__m128)_mm_stream_load_si128(
@@ -153,18 +149,19 @@ inline void Shape2D<float>::generate_filling_ebo() {
         << std::endl;
     */
     _mm_storeu_ps(&filling_vertexes[filling_number_of_points - 4], point12);
-    // print_vertexes(filling_vertexes, filling_vertexes.size() / 2, 2);
+    glGenBuffers(1, &FILLING_VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, FILLING_VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * filling_vertexes.size(),
+                 &filling_vertexes[0], GL_STATIC_DRAW);
 }
 
-template <typename T>
-class Shape3D : public Shape<T> {
+template <typename T> class Shape3D : public Shape<T> {
   protected:
   public:
     T area();
 };
 
-template <>
-inline float Shape3D<float>::area() {
+template <> inline float Shape3D<float>::area() {
     float ar = 0;
     for (unsigned tri = 0; tri < this->element_array.size() / 3; tri += 1) {
         int vert1_ind = this->element_array[3 * tri];
