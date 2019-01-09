@@ -1,21 +1,18 @@
-template <class T>
-inline void hash_combine(std::size_t &seed, const T &v) {
+template <class T> inline void hash_combine(std::size_t &seed, const T &v) {
     std::hash<T> hasher;
     seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
 }
 
 namespace std {
-    template <typename S, typename T>
-    struct hash<pair<S, T>> {
-        inline size_t operator()(const pair<S, T> &v) const {
-            size_t seed = 0;
-            ::hash_combine(seed, v.first);
-            ::hash_combine(seed, v.second);
-            return seed;
-        }
-    };
+template <typename S, typename T> struct hash<pair<S, T>> {
+    inline size_t operator()(const pair<S, T> &v) const {
+        size_t seed = 0;
+        ::hash_combine(seed, v.first);
+        ::hash_combine(seed, v.second);
+        return seed;
+    }
+};
 } // namespace std
-
 
 /*avx2 compare codes*/
 /* Ordered vs Unordered has to do with whether the comparison is true if one of
@@ -91,7 +88,7 @@ inline __m128 load_vertex2(float *value) {
  * @param a __m128 vector
  * @param b __m128 vector
  */
-inline __m128 cross_product(__m128 a, __m128 b) {
+inline __m128 cross_product_old(__m128 a, __m128 b) {
 #ifdef __FMA__
     __m128 result =
         _mm_fmsub_ps(_mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 0, 2, 1)),
@@ -108,6 +105,22 @@ inline __m128 cross_product(__m128 a, __m128 b) {
                               _mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 0, 2, 1))));
 #endif
     return result;
+}
+
+inline __m128 cross_product(__m128 a, __m128 b) {
+#ifndef __FMA__
+    __m128 result = _mm_sub_ps(
+        _mm_mul_ps(b, _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 0, 2, 1))),
+        _mm_mul_ps(a, _mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 0, 2, 1))));
+#endif __FMA__
+
+#ifdef __FMA__
+    __m128 result = _mm_fmsub_ps(
+        b, _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 0, 2, 1)),
+        _mm_mul_ps(a, _mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 0, 2, 1))));
+#endif __FMA__
+
+    return _mm_shuffle_ps(result, result, _MM_SHUFFLE(3, 0, 2, 1));
 }
 
 #ifdef __AVX2__
@@ -473,7 +486,7 @@ inline __m128 tan(__m128 x) {
     // this function should calculate tan to 1e-8 precision
     // stevec : 34459425 * a - 4729725 * a ^ 3 + 135135 * a ^ 5 - 990 a ^ 7 + a
     // ^ 9;
-    //this version seems to work best although it should not
+    // this version seems to work best although it should not
     // x9 calculation should not work well for small x
     // since many multiplications loose precision
     __m128 x2 = _mm_mul_ps(x, x);
