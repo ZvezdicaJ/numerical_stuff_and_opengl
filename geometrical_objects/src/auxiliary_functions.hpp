@@ -112,13 +112,13 @@ inline __m128 cross_product(__m128 a, __m128 b) {
     __m128 result = _mm_sub_ps(
         _mm_mul_ps(b, _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 0, 2, 1))),
         _mm_mul_ps(a, _mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 0, 2, 1))));
-#endif __FMA__
+#endif
 
 #ifdef __FMA__
     __m128 result = _mm_fmsub_ps(
         b, _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 0, 2, 1)),
         _mm_mul_ps(a, _mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 0, 2, 1))));
-#endif __FMA__
+#endif
 
     return _mm_shuffle_ps(result, result, _MM_SHUFFLE(3, 0, 2, 1));
 }
@@ -380,6 +380,10 @@ inline __m128 cos(__m128 x_vec_) {
 }
 
 #ifdef __AVX2__
+/**
+ * @brief calculates double precision cos.
+ * @param x_vec vector of x values for which the cos is calculated
+ */
 inline __m256d cos(__m256d x_vec_) {
     float coeff[] = {-0.3042421776440938642020349128177049239697,
                      -0.9708678652630182194109914323663784757039,
@@ -410,6 +414,11 @@ inline __m256d cos(__m256d x_vec_) {
 }
 #endif
 
+/**
+ * @brief calculates single precision sin.
+ * @param x_vec vector of x values for which the sin is calculated
+ * calculated
+ */
 inline __m128 sin(__m128 x_vec_) {
     float coeff[] = {0.56923068635950551469,    -0.66691667240597907078,
                      0.10428236873423694948,    -0.0068406335369915790099,
@@ -436,6 +445,10 @@ inline __m128 sin(__m128 x_vec_) {
     return sum;
 }
 
+/**
+ * @brief calculates double precision sin.
+ * @param x_vec vector of x values for which the sin is calculated
+ */
 inline __m256d sin(__m256d x_vec_) {
     float coeff[] = {0.56923068635950551469,    -0.66691667240597907078,
                      0.10428236873423694948,    -0.0068406335369915790099,
@@ -457,6 +470,12 @@ inline __m256d sin(__m256d x_vec_) {
     return sum;
 }
 
+/**
+ * @brief given two consequtive Legendre polynomials, this code calculates next
+ * Legendre polynomial
+ * @param x_vec vector of x values for which the next polynomial is calculated
+ * calculated
+ */
 inline __m128 legendre_next(__m128 Pn, __m128 Pnm1, __m128 x_vec, int n) {
     __m128 n_vec = _mm_set_ps1(n);
     __m128 np1_vec = _mm_set_ps1(n + 1);

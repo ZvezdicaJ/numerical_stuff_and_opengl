@@ -35,27 +35,23 @@ int main() {
     // you need this before you call any opengl functions
     // you have to do this after glfwMAkeContextCurrent(window)
 
-    // Rectangle<double> rect1;
-    Shader<RENDER_TYPE::UNIFORM_COLOR> shader;
-    //Star<double> star1(10, 0.2);
+    //  Shader<RENDER_TYPE::UNIFORM_COLOR> shader;
+    //  Shader<RENDER_TYPE::CUSTOM_COLOR> shader2;
 
-    //Circle<float> circle2;
-    //circle2.generate_random_colors();
-    //std::vector<float> vert = circle2.get_vertexes();
+    // Circle<float> circle2;
+    // circle2.generate_random_colors();
+    // std::vector<float> vert = circle2.get_vertexes();
     // print_vertexes(vert, vert.size() / 2, 2);
     // std::cout << "\n\n" << std::endl;
     // Circle<float> circle2;
     // std::vector<float> vert2 = circle2.get_vertexes();
     // print_vertexes(vert2, vert2.size() / 2, 2);
 
-    Shader<RENDER_TYPE::CUSTOM_COLOR> shader2;
-
-    Rectangle<float> rect1;
-    aligned_vector<float> vert=rect1.get_filling_vertexes();
-    std::cout << "rect filing vertexes: " << std::endl;
-    print_vertexes(vert, vert.size() / 2, 2);
-
-
+    Disk<float> disk1;
+    //aligned_vector<float> vert = rect1.get_filling_vertexes();
+    //std::cout << "rect filing vertexes: " << std::endl;
+    //print_vertexes(vert, vert.size() / 2, 2);
+    
     while (!glfwWindowShouldClose(window)) {
         OnMinusPressed(window);
         OnPlusPressed(window);
@@ -80,6 +76,6 @@ int main() {
 
     // std::cout << "pi = " << sphere1.area() / 4.0 << std::endl;
     glfwTerminate();
-
+    
     return 0;
 }

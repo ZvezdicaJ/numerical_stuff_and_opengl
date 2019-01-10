@@ -40,6 +40,7 @@
 #include "circle.hpp"
 #include "rectangle.hpp"
 #include "star.hpp"
+#include "disk.hpp"
 #include "display_functions.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
