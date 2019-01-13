@@ -81,14 +81,6 @@ void draw(Shape<T> &shape, Shader<RENDER_TYPE::CUSTOM_COLOR> &shader_object,
         shader_object.get_shader_program(shape.vertex_size - 2);
     glUseProgram(shaderProgram);
 
-    // std::vector<T> vert = shape.get_vertexes();
-    // print_vertexes(vert, vert.size() / 2, 2);
-    // std::cout << "vertex_size: " << shape.vertex_size << std::endl;
-    // std::cout << "shader version: " << shape.vertex_size - 2 << std::endl;
-    // std::cout << "draw buffers:\nVBO: " << shape.VBO << "\nVAO: " <<
-    // shape.VAO
-    //          << std::endl;
-
     glm::mat4 trans = glm::mat4(1.0);
     trans =
         glm::translate(trans, glm::vec3(position[0], position[1], position[2]));

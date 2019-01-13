@@ -56,7 +56,7 @@ void Sphere<T>::generate_vertexes() {
 
     // definition of triangles we will later divide to create very fine mesh for
     // out sphere print_vertexes<float, 15>(vertexes);
-    this->element_array = std::vector<int>(
+    this->element_array = aligned_vector<int>(
         {0, 1, 3, 0, 1, 4, 0, 2, 3, 0, 2, 4, 1, 2, 3, 1, 2, 4});
     generate_vertexes_helper();
 }

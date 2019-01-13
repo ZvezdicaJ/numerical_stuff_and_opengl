@@ -35,11 +35,11 @@ int main() {
     // you need this before you call any opengl functions
     // you have to do this after glfwMAkeContextCurrent(window)
 
-    //  Shader<RENDER_TYPE::UNIFORM_COLOR> shader;
-    //  Shader<RENDER_TYPE::CUSTOM_COLOR> shader2;
+    Shader<RENDER_TYPE::UNIFORM_COLOR> shader1;
+    Shader<RENDER_TYPE::CUSTOM_COLOR> shader2;
 
-    // Circle<float> circle2;
-    // circle2.generate_random_colors();
+    Circle<float> circle2;
+    circle2.generate_random_colors();
     // std::vector<float> vert = circle2.get_vertexes();
     // print_vertexes(vert, vert.size() / 2, 2);
     // std::cout << "\n\n" << std::endl;
@@ -48,10 +48,11 @@ int main() {
     // print_vertexes(vert2, vert2.size() / 2, 2);
 
     Disk<float> disk1;
-    //aligned_vector<float> vert = rect1.get_filling_vertexes();
-    //std::cout << "rect filing vertexes: " << std::endl;
-    //print_vertexes(vert, vert.size() / 2, 2);
-    
+    // aligned_vector<float> vert = rect1.get_filling_vertexes();
+    // std::cout << "rect filing vertexes: " << std::endl;
+    // print_vertexes(vert, vert.size() / 2, 2);
+
+    Sphere<float> sphere1;
     while (!glfwWindowShouldClose(window)) {
         OnMinusPressed(window);
         OnPlusPressed(window);
@@ -60,7 +61,7 @@ int main() {
                           // press)
         // display(shapes2);
 
-        //        draw_polygon(circle2, shader);
+        draw(disk1, shader1);
         // The glfwSwapBuffers will swap the color buffer (a large buffer
         // that contains color values for each pixel in GLFW’s window) that
         // has been used to draw in during this iteration and show it as
@@ -76,6 +77,6 @@ int main() {
 
     // std::cout << "pi = " << sphere1.area() / 4.0 << std::endl;
     glfwTerminate();
-    
+
     return 0;
 }

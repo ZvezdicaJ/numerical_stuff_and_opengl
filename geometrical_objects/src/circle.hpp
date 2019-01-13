@@ -21,7 +21,7 @@ Circle<T>::Circle() {
     this->min_vertexes = 10;
     this->generate_vertexes();
     this->initialize_buffers();
-    this->generate_filling_ebo();
+    this->generate_filling_vbo();
 
     // std::cout << "circle buffers:\nVBO: " << this->VBO << "\nVAO: " <<
     // this->VAO << std::endl;
