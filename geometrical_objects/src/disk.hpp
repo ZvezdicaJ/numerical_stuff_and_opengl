@@ -4,6 +4,8 @@ template <typename T = float>
 class Disk : public Shape3D<T> {
   private:
     void generate_vertexes();
+    void generate_wheel_line_elements();
+    std::vector<int> wheel_line_elements;
 
   public:
     Disk();
@@ -49,10 +51,6 @@ inline void Disk<float>::generate_vertexes() {
     __m128 heightdown = _mm_set_ps1(-0.5);
     __m128 cons = _mm_set_ps(3, 2, 1, 0);
     __m128 korak_vec = _mm_set_ps1(korak);
-
-    std::cout << "reminder4: " << reminder4 << std::endl;
-    std::cout << "num_upper_vertexes: " << num_upper_vertexes << std::endl;
-    std::cout << "num_vertexes: " << num_vertexes << std::endl;
 
     __m128i next_element = _mm_setr_epi32(0, 1, 1, 1);
 
@@ -158,6 +156,14 @@ inline void Disk<float>::generate_vertexes() {
     print_vertexes(&(this->vertexes[0]), 2 * num_upper_vertexes + 2, 3);
     std::cout << "\n\n" << std::endl;
     print_vertexes(&(this->element_array[0]), 4 * num_upper_vertexes, 3);
+}
+
+template <typename T>
+void Disk<T>::generate_wheel_line_elements() {
+    int number_of_points = this->vertexes.size() / 3;
+    int nuber_of_lines = 3 * (number_of_points - 2) / 2;
+    wheel_line_elements.reserve(number_of_lines + 1);
+    wheel_line_elements.reserve(number_of_lines);
 }
 
 #define __DISK__
