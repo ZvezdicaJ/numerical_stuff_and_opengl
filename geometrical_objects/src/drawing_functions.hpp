@@ -1,7 +1,8 @@
 // this header file has to be included before  shape.hpp and after
 // shader_class.hpp
 
-template <typename T> class Shape;
+template <typename T>
+class Shape;
 
 template <typename T>
 void draw(Shape<T> &shape, Shader<RENDER_TYPE::UNIFORM_COLOR> &shader_object,
@@ -139,6 +140,8 @@ void draw_wireframe(Shape<T> &shape,
                     std::array<float, 3> rotation_axis = {0, 0, 1},
                     float angle = 0, glm::vec4 color = {0.5, 0.5, 0.5, 0.5}) {
 
+    if (shape.vertex_size != 3)
+        return;
     unsigned shaderProgram =
         shader_object.get_shader_program(shape.vertex_size - 2);
     glUseProgram(shaderProgram);
@@ -151,14 +154,12 @@ void draw_wireframe(Shape<T> &shape,
         glm::vec3(rotation_axis[0], rotation_axis[1], rotation_axis[2]));
     trans = glm::scale(trans, glm::vec3(scale[0], scale[1], scale[2]));
 
-    // std::cout << glm::to_string(trans) << std::endl;
-
     unsigned int transformLoc =
         glGetUniformLocation(shaderProgram, "transform");
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
     unsigned int triangle_color = glGetUniformLocation(shaderProgram, "color");
-    color = glm::vec4(0.8f, 0.6f, 0.2f, 0.5f);
+    color = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
     glUniform4fv(triangle_color, 1, glm::value_ptr(color));
 
     GLenum type;
@@ -172,17 +173,25 @@ void draw_wireframe(Shape<T> &shape,
     glVertexAttribPointer(0, shape.vertex_size, type, GL_TRUE,
                           shape.vertex_size * sizeof(T), (void *)0);
     glEnableVertexAttribArray(0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shape.EBO);
 
+    //std::cout << "number of elements drawn: "
+    //          << (shape.element_array.size() - 15) / 3 << std::endl;
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // render as wireframe
-    if (shape.vertex_size == 3) {
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shape.EBO);
-        glDrawElements(GL_TRIANGLES, shape.element_array.size(),
-                       GL_UNSIGNED_INT, 0);
-    } else if (shape.vertex_size == 2) {
-        glDrawArrays(GL_LINE_LOOP, 0,
-                     shape.vertexes.size() / shape.vertex_size);
-    }
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // render as filled triangles
+    glDrawElements(GL_TRIANGLES, shape.element_array.size(),
+                   GL_UNSIGNED_INT, 0);
+    glPolygonMode(
+        GL_FRONT_AND_BACK,
+        GL_FILL); // render as filled triangles
+                  // color = glm::vec4(0.5f, 0.5f, 0.5f, 0.5f);
+                  // glUniform4fv(triangle_color, 1, glm::value_ptr(color));
+
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // render as wireframe
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // render as filled triangles
+
+    // col = glm::vec4(0.0f, 0.0f, 0.0f, 0.5f);
+    // glUniform4fv(triangle_color, 1, glm::value_ptr(col));
+    // glDrawArrays(GL_LINE_STRIP, 0, 18);
 }
 
 template <typename T>

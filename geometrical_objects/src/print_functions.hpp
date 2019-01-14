@@ -127,6 +127,13 @@ inline void print_sse(__m128 reg, std::string name = "") {
               << std::endl;
 }
 
+inline void print_sse(__m128i reg, std::string name = "") {
+    std::cout << name << " ";
+    int *r = (int *)&reg;
+    std::cout << *r << " " << *(r + 1) << " " << *(r + 2) << " " << *(r + 3)
+              << std::endl;
+}
+
 inline void print_avx(__m256d reg, std::string name = "") {
     std::cout << name << " ";
     double *r = (double *)&reg;

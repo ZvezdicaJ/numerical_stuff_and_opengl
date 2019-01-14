@@ -53,6 +53,7 @@ int main() {
     // print_vertexes(vert, vert.size() / 2, 2);
 
     Sphere<float> sphere1;
+    float fi = 0.0;
     while (!glfwWindowShouldClose(window)) {
         OnMinusPressed(window);
         OnPlusPressed(window);
@@ -61,7 +62,10 @@ int main() {
                           // press)
         // display(shapes2);
 
-        draw(disk1, shader1);
+        draw(disk1, shader1, {0.5, 0.5, 0.5}, {0, 0, 0}, {1, 1, 1}, fi);
+        draw_wireframe(disk1, shader1, {0.5, 0.5, 0.5}, {0, 0, 0}, {1, 1, 1},
+                       fi);
+        fi += 0.002;
         // The glfwSwapBuffers will swap the color buffer (a large buffer
         // that contains color values for each pixel in GLFW’s window) that
         // has been used to draw in during this iteration and show it as
