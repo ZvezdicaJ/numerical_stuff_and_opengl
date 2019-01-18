@@ -35,8 +35,8 @@ int main() {
     // you need this before you call any opengl functions
     // you have to do this after glfwMAkeContextCurrent(window)
 
-    Shader<RENDER_TYPE::UNIFORM_COLOR> shader1;
-    Shader<RENDER_TYPE::CUSTOM_COLOR> shader2;
+    //    Shader<RENDER_TYPE::UNIFORM_COLOR> shader1;
+    //Shader<RENDER_TYPE::CUSTOM_COLOR> shader2;
 
     Circle<float> circle2;
     circle2.generate_random_colors();
@@ -62,9 +62,9 @@ int main() {
                           // press)
         // display(shapes2);
 
-        draw(disk1, shader1, {0.5, 0.5, 0.5}, {0, 0, 0}, {1, 1, 1}, fi);
-        draw_wireframe(disk1, shader1, {0.5, 0.5, 0.5}, {0, 0, 0}, {1, 1, 1},
-                       fi);
+        //draw(disk1, shader1, {0.5, 0.5, 0.5}, {0, 0, 0}, {1, 1, 1}, fi);
+        //draw_wireframe(disk1, shader1, {0.5, 0.5, 0.5}, {0, 0, 0}, {1, 1, 1},
+        //              fi);
         fi += 0.002;
         // The glfwSwapBuffers will swap the color buffer (a large buffer
         // that contains color values for each pixel in GLFW’s window) that
