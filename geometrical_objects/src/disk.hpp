@@ -1,7 +1,6 @@
 #ifndef __DISK__
 
-template <typename T = float>
-class Disk : public Shape3D<T> {
+template <typename T = float> class Disk : public Shape3D<T> {
   private:
     void generate_vertexes();
     void generate_wheel_line_elements();
@@ -17,8 +16,7 @@ class Disk : public Shape3D<T> {
     T perimeter();
 };
 
-template <typename T>
-Disk<T>::Disk() {
+template <typename T> Disk<T>::Disk() {
     this->draw_type = 'V';
     this->vertex_size = 3;
     this->min_vertexes = 50;
@@ -26,8 +24,7 @@ Disk<T>::Disk() {
     this->initialize_buffers();
 };
 
-template <>
-inline void Disk<float>::generate_vertexes() {
+template <> inline void Disk<float>::generate_vertexes() {
     // this function always generates 4n-1 different vertexes;
     // -1 becase the last point is the same as the first one
     int num_vertexes;
@@ -158,12 +155,42 @@ inline void Disk<float>::generate_vertexes() {
     print_vertexes(&(this->element_array[0]), 4 * num_upper_vertexes, 3);
 }
 
-template <typename T>
-void Disk<T>::generate_wheel_line_elements() {
+template <typename T> void Disk<T>::generate_wheel_line_elements() {
     int number_of_points = this->vertexes.size() / 3;
-    int nuber_of_lines = 3 * (number_of_points - 2) / 2;
-    wheel_line_elements.reserve(number_of_lines + 1);
-    wheel_line_elements.reserve(number_of_lines);
+    int num_upper_vertexes = (number_of_points - 2) / 2;
+    int nuber_of_lines = 3 * num_uppe_vertexes;
+    wheel_line_elements.reserve(2 * (number_of_lines) + 1);
+    wheel_line_elements.reserve(2 * number_of_lines);
+    __m128i vertical =
+        _mm_set_epi32(1, num_upper_vertexes + 2, 2, num_upper_vertexes + 3);
+    __m128i horizontal_u = _mm_set_epi32(1, 2, 3, 4);
+    __m128i horizontal_d =
+        _mm_set_epi32(num_upper_vertexes + 2, num_upper_vertexes + 3,
+                      num_upper_vertexes + 4, num_upper_vertexes + 5);
+    __m128i increment = _mm_set1_epi32(1);
+
+    for (int i = 0; i < number_of_lines; i += 2) {
+
+        _mm_storeu_si128((__m128i *)(&(this->wheel_line_elements[3 * i])),
+                         vertical);
+
+        _mm_storeu_si128((__m128i *)(&(this->wheel_line_elements[3 * i + 2])),
+                         horizontal_u);
+
+        _mm_storeu_si128((__m128i *)(&(this->wheel_line_elements[3 * i + 4])),
+                         horizontal_d);
+
+        _mm_add_epi32(vertical, increment);
+        _mm_add_epi32(horizontal_d, increment);
+        _mm_add_epi32(horizontal_u, increment);
+    }
+    print_vertexes(&(this->wheel_line_elements[0]), 4 * num_upper_vertexes, 3);
+    __m128i last_horizontal_lines =
+        _mm_set_epi32(num_upper_vertexes - 1, num_upper_vertexes,
+                      number_of_points - 1, number_of_points - 2);
+    _mm_storeu_si128(
+        (_mm128i *)&(this->wheel_line_elements[2 * number_of_lines - 4]),
+        last_horizontal_lines);
 }
 
 #define __DISK__
