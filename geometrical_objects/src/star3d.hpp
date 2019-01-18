@@ -1,7 +1,6 @@
 #ifndef __STAR__
 
-template <typename T = float>
-class Star : public Shape2D<T> {
+template <typename T = float> class Star : public Shape2D<T> {
   private:
     void generate_vertexes(int = 10, T = 0.5);
 
@@ -13,10 +12,10 @@ class Star : public Shape2D<T> {
     Star(const Star &) = default;
     Star &operator=(const Star &) = default;
     T perimeter();
+    T ratio;
 };
 
-template <typename T>
-Star<T>::Star() {
+template <typename T> Star<T>::Star() {
     this->draw_type = 'V';
     this->vertex_size = 2;
     this->min_vertexes = 50;
@@ -27,14 +26,12 @@ Star<T>::Star() {
     // this->VAO << std::endl;
 };
 
-template <typename T>
-Star<T>::Star(int bulges, T ratio) {
+template <typename T> Star<T>::Star(int bulges, T ratio_) : ratio(ratio_) {
     this->draw_type = 'V';
     this->vertex_size = 2;
     this->min_vertexes = 50;
     this->generate_vertexes(bulges, ratio);
     this->initialize_buffers();
-
 };
 
 template <>
@@ -45,8 +42,8 @@ inline void Star<float>::generate_vertexes(int bulges, float ratio) {
     this->vertexes.reserve(4 * bulges);
     this->vertexes.resize(4 * bulges);
     int tocke = 2 * bulges;
-    int r = 4 * ((tocke) / 4);// points should be a multiple of 4
-    int reminder = tocke - r; // stevilo preostalih tock
+    int r = 4 * ((tocke) / 4); // points should be a multiple of 4
+    int reminder = tocke - r;  // stevilo preostalih tock
 
     float korak = M_PI / (float)bulges;
     __m128 ansatz = _mm_set_ps(ratio, 1.0, ratio, 1.0);
@@ -56,6 +53,7 @@ inline void Star<float>::generate_vertexes(int bulges, float ratio) {
     for (int i = 0; i < r; i += 4) {
         __m128 i_vec = _mm_set_ps1(i);
         __m128 fi_vec = _mm_mul_ps(_mm_add_ps(i_vec, cons), korak_vec);
+
         __m128 cos_vec = _mm_mul_ps(cos(fi_vec), ansatz);
         __m128 sin_vec = _mm_mul_ps(sin(fi_vec), ansatz);
 
