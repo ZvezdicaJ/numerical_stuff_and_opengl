@@ -1,0 +1,156 @@
+\hypertarget{classDisk}{}\section{Disk$<$ T $>$ Class Template Reference}
+\label{classDisk}\index{Disk$<$ T $>$@{Disk$<$ T $>$}}
+
+
+\mbox{\hyperlink{classA}{A}} class holding vertexes in the shape of a disk.  
+
+
+
+
+{\ttfamily \#include \char`\"{}disk.\+hpp\char`\"{}}
+
+Inheritance diagram for Disk$<$ T $>$\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classDisk}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classDisk_a88bcdb9bf91c8e9c18cdf551e558ab8c}{Disk}} ()
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classA}{A}} basic constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classDisk_af73e1930d8da87b05c813814532dd43a}{Disk}} (int, T=0.\+5)
+\item 
+\mbox{\hyperlink{classDisk_a893da931e3f39c126c434ab2fc2e12cc}{Disk}} (\mbox{\hyperlink{classDisk}{Disk}} \&\&)=default
+\item 
+\mbox{\hyperlink{classDisk}{Disk}} \& \mbox{\hyperlink{classDisk_ad6bc474ffecbc5de6f8fdd90ba5eddfe}{operator=}} (\mbox{\hyperlink{classDisk}{Disk}} \&\&)=default
+\item 
+\mbox{\hyperlink{classDisk_a96de79b2e115c478a33cc31f4818aee9}{Disk}} (const \mbox{\hyperlink{classDisk}{Disk}} \&)=default
+\item 
+\mbox{\hyperlink{classDisk}{Disk}} \& \mbox{\hyperlink{classDisk_a3ef862dd6e4671c907e2368bb5239bd2}{operator=}} (const \mbox{\hyperlink{classDisk}{Disk}} \&)=default
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classDisk_a1588532798901180b1eef6f3e1fb83f6}{generate\+\_\+vertexes}} ()
+\item 
+void \mbox{\hyperlink{classDisk_a4637847208b7236010085ca67f49e39a}{generate\+\_\+wheel\+\_\+line\+\_\+elements}} ()
+\begin{DoxyCompactList}\small\item\em Function which generates sets wheel elements. Render wheel elements array with G\+L\+\_\+\+L\+I\+N\+ES to draw a wheel. \end{DoxyCompactList}\item 
+{\footnotesize template$<$$>$ }\\void \mbox{\hyperlink{classDisk_a55648a13c42982087f60742da15c2c41}{generate\+\_\+vertexes}} ()
+\begin{DoxyCompactList}\small\item\em Function which generates vertexes for float version of this class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ int $>$ \mbox{\hyperlink{classDisk_aa008e8bd0e7acdb4a1a56a8f44f048d7}{wheel\+\_\+line\+\_\+elements}}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T = float$>$\newline
+class Disk$<$ T $>$}
+
+\mbox{\hyperlink{classA}{A}} class holding vertexes in the shape of a disk. 
+
+\mbox{\hyperlink{classA}{A}} class holding vertexes in the shape of a disk. \mbox{\hyperlink{classDisk}{Disk}} is a 3d shape, thus it inherits from \mbox{\hyperlink{classShape3D}{Shape3D}} class. Template parameter can either be float or double. 
+\begin{DoxyParams}{Parameters}
+{\em T} & Template parameter T can either be float of double \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classDisk_a88bcdb9bf91c8e9c18cdf551e558ab8c}\label{classDisk_a88bcdb9bf91c8e9c18cdf551e558ab8c}} 
+\index{Disk@{Disk}!Disk@{Disk}}
+\index{Disk@{Disk}!Disk@{Disk}}
+\subsubsection{\texorpdfstring{Disk()}{Disk()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{classDisk}{Disk}}$<$ T $>$\+::\mbox{\hyperlink{classDisk}{Disk}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{classA}{A}} basic constructor. 
+
+Constructor initializes all important variables, geenratex necessary vertexes and initializes opengl buffers. \mbox{\Hypertarget{classDisk_af73e1930d8da87b05c813814532dd43a}\label{classDisk_af73e1930d8da87b05c813814532dd43a}} 
+\index{Disk@{Disk}!Disk@{Disk}}
+\index{Disk@{Disk}!Disk@{Disk}}
+\subsubsection{\texorpdfstring{Disk()}{Disk()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$typename T  = float$>$ \\
+\mbox{\hyperlink{classDisk}{Disk}}$<$ T $>$\+::\mbox{\hyperlink{classDisk}{Disk}} (\begin{DoxyParamCaption}\item[{int}]{,  }\item[{T}]{ = {\ttfamily 0.5} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classDisk_a893da931e3f39c126c434ab2fc2e12cc}\label{classDisk_a893da931e3f39c126c434ab2fc2e12cc}} 
+\index{Disk@{Disk}!Disk@{Disk}}
+\index{Disk@{Disk}!Disk@{Disk}}
+\subsubsection{\texorpdfstring{Disk()}{Disk()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$typename T  = float$>$ \\
+\mbox{\hyperlink{classDisk}{Disk}}$<$ T $>$\+::\mbox{\hyperlink{classDisk}{Disk}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classDisk}{Disk}}$<$ T $>$ \&\&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+\mbox{\Hypertarget{classDisk_a96de79b2e115c478a33cc31f4818aee9}\label{classDisk_a96de79b2e115c478a33cc31f4818aee9}} 
+\index{Disk@{Disk}!Disk@{Disk}}
+\index{Disk@{Disk}!Disk@{Disk}}
+\subsubsection{\texorpdfstring{Disk()}{Disk()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$typename T  = float$>$ \\
+\mbox{\hyperlink{classDisk}{Disk}}$<$ T $>$\+::\mbox{\hyperlink{classDisk}{Disk}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classDisk}{Disk}}$<$ T $>$ \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classDisk_a1588532798901180b1eef6f3e1fb83f6}\label{classDisk_a1588532798901180b1eef6f3e1fb83f6}} 
+\index{Disk@{Disk}!generate\+\_\+vertexes@{generate\+\_\+vertexes}}
+\index{generate\+\_\+vertexes@{generate\+\_\+vertexes}!Disk@{Disk}}
+\subsubsection{\texorpdfstring{generate\+\_\+vertexes()}{generate\_vertexes()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T  = float$>$ \\
+void \mbox{\hyperlink{classDisk}{Disk}}$<$ T $>$\+::generate\+\_\+vertexes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classDisk_a55648a13c42982087f60742da15c2c41}\label{classDisk_a55648a13c42982087f60742da15c2c41}} 
+\index{Disk@{Disk}!generate\+\_\+vertexes@{generate\+\_\+vertexes}}
+\index{generate\+\_\+vertexes@{generate\+\_\+vertexes}!Disk@{Disk}}
+\subsubsection{\texorpdfstring{generate\+\_\+vertexes()}{generate\_vertexes()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$$>$ \\
+void \mbox{\hyperlink{classDisk}{Disk}}$<$ float $>$\+::generate\+\_\+vertexes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Function which generates vertexes for float version of this class. 
+
+Vertexes are generate in such a way that the middle of the shape is (0,0,0). The function also sets the element array. It uses sse instructions -\/ use appropriate processor. \mbox{\Hypertarget{classDisk_a4637847208b7236010085ca67f49e39a}\label{classDisk_a4637847208b7236010085ca67f49e39a}} 
+\index{Disk@{Disk}!generate\+\_\+wheel\+\_\+line\+\_\+elements@{generate\+\_\+wheel\+\_\+line\+\_\+elements}}
+\index{generate\+\_\+wheel\+\_\+line\+\_\+elements@{generate\+\_\+wheel\+\_\+line\+\_\+elements}!Disk@{Disk}}
+\subsubsection{\texorpdfstring{generate\+\_\+wheel\+\_\+line\+\_\+elements()}{generate\_wheel\_line\_elements()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \mbox{\hyperlink{classDisk}{Disk}}$<$ T $>$\+::generate\+\_\+wheel\+\_\+line\+\_\+elements (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Function which generates sets wheel elements. Render wheel elements array with G\+L\+\_\+\+L\+I\+N\+ES to draw a wheel. 
+
+\mbox{\Hypertarget{classDisk_ad6bc474ffecbc5de6f8fdd90ba5eddfe}\label{classDisk_ad6bc474ffecbc5de6f8fdd90ba5eddfe}} 
+\index{Disk@{Disk}!operator=@{operator=}}
+\index{operator=@{operator=}!Disk@{Disk}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T  = float$>$ \\
+\mbox{\hyperlink{classDisk}{Disk}}\& \mbox{\hyperlink{classDisk}{Disk}}$<$ T $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classDisk}{Disk}}$<$ T $>$ \&\&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+\mbox{\Hypertarget{classDisk_a3ef862dd6e4671c907e2368bb5239bd2}\label{classDisk_a3ef862dd6e4671c907e2368bb5239bd2}} 
+\index{Disk@{Disk}!operator=@{operator=}}
+\index{operator=@{operator=}!Disk@{Disk}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T  = float$>$ \\
+\mbox{\hyperlink{classDisk}{Disk}}\& \mbox{\hyperlink{classDisk}{Disk}}$<$ T $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classDisk}{Disk}}$<$ T $>$ \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classDisk_aa008e8bd0e7acdb4a1a56a8f44f048d7}\label{classDisk_aa008e8bd0e7acdb4a1a56a8f44f048d7}} 
+\index{Disk@{Disk}!wheel\+\_\+line\+\_\+elements@{wheel\+\_\+line\+\_\+elements}}
+\index{wheel\+\_\+line\+\_\+elements@{wheel\+\_\+line\+\_\+elements}!Disk@{Disk}}
+\subsubsection{\texorpdfstring{wheel\+\_\+line\+\_\+elements}{wheel\_line\_elements}}
+{\footnotesize\ttfamily template$<$typename T  = float$>$ \\
+std\+::vector$<$int$>$ \mbox{\hyperlink{classDisk}{Disk}}$<$ T $>$\+::wheel\+\_\+line\+\_\+elements\hspace{0.3cm}{\ttfamily [private]}}
+
+elements which determine wheel shape 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{disk_8hpp}{disk.\+hpp}}\end{DoxyCompactItemize}

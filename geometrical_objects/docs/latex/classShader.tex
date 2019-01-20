@@ -9,7 +9,7 @@
 \item 
 \mbox{\hyperlink{classShader_a02faa1d7140779d7a24e06d1aff58d68}{Shader}} ()
 \item 
-\mbox{\hyperlink{classShader_ab3e3c7604cc25077b6b41353535b54de}{Shader}} (\mbox{\hyperlink{classShader}{Shader}} \&\&)=default
+\mbox{\hyperlink{classShader_a7e30078f161d1c9f48a7b3921c01f816}{Shader}} (\mbox{\hyperlink{classShader}{Shader}} \&\&)=delete
 \item 
 \mbox{\hyperlink{classShader}{Shader}} \& \mbox{\hyperlink{classShader_a3b92fece66095389581a2bf6b3124657}{operator=}} (\mbox{\hyperlink{classShader}{Shader}} \&\&)=delete
 \item 
@@ -22,9 +22,11 @@ unsigned \mbox{\hyperlink{classShader_a2c19b216850480109f9d5f7ed6ab6aa6}{get\+\_
 \subsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-{\footnotesize template$<$R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+PE Q = T$>$ }\\std\+::enable\+\_\+if$<$ Q==\mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}}, void $>$\+::type \mbox{\hyperlink{classShader_a1f4179a8be4ce0b82cf7b3079fe2bee3}{compile\+\_\+shaders}} ()
+void \mbox{\hyperlink{classShader_a1176d69a08aef6df3b7850104871a839}{compile\+\_\+shaders}} ()
 \item 
-{\footnotesize template$<$R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+PE Q = T$>$ }\\std\+::enable\+\_\+if$<$ Q==\mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60a9d34355b5a26c54b5dbab1e45245a6f4}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M\+\_\+\+C\+O\+L\+OR}}, void $>$\+::type \mbox{\hyperlink{classShader_a52de08866cf90ca949ece30eece06312}{compile\+\_\+shaders}} ()
+{\footnotesize template$<$$>$ }\\void \mbox{\hyperlink{classShader_a3ffd553eceda4e9d5a1d8b4a5a157659}{compile\+\_\+shaders}} ()
+\item 
+{\footnotesize template$<$$>$ }\\void \mbox{\hyperlink{classShader_ae486635d367b6054482c56747ed74846}{compile\+\_\+shaders}} ()
 \end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
@@ -43,12 +45,12 @@ bool \mbox{\hyperlink{classShader_a057162ea090f838f7fbb658cb301efc4}{shaders\+\_
 {\footnotesize\ttfamily template$<$R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+PE T$>$ \\
 \mbox{\hyperlink{classShader}{Shader}}$<$ T $>$\+::\mbox{\hyperlink{classShader}{Shader}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{classShader_ab3e3c7604cc25077b6b41353535b54de}\label{classShader_ab3e3c7604cc25077b6b41353535b54de}} 
+\mbox{\Hypertarget{classShader_a7e30078f161d1c9f48a7b3921c01f816}\label{classShader_a7e30078f161d1c9f48a7b3921c01f816}} 
 \index{Shader@{Shader}!Shader@{Shader}}
 \index{Shader@{Shader}!Shader@{Shader}}
 \subsubsection{\texorpdfstring{Shader()}{Shader()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
 {\footnotesize\ttfamily template$<$R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+PE T$>$ \\
-\mbox{\hyperlink{classShader}{Shader}}$<$ T $>$\+::\mbox{\hyperlink{classShader}{Shader}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ T $>$ \&\&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+\mbox{\hyperlink{classShader}{Shader}}$<$ T $>$\+::\mbox{\hyperlink{classShader}{Shader}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ T $>$ \&\&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
 
 \mbox{\Hypertarget{classShader_a49b2a448a00b5e1413c17501f8873cca}\label{classShader_a49b2a448a00b5e1413c17501f8873cca}} 
 \index{Shader@{Shader}!Shader@{Shader}}
@@ -60,21 +62,26 @@ bool \mbox{\hyperlink{classShader_a057162ea090f838f7fbb658cb301efc4}{shaders\+\_
 
 
 \subsection{Member Function Documentation}
-\mbox{\Hypertarget{classShader_a1f4179a8be4ce0b82cf7b3079fe2bee3}\label{classShader_a1f4179a8be4ce0b82cf7b3079fe2bee3}} 
+\mbox{\Hypertarget{classShader_a1176d69a08aef6df3b7850104871a839}\label{classShader_a1176d69a08aef6df3b7850104871a839}} 
 \index{Shader@{Shader}!compile\+\_\+shaders@{compile\+\_\+shaders}}
 \index{compile\+\_\+shaders@{compile\+\_\+shaders}!Shader@{Shader}}
-\subsubsection{\texorpdfstring{compile\+\_\+shaders()}{compile\_shaders()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+\subsubsection{\texorpdfstring{compile\+\_\+shaders()}{compile\_shaders()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
 {\footnotesize\ttfamily template$<$R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+PE T$>$ \\
-template$<$R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+PE Q = T$>$ \\
-std\+::enable\+\_\+if$<$Q == \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}}, void$>$\+::type \mbox{\hyperlink{classShader}{Shader}}$<$ T $>$\+::compile\+\_\+shaders (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+void \mbox{\hyperlink{classShader}{Shader}}$<$ T $>$\+::compile\+\_\+shaders (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
 
-\mbox{\Hypertarget{classShader_a52de08866cf90ca949ece30eece06312}\label{classShader_a52de08866cf90ca949ece30eece06312}} 
+\mbox{\Hypertarget{classShader_a3ffd553eceda4e9d5a1d8b4a5a157659}\label{classShader_a3ffd553eceda4e9d5a1d8b4a5a157659}} 
 \index{Shader@{Shader}!compile\+\_\+shaders@{compile\+\_\+shaders}}
 \index{compile\+\_\+shaders@{compile\+\_\+shaders}!Shader@{Shader}}
-\subsubsection{\texorpdfstring{compile\+\_\+shaders()}{compile\_shaders()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily template$<$R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+PE T$>$ \\
-template$<$R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+PE Q = T$>$ \\
-std\+::enable\+\_\+if$<$Q == \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60a9d34355b5a26c54b5dbab1e45245a6f4}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M\+\_\+\+C\+O\+L\+OR}}, void$>$\+::type \mbox{\hyperlink{classShader}{Shader}}$<$ T $>$\+::compile\+\_\+shaders (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+\subsubsection{\texorpdfstring{compile\+\_\+shaders()}{compile\_shaders()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$$>$ \\
+void \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$\+::compile\+\_\+shaders (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classShader_ae486635d367b6054482c56747ed74846}\label{classShader_ae486635d367b6054482c56747ed74846}} 
+\index{Shader@{Shader}!compile\+\_\+shaders@{compile\+\_\+shaders}}
+\index{compile\+\_\+shaders@{compile\+\_\+shaders}!Shader@{Shader}}
+\subsubsection{\texorpdfstring{compile\+\_\+shaders()}{compile\_shaders()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$$>$ \\
+void \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60a9d34355b5a26c54b5dbab1e45245a6f4}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M\+\_\+\+C\+O\+L\+OR}} $>$\+::compile\+\_\+shaders (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
 
 \mbox{\Hypertarget{classShader_a2c19b216850480109f9d5f7ed6ab6aa6}\label{classShader_a2c19b216850480109f9d5f7ed6ab6aa6}} 
 \index{Shader@{Shader}!get\+\_\+shader\+\_\+program@{get\+\_\+shader\+\_\+program}}

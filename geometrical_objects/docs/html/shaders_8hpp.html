@@ -83,8 +83,8 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ab2247ec9fae03a386582be893b9ce9dd"><td class="memItemLeft" align="right" valign="top">static const std::array&lt; std::string, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceshaders.html#ab2247ec9fae03a386582be893b9ce9dd">shaders::uniform_vertex_shaders</a> ({ R&quot;(
-#version 330 core
+<tr class="memitem:a800ae51b672756c1d98fe5ef773f2b3d"><td class="memItemLeft" align="right" valign="top">static const std::array&lt; std::string, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceshaders.html#a800ae51b672756c1d98fe5ef773f2b3d">shaders::uniform_vertex_shaders</a> ({ R&quot;(
+#version 450 core
 
 layout (location = 0) in vec2 aPos;
 
@@ -92,13 +92,14 @@ uniform mat4 transform;
 
 void <a class="el" href="gtest__tests_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>()
 {
-gl_PointSize=10.0f;
+gl_PointSize=30.0f;
 
-gl_Position = transform*vec4(aPos.x, aPos.y, 1.0, 1.0f);
+gl_Position = transform*vec4(aPos,0.0f,1.0f);
+
 
 }
 )&quot;, R&quot;(
-#version 330 core
+#version 450 core
 
 layout (location = 0) in vec3 aPos;
 
@@ -106,13 +107,13 @@ uniform mat4 transform;
 
 void main()
 {
-gl_PointSize=10.0f;
+gl_PointSize=30.0f;
 
-gl_Position = transform*vec4(aPos.x, aPos.y, aPos.z, 1.0f);
+gl_Position = transform*vec4(aPos,1.0f);
 
 }
 )&quot;, R&quot;(
-#version 330 core
+#version 450 core
 
 layout (location = 0) in vec4 aPos;
 
@@ -126,9 +127,9 @@ gl_Position = transform*aPos;
 
 }
 )&quot; })</td></tr>
-<tr class="separator:ab2247ec9fae03a386582be893b9ce9dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad65f4b831f91212b1f8f7da07ada6898"><td class="memItemLeft" align="right" valign="top">static const std::array&lt; std::string, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceshaders.html#ad65f4b831f91212b1f8f7da07ada6898">shaders::custom_vertex_shaders</a> ({ R&quot;(
-#version 330 core
+<tr class="separator:a800ae51b672756c1d98fe5ef773f2b3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9d754beb253e36c2805513fdf473da8"><td class="memItemLeft" align="right" valign="top">static const std::array&lt; std::string, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceshaders.html#ab9d754beb253e36c2805513fdf473da8">shaders::custom_vertex_shaders</a> ({ R&quot;(
+#version 450 core
 layout (location = 0) in vec2 aPos;
 layout (location = 1) in vec4 CustomColor;
 
@@ -138,13 +139,14 @@ uniform mat4 transform;
 
 void <a class="el" href="gtest__tests_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>()
 {
-gl_PointSize=10.0f;
+gl_PointSize=30.0f;
 
 gl_Position = transform*vec4(aPos, 0.0f, 1.0f);
 
+Color = CustomColor;
 }
 )&quot;, R&quot;(
-#version 330 core
+#version 450 core
 layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec4 CustomColor;
 
@@ -156,11 +158,11 @@ void main()
 {
 gl_PointSize=10.0f;
 
-gl_Position = transform*vec4(aPos, 1.0f);
-
+gl_Position = transform*vec4(aPos,1.0f);
+Color = CustomColor;
 }
 )&quot;, R&quot;(
-#version 330 core
+#version 450 core
 layout (location = 0) in vec4 aPos;
 layout (location = 1) in vec4 CustomColor;
 
@@ -173,10 +175,11 @@ void main()
 gl_PointSize=10.0f;
 
 gl_Position = transform*aPos;
+Color = CustomColor;
 
 }
 )&quot;})</td></tr>
-<tr class="separator:ad65f4b831f91212b1f8f7da07ada6898"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:ab9d754beb253e36c2805513fdf473da8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>

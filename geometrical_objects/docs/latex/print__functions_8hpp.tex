@@ -11,6 +11,8 @@
 \item 
 {\footnotesize template$<$class T $>$ }\\void \mbox{\hyperlink{print__functions_8hpp_ababe176b2311f47ed58472552dd8926c}{print\+\_\+vertexes}} (const std\+::vector$<$ T $>$ \&vertexes, int number\+\_\+to\+\_\+print=0, int vertex\+\_\+size=3)
 \item 
+{\footnotesize template$<$class T $>$ }\\void \mbox{\hyperlink{print__functions_8hpp_a0b3977f406dde5253a2e8ac86fea559a}{print\+\_\+vertexes}} (const \mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$ T $>$ \&vertexes, int number\+\_\+to\+\_\+print=0, int vertex\+\_\+size=3)
+\item 
 {\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{print__functions_8hpp_a4eaa38d525e6dca2ea442d9060571dcb}{print\+\_\+vertexes}} (T $\ast$vertexes, int number\+\_\+to\+\_\+print, int vertex\+\_\+size=3)
 \item 
 {\footnotesize template$<$class T , int size$>$ }\\void \mbox{\hyperlink{print__functions_8hpp_a78551a8213b6b4cb20a2ba034f6fe428}{print\+\_\+triangles}} (const std\+::array$<$ std\+::array$<$ T, 9 $>$, size $>$ \&triangles, int number\+\_\+to\+\_\+print=size, int vertex\+\_\+size=3)
@@ -23,7 +25,13 @@ std\+::ostream \& \mbox{\hyperlink{print__functions_8hpp_ab2990ea577c129e82dd986
 \item 
 std\+::ostream \& \mbox{\hyperlink{print__functions_8hpp_ae60b26dbaeef3ee84c65fa77fbad0ac5}{operator$<$$<$}} (std\+::ostream \&out, std\+::unordered\+\_\+map$<$ std\+::pair$<$ int, int $>$, int $>$ umap)
 \item 
-void \mbox{\hyperlink{print__functions_8hpp_a2ae5085dcc034364ed87f736bc7b1208}{print\+\_\+sse\+\_\+float}} (\+\_\+\+\_\+m128 reg, std\+::string name=\char`\"{}\char`\"{})
+void \mbox{\hyperlink{print__functions_8hpp_a78e60036219ba165a614ca0bc26a7b70}{print\+\_\+sse}} (\+\_\+\+\_\+m128 reg, std\+::string name=\char`\"{}\char`\"{})
+\item 
+void \mbox{\hyperlink{print__functions_8hpp_a66bc2b246bcb32348494c27b9ac3a338}{print\+\_\+sse}} (\+\_\+\+\_\+m128i reg, std\+::string name=\char`\"{}\char`\"{})
+\item 
+void \mbox{\hyperlink{print__functions_8hpp_af24e558b56ec8f975ca113dbae6d39cf}{print\+\_\+avx}} (\+\_\+\+\_\+m256d reg, std\+::string name=\char`\"{}\char`\"{})
+\item 
+void \mbox{\hyperlink{print__functions_8hpp_ae3ab4fc9d15ad5b79e13f132a3159231}{print\+\_\+avx}} (\+\_\+\+\_\+m256 reg, std\+::string name=\char`\"{}\char`\"{})
 \end{DoxyCompactItemize}
 
 
@@ -53,11 +61,29 @@ std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \
 \subsubsection{\texorpdfstring{print()}{print()}}
 {\footnotesize\ttfamily void print (\begin{DoxyParamCaption}\item[{std\+::string}]{str }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{print__functions_8hpp_a2ae5085dcc034364ed87f736bc7b1208}\label{print__functions_8hpp_a2ae5085dcc034364ed87f736bc7b1208}} 
-\index{print\+\_\+functions.\+hpp@{print\+\_\+functions.\+hpp}!print\+\_\+sse\+\_\+float@{print\+\_\+sse\+\_\+float}}
-\index{print\+\_\+sse\+\_\+float@{print\+\_\+sse\+\_\+float}!print\+\_\+functions.\+hpp@{print\+\_\+functions.\+hpp}}
-\subsubsection{\texorpdfstring{print\+\_\+sse\+\_\+float()}{print\_sse\_float()}}
-{\footnotesize\ttfamily void print\+\_\+sse\+\_\+float (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+m128}]{reg,  }\item[{std\+::string}]{name = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+\mbox{\Hypertarget{print__functions_8hpp_af24e558b56ec8f975ca113dbae6d39cf}\label{print__functions_8hpp_af24e558b56ec8f975ca113dbae6d39cf}} 
+\index{print\+\_\+functions.\+hpp@{print\+\_\+functions.\+hpp}!print\+\_\+avx@{print\+\_\+avx}}
+\index{print\+\_\+avx@{print\+\_\+avx}!print\+\_\+functions.\+hpp@{print\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{print\+\_\+avx()}{print\_avx()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void print\+\_\+avx (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+m256d}]{reg,  }\item[{std\+::string}]{name = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{print__functions_8hpp_ae3ab4fc9d15ad5b79e13f132a3159231}\label{print__functions_8hpp_ae3ab4fc9d15ad5b79e13f132a3159231}} 
+\index{print\+\_\+functions.\+hpp@{print\+\_\+functions.\+hpp}!print\+\_\+avx@{print\+\_\+avx}}
+\index{print\+\_\+avx@{print\+\_\+avx}!print\+\_\+functions.\+hpp@{print\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{print\+\_\+avx()}{print\_avx()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void print\+\_\+avx (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+m256}]{reg,  }\item[{std\+::string}]{name = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{print__functions_8hpp_a78e60036219ba165a614ca0bc26a7b70}\label{print__functions_8hpp_a78e60036219ba165a614ca0bc26a7b70}} 
+\index{print\+\_\+functions.\+hpp@{print\+\_\+functions.\+hpp}!print\+\_\+sse@{print\+\_\+sse}}
+\index{print\+\_\+sse@{print\+\_\+sse}!print\+\_\+functions.\+hpp@{print\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{print\+\_\+sse()}{print\_sse()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void print\+\_\+sse (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+m128}]{reg,  }\item[{std\+::string}]{name = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{print__functions_8hpp_a66bc2b246bcb32348494c27b9ac3a338}\label{print__functions_8hpp_a66bc2b246bcb32348494c27b9ac3a338}} 
+\index{print\+\_\+functions.\+hpp@{print\+\_\+functions.\+hpp}!print\+\_\+sse@{print\+\_\+sse}}
+\index{print\+\_\+sse@{print\+\_\+sse}!print\+\_\+functions.\+hpp@{print\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{print\+\_\+sse()}{print\_sse()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void print\+\_\+sse (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+m128i}]{reg,  }\item[{std\+::string}]{name = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{print__functions_8hpp_a78551a8213b6b4cb20a2ba034f6fe428}\label{print__functions_8hpp_a78551a8213b6b4cb20a2ba034f6fe428}} 
 \index{print\+\_\+functions.\+hpp@{print\+\_\+functions.\+hpp}!print\+\_\+triangles@{print\+\_\+triangles}}
@@ -82,21 +108,28 @@ void print\+\_\+vertex (\begin{DoxyParamCaption}\item[{T $\ast$}]{ver,  }\item[{
 \mbox{\Hypertarget{print__functions_8hpp_ae262efa25a6ff6d9af96017e164277a3}\label{print__functions_8hpp_ae262efa25a6ff6d9af96017e164277a3}} 
 \index{print\+\_\+functions.\+hpp@{print\+\_\+functions.\+hpp}!print\+\_\+vertexes@{print\+\_\+vertexes}}
 \index{print\+\_\+vertexes@{print\+\_\+vertexes}!print\+\_\+functions.\+hpp@{print\+\_\+functions.\+hpp}}
-\subsubsection{\texorpdfstring{print\+\_\+vertexes()}{print\_vertexes()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+\subsubsection{\texorpdfstring{print\+\_\+vertexes()}{print\_vertexes()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
 {\footnotesize\ttfamily template$<$class T , int size$>$ \\
 void print\+\_\+vertexes (\begin{DoxyParamCaption}\item[{const std\+::array$<$ T, size $>$ \&}]{vertexes,  }\item[{int}]{number\+\_\+to\+\_\+print = {\ttfamily 0},  }\item[{int}]{vertex\+\_\+size = {\ttfamily 3} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{print__functions_8hpp_ababe176b2311f47ed58472552dd8926c}\label{print__functions_8hpp_ababe176b2311f47ed58472552dd8926c}} 
 \index{print\+\_\+functions.\+hpp@{print\+\_\+functions.\+hpp}!print\+\_\+vertexes@{print\+\_\+vertexes}}
 \index{print\+\_\+vertexes@{print\+\_\+vertexes}!print\+\_\+functions.\+hpp@{print\+\_\+functions.\+hpp}}
-\subsubsection{\texorpdfstring{print\+\_\+vertexes()}{print\_vertexes()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+\subsubsection{\texorpdfstring{print\+\_\+vertexes()}{print\_vertexes()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
 {\footnotesize\ttfamily template$<$class T $>$ \\
 void print\+\_\+vertexes (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ T $>$ \&}]{vertexes,  }\item[{int}]{number\+\_\+to\+\_\+print = {\ttfamily 0},  }\item[{int}]{vertex\+\_\+size = {\ttfamily 3} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{print__functions_8hpp_a0b3977f406dde5253a2e8ac86fea559a}\label{print__functions_8hpp_a0b3977f406dde5253a2e8ac86fea559a}} 
+\index{print\+\_\+functions.\+hpp@{print\+\_\+functions.\+hpp}!print\+\_\+vertexes@{print\+\_\+vertexes}}
+\index{print\+\_\+vertexes@{print\+\_\+vertexes}!print\+\_\+functions.\+hpp@{print\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{print\+\_\+vertexes()}{print\_vertexes()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+void print\+\_\+vertexes (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$ T $>$ \&}]{vertexes,  }\item[{int}]{number\+\_\+to\+\_\+print = {\ttfamily 0},  }\item[{int}]{vertex\+\_\+size = {\ttfamily 3} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{print__functions_8hpp_a4eaa38d525e6dca2ea442d9060571dcb}\label{print__functions_8hpp_a4eaa38d525e6dca2ea442d9060571dcb}} 
 \index{print\+\_\+functions.\+hpp@{print\+\_\+functions.\+hpp}!print\+\_\+vertexes@{print\+\_\+vertexes}}
 \index{print\+\_\+vertexes@{print\+\_\+vertexes}!print\+\_\+functions.\+hpp@{print\+\_\+functions.\+hpp}}
-\subsubsection{\texorpdfstring{print\+\_\+vertexes()}{print\_vertexes()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+\subsubsection{\texorpdfstring{print\+\_\+vertexes()}{print\_vertexes()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
 {\footnotesize\ttfamily template$<$typename T $>$ \\
 void print\+\_\+vertexes (\begin{DoxyParamCaption}\item[{T $\ast$}]{vertexes,  }\item[{int}]{number\+\_\+to\+\_\+print,  }\item[{int}]{vertex\+\_\+size = {\ttfamily 3} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 

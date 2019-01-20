@@ -13,6 +13,11 @@ class Rectangle : public Shape2D<T> {
     T perimeter();
 };
 
+/**
+ * @brief A basic constructor.
+ * @details Constructor generates vertexes, initializes buffers and generates
+ * opengl buffers
+ */
 template <typename T>
 Rectangle<T>::Rectangle() {
     this->draw_type = 'V';
@@ -23,6 +28,9 @@ Rectangle<T>::Rectangle() {
     this->generate_filling_vbo();
 };
 
+/**
+ *@brief Sets all four vertexes in correct order.
+ */
 template <typename T>
 void Rectangle<T>::generate_vertexes() {
     this->vertexes =

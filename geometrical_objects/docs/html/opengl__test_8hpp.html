@@ -87,15 +87,22 @@ $(function() {
 <code>#include &lt;type_traits&gt;</code><br />
 <code>#include &lt;unordered_map&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;random&gt;</code><br />
+<code>#include &lt;functional&gt;</code><br />
+<code>#include &lt;boost/align/aligned_allocator.hpp&gt;</code><br />
+<code>#include &quot;<a class="el" href="type__definitions_8hpp_source.html">type_definitions.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="check__shaders_8hpp_source.html">check_shaders.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="shaders_8hpp_source.html">shaders.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="shader__class_8hpp_source.html">shader_class.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="drawing__functions_8hpp_source.html">drawing_functions.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="auxiliary__functions_8hpp_source.html">auxiliary_functions.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="shape_8hpp_source.html">shape.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="print__functions_8hpp_source.html">print_functions.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="drawing__functions_8hpp_source.html">drawing_functions.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="shape_8hpp_source.html">shape.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="sphere_8hpp_source.html">sphere.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="src_2circle_8hpp_source.html">circle.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="circle_8hpp_source.html">circle.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="rectangle_8hpp_source.html">rectangle.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="star_8hpp_source.html">star.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="disk_8hpp_source.html">disk.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="display__functions_8hpp_source.html">display_functions.hpp</a>&quot;</code><br />
 <code>#include &lt;glm/gtx/string_cast.hpp&gt;</code><br />
 </div>
@@ -105,8 +112,6 @@ $(function() {
 Macros</h2></td></tr>
 <tr class="memitem:abd75661fe7969e19439052a5f69ba5d1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opengl__test_8hpp.html#abd75661fe7969e19439052a5f69ba5d1">GLM_ENABLE_EXPERIMENTAL</a></td></tr>
 <tr class="separator:abd75661fe7969e19439052a5f69ba5d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae71449b1cc6e6250b91f539153a7a0d3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opengl__test_8hpp.html#ae71449b1cc6e6250b91f539153a7a0d3">M_PI</a>&#160;&#160;&#160;3.1415926535897932385 /* pi */</td></tr>
-<tr class="separator:ae71449b1cc6e6250b91f539153a7a0d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="abd75661fe7969e19439052a5f69ba5d1"></a>
@@ -117,20 +122,6 @@ Macros</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">#define GLM_ENABLE_EXPERIMENTAL</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae71449b1cc6e6250b91f539153a7a0d3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae71449b1cc6e6250b91f539153a7a0d3">&#9670;&nbsp;</a></span>M_PI</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define M_PI&#160;&#160;&#160;3.1415926535897932385 /* pi */</td>
         </tr>
       </table>
 </div><div class="memdoc">

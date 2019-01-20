@@ -1,5 +1,10 @@
 #ifndef __CIRCLE__
 
+/**
+ *@class A class which holds vertexes forming a circle.
+ *@brief This class holds vertexes and other data for a circle in xy plane.
+ @todo Finish float version of perimeter function and implement double version.
+ */
 template <typename T = float>
 class Circle : public Shape2D<T> {
   private:
@@ -14,6 +19,9 @@ class Circle : public Shape2D<T> {
     T perimeter();
 };
 
+/** @brief Basic constructor for class Circle.
+ *  @details Constructor generates vertexes and initializes opengl buffers.
+ */
 template <typename T>
 Circle<T>::Circle() {
     this->draw_type = 'V';
@@ -27,6 +35,9 @@ Circle<T>::Circle() {
     // this->VAO << std::endl;
 };
 
+/** @brief This function generates vertexes for float version of class Circle
+ *  @details Internally, it uses sse instructions - cpu support needed.
+ */
 template <>
 inline void Circle<float>::generate_vertexes(int num_vert) {
     // this function always generates 4n-1 different vertexes;
@@ -78,6 +89,10 @@ inline void Circle<float>::generate_vertexes(int num_vert) {
     }
 };
 
+#ifdef __AVX2__
+/** @brief This function generates vertexes for double version of class Circle
+ *  @details Internally, it uses avx2 instructions - cpu support needed.
+ */
 template <>
 inline void Circle<double>::generate_vertexes(int num_vert) {
     // this function always generates 4n-1 different vertexes;
@@ -124,7 +139,11 @@ inline void Circle<double>::generate_vertexes(int num_vert) {
         vertexes_size += 4;
     }
 }
+#endif
 
+/** @brief This function calculates perimeter of a circle with radius 1.
+ *  @details Internally, it uses sse instructions - cpu support needed.
+ */
 template <>
 inline float Circle<float>::perimeter() {
     float perim = 0;

@@ -1,5 +1,7 @@
 #ifndef __SPHERE__
 
+/** @class This class contains vertex and element data for 3d sphere.
+ */
 template <typename T = float>
 class Sphere : public Shape3D<T> {
   private:
@@ -8,6 +10,10 @@ class Sphere : public Shape3D<T> {
     void generate_vertexes();
 
   public:
+    /** @brief A basic constructor for Sphere class.
+     *  @details The constructor generate vertexes and elements. Opengl buffers
+     * are also allocated and initiallized.
+     */
     Sphere() {
         this->vertex_size = 3;
         this->min_vertexes = 50;
@@ -23,6 +29,10 @@ class Sphere : public Shape3D<T> {
     using Shape3D<T>::area;
 };
 
+/** @brief This function generates vertexes for class Circle
+ *  @details Internally, it calls generate_vertexes_helper function to refine
+ * the mesh.
+ */
 template <typename T>
 void Sphere<T>::generate_vertexes() {
     this->vertexes.reserve(15);
@@ -62,6 +72,10 @@ void Sphere<T>::generate_vertexes() {
 }
 
 #ifdef __SSE__
+/** @brief This function generates vertexes for float version of class Circle
+ *  @details Internally, it uses sse instructions to generate mesh and set
+ *  correct elements
+ */
 template <>
 inline void Sphere<float>::generate_vertexes_helper() {
     int vertex_number = this->vertexes.size() / 3;
@@ -201,6 +215,10 @@ inline void Sphere<float>::generate_vertexes_helper() {
 #endif
 
 #ifdef __AVX2__
+/** @brief This function generates vertexes for float version of class Circle
+ *  @details Internally, it uses avx2 instructions to generate mesh and set the
+ *  correct elements
+ */
 template <>
 inline void Sphere<double>::generate_vertexes_helper() {
     int vertex_number = this->vertexes.size() / 3;
@@ -338,6 +356,10 @@ inline void Sphere<double>::generate_vertexes_helper() {
 #endif
 
 #ifndef __SSE__
+/** @brief This function generates vertexes for float and double version of
+ * class Circle.
+ *  @details It is used only when sse and avx versions are not available.
+ */
 template <typename T>
 inline void Sphere<T>::generate_vertexes_helper() {
     int vertex_number = this->vertexes.size() / 3;
@@ -470,11 +492,18 @@ inline void Sphere<T>::generate_vertexes_helper() {
 }
 #endif
 
+/**
+   @brief This function calls generate_vertexes_helper to refine the mesh.
+ */
 template <typename T>
 void Sphere<T>::refine() {
     generate_vertexes_helper();
 }
 
+/**
+   @brief The quality of the mesh is measured as the difference between exact pi
+   number and the one obtained from the area of the sphere (mesh).
+*/
 template <typename T>
 T Sphere<T>::quality() {
     return std::fabs(this->area() - M_PI);

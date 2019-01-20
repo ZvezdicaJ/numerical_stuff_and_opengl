@@ -12,7 +12,7 @@ virtual base class @
 Inheritance diagram for Shape$<$ T $>$\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[height=3.000000cm]{classShape}
+\includegraphics[height=2.242991cm]{classShape}
 \end{center}
 \end{figure}
 \subsection*{Public Member Functions}
@@ -20,13 +20,17 @@ Inheritance diagram for Shape$<$ T $>$\+:\begin{figure}[H]
 \item 
 virtual void \mbox{\hyperlink{classShape_ac5a35fe1b2ecb8fcfc050a31c8969805}{set\+\_\+min\+\_\+number\+\_\+of\+\_\+vertexes}} (unsigned num)
 \item 
-virtual void \mbox{\hyperlink{classShape_a8bfb8a1ffec754467cd6c0c860d771aa}{set\+\_\+vertex\+\_\+colors}} (std\+::vector$<$ float $>$ \&colors\+\_\+)
+virtual void \mbox{\hyperlink{classShape_a69dabd50440dba1ac463ad6819cdb506}{set\+\_\+vertex\+\_\+colors}} (\mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$ float $>$ \&colors\+\_\+)
 \item 
-std\+::vector$<$ T $>$ \mbox{\hyperlink{classShape_a97dc716e0035f2cd92669f53c31fce64}{get\+\_\+vertexes}} ()
+\mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$ T $>$ \mbox{\hyperlink{classShape_a3729bbdd0c4e4f3379498734807bb545}{get\+\_\+vertexes}} ()
+\item 
+\mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$ T $>$ \mbox{\hyperlink{classShape_aabe9bd208b0ece9824cb45deccc11ba7}{get\+\_\+colors}} ()
 \item 
 unsigned \mbox{\hyperlink{classShape_a131e85c7f5cad85bffb92e6719117cab}{num\+\_\+vertexes}} ()
 \item 
 virtual unsigned \mbox{\hyperlink{classShape_a58713d8cf7c4175e7c76eae75c94bc13}{get\+\_\+vertex\+\_\+size}} ()
+\item 
+void \mbox{\hyperlink{classShape_aabeb601fe95b412987d5b5c276bf8a7a}{generate\+\_\+random\+\_\+colors}} ()
 \end{DoxyCompactItemize}
 \subsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
@@ -38,9 +42,11 @@ void \mbox{\hyperlink{classShape_a8b4f54a694871f9d131fdd105e1ca709}{initialize\+
 \item 
 unsigned \mbox{\hyperlink{classShape_a7cf9cc243cdd64215eca4d81704c7199}{vertex\+\_\+size}} = 0
 \item 
-std\+::vector$<$ T $>$ \mbox{\hyperlink{classShape_a287b18bbc1e2f704d275c34dec0a5fe9}{vertexes}}
+\mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$ T $>$ \mbox{\hyperlink{classShape_a50296217cf654fc7b756b67a2f0305c2}{vertexes}}
 \item 
-std\+::vector$<$ int $>$ \mbox{\hyperlink{classShape_ae688726fdcf8fe1057614bd5d58544c1}{element\+\_\+array}}
+char \mbox{\hyperlink{classShape_a851fcb33238286342f670d27443ffdfc}{draw\+\_\+type}}
+\item 
+\mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$ int $>$ \mbox{\hyperlink{classShape_accef3084e7e3897e01806b90da0a0ec8}{element\+\_\+array}}
 \item 
 bool \mbox{\hyperlink{classShape_a216866713d16c882a0f0b0b0a89d350d}{colors\+\_\+loaded}}
 \item 
@@ -54,7 +60,7 @@ unsigned \mbox{\hyperlink{classShape_a66502f6f87b46a705d131dc7b0b67d42}{C\+BO}}
 \item 
 unsigned \mbox{\hyperlink{classShape_acb30d3bdd3434dc2cb3074a4d61985ed}{min\+\_\+vertexes}} = 5
 \item 
-std\+::vector$<$ float $>$ \mbox{\hyperlink{classShape_a5775a78d38dcbd0dd2306a998526b52c}{vertex\+\_\+colors}}
+\mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$ float $>$ \mbox{\hyperlink{classShape_a1590ef02d7090f28d1ad312fd46f5030}{vertex\+\_\+colors}}
 \end{DoxyCompactItemize}
 \subsection*{Friends}
 \begin{DoxyCompactItemize}
@@ -64,6 +70,8 @@ void \mbox{\hyperlink{classShape_a0f7d9c8330ae4f062c6f569a7400e1f0}{draw}} (\mbo
 void \mbox{\hyperlink{classShape_a29e514c040e0781bfa2e08bcde4a7557}{draw}} (\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&, \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60a9d34355b5a26c54b5dbab1e45245a6f4}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&, std\+::array$<$ float, 3 $>$, std\+::array$<$ float, 3 $>$, std\+::array$<$ float, 3 $>$, float)
 \item 
 void \mbox{\hyperlink{classShape_ad57e4dd441b60269c43114f31ffa6085}{draw\+\_\+wireframe}} (\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&shape, \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&shader\+\_\+object, std\+::array$<$ float, 3 $>$ scale, std\+::array$<$ float, 3 $>$ position, std\+::array$<$ float, 3 $>$ rotation\+\_\+axis, float angle, glm\+::vec4)
+\item 
+void \mbox{\hyperlink{classShape_aaff31c90cf40c78284454009c9fe0966}{draw\+\_\+2d\+\_\+object}} (\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&shape, \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&shader\+\_\+object, std\+::array$<$ float, 3 $>$ scale, std\+::array$<$ float, 3 $>$ position, std\+::array$<$ float, 3 $>$ rotation\+\_\+axis, float angle, glm\+::vec4)
 \end{DoxyCompactItemize}
 
 
@@ -74,6 +82,20 @@ class Shape$<$ T $>$}
 virtual base class @ 
 
 \subsection{Member Function Documentation}
+\mbox{\Hypertarget{classShape_aabeb601fe95b412987d5b5c276bf8a7a}\label{classShape_aabeb601fe95b412987d5b5c276bf8a7a}} 
+\index{Shape@{Shape}!generate\+\_\+random\+\_\+colors@{generate\+\_\+random\+\_\+colors}}
+\index{generate\+\_\+random\+\_\+colors@{generate\+\_\+random\+\_\+colors}!Shape@{Shape}}
+\subsubsection{\texorpdfstring{generate\+\_\+random\+\_\+colors()}{generate\_random\_colors()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::generate\+\_\+random\+\_\+colors (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classShape_aabe9bd208b0ece9824cb45deccc11ba7}\label{classShape_aabe9bd208b0ece9824cb45deccc11ba7}} 
+\index{Shape@{Shape}!get\+\_\+colors@{get\+\_\+colors}}
+\index{get\+\_\+colors@{get\+\_\+colors}!Shape@{Shape}}
+\subsubsection{\texorpdfstring{get\+\_\+colors()}{get\_colors()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+\mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$T$>$ \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::get\+\_\+colors (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
 \mbox{\Hypertarget{classShape_a58713d8cf7c4175e7c76eae75c94bc13}\label{classShape_a58713d8cf7c4175e7c76eae75c94bc13}} 
 \index{Shape@{Shape}!get\+\_\+vertex\+\_\+size@{get\+\_\+vertex\+\_\+size}}
 \index{get\+\_\+vertex\+\_\+size@{get\+\_\+vertex\+\_\+size}!Shape@{Shape}}
@@ -81,12 +103,12 @@ virtual base class @
 {\footnotesize\ttfamily template$<$typename T$>$ \\
 virtual unsigned \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::get\+\_\+vertex\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
 
-\mbox{\Hypertarget{classShape_a97dc716e0035f2cd92669f53c31fce64}\label{classShape_a97dc716e0035f2cd92669f53c31fce64}} 
+\mbox{\Hypertarget{classShape_a3729bbdd0c4e4f3379498734807bb545}\label{classShape_a3729bbdd0c4e4f3379498734807bb545}} 
 \index{Shape@{Shape}!get\+\_\+vertexes@{get\+\_\+vertexes}}
 \index{get\+\_\+vertexes@{get\+\_\+vertexes}!Shape@{Shape}}
 \subsubsection{\texorpdfstring{get\+\_\+vertexes()}{get\_vertexes()}}
 {\footnotesize\ttfamily template$<$typename T$>$ \\
-std\+::vector$<$T$>$ \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::get\+\_\+vertexes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+\mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$T$>$ \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::get\+\_\+vertexes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{classShape_a8b4f54a694871f9d131fdd105e1ca709}\label{classShape_a8b4f54a694871f9d131fdd105e1ca709}} 
 \index{Shape@{Shape}!initialize\+\_\+buffers@{initialize\+\_\+buffers}}
@@ -109,12 +131,12 @@ unsigned \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::num\+\_\+vertexes (\be
 {\footnotesize\ttfamily template$<$typename T$>$ \\
 virtual void \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::set\+\_\+min\+\_\+number\+\_\+of\+\_\+vertexes (\begin{DoxyParamCaption}\item[{unsigned}]{num }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
 
-\mbox{\Hypertarget{classShape_a8bfb8a1ffec754467cd6c0c860d771aa}\label{classShape_a8bfb8a1ffec754467cd6c0c860d771aa}} 
+\mbox{\Hypertarget{classShape_a69dabd50440dba1ac463ad6819cdb506}\label{classShape_a69dabd50440dba1ac463ad6819cdb506}} 
 \index{Shape@{Shape}!set\+\_\+vertex\+\_\+colors@{set\+\_\+vertex\+\_\+colors}}
 \index{set\+\_\+vertex\+\_\+colors@{set\+\_\+vertex\+\_\+colors}!Shape@{Shape}}
 \subsubsection{\texorpdfstring{set\+\_\+vertex\+\_\+colors()}{set\_vertex\_colors()}}
 {\footnotesize\ttfamily template$<$typename T$>$ \\
-virtual void \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::set\+\_\+vertex\+\_\+colors (\begin{DoxyParamCaption}\item[{std\+::vector$<$ float $>$ \&}]{colors\+\_\+ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+virtual void \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::set\+\_\+vertex\+\_\+colors (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$ float $>$ \&}]{colors\+\_\+ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
 
 
 
@@ -124,21 +146,28 @@ virtual void \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::set\+\_\+vertex\+\
 \index{draw@{draw}!Shape@{Shape}}
 \subsubsection{\texorpdfstring{draw}{draw}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$typename T$>$ \\
-void draw (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&}]{shape,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&}]{shader\+\_\+object,  }\item[{std\+::array$<$ float, 3 $>$}]{scale = {\ttfamily \{0.5,~0.5,~0.5\}},  }\item[{std\+::array$<$ float, 3 $>$}]{position = {\ttfamily \{0,~0,~0\}},  }\item[{std\+::array$<$ float, 3 $>$}]{rotation\+\_\+axis = {\ttfamily \{0,~0,~1\}},  }\item[{float}]{angle = {\ttfamily 0},  }\item[{glm\+::vec4}]{color = {\ttfamily \{0.5,~0.5,~0.5,~0.5\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+void draw (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&}]{shape,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&}]{shader\+\_\+object,  }\item[{std\+::array$<$ float, 3 $>$}]{scale = {\ttfamily \{0.5,~0.5,~0.5\}},  }\item[{std\+::array$<$ float, 3 $>$}]{position = {\ttfamily \{0,~0,~1\}},  }\item[{std\+::array$<$ float, 3 $>$}]{rotation\+\_\+axis = {\ttfamily \{0,~0,~1\}},  }\item[{float}]{angle = {\ttfamily 0},  }\item[{glm\+::vec4}]{color = {\ttfamily \{0.5,~0.5,~0.5,~0.5\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
 
 \mbox{\Hypertarget{classShape_a29e514c040e0781bfa2e08bcde4a7557}\label{classShape_a29e514c040e0781bfa2e08bcde4a7557}} 
 \index{Shape@{Shape}!draw@{draw}}
 \index{draw@{draw}!Shape@{Shape}}
 \subsubsection{\texorpdfstring{draw}{draw}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$typename T$>$ \\
-void draw (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&}]{shape,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60a9d34355b5a26c54b5dbab1e45245a6f4}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&}]{shader\+\_\+object,  }\item[{std\+::array$<$ float, 3 $>$}]{scale = {\ttfamily \{0.5,~0.5,~0.5\}},  }\item[{std\+::array$<$ float, 3 $>$}]{position = {\ttfamily \{0,~0,~0\}},  }\item[{std\+::array$<$ float, 3 $>$}]{rotation\+\_\+axis = {\ttfamily \{0,~0,~1\}},  }\item[{float}]{angle = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+void draw (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&}]{shape,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60a9d34355b5a26c54b5dbab1e45245a6f4}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&}]{shader\+\_\+object,  }\item[{std\+::array$<$ float, 3 $>$}]{scale = {\ttfamily \{0.5,~0.5,~0.5\}},  }\item[{std\+::array$<$ float, 3 $>$}]{position = {\ttfamily \{0,~0,~1\}},  }\item[{std\+::array$<$ float, 3 $>$}]{rotation\+\_\+axis = {\ttfamily \{0,~0,~1\}},  }\item[{float}]{angle = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+\mbox{\Hypertarget{classShape_aaff31c90cf40c78284454009c9fe0966}\label{classShape_aaff31c90cf40c78284454009c9fe0966}} 
+\index{Shape@{Shape}!draw\+\_\+2d\+\_\+object@{draw\+\_\+2d\+\_\+object}}
+\index{draw\+\_\+2d\+\_\+object@{draw\+\_\+2d\+\_\+object}!Shape@{Shape}}
+\subsubsection{\texorpdfstring{draw\+\_\+2d\+\_\+object}{draw\_2d\_object}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void draw\+\_\+2d\+\_\+object (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&}]{shape,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&}]{shader\+\_\+object,  }\item[{std\+::array$<$ float, 3 $>$}]{scale = {\ttfamily \{0.5,~0.5,~0.5\}},  }\item[{std\+::array$<$ float, 3 $>$}]{position = {\ttfamily \{0,~0,~1\}},  }\item[{std\+::array$<$ float, 3 $>$}]{rotation\+\_\+axis = {\ttfamily \{0,~0,~1\}},  }\item[{float}]{angle = {\ttfamily 0},  }\item[{glm\+::vec4}]{color = {\ttfamily \{0.5,~0.5,~0.5,~0.5\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
 
 \mbox{\Hypertarget{classShape_ad57e4dd441b60269c43114f31ffa6085}\label{classShape_ad57e4dd441b60269c43114f31ffa6085}} 
 \index{Shape@{Shape}!draw\+\_\+wireframe@{draw\+\_\+wireframe}}
 \index{draw\+\_\+wireframe@{draw\+\_\+wireframe}!Shape@{Shape}}
 \subsubsection{\texorpdfstring{draw\+\_\+wireframe}{draw\_wireframe}}
 {\footnotesize\ttfamily template$<$typename T$>$ \\
-void draw\+\_\+wireframe (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&}]{shape,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&}]{shader\+\_\+object,  }\item[{std\+::array$<$ float, 3 $>$}]{scale = {\ttfamily \{0.5,~0.5,~0.5\}},  }\item[{std\+::array$<$ float, 3 $>$}]{position = {\ttfamily \{0,~0,~0\}},  }\item[{std\+::array$<$ float, 3 $>$}]{rotation\+\_\+axis = {\ttfamily \{0,~0,~1\}},  }\item[{float}]{angle = {\ttfamily 0},  }\item[{glm\+::vec4}]{color = {\ttfamily \{0.5,~0.5,~0.5,~0.5\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+void draw\+\_\+wireframe (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&}]{shape,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&}]{shader\+\_\+object,  }\item[{std\+::array$<$ float, 3 $>$}]{scale = {\ttfamily \{0.5,~0.5,~0.5\}},  }\item[{std\+::array$<$ float, 3 $>$}]{position = {\ttfamily \{0,~0,~1\}},  }\item[{std\+::array$<$ float, 3 $>$}]{rotation\+\_\+axis = {\ttfamily \{0,~0,~1\}},  }\item[{float}]{angle = {\ttfamily 0},  }\item[{glm\+::vec4}]{color = {\ttfamily \{0.5,~0.5,~0.5,~0.5\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
 
 
 
@@ -162,19 +191,26 @@ bool \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::colors\+\_\+loaded\hspace{
 =
         \textcolor{keyword}{false}
 \end{DoxyCode}
-indicator whether color have been loaded or not vertex size can consist of 2, 3 or 4 points; this is important for correct interpretation of vertexes vector \mbox{\Hypertarget{classShape_a95c775e548b129e23d2dd32e23fb0f3e}\label{classShape_a95c775e548b129e23d2dd32e23fb0f3e}} 
+indicator whether color have been loaded or not vertex size can consist of 2, 3 or 4 points; this is important for correct interpretation of vertexes vector \mbox{\Hypertarget{classShape_a851fcb33238286342f670d27443ffdfc}\label{classShape_a851fcb33238286342f670d27443ffdfc}} 
+\index{Shape@{Shape}!draw\+\_\+type@{draw\+\_\+type}}
+\index{draw\+\_\+type@{draw\+\_\+type}!Shape@{Shape}}
+\subsubsection{\texorpdfstring{draw\+\_\+type}{draw\_type}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+char \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::draw\+\_\+type\hspace{0.3cm}{\ttfamily [protected]}}
+
+this can either be \textquotesingle{}E\textquotesingle{} or \textquotesingle{}V\textquotesingle{}, depending on wheather to draw elements (element buffer) or vertexes (vertex buffer object) \mbox{\Hypertarget{classShape_a95c775e548b129e23d2dd32e23fb0f3e}\label{classShape_a95c775e548b129e23d2dd32e23fb0f3e}} 
 \index{Shape@{Shape}!E\+BO@{E\+BO}}
 \index{E\+BO@{E\+BO}!Shape@{Shape}}
 \subsubsection{\texorpdfstring{E\+BO}{EBO}}
 {\footnotesize\ttfamily template$<$typename T$>$ \\
 unsigned \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::E\+BO\hspace{0.3cm}{\ttfamily [protected]}}
 
-element buffer address \mbox{\Hypertarget{classShape_ae688726fdcf8fe1057614bd5d58544c1}\label{classShape_ae688726fdcf8fe1057614bd5d58544c1}} 
+element buffer address \mbox{\Hypertarget{classShape_accef3084e7e3897e01806b90da0a0ec8}\label{classShape_accef3084e7e3897e01806b90da0a0ec8}} 
 \index{Shape@{Shape}!element\+\_\+array@{element\+\_\+array}}
 \index{element\+\_\+array@{element\+\_\+array}!Shape@{Shape}}
 \subsubsection{\texorpdfstring{element\+\_\+array}{element\_array}}
 {\footnotesize\ttfamily template$<$typename T$>$ \\
-std\+::vector$<$int$>$ \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::element\+\_\+array\hspace{0.3cm}{\ttfamily [protected]}}
+\mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$int$>$ \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::element\+\_\+array\hspace{0.3cm}{\ttfamily [protected]}}
 
 vector holding all elements in correct order \mbox{\Hypertarget{classShape_acb30d3bdd3434dc2cb3074a4d61985ed}\label{classShape_acb30d3bdd3434dc2cb3074a4d61985ed}} 
 \index{Shape@{Shape}!min\+\_\+vertexes@{min\+\_\+vertexes}}
@@ -197,12 +233,12 @@ vertex array object \mbox{\Hypertarget{classShape_a5ca89aadcd89bb475d6ca88acf733
 {\footnotesize\ttfamily template$<$typename T$>$ \\
 unsigned \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::V\+BO\hspace{0.3cm}{\ttfamily [protected]}}
 
-vertex buffer object \mbox{\Hypertarget{classShape_a5775a78d38dcbd0dd2306a998526b52c}\label{classShape_a5775a78d38dcbd0dd2306a998526b52c}} 
+vertex buffer object \mbox{\Hypertarget{classShape_a1590ef02d7090f28d1ad312fd46f5030}\label{classShape_a1590ef02d7090f28d1ad312fd46f5030}} 
 \index{Shape@{Shape}!vertex\+\_\+colors@{vertex\+\_\+colors}}
 \index{vertex\+\_\+colors@{vertex\+\_\+colors}!Shape@{Shape}}
 \subsubsection{\texorpdfstring{vertex\+\_\+colors}{vertex\_colors}}
 {\footnotesize\ttfamily template$<$typename T$>$ \\
-std\+::vector$<$float$>$ \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::vertex\+\_\+colors\hspace{0.3cm}{\ttfamily [protected]}}
+\mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$float$>$ \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::vertex\+\_\+colors\hspace{0.3cm}{\ttfamily [protected]}}
 
 \mbox{\Hypertarget{classShape_a7cf9cc243cdd64215eca4d81704c7199}\label{classShape_a7cf9cc243cdd64215eca4d81704c7199}} 
 \index{Shape@{Shape}!vertex\+\_\+size@{vertex\+\_\+size}}
@@ -211,12 +247,12 @@ std\+::vector$<$float$>$ \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::vertex
 {\footnotesize\ttfamily template$<$typename T$>$ \\
 unsigned \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::vertex\+\_\+size = 0\hspace{0.3cm}{\ttfamily [protected]}}
 
-\mbox{\Hypertarget{classShape_a287b18bbc1e2f704d275c34dec0a5fe9}\label{classShape_a287b18bbc1e2f704d275c34dec0a5fe9}} 
+\mbox{\Hypertarget{classShape_a50296217cf654fc7b756b67a2f0305c2}\label{classShape_a50296217cf654fc7b756b67a2f0305c2}} 
 \index{Shape@{Shape}!vertexes@{vertexes}}
 \index{vertexes@{vertexes}!Shape@{Shape}}
 \subsubsection{\texorpdfstring{vertexes}{vertexes}}
 {\footnotesize\ttfamily template$<$typename T$>$ \\
-std\+::vector$<$T$>$ \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::vertexes\hspace{0.3cm}{\ttfamily [protected]}}
+\mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$T$>$ \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::vertexes\hspace{0.3cm}{\ttfamily [protected]}}
 
 Vector holding all vertexes; 2,3 or 4 consequtive numbers form a vertex 
 

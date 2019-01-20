@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['features',['features',['../feature__tests_8c.html#a1582568e32f689337602a16bf8a5bff0',1,'features():&#160;feature_tests.c'],['../feature__tests_8cxx.html#a1582568e32f689337602a16bf8a5bff0',1,'features():&#160;feature_tests.cxx']]]
+  ['ebo',['EBO',['../classShape.html#a95c775e548b129e23d2dd32e23fb0f3e',1,'Shape']]],
+  ['element_5farray',['element_array',['../classShape.html#accef3084e7e3897e01806b90da0a0ec8',1,'Shape']]]
 ];

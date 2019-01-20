@@ -1,8 +1,4 @@
 var searchData=
 [
-  ['shader',['Shader',['../classShader.html',1,'']]],
-  ['shape',['Shape',['../classShape.html',1,'']]],
-  ['shape2d',['Shape2D',['../classShape2D.html',1,'']]],
-  ['shape3d',['Shape3D',['../classShape3D.html',1,'']]],
-  ['sphere',['Sphere',['../classSphere.html',1,'']]]
+  ['hash_3c_20pair_3c_20s_2c_20t_20_3e_20_3e',['hash&lt; pair&lt; S, T &gt; &gt;',['../structstd_1_1hash_3_01pair_3_01S_00_01T_01_4_01_4.html',1,'std']]]
 ];

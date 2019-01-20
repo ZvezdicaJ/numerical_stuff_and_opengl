@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['rectangle',['Rectangle',['../classRectangle.html',1,'']]]
+  ['disk',['Disk',['../classDisk.html',1,'']]]
 ];

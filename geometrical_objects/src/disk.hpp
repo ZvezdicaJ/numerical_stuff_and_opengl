@@ -1,10 +1,19 @@
 #ifndef __DISK__
 
-template <typename T = float> class Disk : public Shape3D<T> {
+/** @class  Disk
+ *  @brief A class holding vertexes in the shape of a disk.
+ *  @brief A class holding vertexes in the shape of a disk. Disk is a 3d shape,
+ *  thus it inherits from Shape3D class. Template parameter can either be
+ *  float or double.
+ *  @param T Template parameter T can either be float of double
+ */
+template <typename T = float>
+class Disk : public Shape3D<T> {
   private:
     void generate_vertexes();
     void generate_wheel_line_elements();
-    std::vector<int> wheel_line_elements;
+    std::vector<int>
+        wheel_line_elements; /**< elements which determine wheel shape */
 
   public:
     Disk();
@@ -13,10 +22,15 @@ template <typename T = float> class Disk : public Shape3D<T> {
     Disk &operator=(Disk &&) = default;
     Disk(const Disk &) = default;
     Disk &operator=(const Disk &) = default;
-    T perimeter();
 };
 
-template <typename T> Disk<T>::Disk() {
+/**
+ *  @brief A basic constructor.
+ *  @details Constructor initializes all important variables, geenratex
+ * necessary vertexes and initializes opengl buffers.
+ */
+template <typename T>
+Disk<T>::Disk() {
     this->draw_type = 'V';
     this->vertex_size = 3;
     this->min_vertexes = 50;
@@ -24,7 +38,14 @@ template <typename T> Disk<T>::Disk() {
     this->initialize_buffers();
 };
 
-template <> inline void Disk<float>::generate_vertexes() {
+/**
+ *  @brief Function which generates vertexes for float version of this class.
+ *  @details Vertexes are generate in such a way that the middle of the shape is
+ * (0,0,0). The function also sets the element array. It uses sse instructions -
+ * use appropriate processor.
+ */
+template <>
+inline void Disk<float>::generate_vertexes() {
     // this function always generates 4n-1 different vertexes;
     // -1 becase the last point is the same as the first one
     int num_vertexes;
@@ -154,8 +175,17 @@ template <> inline void Disk<float>::generate_vertexes() {
     std::cout << "\n\n" << std::endl;
     print_vertexes(&(this->element_array[0]), 4 * num_upper_vertexes, 3);
 }
+
 #ifdef __AVX2__
-template <> inline void Disk<double>::generate_vertexes() {
+/**
+ *  @brief Function which generates vertexes for double version of this class.
+ *  @details Vertexes are generate in such a way that the middle of the shape is
+ *  (0,0,0). The function also sets the element array. It uses sse instructions
+ * - use appropriate processor.
+ */
+
+template <>
+inline void Disk<double>::generate_vertexes() {
     // this function always generates 4n-1 different vertexes;
     // -1 becase the last point is the same as the first one
     int num_vertexes;
@@ -288,7 +318,12 @@ template <> inline void Disk<double>::generate_vertexes() {
 }
 #endif
 
-template <typename T> void Disk<T>::generate_wheel_line_elements() {
+/**
+ *  @brief Function which generates sets wheel elements. Render wheel elements
+ *  array with GL_LINES to draw a wheel.
+ */
+template <typename T>
+void Disk<T>::generate_wheel_line_elements() {
     int number_of_points = this->vertexes.size() / 3;
     int num_upper_vertexes = (number_of_points - 2) / 2;
     int number_of_lines = 3 * num_upper_vertexes;

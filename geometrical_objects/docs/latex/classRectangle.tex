@@ -2,7 +2,7 @@
 \label{classRectangle}\index{Rectangle$<$ T $>$@{Rectangle$<$ T $>$}}
 
 
-{\ttfamily \#include \char`\"{}ractangle.\+hpp\char`\"{}}
+{\ttfamily \#include \char`\"{}rectangle.\+hpp\char`\"{}}
 
 Inheritance diagram for Rectangle$<$ T $>$\+:\begin{figure}[H]
 \begin{center}
@@ -13,24 +13,52 @@ Inheritance diagram for Rectangle$<$ T $>$\+:\begin{figure}[H]
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classRectangle_ac286ca610cf35b12f3fd1636312cb1ce}{Rectengle}} ()
+\mbox{\hyperlink{classRectangle_a9d9da3fc8bcb125516cbf2d711d325eb}{Rectangle}} ()
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classA}{A}} basic constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classRectangle_a34cf921863291153b40d9b447f812aa4}{Rectangle}} (\mbox{\hyperlink{classRectangle}{Rectangle}} \&\&)=default
 \item 
-\mbox{\hyperlink{classRectangle_aae13f4d97815a0226a06befa16719094}{Rectengle}} (Rectengle \&\&)=default
+\mbox{\hyperlink{classRectangle}{Rectangle}} \& \mbox{\hyperlink{classRectangle_ab53b617f14505834f525ec614ccce5c8}{operator=}} (\mbox{\hyperlink{classRectangle}{Rectangle}} \&\&)=default
 \item 
-\mbox{\hyperlink{classRectangle_ac286ca610cf35b12f3fd1636312cb1ce}{Rectengle}} \& \mbox{\hyperlink{classRectangle_aa73d8d9047a77ee51854d578edffe9c3}{operator=}} (\mbox{\hyperlink{classRectangle_ac286ca610cf35b12f3fd1636312cb1ce}{Rectengle}} \&\&)=default
+\mbox{\hyperlink{classRectangle_acf27dae8f7c9a022428bda816903db2e}{Rectangle}} (const \mbox{\hyperlink{classRectangle}{Rectangle}} \&)=default
 \item 
-\mbox{\hyperlink{classRectangle_a5937069e17ab47587f0104a1ce2e493b}{Rectengle}} (const Rectengle \&)=default
+\mbox{\hyperlink{classRectangle}{Rectangle}} \& \mbox{\hyperlink{classRectangle_ad0a038c8959e5bde09bf1e8f49980bea}{operator=}} (const \mbox{\hyperlink{classRectangle}{Rectangle}} \&)=default
 \item 
-\mbox{\hyperlink{classRectangle_ac286ca610cf35b12f3fd1636312cb1ce}{Rectengle}} \& \mbox{\hyperlink{classRectangle_a5d30fb9cc735b658d47707cf954a3827}{operator=}} (const \mbox{\hyperlink{classRectangle_ac286ca610cf35b12f3fd1636312cb1ce}{Rectengle}} \&)=default
-\item 
-float \mbox{\hyperlink{classRectangle_a22d415e8360e3bf565745b8bf4625cc5}{perimeter}} ()
+T \mbox{\hyperlink{classRectangle_a9c59dcb7376296711ad86e2da924d3c8}{perimeter}} ()
 \end{DoxyCompactItemize}
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 void \mbox{\hyperlink{classRectangle_a0f9d67fb9478883f067c47cdc7bf7bca}{generate\+\_\+vertexes}} ()
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Sets all four vertexes in correct order. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classRectangle_a9d9da3fc8bcb125516cbf2d711d325eb}\label{classRectangle_a9d9da3fc8bcb125516cbf2d711d325eb}} 
+\index{Rectangle@{Rectangle}!Rectangle@{Rectangle}}
+\index{Rectangle@{Rectangle}!Rectangle@{Rectangle}}
+\subsubsection{\texorpdfstring{Rectangle()}{Rectangle()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{classRectangle}{Rectangle}}$<$ T $>$\+::\mbox{\hyperlink{classRectangle}{Rectangle}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{classA}{A}} basic constructor. 
+
+Constructor generates vertexes, initializes buffers and generates opengl buffers \mbox{\Hypertarget{classRectangle_a34cf921863291153b40d9b447f812aa4}\label{classRectangle_a34cf921863291153b40d9b447f812aa4}} 
+\index{Rectangle@{Rectangle}!Rectangle@{Rectangle}}
+\index{Rectangle@{Rectangle}!Rectangle@{Rectangle}}
+\subsubsection{\texorpdfstring{Rectangle()}{Rectangle()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$typename T  = float$>$ \\
+\mbox{\hyperlink{classRectangle}{Rectangle}}$<$ T $>$\+::\mbox{\hyperlink{classRectangle}{Rectangle}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classRectangle}{Rectangle}}$<$ T $>$ \&\&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+\mbox{\Hypertarget{classRectangle_acf27dae8f7c9a022428bda816903db2e}\label{classRectangle_acf27dae8f7c9a022428bda816903db2e}} 
+\index{Rectangle@{Rectangle}!Rectangle@{Rectangle}}
+\index{Rectangle@{Rectangle}!Rectangle@{Rectangle}}
+\subsubsection{\texorpdfstring{Rectangle()}{Rectangle()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$typename T  = float$>$ \\
+\mbox{\hyperlink{classRectangle}{Rectangle}}$<$ T $>$\+::\mbox{\hyperlink{classRectangle}{Rectangle}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classRectangle}{Rectangle}}$<$ T $>$ \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
 
 
 \subsection{Member Function Documentation}
@@ -38,53 +66,36 @@ void \mbox{\hyperlink{classRectangle_a0f9d67fb9478883f067c47cdc7bf7bca}{generate
 \index{Rectangle@{Rectangle}!generate\+\_\+vertexes@{generate\+\_\+vertexes}}
 \index{generate\+\_\+vertexes@{generate\+\_\+vertexes}!Rectangle@{Rectangle}}
 \subsubsection{\texorpdfstring{generate\+\_\+vertexes()}{generate\_vertexes()}}
-{\footnotesize\ttfamily template$<$R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+PE T$>$ \\
+{\footnotesize\ttfamily template$<$typename T $>$ \\
 void \mbox{\hyperlink{classRectangle}{Rectangle}}$<$ T $>$\+::generate\+\_\+vertexes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
-\mbox{\Hypertarget{classRectangle_aa73d8d9047a77ee51854d578edffe9c3}\label{classRectangle_aa73d8d9047a77ee51854d578edffe9c3}} 
+
+
+Sets all four vertexes in correct order. 
+
+\mbox{\Hypertarget{classRectangle_ab53b617f14505834f525ec614ccce5c8}\label{classRectangle_ab53b617f14505834f525ec614ccce5c8}} 
 \index{Rectangle@{Rectangle}!operator=@{operator=}}
 \index{operator=@{operator=}!Rectangle@{Rectangle}}
 \subsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily template$<$R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+PE T = R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR$>$ \\
-\mbox{\hyperlink{classRectangle_ac286ca610cf35b12f3fd1636312cb1ce}{Rectengle}}\& \mbox{\hyperlink{classRectangle}{Rectangle}}$<$ T $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classRectangle_ac286ca610cf35b12f3fd1636312cb1ce}{Rectengle}} \&\&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+{\footnotesize\ttfamily template$<$typename T  = float$>$ \\
+\mbox{\hyperlink{classRectangle}{Rectangle}}\& \mbox{\hyperlink{classRectangle}{Rectangle}}$<$ T $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classRectangle}{Rectangle}}$<$ T $>$ \&\&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
 
-\mbox{\Hypertarget{classRectangle_a5d30fb9cc735b658d47707cf954a3827}\label{classRectangle_a5d30fb9cc735b658d47707cf954a3827}} 
+\mbox{\Hypertarget{classRectangle_ad0a038c8959e5bde09bf1e8f49980bea}\label{classRectangle_ad0a038c8959e5bde09bf1e8f49980bea}} 
 \index{Rectangle@{Rectangle}!operator=@{operator=}}
 \index{operator=@{operator=}!Rectangle@{Rectangle}}
 \subsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily template$<$R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+PE T = R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR$>$ \\
-\mbox{\hyperlink{classRectangle_ac286ca610cf35b12f3fd1636312cb1ce}{Rectengle}}\& \mbox{\hyperlink{classRectangle}{Rectangle}}$<$ T $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classRectangle_ac286ca610cf35b12f3fd1636312cb1ce}{Rectengle}} \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+{\footnotesize\ttfamily template$<$typename T  = float$>$ \\
+\mbox{\hyperlink{classRectangle}{Rectangle}}\& \mbox{\hyperlink{classRectangle}{Rectangle}}$<$ T $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classRectangle}{Rectangle}}$<$ T $>$ \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
 
-\mbox{\Hypertarget{classRectangle_a22d415e8360e3bf565745b8bf4625cc5}\label{classRectangle_a22d415e8360e3bf565745b8bf4625cc5}} 
+\mbox{\Hypertarget{classRectangle_a9c59dcb7376296711ad86e2da924d3c8}\label{classRectangle_a9c59dcb7376296711ad86e2da924d3c8}} 
 \index{Rectangle@{Rectangle}!perimeter@{perimeter}}
 \index{perimeter@{perimeter}!Rectangle@{Rectangle}}
 \subsubsection{\texorpdfstring{perimeter()}{perimeter()}}
-{\footnotesize\ttfamily template$<$R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+PE T = R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR$>$ \\
-float \mbox{\hyperlink{classRectangle}{Rectangle}}$<$ T $>$\+::perimeter (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classRectangle_ac286ca610cf35b12f3fd1636312cb1ce}\label{classRectangle_ac286ca610cf35b12f3fd1636312cb1ce}} 
-\index{Rectangle@{Rectangle}!Rectengle@{Rectengle}}
-\index{Rectengle@{Rectengle}!Rectangle@{Rectangle}}
-\subsubsection{\texorpdfstring{Rectengle()}{Rectengle()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
-{\footnotesize\ttfamily template$<$R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+PE T = R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR$>$ \\
-\mbox{\hyperlink{classRectangle}{Rectangle}}$<$ T $>$\+::Rectengle (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classRectangle_aae13f4d97815a0226a06befa16719094}\label{classRectangle_aae13f4d97815a0226a06befa16719094}} 
-\index{Rectangle@{Rectangle}!Rectengle@{Rectengle}}
-\index{Rectengle@{Rectengle}!Rectangle@{Rectangle}}
-\subsubsection{\texorpdfstring{Rectengle()}{Rectengle()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
-{\footnotesize\ttfamily template$<$R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+PE T = R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR$>$ \\
-\mbox{\hyperlink{classRectangle}{Rectangle}}$<$ T $>$\+::Rectengle (\begin{DoxyParamCaption}\item[{Rectengle \&\&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
-
-\mbox{\Hypertarget{classRectangle_a5937069e17ab47587f0104a1ce2e493b}\label{classRectangle_a5937069e17ab47587f0104a1ce2e493b}} 
-\index{Rectangle@{Rectangle}!Rectengle@{Rectengle}}
-\index{Rectengle@{Rectengle}!Rectangle@{Rectangle}}
-\subsubsection{\texorpdfstring{Rectengle()}{Rectengle()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
-{\footnotesize\ttfamily template$<$R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+PE T = R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR$>$ \\
-\mbox{\hyperlink{classRectangle}{Rectangle}}$<$ T $>$\+::Rectengle (\begin{DoxyParamCaption}\item[{const Rectengle \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \mbox{\hyperlink{classRectangle}{Rectangle}}$<$ T $>$\+::perimeter (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-src/\mbox{\hyperlink{ractangle_8hpp}{ractangle.\+hpp}}\end{DoxyCompactItemize}
+src/\mbox{\hyperlink{rectangle_8hpp}{rectangle.\+hpp}}\end{DoxyCompactItemize}

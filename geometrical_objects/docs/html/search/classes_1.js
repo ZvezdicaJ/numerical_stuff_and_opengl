@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['circle',['Circle',['../classCircle.html',1,'']]]
+  ['box',['Box',['../classBox.html',1,'']]]
 ];

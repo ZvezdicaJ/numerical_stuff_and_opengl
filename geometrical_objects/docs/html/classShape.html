@@ -82,12 +82,15 @@ Inheritance diagram for Shape&lt; T &gt;:</div>
  <div class="center">
   <img src="classShape.png" usemap="#Shape_3C_20T_20_3E_map" alt=""/>
   <map id="Shape_3C_20T_20_3E_map" name="Shape_3C_20T_20_3E_map">
-<area href="classShape2D.html" alt="Shape2D&lt; T &gt;" shape="rect" coords="54,56,153,80"/>
-<area href="classShape3D.html" alt="Shape3D&lt; T &gt;" shape="rect" coords="272,56,371,80"/>
+<area href="classShape2D.html" alt="Shape2D&lt; T &gt;" shape="rect" coords="163,56,262,80"/>
+<area href="classShape3D.html" alt="Shape3D&lt; T &gt;" shape="rect" coords="545,56,644,80"/>
 <area href="classCircle.html" alt="Circle&lt; T &gt;" shape="rect" coords="0,112,99,136"/>
 <area href="classRectangle.html" alt="Rectangle&lt; T &gt;" shape="rect" coords="109,112,208,136"/>
-<area href="classBox.html" alt="Box&lt; T &gt;" shape="rect" coords="218,112,317,136"/>
-<area href="classSphere.html" alt="Sphere&lt; T &gt;" shape="rect" coords="327,112,426,136"/>
+<area href="classStar.html" alt="Star&lt; T &gt;" shape="rect" coords="218,112,317,136"/>
+<area href="classStar.html" alt="Star&lt; T &gt;" shape="rect" coords="327,112,426,136"/>
+<area href="classBox.html" alt="Box&lt; T &gt;" shape="rect" coords="436,112,535,136"/>
+<area href="classDisk.html" title="A class holding vertexes in the shape of a disk. " alt="Disk&lt; T &gt;" shape="rect" coords="545,112,644,136"/>
+<area href="classSphere.html" alt="Sphere&lt; T &gt;" shape="rect" coords="654,112,753,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -95,14 +98,18 @@ Inheritance diagram for Shape&lt; T &gt;:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ac5a35fe1b2ecb8fcfc050a31c8969805"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#ac5a35fe1b2ecb8fcfc050a31c8969805">set_min_number_of_vertexes</a> (unsigned num)</td></tr>
 <tr class="separator:ac5a35fe1b2ecb8fcfc050a31c8969805"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8bfb8a1ffec754467cd6c0c860d771aa"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#a8bfb8a1ffec754467cd6c0c860d771aa">set_vertex_colors</a> (std::vector&lt; float &gt; &amp;colors_)</td></tr>
-<tr class="separator:a8bfb8a1ffec754467cd6c0c860d771aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97dc716e0035f2cd92669f53c31fce64"><td class="memItemLeft" align="right" valign="top">std::vector&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#a97dc716e0035f2cd92669f53c31fce64">get_vertexes</a> ()</td></tr>
-<tr class="separator:a97dc716e0035f2cd92669f53c31fce64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69dabd50440dba1ac463ad6819cdb506"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#a69dabd50440dba1ac463ad6819cdb506">set_vertex_colors</a> (<a class="el" href="type__definitions_8hpp.html#accb98a876f193a416d9c8a02fe22d526">aligned_vector</a>&lt; float &gt; &amp;colors_)</td></tr>
+<tr class="separator:a69dabd50440dba1ac463ad6819cdb506"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3729bbdd0c4e4f3379498734807bb545"><td class="memItemLeft" align="right" valign="top"><a class="el" href="type__definitions_8hpp.html#accb98a876f193a416d9c8a02fe22d526">aligned_vector</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#a3729bbdd0c4e4f3379498734807bb545">get_vertexes</a> ()</td></tr>
+<tr class="separator:a3729bbdd0c4e4f3379498734807bb545"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabe9bd208b0ece9824cb45deccc11ba7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="type__definitions_8hpp.html#accb98a876f193a416d9c8a02fe22d526">aligned_vector</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#aabe9bd208b0ece9824cb45deccc11ba7">get_colors</a> ()</td></tr>
+<tr class="separator:aabe9bd208b0ece9824cb45deccc11ba7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a131e85c7f5cad85bffb92e6719117cab"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#a131e85c7f5cad85bffb92e6719117cab">num_vertexes</a> ()</td></tr>
 <tr class="separator:a131e85c7f5cad85bffb92e6719117cab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58713d8cf7c4175e7c76eae75c94bc13"><td class="memItemLeft" align="right" valign="top">virtual unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#a58713d8cf7c4175e7c76eae75c94bc13">get_vertex_size</a> ()</td></tr>
 <tr class="separator:a58713d8cf7c4175e7c76eae75c94bc13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabeb601fe95b412987d5b5c276bf8a7a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#aabeb601fe95b412987d5b5c276bf8a7a">generate_random_colors</a> ()</td></tr>
+<tr class="separator:aabeb601fe95b412987d5b5c276bf8a7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -113,10 +120,12 @@ Protected Member Functions</h2></td></tr>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:a7cf9cc243cdd64215eca4d81704c7199"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#a7cf9cc243cdd64215eca4d81704c7199">vertex_size</a> = 0</td></tr>
 <tr class="separator:a7cf9cc243cdd64215eca4d81704c7199"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a287b18bbc1e2f704d275c34dec0a5fe9"><td class="memItemLeft" align="right" valign="top">std::vector&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#a287b18bbc1e2f704d275c34dec0a5fe9">vertexes</a></td></tr>
-<tr class="separator:a287b18bbc1e2f704d275c34dec0a5fe9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae688726fdcf8fe1057614bd5d58544c1"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#ae688726fdcf8fe1057614bd5d58544c1">element_array</a></td></tr>
-<tr class="separator:ae688726fdcf8fe1057614bd5d58544c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50296217cf654fc7b756b67a2f0305c2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="type__definitions_8hpp.html#accb98a876f193a416d9c8a02fe22d526">aligned_vector</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#a50296217cf654fc7b756b67a2f0305c2">vertexes</a></td></tr>
+<tr class="separator:a50296217cf654fc7b756b67a2f0305c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a851fcb33238286342f670d27443ffdfc"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#a851fcb33238286342f670d27443ffdfc">draw_type</a></td></tr>
+<tr class="separator:a851fcb33238286342f670d27443ffdfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:accef3084e7e3897e01806b90da0a0ec8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="type__definitions_8hpp.html#accb98a876f193a416d9c8a02fe22d526">aligned_vector</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#accef3084e7e3897e01806b90da0a0ec8">element_array</a></td></tr>
+<tr class="separator:accef3084e7e3897e01806b90da0a0ec8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a216866713d16c882a0f0b0b0a89d350d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#a216866713d16c882a0f0b0b0a89d350d">colors_loaded</a></td></tr>
 <tr class="separator:a216866713d16c882a0f0b0b0a89d350d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ca89aadcd89bb475d6ca88acf733ce6"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#a5ca89aadcd89bb475d6ca88acf733ce6">VBO</a></td></tr>
@@ -129,8 +138,8 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a66502f6f87b46a705d131dc7b0b67d42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acb30d3bdd3434dc2cb3074a4d61985ed"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#acb30d3bdd3434dc2cb3074a4d61985ed">min_vertexes</a> = 5</td></tr>
 <tr class="separator:acb30d3bdd3434dc2cb3074a4d61985ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5775a78d38dcbd0dd2306a998526b52c"><td class="memItemLeft" align="right" valign="top">std::vector&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#a5775a78d38dcbd0dd2306a998526b52c">vertex_colors</a></td></tr>
-<tr class="separator:a5775a78d38dcbd0dd2306a998526b52c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1590ef02d7090f28d1ad312fd46f5030"><td class="memItemLeft" align="right" valign="top"><a class="el" href="type__definitions_8hpp.html#accb98a876f193a416d9c8a02fe22d526">aligned_vector</a>&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#a1590ef02d7090f28d1ad312fd46f5030">vertex_colors</a></td></tr>
+<tr class="separator:a1590ef02d7090f28d1ad312fd46f5030"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -140,6 +149,8 @@ Friends</h2></td></tr>
 <tr class="separator:a29e514c040e0781bfa2e08bcde4a7557"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad57e4dd441b60269c43114f31ffa6085"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#ad57e4dd441b60269c43114f31ffa6085">draw_wireframe</a> (<a class="el" href="classShape.html">Shape</a>&lt; T &gt; &amp;shape, <a class="el" href="classShader.html">Shader</a>&lt; <a class="el" href="render_8hpp.html#a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed">RENDER_TYPE::UNIFORM_COLOR</a> &gt; &amp;shader_object, std::array&lt; float, 3 &gt; scale, std::array&lt; float, 3 &gt; position, std::array&lt; float, 3 &gt; rotation_axis, float angle, glm::vec4)</td></tr>
 <tr class="separator:ad57e4dd441b60269c43114f31ffa6085"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaff31c90cf40c78284454009c9fe0966"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#aaff31c90cf40c78284454009c9fe0966">draw_2d_object</a> (<a class="el" href="classShape.html">Shape</a>&lt; T &gt; &amp;shape, <a class="el" href="classShader.html">Shader</a>&lt; <a class="el" href="render_8hpp.html#a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed">RENDER_TYPE::UNIFORM_COLOR</a> &gt; &amp;shader_object, std::array&lt; float, 3 &gt; scale, std::array&lt; float, 3 &gt; position, std::array&lt; float, 3 &gt; rotation_axis, float angle, glm::vec4)</td></tr>
+<tr class="separator:aaff31c90cf40c78284454009c9fe0966"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename T&gt;<br />
@@ -147,6 +158,60 @@ class Shape&lt; T &gt;</h3>
 
 <p>virtual base class @ </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="aabeb601fe95b412987d5b5c276bf8a7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabeb601fe95b412987d5b5c276bf8a7a">&#9670;&nbsp;</a></span>generate_random_colors()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classShape.html">Shape</a>&lt; T &gt;::generate_random_colors </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aabe9bd208b0ece9824cb45deccc11ba7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabe9bd208b0ece9824cb45deccc11ba7">&#9670;&nbsp;</a></span>get_colors()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="type__definitions_8hpp.html#accb98a876f193a416d9c8a02fe22d526">aligned_vector</a>&lt;T&gt; <a class="el" href="classShape.html">Shape</a>&lt; T &gt;::get_colors </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a58713d8cf7c4175e7c76eae75c94bc13"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a58713d8cf7c4175e7c76eae75c94bc13">&#9670;&nbsp;</a></span>get_vertex_size()</h2>
 
@@ -174,8 +239,8 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="a97dc716e0035f2cd92669f53c31fce64"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a97dc716e0035f2cd92669f53c31fce64">&#9670;&nbsp;</a></span>get_vertexes()</h2>
+<a id="a3729bbdd0c4e4f3379498734807bb545"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3729bbdd0c4e4f3379498734807bb545">&#9670;&nbsp;</a></span>get_vertexes()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -186,7 +251,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;T&gt; <a class="el" href="classShape.html">Shape</a>&lt; T &gt;::get_vertexes </td>
+          <td class="memname"><a class="el" href="type__definitions_8hpp.html#accb98a876f193a416d9c8a02fe22d526">aligned_vector</a>&lt;T&gt; <a class="el" href="classShape.html">Shape</a>&lt; T &gt;::get_vertexes </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -283,8 +348,8 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="a8bfb8a1ffec754467cd6c0c860d771aa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8bfb8a1ffec754467cd6c0c860d771aa">&#9670;&nbsp;</a></span>set_vertex_colors()</h2>
+<a id="a69dabd50440dba1ac463ad6819cdb506"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69dabd50440dba1ac463ad6819cdb506">&#9670;&nbsp;</a></span>set_vertex_colors()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -297,7 +362,7 @@ template&lt;typename T&gt; </div>
         <tr>
           <td class="memname">virtual void <a class="el" href="classShape.html">Shape</a>&lt; T &gt;::set_vertex_colors </td>
           <td>(</td>
-          <td class="paramtype">std::vector&lt; float &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="type__definitions_8hpp.html#accb98a876f193a416d9c8a02fe22d526">aligned_vector</a>&lt; float &gt; &amp;&#160;</td>
           <td class="paramname"><em>colors_</em></td><td>)</td>
           <td></td>
         </tr>
@@ -345,7 +410,7 @@ template&lt;typename T&gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::array&lt; float, 3 &gt;&#160;</td>
-          <td class="paramname"><em>position</em> = <code>{0,&#160;0,&#160;0}</code>, </td>
+          <td class="paramname"><em>position</em> = <code>{0,&#160;0,&#160;1}</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -413,7 +478,7 @@ template&lt;typename T&gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::array&lt; float, 3 &gt;&#160;</td>
-          <td class="paramname"><em>position</em> = <code>{0,&#160;0,&#160;0}</code>, </td>
+          <td class="paramname"><em>position</em> = <code>{0,&#160;0,&#160;1}</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -426,6 +491,74 @@ template&lt;typename T&gt; </div>
           <td></td>
           <td class="paramtype">float&#160;</td>
           <td class="paramname"><em>angle</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaff31c90cf40c78284454009c9fe0966"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaff31c90cf40c78284454009c9fe0966">&#9670;&nbsp;</a></span>draw_2d_object</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void draw_2d_object </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classShape.html">Shape</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>shape</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classShader.html">Shader</a>&lt; <a class="el" href="render_8hpp.html#a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed">RENDER_TYPE::UNIFORM_COLOR</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>shader_object</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::array&lt; float, 3 &gt;&#160;</td>
+          <td class="paramname"><em>scale</em> = <code>{0.5,&#160;0.5,&#160;0.5}</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::array&lt; float, 3 &gt;&#160;</td>
+          <td class="paramname"><em>position</em> = <code>{0,&#160;0,&#160;1}</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::array&lt; float, 3 &gt;&#160;</td>
+          <td class="paramname"><em>rotation_axis</em> = <code>{0,&#160;0,&#160;1}</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>angle</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">glm::vec4&#160;</td>
+          <td class="paramname"><em>color</em> = <code>{0.5,&#160;0.5,&#160;0.5,&#160;0.5}</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -475,7 +608,7 @@ template&lt;typename T&gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::array&lt; float, 3 &gt;&#160;</td>
-          <td class="paramname"><em>position</em> = <code>{0,&#160;0,&#160;0}</code>, </td>
+          <td class="paramname"><em>position</em> = <code>{0,&#160;0,&#160;1}</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -561,6 +694,31 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
+<a id="a851fcb33238286342f670d27443ffdfc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a851fcb33238286342f670d27443ffdfc">&#9670;&nbsp;</a></span>draw_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char <a class="el" href="classShape.html">Shape</a>&lt; T &gt;::draw_type</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>this can either be 'E' or 'V', depending on wheather to draw elements (element buffer) or vertexes (vertex buffer object) </p>
+
+</div>
+</div>
 <a id="a95c775e548b129e23d2dd32e23fb0f3e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a95c775e548b129e23d2dd32e23fb0f3e">&#9670;&nbsp;</a></span>EBO</h2>
 
@@ -586,8 +744,8 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="ae688726fdcf8fe1057614bd5d58544c1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae688726fdcf8fe1057614bd5d58544c1">&#9670;&nbsp;</a></span>element_array</h2>
+<a id="accef3084e7e3897e01806b90da0a0ec8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#accef3084e7e3897e01806b90da0a0ec8">&#9670;&nbsp;</a></span>element_array</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -598,7 +756,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;int&gt; <a class="el" href="classShape.html">Shape</a>&lt; T &gt;::element_array</td>
+          <td class="memname"><a class="el" href="type__definitions_8hpp.html#accb98a876f193a416d9c8a02fe22d526">aligned_vector</a>&lt;int&gt; <a class="el" href="classShape.html">Shape</a>&lt; T &gt;::element_array</td>
         </tr>
       </table>
   </td>
@@ -685,8 +843,8 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="a5775a78d38dcbd0dd2306a998526b52c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5775a78d38dcbd0dd2306a998526b52c">&#9670;&nbsp;</a></span>vertex_colors</h2>
+<a id="a1590ef02d7090f28d1ad312fd46f5030"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1590ef02d7090f28d1ad312fd46f5030">&#9670;&nbsp;</a></span>vertex_colors</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -697,7 +855,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;float&gt; <a class="el" href="classShape.html">Shape</a>&lt; T &gt;::vertex_colors</td>
+          <td class="memname"><a class="el" href="type__definitions_8hpp.html#accb98a876f193a416d9c8a02fe22d526">aligned_vector</a>&lt;float&gt; <a class="el" href="classShape.html">Shape</a>&lt; T &gt;::vertex_colors</td>
         </tr>
       </table>
   </td>
@@ -733,8 +891,8 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="a287b18bbc1e2f704d275c34dec0a5fe9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a287b18bbc1e2f704d275c34dec0a5fe9">&#9670;&nbsp;</a></span>vertexes</h2>
+<a id="a50296217cf654fc7b756b67a2f0305c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50296217cf654fc7b756b67a2f0305c2">&#9670;&nbsp;</a></span>vertexes</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -745,7 +903,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;T&gt; <a class="el" href="classShape.html">Shape</a>&lt; T &gt;::vertexes</td>
+          <td class="memname"><a class="el" href="type__definitions_8hpp.html#accb98a876f193a416d9c8a02fe22d526">aligned_vector</a>&lt;T&gt; <a class="el" href="classShape.html">Shape</a>&lt; T &gt;::vertexes</td>
         </tr>
       </table>
   </td>
