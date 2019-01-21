@@ -2,6 +2,11 @@
 \label{classShader}\index{Shader$<$ T $>$@{Shader$<$ T $>$}}
 
 
+Class for shaders. \mbox{\hyperlink{classThis}{This}} class compiles three shaders, one for each dimension.  
+
+
+
+
 {\ttfamily \#include \char`\"{}shader\+\_\+class.\+hpp\char`\"{}}
 
 \subsection*{Public Member Functions}
@@ -25,9 +30,9 @@ unsigned \mbox{\hyperlink{classShader_a2c19b216850480109f9d5f7ed6ab6aa6}{get\+\_
 void \mbox{\hyperlink{classShader_a1176d69a08aef6df3b7850104871a839}{compile\+\_\+shaders}} ()
 \item 
 {\footnotesize template$<$$>$ }\\void \mbox{\hyperlink{classShader_a3ffd553eceda4e9d5a1d8b4a5a157659}{compile\+\_\+shaders}} ()
-\item 
+\begin{DoxyCompactList}\small\item\em Constructor compiles shaders and tests them. \end{DoxyCompactList}\item 
 {\footnotesize template$<$$>$ }\\void \mbox{\hyperlink{classShader_ae486635d367b6054482c56747ed74846}{compile\+\_\+shaders}} ()
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Constructor compiles shaders and tests them. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -36,6 +41,14 @@ unsigned \mbox{\hyperlink{classShader_af8ec4edd2b1b56f32ce416280ff9b9e1}{shader\
 bool \mbox{\hyperlink{classShader_a057162ea090f838f7fbb658cb301efc4}{shaders\+\_\+compiled}} \mbox{[}3\mbox{]}
 \end{DoxyCompactItemize}
 
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+PE T$>$\newline
+class Shader$<$ T $>$}
+
+Class for shaders. \mbox{\hyperlink{classThis}{This}} class compiles three shaders, one for each dimension. 
+
+Class can either be U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR or C\+U\+S\+T\+O\+M\+\_\+\+C\+O\+L\+OR class. The difference is in shaders they compile. The first one compiles shader which assigns a single color to all vertexes. The latter assigns seprate color to each vertex. 
 
 \subsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{classShader_a02faa1d7140779d7a24e06d1aff58d68}\label{classShader_a02faa1d7140779d7a24e06d1aff58d68}} 
@@ -76,12 +89,20 @@ void \mbox{\hyperlink{classShader}{Shader}}$<$ T $>$\+::compile\+\_\+shaders (\b
 {\footnotesize\ttfamily template$<$$>$ \\
 void \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$\+::compile\+\_\+shaders (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
 
+
+
+Constructor compiles shaders and tests them. 
+
 \mbox{\Hypertarget{classShader_ae486635d367b6054482c56747ed74846}\label{classShader_ae486635d367b6054482c56747ed74846}} 
 \index{Shader@{Shader}!compile\+\_\+shaders@{compile\+\_\+shaders}}
 \index{compile\+\_\+shaders@{compile\+\_\+shaders}!Shader@{Shader}}
 \subsubsection{\texorpdfstring{compile\+\_\+shaders()}{compile\_shaders()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
 {\footnotesize\ttfamily template$<$$>$ \\
 void \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60a9d34355b5a26c54b5dbab1e45245a6f4}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M\+\_\+\+C\+O\+L\+OR}} $>$\+::compile\+\_\+shaders (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+Constructor compiles shaders and tests them. 
 
 \mbox{\Hypertarget{classShader_a2c19b216850480109f9d5f7ed6ab6aa6}\label{classShader_a2c19b216850480109f9d5f7ed6ab6aa6}} 
 \index{Shader@{Shader}!get\+\_\+shader\+\_\+program@{get\+\_\+shader\+\_\+program}}

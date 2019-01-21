@@ -71,6 +71,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>2d star with various number of bulges  
+ <a href="classStar.html#details">More...</a></p>
+
 <p><code>#include &quot;<a class="el" href="star_8hpp_source.html">star.hpp</a>&quot;</code></p>
 <div class="dynheader">
 Inheritance diagram for Star&lt; T &gt;:</div>
@@ -123,6 +126,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ac5a35fe1b2ecb8fcfc050a31c8969805 inherit pub_methods_classShape"><td class="mdescLeft">&#160;</td><td class="mdescRight">As the name says, it sets minimal number of vertexes for a given shape.  <a href="classShape.html#ac5a35fe1b2ecb8fcfc050a31c8969805">More...</a><br /></td></tr>
 <tr class="separator:ac5a35fe1b2ecb8fcfc050a31c8969805 inherit pub_methods_classShape"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69dabd50440dba1ac463ad6819cdb506 inherit pub_methods_classShape"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#a69dabd50440dba1ac463ad6819cdb506">set_vertex_colors</a> (<a class="el" href="type__definitions_8hpp.html#accb98a876f193a416d9c8a02fe22d526">aligned_vector</a>&lt; float &gt; &amp;colors_)</td></tr>
+<tr class="memdesc:a69dabd50440dba1ac463ad6819cdb506 inherit pub_methods_classShape"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set color for each vertex.  <a href="classShape.html#a69dabd50440dba1ac463ad6819cdb506">More...</a><br /></td></tr>
 <tr class="separator:a69dabd50440dba1ac463ad6819cdb506 inherit pub_methods_classShape"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3729bbdd0c4e4f3379498734807bb545 inherit pub_methods_classShape"><td class="memItemLeft" align="right" valign="top"><a class="el" href="type__definitions_8hpp.html#accb98a876f193a416d9c8a02fe22d526">aligned_vector</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#a3729bbdd0c4e4f3379498734807bb545">get_vertexes</a> ()</td></tr>
 <tr class="separator:a3729bbdd0c4e4f3379498734807bb545 inherit pub_methods_classShape"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -149,9 +153,11 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:ac9ce42a8f7289484594f7f0ab5124849"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab46cbc7aca971bc1c07b8d4afe8fba37"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
 <tr class="memitem:ab46cbc7aca971bc1c07b8d4afe8fba37"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classStar.html#ab46cbc7aca971bc1c07b8d4afe8fba37">generate_vertexes</a> (int bulges, float <a class="el" href="classStar.html#a349e0820769da7e4f76aea0ad6002bf8">ratio</a>)</td></tr>
+<tr class="memdesc:ab46cbc7aca971bc1c07b8d4afe8fba37"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classThis.html">This</a> function generates vertexes for float version of the star. It's using sse instructions - requires appropriate cpu.  <a href="#ab46cbc7aca971bc1c07b8d4afe8fba37">More...</a><br /></td></tr>
 <tr class="separator:ab46cbc7aca971bc1c07b8d4afe8fba37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a85d8438cea72701a136b76f046ee95dd"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
 <tr class="memitem:a85d8438cea72701a136b76f046ee95dd"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classStar.html#a85d8438cea72701a136b76f046ee95dd">generate_vertexes</a> (int bulges, double <a class="el" href="classStar.html#a349e0820769da7e4f76aea0ad6002bf8">ratio</a>)</td></tr>
+<tr class="memdesc:a85d8438cea72701a136b76f046ee95dd"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classThis.html">This</a> function generates vertexes for double version of the star. It's using avx2 instructions - requires appropriate cpu.  <a href="#a85d8438cea72701a136b76f046ee95dd">More...</a><br /></td></tr>
 <tr class="separator:a85d8438cea72701a136b76f046ee95dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab46cbc7aca971bc1c07b8d4afe8fba37"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
 <tr class="memitem:ab46cbc7aca971bc1c07b8d4afe8fba37"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classStar.html#ab46cbc7aca971bc1c07b8d4afe8fba37">generate_vertexes</a> (int bulges, float <a class="el" href="classStar.html#a349e0820769da7e4f76aea0ad6002bf8">ratio</a>)</td></tr>
@@ -202,7 +208,12 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:a1590ef02d7090f28d1ad312fd46f5030 inherit pro_attribs_classShape"><td class="memItemLeft" align="right" valign="top"><a class="el" href="type__definitions_8hpp.html#accb98a876f193a416d9c8a02fe22d526">aligned_vector</a>&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#a1590ef02d7090f28d1ad312fd46f5030">vertex_colors</a></td></tr>
 <tr class="separator:a1590ef02d7090f28d1ad312fd46f5030 inherit pro_attribs_classShape"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename T = float&gt;<br />
+class Star&lt; T &gt;</h3>
+
+<p>2d star with various number of bulges </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a4be07c82320f781071409294614df4ae"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4be07c82320f781071409294614df4ae">&#9670;&nbsp;</a></span>Star() <span class="overload">[1/8]</span></h2>
 
@@ -564,6 +575,8 @@ template&lt;&gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p><a class="el" href="classThis.html">This</a> function generates vertexes for float version of the star. It's using sse instructions - requires appropriate cpu. </p>
+
 </div>
 </div>
 <a id="a85d8438cea72701a136b76f046ee95dd"></a>
@@ -640,6 +653,8 @@ template&lt;&gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p><a class="el" href="classThis.html">This</a> function generates vertexes for double version of the star. It's using avx2 instructions - requires appropriate cpu. </p>
+
 </div>
 </div>
 <a id="a7113d2808314f0aa2f5a87325f8c535d"></a>
@@ -670,36 +685,8 @@ template&lt;typename T  = float&gt; </div>
 
 </div>
 </div>
-<a id="a7113d2808314f0aa2f5a87325f8c535d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7113d2808314f0aa2f5a87325f8c535d">&#9670;&nbsp;</a></span>operator=() <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T  = float&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classStar.html">Star</a>&amp; <a class="el" href="classStar.html">Star</a>&lt; T &gt;::operator= </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classStar.html">Star</a>&lt; T &gt; &amp;&amp;&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">default</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a3507f157448e082ccfcadc4783f2610e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3507f157448e082ccfcadc4783f2610e">&#9670;&nbsp;</a></span>operator=() <span class="overload">[3/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3507f157448e082ccfcadc4783f2610e">&#9670;&nbsp;</a></span>operator=() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -713,6 +700,34 @@ template&lt;typename T  = float&gt; </div>
           <td class="memname"><a class="el" href="classStar.html">Star</a>&amp; <a class="el" href="classStar.html">Star</a>&lt; T &gt;::operator= </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classStar.html">Star</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7113d2808314f0aa2f5a87325f8c535d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7113d2808314f0aa2f5a87325f8c535d">&#9670;&nbsp;</a></span>operator=() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T  = float&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classStar.html">Star</a>&amp; <a class="el" href="classStar.html">Star</a>&lt; T &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classStar.html">Star</a>&lt; T &gt; &amp;&amp;&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>

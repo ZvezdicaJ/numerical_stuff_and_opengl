@@ -85,10 +85,10 @@ Inheritance diagram for Shape&lt; T &gt;:</div>
 <area href="classShape2D.html" title="This is a base class for all 2D shapes. " alt="Shape2D&lt; T &gt;" shape="rect" coords="163,56,262,80"/>
 <area href="classShape3D.html" title="This is a base class for all 3D shapes. " alt="Shape3D&lt; T &gt;" shape="rect" coords="545,56,644,80"/>
 <area href="classCircle.html" alt="Circle&lt; T &gt;" shape="rect" coords="0,112,99,136"/>
-<area href="classRectangle.html" alt="Rectangle&lt; T &gt;" shape="rect" coords="109,112,208,136"/>
-<area href="classStar.html" alt="Star&lt; T &gt;" shape="rect" coords="218,112,317,136"/>
-<area href="classStar.html" alt="Star&lt; T &gt;" shape="rect" coords="327,112,426,136"/>
-<area href="classBox.html" alt="Box&lt; T &gt;" shape="rect" coords="436,112,535,136"/>
+<area href="classRectangle.html" title="Class holding rectangle vertexes. " alt="Rectangle&lt; T &gt;" shape="rect" coords="109,112,208,136"/>
+<area href="classStar.html" title="2d star with various number of bulges " alt="Star&lt; T &gt;" shape="rect" coords="218,112,317,136"/>
+<area href="classStar.html" title="2d star with various number of bulges " alt="Star&lt; T &gt;" shape="rect" coords="327,112,426,136"/>
+<area href="classBox.html" title="3D box shape. " alt="Box&lt; T &gt;" shape="rect" coords="436,112,535,136"/>
 <area href="classDisk.html" title="A class holding vertexes in the shape of a disk. " alt="Disk&lt; T &gt;" shape="rect" coords="545,112,644,136"/>
 <area href="classSphere.html" alt="Sphere&lt; T &gt;" shape="rect" coords="654,112,753,136"/>
 </map>
@@ -100,6 +100,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ac5a35fe1b2ecb8fcfc050a31c8969805"><td class="mdescLeft">&#160;</td><td class="mdescRight">As the name says, it sets minimal number of vertexes for a given shape.  <a href="#ac5a35fe1b2ecb8fcfc050a31c8969805">More...</a><br /></td></tr>
 <tr class="separator:ac5a35fe1b2ecb8fcfc050a31c8969805"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69dabd50440dba1ac463ad6819cdb506"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#a69dabd50440dba1ac463ad6819cdb506">set_vertex_colors</a> (<a class="el" href="type__definitions_8hpp.html#accb98a876f193a416d9c8a02fe22d526">aligned_vector</a>&lt; float &gt; &amp;colors_)</td></tr>
+<tr class="memdesc:a69dabd50440dba1ac463ad6819cdb506"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set color for each vertex.  <a href="#a69dabd50440dba1ac463ad6819cdb506">More...</a><br /></td></tr>
 <tr class="separator:a69dabd50440dba1ac463ad6819cdb506"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3729bbdd0c4e4f3379498734807bb545"><td class="memItemLeft" align="right" valign="top"><a class="el" href="type__definitions_8hpp.html#accb98a876f193a416d9c8a02fe22d526">aligned_vector</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#a3729bbdd0c4e4f3379498734807bb545">get_vertexes</a> ()</td></tr>
 <tr class="separator:a3729bbdd0c4e4f3379498734807bb545"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -147,12 +148,16 @@ Protected Attributes</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
 <tr class="memitem:a0f7d9c8330ae4f062c6f569a7400e1f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#a0f7d9c8330ae4f062c6f569a7400e1f0">draw</a> (<a class="el" href="classShape.html">Shape</a>&lt; T &gt; &amp;, <a class="el" href="classShader.html">Shader</a>&lt; <a class="el" href="render_8hpp.html#a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed">RENDER_TYPE::UNIFORM_COLOR</a> &gt; &amp;, std::array&lt; float, 3 &gt;, std::array&lt; float, 3 &gt;, std::array&lt; float, 3 &gt;, float, glm::vec4)</td></tr>
+<tr class="memdesc:a0f7d9c8330ae4f062c6f569a7400e1f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">draw 2d and 3d shapes of uniform color.  <a href="#a0f7d9c8330ae4f062c6f569a7400e1f0">More...</a><br /></td></tr>
 <tr class="separator:a0f7d9c8330ae4f062c6f569a7400e1f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a29e514c040e0781bfa2e08bcde4a7557"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#a29e514c040e0781bfa2e08bcde4a7557">draw</a> (<a class="el" href="classShape.html">Shape</a>&lt; T &gt; &amp;, <a class="el" href="classShader.html">Shader</a>&lt; <a class="el" href="render_8hpp.html#a24e288e18eb7b6e01de7565001fedb60a9d34355b5a26c54b5dbab1e45245a6f4">RENDER_TYPE::CUSTOM_COLOR</a> &gt; &amp;, std::array&lt; float, 3 &gt;, std::array&lt; float, 3 &gt;, std::array&lt; float, 3 &gt;, float)</td></tr>
+<tr class="memdesc:a29e514c040e0781bfa2e08bcde4a7557"><td class="mdescLeft">&#160;</td><td class="mdescRight">draw 2d and 3d shapes of custom color - each vertex has it's own color.  <a href="#a29e514c040e0781bfa2e08bcde4a7557">More...</a><br /></td></tr>
 <tr class="separator:a29e514c040e0781bfa2e08bcde4a7557"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad57e4dd441b60269c43114f31ffa6085"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#ad57e4dd441b60269c43114f31ffa6085">draw_wireframe</a> (<a class="el" href="classShape.html">Shape</a>&lt; T &gt; &amp;shape, <a class="el" href="classShader.html">Shader</a>&lt; <a class="el" href="render_8hpp.html#a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed">RENDER_TYPE::UNIFORM_COLOR</a> &gt; &amp;shader_object, std::array&lt; float, 3 &gt; scale, std::array&lt; float, 3 &gt; position, std::array&lt; float, 3 &gt; rotation_axis, float angle, glm::vec4)</td></tr>
+<tr class="memdesc:ad57e4dd441b60269c43114f31ffa6085"><td class="mdescLeft">&#160;</td><td class="mdescRight">draw 2d and 3d shapes frame (not full triangles), of uniform color.  <a href="#ad57e4dd441b60269c43114f31ffa6085">More...</a><br /></td></tr>
 <tr class="separator:ad57e4dd441b60269c43114f31ffa6085"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaff31c90cf40c78284454009c9fe0966"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#aaff31c90cf40c78284454009c9fe0966">draw_2d_object</a> (<a class="el" href="classShape.html">Shape</a>&lt; T &gt; &amp;shape, <a class="el" href="classShader.html">Shader</a>&lt; <a class="el" href="render_8hpp.html#a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed">RENDER_TYPE::UNIFORM_COLOR</a> &gt; &amp;shader_object, std::array&lt; float, 3 &gt; scale, std::array&lt; float, 3 &gt; position, std::array&lt; float, 3 &gt; rotation_axis, float angle, glm::vec4)</td></tr>
+<tr class="memdesc:aaff31c90cf40c78284454009c9fe0966"><td class="mdescLeft">&#160;</td><td class="mdescRight">draw 2d shape filling of uniform color.  <a href="#aaff31c90cf40c78284454009c9fe0966">More...</a><br /></td></tr>
 <tr class="separator:aaff31c90cf40c78284454009c9fe0966"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -390,6 +395,14 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Set color for each vertex. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">colors_</td><td><a class="el" href="classA.html" title="This class holds vertexes and other data for a circle in xy plane. ">A</a> vector containing colors. 4 consequtive numbers form an rgb color value. Number of colors should be the same as the number of vertexes. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Function Documentation</h2>
@@ -459,6 +472,20 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>draw 2d and 3d shapes of uniform color. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">shape</td><td>An object of type class <a class="el" href="classShape.html" title="virtual base class for 2D and 3D shapes ">Shape</a> to be drawn </td></tr>
+    <tr><td class="paramname">shader_object</td><td>Object of type class Shader&lt;RENDER_TYPE::UNIFORM_COLOR&gt;, which contains correct shader. </td></tr>
+    <tr><td class="paramname">scale</td><td>sscales object in x,y and z directions. </td></tr>
+    <tr><td class="paramname">position</td><td>translate center of the object to coordinates specified by this vector. </td></tr>
+    <tr><td class="paramname">rotation_axis</td><td>axis around which object should be rotated. </td></tr>
+    <tr><td class="paramname">angle</td><td>Angle specifying how much to rotate the object. </td></tr>
+    <tr><td class="paramname">color</td><td>color of the shape - the same for all vertexes </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a29e514c040e0781bfa2e08bcde4a7557"></a>
@@ -520,6 +547,19 @@ template&lt;typename T&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>draw 2d and 3d shapes of custom color - each vertex has it's own color. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">shape</td><td>An object of type class <a class="el" href="classShape.html" title="virtual base class for 2D and 3D shapes ">Shape</a> to be drawn </td></tr>
+    <tr><td class="paramname">shader_object</td><td>Object of type class Shader&lt;RENDER_TYPE::UNIFORM_COLOR&gt;, which contains correct shader. </td></tr>
+    <tr><td class="paramname">scale</td><td>sscales object in x,y and z directions. </td></tr>
+    <tr><td class="paramname">position</td><td>translate center of the object to coordinates specified by this vector. </td></tr>
+    <tr><td class="paramname">rotation_axis</td><td>axis around which object should be rotated. </td></tr>
+    <tr><td class="paramname">angle</td><td>Angle specifying how much to rotate the object. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -589,6 +629,20 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>draw 2d shape filling of uniform color. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">shape</td><td>An object of type class <a class="el" href="classShape.html" title="virtual base class for 2D and 3D shapes ">Shape</a> to be drawn </td></tr>
+    <tr><td class="paramname">shader_object</td><td>Object of type class Shader&lt;RENDER_TYPE::UNIFORM_COLOR&gt;, which contains correct shader. </td></tr>
+    <tr><td class="paramname">scale</td><td>sscales object in x,y and z directions. </td></tr>
+    <tr><td class="paramname">position</td><td>translate center of the object to coordinates specified by this vector. </td></tr>
+    <tr><td class="paramname">rotation_axis</td><td>axis around which object should be rotated. </td></tr>
+    <tr><td class="paramname">angle</td><td>Angle specifying how much to rotate the object. </td></tr>
+    <tr><td class="paramname">color</td><td>color of the shape - the same for all vertexes </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="ad57e4dd441b60269c43114f31ffa6085"></a>
@@ -656,6 +710,20 @@ template&lt;typename T&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>draw 2d and 3d shapes frame (not full triangles), of uniform color. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">shape</td><td>An object of type class <a class="el" href="classShape.html" title="virtual base class for 2D and 3D shapes ">Shape</a> to be drawn </td></tr>
+    <tr><td class="paramname">shader_object</td><td>Object of type class Shader&lt;RENDER_TYPE::UNIFORM_COLOR&gt;, which contains correct shader. </td></tr>
+    <tr><td class="paramname">scale</td><td>sscales object in x,y and z directions. </td></tr>
+    <tr><td class="paramname">position</td><td>translate center of the object to coordinates specified by this vector. </td></tr>
+    <tr><td class="paramname">rotation_axis</td><td>axis around which object should be rotated. </td></tr>
+    <tr><td class="paramname">angle</td><td>Angle specifying how much to rotate the object. </td></tr>
+    <tr><td class="paramname">color</td><td>color of the shape - the same for all vertexes </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

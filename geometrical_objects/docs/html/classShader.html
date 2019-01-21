@@ -71,6 +71,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>Class for shaders. <a class="el" href="classThis.html">This</a> class compiles three shaders, one for each dimension.  
+ <a href="classShader.html#details">More...</a></p>
+
 <p><code>#include &quot;<a class="el" href="shader__class_8hpp_source.html">shader_class.hpp</a>&quot;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -94,9 +97,11 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:a1176d69a08aef6df3b7850104871a839"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ffd553eceda4e9d5a1d8b4a5a157659"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
 <tr class="memitem:a3ffd553eceda4e9d5a1d8b4a5a157659"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classShader.html#a3ffd553eceda4e9d5a1d8b4a5a157659">compile_shaders</a> ()</td></tr>
+<tr class="memdesc:a3ffd553eceda4e9d5a1d8b4a5a157659"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor compiles shaders and tests them.  <a href="#a3ffd553eceda4e9d5a1d8b4a5a157659">More...</a><br /></td></tr>
 <tr class="separator:a3ffd553eceda4e9d5a1d8b4a5a157659"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae486635d367b6054482c56747ed74846"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
 <tr class="memitem:ae486635d367b6054482c56747ed74846"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classShader.html#ae486635d367b6054482c56747ed74846">compile_shaders</a> ()</td></tr>
+<tr class="memdesc:ae486635d367b6054482c56747ed74846"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor compiles shaders and tests them.  <a href="#ae486635d367b6054482c56747ed74846">More...</a><br /></td></tr>
 <tr class="separator:ae486635d367b6054482c56747ed74846"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
@@ -106,7 +111,13 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a057162ea090f838f7fbb658cb301efc4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShader.html#a057162ea090f838f7fbb658cb301efc4">shaders_compiled</a> [3]</td></tr>
 <tr class="separator:a057162ea090f838f7fbb658cb301efc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;RENDER_TYPE T&gt;<br />
+class Shader&lt; T &gt;</h3>
+
+<p>Class for shaders. <a class="el" href="classThis.html">This</a> class compiles three shaders, one for each dimension. </p>
+<p>Class can either be UNIFORM_COLOR or CUSTOM_COLOR class. The difference is in shaders they compile. The first one compiles shader which assigns a single color to all vertexes. The latter assigns seprate color to each vertex. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a02faa1d7140779d7a24e06d1aff58d68"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a02faa1d7140779d7a24e06d1aff58d68">&#9670;&nbsp;</a></span>Shader() <span class="overload">[1/3]</span></h2>
 
@@ -243,6 +254,8 @@ template&lt;&gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Constructor compiles shaders and tests them. </p>
+
 </div>
 </div>
 <a id="ae486635d367b6054482c56747ed74846"></a>
@@ -269,6 +282,8 @@ template&lt;&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Constructor compiles shaders and tests them. </p>
 
 </div>
 </div>

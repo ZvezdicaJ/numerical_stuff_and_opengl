@@ -20,6 +20,18 @@ class Sphere : public Shape3D<T> {
         generate_vertexes();
         this->initialize_buffers();
     };
+
+    /** @brief A basic constructor for Sphere class.
+     *  @details The constructor generate vertexes and elements. Opengl buffers
+     * are also allocated and initiallized.
+     *  @param min_vertexes_ minimal number of vertexes to create sphere
+     */
+    Sphere(int min_vertexes_) {
+        this->vertex_size = 3;
+        this->min_vertexes = min_vertexes_;
+        generate_vertexes();
+        this->initialize_buffers();
+    };
     Sphere(Sphere &&) = default;
     Sphere &operator=(Sphere &&) = default;
     Sphere(const Sphere &) = default;
@@ -204,7 +216,7 @@ inline void Sphere<float>::generate_vertexes_helper() {
     }
     this->element_array = new_element_array;
     if (this->vertexes.size() < this->min_vertexes) {
-        std::cout << "recursive call to generate vertexes" << std::endl;
+        //std::cout << "recursive call to generate vertexes" << std::endl;
         generate_vertexes_helper();
     }
 

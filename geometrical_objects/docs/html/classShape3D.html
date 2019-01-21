@@ -80,7 +80,7 @@ Inheritance diagram for Shape3D&lt; T &gt;:</div>
   <img src="classShape3D.png" usemap="#Shape3D_3C_20T_20_3E_map" alt=""/>
   <map id="Shape3D_3C_20T_20_3E_map" name="Shape3D_3C_20T_20_3E_map">
 <area href="classShape.html" title="virtual base class for 2D and 3D shapes " alt="Shape&lt; T &gt;" shape="rect" coords="105,0,200,24"/>
-<area href="classBox.html" alt="Box&lt; T &gt;" shape="rect" coords="0,112,95,136"/>
+<area href="classBox.html" title="3D box shape. " alt="Box&lt; T &gt;" shape="rect" coords="0,112,95,136"/>
 <area href="classDisk.html" title="A class holding vertexes in the shape of a disk. " alt="Disk&lt; T &gt;" shape="rect" coords="105,112,200,136"/>
 <area href="classSphere.html" alt="Sphere&lt; T &gt;" shape="rect" coords="210,112,305,136"/>
 </map>
@@ -94,11 +94,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae3c7c5cca570561caf09868885bea389"><td class="memTemplItemLeft" align="right" valign="top">float&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classShape3D.html#ae3c7c5cca570561caf09868885bea389">area</a> ()</td></tr>
 <tr class="memdesc:ae3c7c5cca570561caf09868885bea389"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classThis.html">This</a> function calculates area of the given 3D shape.  <a href="#ae3c7c5cca570561caf09868885bea389">More...</a><br /></td></tr>
 <tr class="separator:ae3c7c5cca570561caf09868885bea389"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56f028736c84c6eb86f1d56e5a38c40d"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:a56f028736c84c6eb86f1d56e5a38c40d"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classShape3D.html#a56f028736c84c6eb86f1d56e5a38c40d">area</a> ()</td></tr>
+<tr class="memdesc:a56f028736c84c6eb86f1d56e5a38c40d"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classThis.html">This</a> function calculates area of the given 3D shape.  <a href="#a56f028736c84c6eb86f1d56e5a38c40d">More...</a><br /></td></tr>
+<tr class="separator:a56f028736c84c6eb86f1d56e5a38c40d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classShape"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classShape')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classShape.html">Shape&lt; T &gt;</a></td></tr>
 <tr class="memitem:ac5a35fe1b2ecb8fcfc050a31c8969805 inherit pub_methods_classShape"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#ac5a35fe1b2ecb8fcfc050a31c8969805">set_min_number_of_vertexes</a> (unsigned num)</td></tr>
 <tr class="memdesc:ac5a35fe1b2ecb8fcfc050a31c8969805 inherit pub_methods_classShape"><td class="mdescLeft">&#160;</td><td class="mdescRight">As the name says, it sets minimal number of vertexes for a given shape.  <a href="classShape.html#ac5a35fe1b2ecb8fcfc050a31c8969805">More...</a><br /></td></tr>
 <tr class="separator:ac5a35fe1b2ecb8fcfc050a31c8969805 inherit pub_methods_classShape"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69dabd50440dba1ac463ad6819cdb506 inherit pub_methods_classShape"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#a69dabd50440dba1ac463ad6819cdb506">set_vertex_colors</a> (<a class="el" href="type__definitions_8hpp.html#accb98a876f193a416d9c8a02fe22d526">aligned_vector</a>&lt; float &gt; &amp;colors_)</td></tr>
+<tr class="memdesc:a69dabd50440dba1ac463ad6819cdb506 inherit pub_methods_classShape"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set color for each vertex.  <a href="classShape.html#a69dabd50440dba1ac463ad6819cdb506">More...</a><br /></td></tr>
 <tr class="separator:a69dabd50440dba1ac463ad6819cdb506 inherit pub_methods_classShape"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3729bbdd0c4e4f3379498734807bb545 inherit pub_methods_classShape"><td class="memItemLeft" align="right" valign="top"><a class="el" href="type__definitions_8hpp.html#accb98a876f193a416d9c8a02fe22d526">aligned_vector</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#a3729bbdd0c4e4f3379498734807bb545">get_vertexes</a> ()</td></tr>
 <tr class="separator:a3729bbdd0c4e4f3379498734807bb545 inherit pub_methods_classShape"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -150,7 +155,7 @@ class Shape3D&lt; T &gt;</h3>
 <p>It inherits from <a class="el" href="classShape.html" title="virtual base class for 2D and 3D shapes ">Shape</a> class. Template parameter can either be float of double. It is meant to contain functions common to all 3D shapes - like area and volume. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="add8607daa60f43c6cb71e7162c107d71"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#add8607daa60f43c6cb71e7162c107d71">&#9670;&nbsp;</a></span>area() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#add8607daa60f43c6cb71e7162c107d71">&#9670;&nbsp;</a></span>area() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -169,7 +174,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="ae3c7c5cca570561caf09868885bea389"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae3c7c5cca570561caf09868885bea389">&#9670;&nbsp;</a></span>area() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3c7c5cca570561caf09868885bea389">&#9670;&nbsp;</a></span>area() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -181,6 +186,36 @@ template&lt;&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">float <a class="el" href="classShape3D.html">Shape3D</a>&lt; float &gt;::area </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="classThis.html">This</a> function calculates area of the given 3D shape. </p>
+<p>It sums the areas of all triangles. For each triangle it calculates the area using Heron formula. </p>
+
+</div>
+</div>
+<a id="a56f028736c84c6eb86f1d56e5a38c40d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56f028736c84c6eb86f1d56e5a38c40d">&#9670;&nbsp;</a></span>area() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double <a class="el" href="classShape3D.html">Shape3D</a>&lt; double &gt;::area </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>

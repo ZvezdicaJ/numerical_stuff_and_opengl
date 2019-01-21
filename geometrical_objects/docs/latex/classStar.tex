@@ -2,6 +2,11 @@
 \label{classStar}\index{Star$<$ T $>$@{Star$<$ T $>$}}
 
 
+2d star with various number of bulges  
+
+
+
+
 {\ttfamily \#include \char`\"{}star.\+hpp\char`\"{}}
 
 Inheritance diagram for Star$<$ T $>$\+:\begin{figure}[H]
@@ -54,15 +59,21 @@ void \mbox{\hyperlink{classStar_ac9ce42a8f7289484594f7f0ab5124849}{generate\+\_\
 void \mbox{\hyperlink{classStar_ac9ce42a8f7289484594f7f0ab5124849}{generate\+\_\+vertexes}} (int=10, T=0.\+5)
 \item 
 {\footnotesize template$<$$>$ }\\void \mbox{\hyperlink{classStar_ab46cbc7aca971bc1c07b8d4afe8fba37}{generate\+\_\+vertexes}} (int bulges, float \mbox{\hyperlink{classStar_a349e0820769da7e4f76aea0ad6002bf8}{ratio}})
-\item 
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classThis}{This}} function generates vertexes for float version of the star. It\textquotesingle{}s using sse instructions -\/ requires appropriate cpu. \end{DoxyCompactList}\item 
 {\footnotesize template$<$$>$ }\\void \mbox{\hyperlink{classStar_a85d8438cea72701a136b76f046ee95dd}{generate\+\_\+vertexes}} (int bulges, double \mbox{\hyperlink{classStar_a349e0820769da7e4f76aea0ad6002bf8}{ratio}})
-\item 
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classThis}{This}} function generates vertexes for double version of the star. It\textquotesingle{}s using avx2 instructions -\/ requires appropriate cpu. \end{DoxyCompactList}\item 
 {\footnotesize template$<$$>$ }\\void \mbox{\hyperlink{classStar_ab46cbc7aca971bc1c07b8d4afe8fba37}{generate\+\_\+vertexes}} (int bulges, float \mbox{\hyperlink{classStar_a349e0820769da7e4f76aea0ad6002bf8}{ratio}})
 \item 
 {\footnotesize template$<$$>$ }\\void \mbox{\hyperlink{classStar_a85d8438cea72701a136b76f046ee95dd}{generate\+\_\+vertexes}} (int bulges, double \mbox{\hyperlink{classStar_a349e0820769da7e4f76aea0ad6002bf8}{ratio}})
 \end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T = float$>$\newline
+class Star$<$ T $>$}
+
+2d star with various number of bulges 
 
 \subsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{classStar_a4be07c82320f781071409294614df4ae}\label{classStar_a4be07c82320f781071409294614df4ae}} 
@@ -152,6 +163,10 @@ void \mbox{\hyperlink{classStar}{Star}}$<$ float $>$\+::generate\+\_\+vertexes (
 {\footnotesize\ttfamily template$<$$>$ \\
 void \mbox{\hyperlink{classStar}{Star}}$<$ float $>$\+::generate\+\_\+vertexes (\begin{DoxyParamCaption}\item[{int}]{bulges,  }\item[{float}]{ratio }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
 
+
+
+\mbox{\hyperlink{classThis}{This}} function generates vertexes for float version of the star. It\textquotesingle{}s using sse instructions -\/ requires appropriate cpu. 
+
 \mbox{\Hypertarget{classStar_a85d8438cea72701a136b76f046ee95dd}\label{classStar_a85d8438cea72701a136b76f046ee95dd}} 
 \index{Star@{Star}!generate\+\_\+vertexes@{generate\+\_\+vertexes}}
 \index{generate\+\_\+vertexes@{generate\+\_\+vertexes}!Star@{Star}}
@@ -166,6 +181,10 @@ void \mbox{\hyperlink{classStar}{Star}}$<$ double $>$\+::generate\+\_\+vertexes 
 {\footnotesize\ttfamily template$<$$>$ \\
 void \mbox{\hyperlink{classStar}{Star}}$<$ double $>$\+::generate\+\_\+vertexes (\begin{DoxyParamCaption}\item[{int}]{bulges,  }\item[{double}]{ratio }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
 
+
+
+\mbox{\hyperlink{classThis}{This}} function generates vertexes for double version of the star. It\textquotesingle{}s using avx2 instructions -\/ requires appropriate cpu. 
+
 \mbox{\Hypertarget{classStar_a7113d2808314f0aa2f5a87325f8c535d}\label{classStar_a7113d2808314f0aa2f5a87325f8c535d}} 
 \index{Star@{Star}!operator=@{operator=}}
 \index{operator=@{operator=}!Star@{Star}}
@@ -173,19 +192,19 @@ void \mbox{\hyperlink{classStar}{Star}}$<$ double $>$\+::generate\+\_\+vertexes 
 {\footnotesize\ttfamily template$<$typename T  = float$>$ \\
 \mbox{\hyperlink{classStar}{Star}}\& \mbox{\hyperlink{classStar}{Star}}$<$ T $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classStar}{Star}}$<$ T $>$ \&\&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
 
-\mbox{\Hypertarget{classStar_a7113d2808314f0aa2f5a87325f8c535d}\label{classStar_a7113d2808314f0aa2f5a87325f8c535d}} 
+\mbox{\Hypertarget{classStar_a3507f157448e082ccfcadc4783f2610e}\label{classStar_a3507f157448e082ccfcadc4783f2610e}} 
 \index{Star@{Star}!operator=@{operator=}}
 \index{operator=@{operator=}!Star@{Star}}
 \subsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
 {\footnotesize\ttfamily template$<$typename T  = float$>$ \\
-\mbox{\hyperlink{classStar}{Star}}\& \mbox{\hyperlink{classStar}{Star}}$<$ T $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classStar}{Star}}$<$ T $>$ \&\&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+\mbox{\hyperlink{classStar}{Star}}\& \mbox{\hyperlink{classStar}{Star}}$<$ T $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classStar}{Star}}$<$ T $>$ \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
 
-\mbox{\Hypertarget{classStar_a3507f157448e082ccfcadc4783f2610e}\label{classStar_a3507f157448e082ccfcadc4783f2610e}} 
+\mbox{\Hypertarget{classStar_a7113d2808314f0aa2f5a87325f8c535d}\label{classStar_a7113d2808314f0aa2f5a87325f8c535d}} 
 \index{Star@{Star}!operator=@{operator=}}
 \index{operator=@{operator=}!Star@{Star}}
 \subsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
 {\footnotesize\ttfamily template$<$typename T  = float$>$ \\
-\mbox{\hyperlink{classStar}{Star}}\& \mbox{\hyperlink{classStar}{Star}}$<$ T $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classStar}{Star}}$<$ T $>$ \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+\mbox{\hyperlink{classStar}{Star}}\& \mbox{\hyperlink{classStar}{Star}}$<$ T $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classStar}{Star}}$<$ T $>$ \&\&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
 
 \mbox{\Hypertarget{classStar_a3507f157448e082ccfcadc4783f2610e}\label{classStar_a3507f157448e082ccfcadc4783f2610e}} 
 \index{Star@{Star}!operator=@{operator=}}

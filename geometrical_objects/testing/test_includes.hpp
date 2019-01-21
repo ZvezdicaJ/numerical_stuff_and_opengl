@@ -1,12 +1,6 @@
-
-#ifndef GLFW_INCLUDE_NONE
-#define GLFW_INCLUDE_NONE
-#endif
-
 #ifndef __glad_h_
 #include <glad/glad.h>
 #endif
-
 #include <GLFW/glfw3.h>
 #include <xmmintrin.h>
 #include <algorithm>
@@ -27,23 +21,22 @@
 #include <functional>
 #include <boost/align/aligned_allocator.hpp> // this is for aligned std::vector
 
-#include "type_definitions.hpp"
+#include "../src/type_definitions.hpp"
 
-#include "check_shaders.hpp"
-#include "shaders.hpp"
-#include "shader_class.hpp"
-#include "auxiliary_functions.hpp"
-#include "print_functions.hpp"
-#include "drawing_functions.hpp"
-#include "shape.hpp"
-#include "sphere.hpp"
-#include "circle.hpp"
-#include "rectangle.hpp"
-#include "star.hpp"
-#include "box.hpp"
-#include "disk.hpp"
-#include "display_functions.hpp"
+#include "../src/check_shaders.hpp"
+#include "../src/shaders.hpp"
+#include "../src/shader_class.hpp"
+#include "../src/auxiliary_functions.hpp"
+#include "../src/print_functions.hpp"
+#include "../src/drawing_functions.hpp"
+#include "../src/shape.hpp"
+#include "../src/sphere.hpp"
+#include "../src/circle.hpp"
+#include "../src/rectangle.hpp"
+#include "../src/box.hpp"
+#include "../src/star.hpp"
+#include "../src/disk.hpp"
+#include "../src/display_functions.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
-

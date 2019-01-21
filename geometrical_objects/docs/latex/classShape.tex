@@ -21,7 +21,7 @@ Inheritance diagram for Shape$<$ T $>$\+:\begin{figure}[H]
 virtual void \mbox{\hyperlink{classShape_ac5a35fe1b2ecb8fcfc050a31c8969805}{set\+\_\+min\+\_\+number\+\_\+of\+\_\+vertexes}} (unsigned num)
 \begin{DoxyCompactList}\small\item\em As the name says, it sets minimal number of vertexes for a given shape. \end{DoxyCompactList}\item 
 virtual void \mbox{\hyperlink{classShape_a69dabd50440dba1ac463ad6819cdb506}{set\+\_\+vertex\+\_\+colors}} (\mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$ float $>$ \&colors\+\_\+)
-\item 
+\begin{DoxyCompactList}\small\item\em Set color for each vertex. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$ T $>$ \mbox{\hyperlink{classShape_a3729bbdd0c4e4f3379498734807bb545}{get\+\_\+vertexes}} ()
 \item 
 \mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$ T $>$ \mbox{\hyperlink{classShape_aabe9bd208b0ece9824cb45deccc11ba7}{get\+\_\+colors}} ()
@@ -66,13 +66,13 @@ unsigned \mbox{\hyperlink{classShape_acb30d3bdd3434dc2cb3074a4d61985ed}{min\+\_\
 \begin{DoxyCompactItemize}
 \item 
 void \mbox{\hyperlink{classShape_a0f7d9c8330ae4f062c6f569a7400e1f0}{draw}} (\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&, \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&, std\+::array$<$ float, 3 $>$, std\+::array$<$ float, 3 $>$, std\+::array$<$ float, 3 $>$, float, glm\+::vec4)
-\item 
+\begin{DoxyCompactList}\small\item\em draw 2d and 3d shapes of uniform color. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classShape_a29e514c040e0781bfa2e08bcde4a7557}{draw}} (\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&, \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60a9d34355b5a26c54b5dbab1e45245a6f4}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&, std\+::array$<$ float, 3 $>$, std\+::array$<$ float, 3 $>$, std\+::array$<$ float, 3 $>$, float)
-\item 
+\begin{DoxyCompactList}\small\item\em draw 2d and 3d shapes of custom color -\/ each vertex has it\textquotesingle{}s own color. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classShape_ad57e4dd441b60269c43114f31ffa6085}{draw\+\_\+wireframe}} (\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&shape, \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&shader\+\_\+object, std\+::array$<$ float, 3 $>$ scale, std\+::array$<$ float, 3 $>$ position, std\+::array$<$ float, 3 $>$ rotation\+\_\+axis, float angle, glm\+::vec4)
-\item 
+\begin{DoxyCompactList}\small\item\em draw 2d and 3d shapes frame (not full triangles), of uniform color. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classShape_aaff31c90cf40c78284454009c9fe0966}{draw\+\_\+2d\+\_\+object}} (\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&shape, \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&shader\+\_\+object, std\+::array$<$ float, 3 $>$ scale, std\+::array$<$ float, 3 $>$ position, std\+::array$<$ float, 3 $>$ rotation\+\_\+axis, float angle, glm\+::vec4)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em draw 2d shape filling of uniform color. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -159,6 +159,15 @@ virtual void \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::set\+\_\+vertex\+\
 
 
 
+Set color for each vertex. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em colors\+\_\+} & \mbox{\hyperlink{classA}{A}} vector containing colors. 4 consequtive numbers form an rgb color value. Number of colors should be the same as the number of vertexes. \\
+\hline
+\end{DoxyParams}
+
+
 \subsection{Friends And Related Function Documentation}
 \mbox{\Hypertarget{classShape_a0f7d9c8330ae4f062c6f569a7400e1f0}\label{classShape_a0f7d9c8330ae4f062c6f569a7400e1f0}} 
 \index{Shape@{Shape}!draw@{draw}}
@@ -167,6 +176,27 @@ virtual void \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::set\+\_\+vertex\+\
 {\footnotesize\ttfamily template$<$typename T$>$ \\
 void draw (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&}]{shape,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&}]{shader\+\_\+object,  }\item[{std\+::array$<$ float, 3 $>$}]{scale = {\ttfamily \{0.5,~0.5,~0.5\}},  }\item[{std\+::array$<$ float, 3 $>$}]{position = {\ttfamily \{0,~0,~1\}},  }\item[{std\+::array$<$ float, 3 $>$}]{rotation\+\_\+axis = {\ttfamily \{0,~0,~1\}},  }\item[{float}]{angle = {\ttfamily 0},  }\item[{glm\+::vec4}]{color = {\ttfamily \{0.5,~0.5,~0.5,~0.5\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
 
+
+
+draw 2d and 3d shapes of uniform color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em shape} & An object of type class \mbox{\hyperlink{classShape}{Shape}} to be drawn \\
+\hline
+{\em shader\+\_\+object} & Object of type class Shader$<$\+R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+O\+R$>$, which contains correct shader. \\
+\hline
+{\em scale} & sscales object in x,y and z directions. \\
+\hline
+{\em position} & translate center of the object to coordinates specified by this vector. \\
+\hline
+{\em rotation\+\_\+axis} & axis around which object should be rotated. \\
+\hline
+{\em angle} & Angle specifying how much to rotate the object. \\
+\hline
+{\em color} & color of the shape -\/ the same for all vertexes \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{classShape_a29e514c040e0781bfa2e08bcde4a7557}\label{classShape_a29e514c040e0781bfa2e08bcde4a7557}} 
 \index{Shape@{Shape}!draw@{draw}}
 \index{draw@{draw}!Shape@{Shape}}
@@ -174,6 +204,25 @@ void draw (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShape}{Shape}}$<
 {\footnotesize\ttfamily template$<$typename T$>$ \\
 void draw (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&}]{shape,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60a9d34355b5a26c54b5dbab1e45245a6f4}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&}]{shader\+\_\+object,  }\item[{std\+::array$<$ float, 3 $>$}]{scale = {\ttfamily \{0.5,~0.5,~0.5\}},  }\item[{std\+::array$<$ float, 3 $>$}]{position = {\ttfamily \{0,~0,~1\}},  }\item[{std\+::array$<$ float, 3 $>$}]{rotation\+\_\+axis = {\ttfamily \{0,~0,~1\}},  }\item[{float}]{angle = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
 
+
+
+draw 2d and 3d shapes of custom color -\/ each vertex has it\textquotesingle{}s own color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em shape} & An object of type class \mbox{\hyperlink{classShape}{Shape}} to be drawn \\
+\hline
+{\em shader\+\_\+object} & Object of type class Shader$<$\+R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+O\+R$>$, which contains correct shader. \\
+\hline
+{\em scale} & sscales object in x,y and z directions. \\
+\hline
+{\em position} & translate center of the object to coordinates specified by this vector. \\
+\hline
+{\em rotation\+\_\+axis} & axis around which object should be rotated. \\
+\hline
+{\em angle} & Angle specifying how much to rotate the object. \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{classShape_aaff31c90cf40c78284454009c9fe0966}\label{classShape_aaff31c90cf40c78284454009c9fe0966}} 
 \index{Shape@{Shape}!draw\+\_\+2d\+\_\+object@{draw\+\_\+2d\+\_\+object}}
 \index{draw\+\_\+2d\+\_\+object@{draw\+\_\+2d\+\_\+object}!Shape@{Shape}}
@@ -181,6 +230,27 @@ void draw (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShape}{Shape}}$<
 {\footnotesize\ttfamily template$<$typename T$>$ \\
 void draw\+\_\+2d\+\_\+object (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&}]{shape,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&}]{shader\+\_\+object,  }\item[{std\+::array$<$ float, 3 $>$}]{scale = {\ttfamily \{0.5,~0.5,~0.5\}},  }\item[{std\+::array$<$ float, 3 $>$}]{position = {\ttfamily \{0,~0,~1\}},  }\item[{std\+::array$<$ float, 3 $>$}]{rotation\+\_\+axis = {\ttfamily \{0,~0,~1\}},  }\item[{float}]{angle = {\ttfamily 0},  }\item[{glm\+::vec4}]{color = {\ttfamily \{0.5,~0.5,~0.5,~0.5\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
 
+
+
+draw 2d shape filling of uniform color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em shape} & An object of type class \mbox{\hyperlink{classShape}{Shape}} to be drawn \\
+\hline
+{\em shader\+\_\+object} & Object of type class Shader$<$\+R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+O\+R$>$, which contains correct shader. \\
+\hline
+{\em scale} & sscales object in x,y and z directions. \\
+\hline
+{\em position} & translate center of the object to coordinates specified by this vector. \\
+\hline
+{\em rotation\+\_\+axis} & axis around which object should be rotated. \\
+\hline
+{\em angle} & Angle specifying how much to rotate the object. \\
+\hline
+{\em color} & color of the shape -\/ the same for all vertexes \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{classShape_ad57e4dd441b60269c43114f31ffa6085}\label{classShape_ad57e4dd441b60269c43114f31ffa6085}} 
 \index{Shape@{Shape}!draw\+\_\+wireframe@{draw\+\_\+wireframe}}
 \index{draw\+\_\+wireframe@{draw\+\_\+wireframe}!Shape@{Shape}}
@@ -188,6 +258,27 @@ void draw\+\_\+2d\+\_\+object (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{c
 {\footnotesize\ttfamily template$<$typename T$>$ \\
 void draw\+\_\+wireframe (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&}]{shape,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&}]{shader\+\_\+object,  }\item[{std\+::array$<$ float, 3 $>$}]{scale = {\ttfamily \{0.5,~0.5,~0.5\}},  }\item[{std\+::array$<$ float, 3 $>$}]{position = {\ttfamily \{0,~0,~1\}},  }\item[{std\+::array$<$ float, 3 $>$}]{rotation\+\_\+axis = {\ttfamily \{0,~0,~1\}},  }\item[{float}]{angle = {\ttfamily 0},  }\item[{glm\+::vec4}]{color = {\ttfamily \{0.5,~0.5,~0.5,~0.5\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
 
+
+
+draw 2d and 3d shapes frame (not full triangles), of uniform color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em shape} & An object of type class \mbox{\hyperlink{classShape}{Shape}} to be drawn \\
+\hline
+{\em shader\+\_\+object} & Object of type class Shader$<$\+R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+O\+R$>$, which contains correct shader. \\
+\hline
+{\em scale} & sscales object in x,y and z directions. \\
+\hline
+{\em position} & translate center of the object to coordinates specified by this vector. \\
+\hline
+{\em rotation\+\_\+axis} & axis around which object should be rotated. \\
+\hline
+{\em angle} & Angle specifying how much to rotate the object. \\
+\hline
+{\em color} & color of the shape -\/ the same for all vertexes \\
+\hline
+\end{DoxyParams}
 
 
 \subsection{Member Data Documentation}

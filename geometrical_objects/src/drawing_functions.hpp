@@ -51,7 +51,7 @@ void draw(Shape<T> &shape, Shader<RENDER_TYPE::UNIFORM_COLOR> &shader_object,
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
     unsigned int triangle_color = glGetUniformLocation(shaderProgram, "color");
-    color = glm::vec4(0.8f, 0.6f, 0.2f, 0.5f);
+    //color = glm::vec4(0.8f, 0.6f, 0.2f, 0.5f);
     glUniform4fv(triangle_color, 1, glm::value_ptr(color));
 
     GLenum type;
@@ -198,7 +198,7 @@ void draw_wireframe(Shape<T> &shape,
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
     unsigned int triangle_color = glGetUniformLocation(shaderProgram, "color");
-    color = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
+    //color = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
     glUniform4fv(triangle_color, 1, glm::value_ptr(color));
 
     GLenum type;

@@ -9,39 +9,70 @@ class \mbox{\hyperlink{classShape}{Shape$<$ T $>$}}
 \begin{DoxyCompactItemize}
 \item 
 {\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{drawing__functions_8hpp_abb788a926038c80a2ce11b9dbc94453d}{draw}} (\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&shape, \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&shader\+\_\+object, std\+::array$<$ float, 3 $>$ scale=\{0.\+5, 0.\+5, 0.\+5\}, std\+::array$<$ float, 3 $>$ position=\{0, 0, 1\}, std\+::array$<$ float, 3 $>$ rotation\+\_\+axis=\{0, 0, 1\}, float angle=0, glm\+::vec4 color=\{0.\+5, 0.\+5, 0.\+5, 0.\+5\})
-\item 
+\begin{DoxyCompactList}\small\item\em draw 2d and 3d shapes of uniform color. \end{DoxyCompactList}\item 
 {\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{drawing__functions_8hpp_a603f7bf23c84c979a72a92633e4c9fc7}{draw}} (\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&shape, \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60a9d34355b5a26c54b5dbab1e45245a6f4}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&shader\+\_\+object, std\+::array$<$ float, 3 $>$ scale=\{0.\+5, 0.\+5, 0.\+5\}, std\+::array$<$ float, 3 $>$ position=\{0, 0, 1\}, std\+::array$<$ float, 3 $>$ rotation\+\_\+axis=\{0, 0, 1\}, float angle=0)
-\item 
+\begin{DoxyCompactList}\small\item\em draw 2d and 3d shapes of custom color -\/ each vertex has it\textquotesingle{}s own color. \end{DoxyCompactList}\item 
 {\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{drawing__functions_8hpp_a53275f0cfea69cc59dd2664a52501651}{draw\+\_\+wireframe}} (\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&shape, \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&shader\+\_\+object, std\+::array$<$ float, 3 $>$ scale=\{0.\+5, 0.\+5, 0.\+5\}, std\+::array$<$ float, 3 $>$ position=\{0, 0, 1\}, std\+::array$<$ float, 3 $>$ rotation\+\_\+axis=\{0, 0, 1\}, float angle=0, glm\+::vec4 color=\{0.\+5, 0.\+5, 0.\+5, 0.\+5\})
-\item 
+\begin{DoxyCompactList}\small\item\em draw 2d and 3d shapes frame (not full triangles), of uniform color. \end{DoxyCompactList}\item 
 {\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{drawing__functions_8hpp_a9d3193ba4215575247683ac0dc5b2cc3}{draw\+\_\+2d\+\_\+object}} (\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&shape, \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&shader\+\_\+object, std\+::array$<$ float, 3 $>$ scale=\{0.\+5, 0.\+5, 0.\+5\}, std\+::array$<$ float, 3 $>$ position=\{0, 0, 1\}, std\+::array$<$ float, 3 $>$ rotation\+\_\+axis=\{0, 0, 1\}, float angle=0, glm\+::vec4 color=\{0.\+5, 0.\+5, 0.\+5, 0.\+5\})
-\item 
-{\footnotesize template$<$typename T , R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+PE C\+O\+L\+O\+R\+\_\+\+T\+Y\+PE$>$ }\\void \mbox{\hyperlink{drawing__functions_8hpp_afc14d2c667f6221449657cdb699e721f}{draw}} (\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&shape, \mbox{\hyperlink{classShader}{Shader}}$<$ C\+O\+L\+O\+R\+\_\+\+T\+Y\+PE $>$ \&shader\+\_\+object, std\+::array$<$ float, 3 $>$ scale=\{0.\+5, 0.\+5, 0.\+5\}, std\+::array$<$ float, 3 $>$ position=\{0, 0, 1\}, std\+::array$<$ float, 3 $>$ rotation\+\_\+axis=\{0, 0, 1\}, float angle=0, glm\+::vec4 color=\{0.\+5, 0.\+5, 0.\+5, 0.\+5\})
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em draw 2d shape filling of uniform color. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Function Documentation}
 \mbox{\Hypertarget{drawing__functions_8hpp_abb788a926038c80a2ce11b9dbc94453d}\label{drawing__functions_8hpp_abb788a926038c80a2ce11b9dbc94453d}} 
 \index{drawing\+\_\+functions.\+hpp@{drawing\+\_\+functions.\+hpp}!draw@{draw}}
 \index{draw@{draw}!drawing\+\_\+functions.\+hpp@{drawing\+\_\+functions.\+hpp}}
-\subsubsection{\texorpdfstring{draw()}{draw()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+\subsubsection{\texorpdfstring{draw()}{draw()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$typename T $>$ \\
 void draw (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&}]{shape,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&}]{shader\+\_\+object,  }\item[{std\+::array$<$ float, 3 $>$}]{scale = {\ttfamily \{0.5,~0.5,~0.5\}},  }\item[{std\+::array$<$ float, 3 $>$}]{position = {\ttfamily \{0,~0,~1\}},  }\item[{std\+::array$<$ float, 3 $>$}]{rotation\+\_\+axis = {\ttfamily \{0,~0,~1\}},  }\item[{float}]{angle = {\ttfamily 0},  }\item[{glm\+::vec4}]{color = {\ttfamily \{0.5,~0.5,~0.5,~0.5\}} }\end{DoxyParamCaption})}
 
+
+
+draw 2d and 3d shapes of uniform color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em shape} & An object of type class \mbox{\hyperlink{classShape}{Shape}} to be drawn \\
+\hline
+{\em shader\+\_\+object} & Object of type class Shader$<$\+R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+O\+R$>$, which contains correct shader. \\
+\hline
+{\em scale} & sscales object in x,y and z directions. \\
+\hline
+{\em position} & translate center of the object to coordinates specified by this vector. \\
+\hline
+{\em rotation\+\_\+axis} & axis around which object should be rotated. \\
+\hline
+{\em angle} & Angle specifying how much to rotate the object. \\
+\hline
+{\em color} & color of the shape -\/ the same for all vertexes \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{drawing__functions_8hpp_a603f7bf23c84c979a72a92633e4c9fc7}\label{drawing__functions_8hpp_a603f7bf23c84c979a72a92633e4c9fc7}} 
 \index{drawing\+\_\+functions.\+hpp@{drawing\+\_\+functions.\+hpp}!draw@{draw}}
 \index{draw@{draw}!drawing\+\_\+functions.\+hpp@{drawing\+\_\+functions.\+hpp}}
-\subsubsection{\texorpdfstring{draw()}{draw()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+\subsubsection{\texorpdfstring{draw()}{draw()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$typename T $>$ \\
 void draw (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&}]{shape,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60a9d34355b5a26c54b5dbab1e45245a6f4}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&}]{shader\+\_\+object,  }\item[{std\+::array$<$ float, 3 $>$}]{scale = {\ttfamily \{0.5,~0.5,~0.5\}},  }\item[{std\+::array$<$ float, 3 $>$}]{position = {\ttfamily \{0,~0,~1\}},  }\item[{std\+::array$<$ float, 3 $>$}]{rotation\+\_\+axis = {\ttfamily \{0,~0,~1\}},  }\item[{float}]{angle = {\ttfamily 0} }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{drawing__functions_8hpp_afc14d2c667f6221449657cdb699e721f}\label{drawing__functions_8hpp_afc14d2c667f6221449657cdb699e721f}} 
-\index{drawing\+\_\+functions.\+hpp@{drawing\+\_\+functions.\+hpp}!draw@{draw}}
-\index{draw@{draw}!drawing\+\_\+functions.\+hpp@{drawing\+\_\+functions.\+hpp}}
-\subsubsection{\texorpdfstring{draw()}{draw()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
-{\footnotesize\ttfamily template$<$typename T , R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+PE C\+O\+L\+O\+R\+\_\+\+T\+Y\+PE$>$ \\
-void draw (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&}]{shape,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ C\+O\+L\+O\+R\+\_\+\+T\+Y\+PE $>$ \&}]{shader\+\_\+object,  }\item[{std\+::array$<$ float, 3 $>$}]{scale = {\ttfamily \{0.5,~0.5,~0.5\}},  }\item[{std\+::array$<$ float, 3 $>$}]{position = {\ttfamily \{0,~0,~1\}},  }\item[{std\+::array$<$ float, 3 $>$}]{rotation\+\_\+axis = {\ttfamily \{0,~0,~1\}},  }\item[{float}]{angle = {\ttfamily 0},  }\item[{glm\+::vec4}]{color = {\ttfamily \{0.5,~0.5,~0.5,~0.5\}} }\end{DoxyParamCaption})}
 
+
+draw 2d and 3d shapes of custom color -\/ each vertex has it\textquotesingle{}s own color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em shape} & An object of type class \mbox{\hyperlink{classShape}{Shape}} to be drawn \\
+\hline
+{\em shader\+\_\+object} & Object of type class Shader$<$\+R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+O\+R$>$, which contains correct shader. \\
+\hline
+{\em scale} & sscales object in x,y and z directions. \\
+\hline
+{\em position} & translate center of the object to coordinates specified by this vector. \\
+\hline
+{\em rotation\+\_\+axis} & axis around which object should be rotated. \\
+\hline
+{\em angle} & Angle specifying how much to rotate the object. \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{drawing__functions_8hpp_a9d3193ba4215575247683ac0dc5b2cc3}\label{drawing__functions_8hpp_a9d3193ba4215575247683ac0dc5b2cc3}} 
 \index{drawing\+\_\+functions.\+hpp@{drawing\+\_\+functions.\+hpp}!draw\+\_\+2d\+\_\+object@{draw\+\_\+2d\+\_\+object}}
 \index{draw\+\_\+2d\+\_\+object@{draw\+\_\+2d\+\_\+object}!drawing\+\_\+functions.\+hpp@{drawing\+\_\+functions.\+hpp}}
@@ -49,6 +80,27 @@ void draw (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShape}{Shape}}$<
 {\footnotesize\ttfamily template$<$typename T $>$ \\
 void draw\+\_\+2d\+\_\+object (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&}]{shape,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&}]{shader\+\_\+object,  }\item[{std\+::array$<$ float, 3 $>$}]{scale = {\ttfamily \{0.5,~0.5,~0.5\}},  }\item[{std\+::array$<$ float, 3 $>$}]{position = {\ttfamily \{0,~0,~1\}},  }\item[{std\+::array$<$ float, 3 $>$}]{rotation\+\_\+axis = {\ttfamily \{0,~0,~1\}},  }\item[{float}]{angle = {\ttfamily 0},  }\item[{glm\+::vec4}]{color = {\ttfamily \{0.5,~0.5,~0.5,~0.5\}} }\end{DoxyParamCaption})}
 
+
+
+draw 2d shape filling of uniform color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em shape} & An object of type class \mbox{\hyperlink{classShape}{Shape}} to be drawn \\
+\hline
+{\em shader\+\_\+object} & Object of type class Shader$<$\+R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+O\+R$>$, which contains correct shader. \\
+\hline
+{\em scale} & sscales object in x,y and z directions. \\
+\hline
+{\em position} & translate center of the object to coordinates specified by this vector. \\
+\hline
+{\em rotation\+\_\+axis} & axis around which object should be rotated. \\
+\hline
+{\em angle} & Angle specifying how much to rotate the object. \\
+\hline
+{\em color} & color of the shape -\/ the same for all vertexes \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{drawing__functions_8hpp_a53275f0cfea69cc59dd2664a52501651}\label{drawing__functions_8hpp_a53275f0cfea69cc59dd2664a52501651}} 
 \index{drawing\+\_\+functions.\+hpp@{drawing\+\_\+functions.\+hpp}!draw\+\_\+wireframe@{draw\+\_\+wireframe}}
 \index{draw\+\_\+wireframe@{draw\+\_\+wireframe}!drawing\+\_\+functions.\+hpp@{drawing\+\_\+functions.\+hpp}}
@@ -56,3 +108,24 @@ void draw\+\_\+2d\+\_\+object (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{c
 {\footnotesize\ttfamily template$<$typename T $>$ \\
 void draw\+\_\+wireframe (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ \&}]{shape,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{render_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&}]{shader\+\_\+object,  }\item[{std\+::array$<$ float, 3 $>$}]{scale = {\ttfamily \{0.5,~0.5,~0.5\}},  }\item[{std\+::array$<$ float, 3 $>$}]{position = {\ttfamily \{0,~0,~1\}},  }\item[{std\+::array$<$ float, 3 $>$}]{rotation\+\_\+axis = {\ttfamily \{0,~0,~1\}},  }\item[{float}]{angle = {\ttfamily 0},  }\item[{glm\+::vec4}]{color = {\ttfamily \{0.5,~0.5,~0.5,~0.5\}} }\end{DoxyParamCaption})}
 
+
+
+draw 2d and 3d shapes frame (not full triangles), of uniform color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em shape} & An object of type class \mbox{\hyperlink{classShape}{Shape}} to be drawn \\
+\hline
+{\em shader\+\_\+object} & Object of type class Shader$<$\+R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+O\+R$>$, which contains correct shader. \\
+\hline
+{\em scale} & sscales object in x,y and z directions. \\
+\hline
+{\em position} & translate center of the object to coordinates specified by this vector. \\
+\hline
+{\em rotation\+\_\+axis} & axis around which object should be rotated. \\
+\hline
+{\em angle} & Angle specifying how much to rotate the object. \\
+\hline
+{\em color} & color of the shape -\/ the same for all vertexes \\
+\hline
+\end{DoxyParams}

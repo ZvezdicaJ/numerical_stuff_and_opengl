@@ -214,7 +214,8 @@ class Shape3D : public Shape<T> {
 template <>
 inline float Shape3D<float>::area() {
     float ar = 0;
-    for (unsigned tri = 0; tri < this->element_array.size() / 3; tri += 1) {
+    unsigned triangle_number = this->element_array.size() / 3;
+    for (unsigned tri = 0; tri < triangle_number; tri += 1) {
         int vert1_ind = this->element_array[3 * tri];
         int vert2_ind = this->element_array[3 * tri + 1];
         int vert3_ind = this->element_array[3 * tri + 2];
@@ -232,6 +233,48 @@ inline float Shape3D<float>::area() {
         float distance13 = std::sqrt(CalcDotProduct(vec13, vec13));
 
         float s = (distance12 + distance23 + distance13) / 2.0;
+        float increment = std::sqrt(s * (s - distance12) * (s - distance13) *
+                                    (s - distance23));
+        // std::cout << "triangle " << tri << "  " << increment << std::endl;
+        ar += increment;
+    }
+    return ar;
+}
+
+/**
+ * @brief This function calculates area of the given 3D shape.
+ * @details It sums the areas of all triangles. For each triangle it calculates
+ * the area using Heron formula.
+ */
+template <>
+inline double Shape3D<double>::area() {
+    double ar = 0;
+    unsigned triangle_number = this->element_array.size() / 3;
+    __m256d zeros = _mm256_setzero_pd();
+
+    //print_avx(_mm256_setr_pd(0, 64, 128, 196));
+    for (unsigned tri = 0; tri < triangle_number; tri += 1) {
+        int vert1_ind = this->element_array[3 * tri];
+        int vert2_ind = this->element_array[3 * tri + 1];
+        int vert3_ind = this->element_array[3 * tri + 2];
+
+        __m256d vert1 = _mm256_blend_pd(
+            _mm256_loadu_pd(&(this->vertexes[vert1_ind * 3])), zeros, 0b1000);
+        // print_avx(vert1, "vert1: ");
+        __m256d vert2 = _mm256_blend_pd(
+            _mm256_loadu_pd(&(this->vertexes[vert2_ind * 3])), zeros, 0b1000);
+        __m256d vert3 = _mm256_blend_pd(
+            _mm256_loadu_pd(&(this->vertexes[vert3_ind * 3])), zeros, 0b1000);
+
+        __m256d vec12 = _mm256_sub_pd(vert1, vert2);
+        __m256d vec23 = _mm256_sub_pd(vert2, vert3);
+        __m256d vec13 = _mm256_sub_pd(vert1, vert3);
+
+        double distance12 = std::sqrt(CalcDotProduct(vec12, vec12));
+        double distance23 = std::sqrt(CalcDotProduct(vec23, vec23));
+        double distance13 = std::sqrt(CalcDotProduct(vec13, vec13));
+
+        double s = (distance12 + distance23 + distance13) / 2.0;
         ar += std::sqrt(s * (s - distance12) * (s - distance13) *
                         (s - distance23));
     }

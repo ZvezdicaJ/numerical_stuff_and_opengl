@@ -90,10 +90,10 @@ inline void Disk<float>::generate_vertexes() {
         __m128 fi_vec = _mm_mul_ps(_mm_add_ps(i_vec, cons), korak_vec);
         __m128 cos_vec = cos(fi_vec);
         __m128 sin_vec = sin(fi_vec);
-        print_sse(_mm_set_ps(127, 95, 64, 32), "test: ");
-        print_sse(fi_vec, "fi_vec: ");
-        print_sse(cos_vec, "cos: ");
-        print_sse(sin_vec, "sin: ");
+        // print_sse(_mm_set_ps(127, 95, 64, 32), "test: ");
+        // print_sse(fi_vec, "fi_vec: ");
+        // print_sse(cos_vec, "cos: ");
+        // print_sse(sin_vec, "sin: ");
 
         __m128 xy_tocki12 = _mm_unpacklo_ps(cos_vec, sin_vec);
         __m128 xy_tocki34 = _mm_unpackhi_ps(cos_vec, sin_vec);
@@ -134,22 +134,23 @@ inline void Disk<float>::generate_vertexes() {
             __m128i stranski1 =
                 _mm_unpacklo_epi32(_mm_shuffle_epi32(elements_high, 0b10011001),
                                    _mm_shuffle_epi32(elements_low, 0b10011001));
-            print_sse(_mm_shuffle_epi32(elements_high, 0b10011001),
-                      "shuffled:");
+            // print_sse(_mm_shuffle_epi32(elements_high, 0b10011001),
+            //           "shuffled:");
 
-            __m128i stranski2 = _mm_unpackhi_epi32(
-                _mm_shuffle_epi32(elements_low, 0b10011001),
-                _mm_shuffle_epi32(elements_high, 0b01100110));
+                      __m128i stranski2 = _mm_unpackhi_epi32(
+                          _mm_shuffle_epi32(elements_low, 0b10011001),
+                          _mm_shuffle_epi32(elements_high, 0b01100110));
 
-            _mm_storeu_si128(
-                (__m128i *)(&(this->element_array[0]) + ind + 12 * j + 6),
-                stranski1);
-            _mm_storeu_si128(
-                (__m128i *)(&(this->element_array[0]) + ind + 12 * j + 9),
-                stranski2);
+                      _mm_storeu_si128((__m128i *)(&(this->element_array[0]) +
+                                                   ind + 12 * j + 6),
+                                       stranski1);
+                      _mm_storeu_si128((__m128i *)(&(this->element_array[0]) +
+                                                   ind + 12 * j + 9),
+                                       stranski2);
 
-            elements_high = _mm_add_epi32(elements_high, next_element);
-            elements_low = _mm_add_epi32(elements_low, next_element);
+                      elements_high =
+                          _mm_add_epi32(elements_high, next_element);
+                      elements_low = _mm_add_epi32(elements_low, next_element);
         }
         ind += 48;
     };
@@ -171,9 +172,9 @@ inline void Disk<float>::generate_vertexes() {
 
     this->vertexes[second_half_ind] = 0;
 
-    print_vertexes(&(this->vertexes[0]), 2 * num_upper_vertexes + 2, 3);
-    std::cout << "\n\n" << std::endl;
-    print_vertexes(&(this->element_array[0]), 4 * num_upper_vertexes, 3);
+    // print_vertexes(&(this->vertexes[0]), 2 * num_upper_vertexes + 2, 3);
+    //std::cout << "\n\n" << std::endl;
+    //  print_vertexes(&(this->element_array[0]), 4 * num_upper_vertexes, 3);
 }
 
 #ifdef __AVX2__
@@ -230,10 +231,10 @@ inline void Disk<double>::generate_vertexes() {
         __m256d fi_vec = _mm256_mul_pd(_mm256_add_pd(i_vec, cons), korak_vec);
         __m256d cos_vec = cos(fi_vec);
         __m256d sin_vec = sin(fi_vec);
-        print_avx(_mm256_set_pd(127, 95, 64, 32), "test: ");
-        print_avx(fi_vec, "fi_vec: ");
-        print_avx(cos_vec, "cos: ");
-        print_avx(sin_vec, "sin: ");
+        // print_avx(_mm256_set_pd(127, 95, 64, 32), "test: ");
+        // print_avx(fi_vec, "fi_vec: ");
+        // print_avx(cos_vec, "cos: ");
+        // print_avx(sin_vec, "sin: ");
 
         __m256d xy_tocki12 = _mm256_unpacklo_pd(cos_vec, sin_vec);
         __m256d xy_tocki34 = _mm256_unpackhi_pd(cos_vec, sin_vec);
@@ -275,8 +276,8 @@ inline void Disk<double>::generate_vertexes() {
             __m128i stranski1 =
                 _mm_unpacklo_epi32(_mm_shuffle_epi32(elements_high, 0b10011001),
                                    _mm_shuffle_epi32(elements_low, 0b10011001));
-            print_sse(_mm_shuffle_epi32(elements_high, 0b10011001),
-                      "shuffled:");
+            // print_sse(_mm_shuffle_epi32(elements_high, 0b10011001),
+            //          "shuffled:");
 
             __m128i stranski2 = _mm_unpackhi_epi32(
                 _mm_shuffle_epi32(elements_low, 0b10011001),
@@ -312,9 +313,9 @@ inline void Disk<double>::generate_vertexes() {
 
     this->vertexes[second_half_ind] = 0;
 
-    print_vertexes(&(this->vertexes[0]), 2 * num_upper_vertexes + 2, 3);
-    std::cout << "\n\n" << std::endl;
-    print_vertexes(&(this->element_array[0]), 4 * num_upper_vertexes, 3);
+    // print_vertexes(&(this->vertexes[0]), 2 * num_upper_vertexes + 2, 3);
+    // std::cout << "\n\n" << std::endl;
+    // print_vertexes(&(this->element_array[0]), 4 * num_upper_vertexes, 3);
 }
 #endif
 
@@ -352,7 +353,7 @@ void Disk<T>::generate_wheel_line_elements() {
         _mm_add_epi32(horizontal_d, increment);
         _mm_add_epi32(horizontal_u, increment);
     }
-    print_vertexes(&(this->wheel_line_elements[0]), 4 * num_upper_vertexes, 3);
+    //print_vertexes(&(this->wheel_line_elements[0]), 4 * num_upper_vertexes, 3);
     __m128i last_horizontal_lines =
         _mm_set_epi32(num_upper_vertexes - 1, num_upper_vertexes,
                       number_of_points - 1, number_of_points - 2);

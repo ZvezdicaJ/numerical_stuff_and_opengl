@@ -1,5 +1,9 @@
 #ifndef __STAR__
 
+/**
+ * @class Star
+ * @brief 2d star with various number of bulges
+ */
 template <typename T = float>
 class Star : public Shape2D<T> {
   private:
@@ -15,18 +19,12 @@ class Star : public Shape2D<T> {
     T perimeter();
 };
 
-template <typename T>
-Star<T>::Star() {
-    this->draw_type = 'V';
-    this->vertex_size = 2;
-    this->min_vertexes = 50;
-    this->generate_vertexes();
-    this->initialize_buffers();
-    this->generate_filling_ebo();
-    // std::cout << "circle buffers:\nVBO: " << this->VBO << "\nVAO: " <<
-    // this->VAO << std::endl;
-};
-
+/*
+ * @brief The constructor generates vertexes, initializes buffers and generates
+ * filling for 2d shape
+ * @param bulges number of star legs to draw
+ * @param ration between star leg length and central part of the star
+ */
 template <typename T>
 Star<T>::Star(int bulges, T ratio) {
     this->draw_type = 'V';
@@ -34,9 +32,14 @@ Star<T>::Star(int bulges, T ratio) {
     this->min_vertexes = 50;
     this->generate_vertexes(bulges, ratio);
     this->initialize_buffers();
-
+    this->generate_filling_vbo();
 };
 
+/**
+ * @brief This function generates vertexes for float version of the star. It's
+ * using sse instructions - requires appropriate cpu
+ *
+ */
 template <>
 inline void Star<float>::generate_vertexes(int bulges, float ratio) {
     // this function always generates 4n-1 different vertexes;
@@ -45,8 +48,8 @@ inline void Star<float>::generate_vertexes(int bulges, float ratio) {
     this->vertexes.reserve(4 * bulges);
     this->vertexes.resize(4 * bulges);
     int tocke = 2 * bulges;
-    int r = 4 * ((tocke) / 4);// points should be a multiple of 4
-    int reminder = tocke - r; // stevilo preostalih tock
+    int r = 4 * ((tocke) / 4); // points should be a multiple of 4
+    int reminder = tocke - r;  // stevilo preostalih tock
 
     float korak = M_PI / (float)bulges;
     __m128 ansatz = _mm_set_ps(ratio, 1.0, ratio, 1.0);
@@ -90,6 +93,11 @@ inline void Star<float>::generate_vertexes(int bulges, float ratio) {
     }
 }
 
+/**
+ * @brief This function generates vertexes for double version of the star. It's
+ * using avx2 instructions - requires appropriate cpu.
+ *
+ */
 template <>
 inline void Star<double>::generate_vertexes(int bulges, double ratio) {
     // this function always generates 4n-1 different vertexes;

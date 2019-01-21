@@ -1,4 +1,3 @@
-#include "../src/auxiliary_functions.hpp"
 
 #ifdef __SSE__
 TEST(DotProduct, sse) {
@@ -72,7 +71,7 @@ TEST(cross_product, sse) {
     for (int i = 0; i < 3; i++) {
         check[i] = p[i];
     }
-    EXPECT_THAT(check, testing::ElementsAre(24, 6, -12));
+    EXPECT_THAT(check, testing::ElementsAre(-24, -6, 12));
 }
 #endif
 
