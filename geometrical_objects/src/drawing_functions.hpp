@@ -3,6 +3,8 @@
 
 template <typename T>
 class Shape;
+template <typename T>
+class Shape2D;
 
 /**
  * @brief draw 2d and 3d shapes of uniform color.
@@ -51,7 +53,7 @@ void draw(Shape<T> &shape, Shader<RENDER_TYPE::UNIFORM_COLOR> &shader_object,
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
     unsigned int triangle_color = glGetUniformLocation(shaderProgram, "color");
-    //color = glm::vec4(0.8f, 0.6f, 0.2f, 0.5f);
+    // color = glm::vec4(0.8f, 0.6f, 0.2f, 0.5f);
     glUniform4fv(triangle_color, 1, glm::value_ptr(color));
 
     GLenum type;
@@ -198,7 +200,7 @@ void draw_wireframe(Shape<T> &shape,
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
     unsigned int triangle_color = glGetUniformLocation(shaderProgram, "color");
-    //color = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
+    // color = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
     glUniform4fv(triangle_color, 1, glm::value_ptr(color));
 
     GLenum type;
@@ -247,16 +249,17 @@ void draw_wireframe(Shape<T> &shape,
  * @param color color of the shape - the same for all vertexes
  */
 template <typename T>
-void draw_2d_object(Shape<T> &shape,
+void draw_2d_object(Shape2D<T> &shape,
                     Shader<RENDER_TYPE::UNIFORM_COLOR> &shader_object,
                     std::array<float, 3> scale = {0.5, 0.5, 0.5},
                     std::array<float, 3> position = {0, 0, 1},
                     std::array<float, 3> rotation_axis = {0, 0, 1},
                     float angle = 0, glm::vec4 color = {0.5, 0.5, 0.5, 0.5}) {
-    if (shape.vertex_size == 2) {
+    // if (shape_.vertex_size == 2) {
         // std::cout << "draw_2d_object can display only 2d shapes";
-        return;
-    }
+    //    return;
+    // }
+    //Shape2D<T> shape = std::static_cast<Shape2D<T>>(shape_);
     //    assert(shape.vertex_size == 2 && "draw_polygon is made only for 2d
     //    shapes");
     unsigned shaderProgram =

@@ -126,11 +126,6 @@ class Shape {
         Shape<T> &shape, Shader<RENDER_TYPE::UNIFORM_COLOR> &shader_object,
         std::array<float, 3> scale, std::array<float, 3> position,
         std::array<float, 3> rotation_axis, float angle, glm::vec4);
-
-    friend void draw_2d_object<T>(
-        Shape<T> &shape, Shader<RENDER_TYPE::UNIFORM_COLOR> &shader_object,
-        std::array<float, 3> scale, std::array<float, 3> position,
-        std::array<float, 3> rotation_axis, float angle, glm::vec4);
 };
 
 /**
@@ -150,6 +145,11 @@ class Shape2D : public Shape<T> {
 
   public:
     aligned_vector<T> get_filling_vertexes() { return filling_vertexes; }
+
+    friend void draw_2d_object<T>(
+        Shape2D<T> &shape, Shader<RENDER_TYPE::UNIFORM_COLOR> &shader_object,
+        std::array<float, 3> scale, std::array<float, 3> position,
+        std::array<float, 3> rotation_axis, float angle, glm::vec4);
 };
 
 /**
@@ -158,34 +158,47 @@ class Shape2D : public Shape<T> {
 template <>
 inline void Shape2D<float>::generate_filling_vbo() {
 
-    int number_of_points = (this->vertexes.size()) / (this->vertex_size);
-
-    int filling_number_of_points =
-        (number_of_points + (number_of_points - 1) / 2) * 2;
-    filling_vertexes.reserve(filling_number_of_points + 2);
-    filling_vertexes.resize(filling_number_of_points);
+    int vertexes_size = (this->vertexes.size());
+    int number_of_points = vertexes_size / (this->vertex_size);
+    int filling_number_of_points;
+    if (number_of_points % 2 == 0)
+        filling_number_of_points = 3 * number_of_points / 2 + 1;
+    else
+        filling_number_of_points = 3 * (number_of_points) / 2;
+    filling_vertexes.reserve(2 * filling_number_of_points);
+    filling_vertexes.resize(2 * filling_number_of_points);
 
     std::cout << "number of points: " << number_of_points << std::endl;
     std::cout << "filling_vertexes size: " << filling_vertexes.size()
               << std::endl;
 
-    for (int i = 0; i < number_of_points - 2; i += 2) {
-        std::cout << i << std::endl;
+    for (int i = 0; i < number_of_points - 1; i += 2) {
+        // std::cout << i << std::endl;
         const __m128i point12 =
             _mm_stream_load_si128((__m128i *)&(this->vertexes[2 * i]));
         _mm_storeu_si128((__m128i *)(&filling_vertexes[0] + 3 * i), point12);
         _mm_storeu_ps(&filling_vertexes[0] + 3 * i + 4, _mm_setzero_ps());
     }
-
-    const __m128 point12 = (__m128)_mm_stream_load_si128(
-        (__m128i *)&(this->vertexes[2 * (number_of_points - 2)]));
+    if (number_of_points % 2 == 0) {
+        filling_vertexes[2 * filling_number_of_points - 2] = vertexes[0];
+        filling_vertexes[2 * filling_number_of_points - 1] = vertexes[1];
+    } else {
+        filling_vertexes[2 * filling_number_of_points - 2] = vertexes[0];
+        filling_vertexes[2 * filling_number_of_points - 1] = vertexes[1];
+        filling_vertexes[2 * filling_number_of_points - 3] =
+            vertexes[2 * number_of_points - 2];
+        filling_vertexes[2 * filling_number_of_points - 4] =
+            vertexes[2 * number_of_points - 1];
+    }
+    print_vertexes(&filling_vertexes[0], filling_vertexes.size() / 2, 2);
     /*std::cout
         << "address is 16 byte aligned: "
         << (((unsigned long)(&filling_vertexes[filling_number_of_points - 4]) &
              15))
         << std::endl;
     */
-    _mm_storeu_ps(&filling_vertexes[filling_number_of_points - 4], point12);
+    //    _mm_storeu_ps(&filling_vertexes[filling_number_of_points - 4],
+    //    point12);
     glGenBuffers(1, &FILLING_VBO);
     glBindBuffer(GL_ARRAY_BUFFER, FILLING_VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * filling_vertexes.size(),
@@ -252,7 +265,7 @@ inline double Shape3D<double>::area() {
     unsigned triangle_number = this->element_array.size() / 3;
     __m256d zeros = _mm256_setzero_pd();
 
-    //print_avx(_mm256_setr_pd(0, 64, 128, 196));
+    // print_avx(_mm256_setr_pd(0, 64, 128, 196));
     for (unsigned tri = 0; tri < triangle_number; tri += 1) {
         int vert1_ind = this->element_array[3 * tri];
         int vert2_ind = this->element_array[3 * tri + 1];

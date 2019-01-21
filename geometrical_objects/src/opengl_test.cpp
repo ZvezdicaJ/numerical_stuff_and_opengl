@@ -40,8 +40,8 @@ int main() {
     Shader<RENDER_TYPE::UNIFORM_COLOR> shader1;
     // Shader<RENDER_TYPE::CUSTOM_COLOR> shader2;
 
-    Circle<float> circle2;
-    circle2.generate_random_colors();
+    // Circle<float> circle2;
+    // circle2.generate_random_colors();
     // std::vector<float> vert = circle2.get_vertexes();
     // print_vertexes(vert, vert.size() / 2, 2);
     // std::cout << "\n\n" << std::endl;
@@ -64,23 +64,25 @@ int main() {
         OnClosePressed(window);
         glfwPollEvents(); // check if any events happend (mouse press, key
                           // press)
-        // display(shapes2);
+                          // display(shapes2);
+        draw_2d_object(star1, shader1, {0.5, 0.5, 0.5}, {0, 0, 0}, {1, 1, 1},
+                       fi, {0.5, 0, 0.5, 0.5});
+        /*
+draw(star1, shader1, {0.5, 0.5, 0.5}, {0, 0, 0}, {1, 1, 1}, fi,
+{0.5, 0, 0.5, 0.5});
 
-        draw(star1, shader1, {0.5, 0.5, 0.5}, {0, 0, 0}, {1, 1, 1}, fi,
-             {0.5, 0, 0.5, 0.5});
+draw_wireframe(star1, shader1, {0.5, 0.5, 0.5}, {0, 0, 0}, {1, 1, 1},
+fi, {0, 0, 0, 1.0});
 
-        draw_wireframe(star1, shader1, {0.5, 0.5, 0.5}, {0, 0, 0}, {1, 1, 1},
-                       fi, {0, 0, 0, 1.0});
+draw(sphere1, shader1, {0.5, 0.5, 0.5}, {0, 0, 0}, {1, 1, 1}, fi,
+{0, 0, 0.5, 0.2});
 
-        draw(sphere1, shader1, {0.5, 0.5, 0.5}, {0, 0, 0}, {1, 1, 1}, fi,
-             {0, 0, 0.5, 0.2});
-
-        draw_wireframe(sphere1, shader1, {0.5, 0.5, 0.5}, {0, 0, 0}, {1, 1, 1},
-                       fi, {0.0, 0, 0, 0.2});
-
+draw_wireframe(sphere1, shader1, {0.5, 0.5, 0.5}, {0, 0, 0}, {1, 1, 1},
+fi, {0.0, 0, 0, 0.2});
+*/
         // draw_wireframe(disk1, shader1, {0.5, 0.5, 0.5}, {0, 0, 0}, {1, 1, 1},
         //              fi);
-        fi += 0.01;
+        fi += 0.0;
         // The glfwSwapBuffers will swap the color buffer (a large buffer
         // that contains color values for each pixel in GLFW’s window) that
         // has been used to draw in during this iteration and show it as
