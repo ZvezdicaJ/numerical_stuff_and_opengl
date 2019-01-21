@@ -1,11 +1,13 @@
 #ifndef __SHAPE__
 
 /**
-@class Shape
-@brief virtual base class
-@
+ * @class Shape
+ * @brief virtual base class for 2D and 3D shapes
+ * @details All shapes inherit from this class. It contains all basic
+ * structures for drawing including opengl buffers.
  */
-template <typename T> class Shape {
+template <typename T>
+class Shape {
     static_assert(std::is_same<float, T>::value ||
                       std::is_same<double, T>::value,
                   "Shapes can only be instantiated with floating point types: "
@@ -28,9 +30,17 @@ template <typename T> class Shape {
     unsigned VAO; /**< vertex array object*/
     unsigned EBO; /**< element buffer address */
     unsigned CBO; /**< color buffer address */
-    unsigned min_vertexes = 5;
-    aligned_vector<float> vertex_colors;
+    unsigned min_vertexes =
+        5; /**< minimal number of vertexes to be generated for a given shape */
+    aligned_vector<float>
+        vertex_colors; /**< Vector holding a color for each vertex. Four
+                          consequtive numbers form a rgb color value*/
 
+    /**
+     * @brief Allocates and initializes vertex buffer object, element buffer
+     * object and vertex array object. It also allocates color buffer - where
+     * color for each vertex is stored.
+     */
     void initialize_buffers() {
 
         glGenVertexArrays(1, &VAO);
@@ -57,6 +67,11 @@ template <typename T> class Shape {
     }
 
   public:
+    /**
+     * @brief As the name says, it sets minimal number of vertexes for a given
+     * shape
+     * @param num minimal number of vertexes
+     */
     virtual void set_min_number_of_vertexes(unsigned num) {
         min_vertexes = num;
     };
@@ -73,6 +88,9 @@ template <typename T> class Shape {
     unsigned num_vertexes() { return vertexes.size() / vertex_size; }
     virtual unsigned get_vertex_size() { return vertex_size; }
 
+    /**
+     *@brief Generate random colors for each vertex.
+     */
     void generate_random_colors() {
         int size = 4 * vertexes.size() / vertex_size;
         vertex_colors.reserve(size);
@@ -109,17 +127,30 @@ template <typename T> class Shape {
         std::array<float, 3> rotation_axis, float angle, glm::vec4);
 };
 
-template <typename T> class Shape2D : public Shape<T> {
+/**
+ * @class Shape2D
+ * @brief This is a base class for all 2D shapes.
+ * @details It inherits from Shape class. Template parameter can either be float
+ * of double. It is meant to contain functions common to all 2D shapes.
+ */
+template <typename T>
+class Shape2D : public Shape<T> {
   protected:
-    unsigned FILLING_VBO;
-    aligned_vector<T> filling_vertexes;
+    unsigned FILLING_VBO; /**<2D shapes consist of line, this buffer is meant to
+                             fill 2D shapes.   */
+    aligned_vector<T>
+        filling_vertexes; /**<vertexes for interior of 2D shapes.  */
     void generate_filling_vbo();
 
   public:
     aligned_vector<T> get_filling_vertexes() { return filling_vertexes; }
 };
 
-template <> inline void Shape2D<float>::generate_filling_vbo() {
+/**
+ * @brief Generates vertexes which fill the interior of 2D shapes.
+ */
+template <>
+inline void Shape2D<float>::generate_filling_vbo() {
 
     int number_of_points = (this->vertexes.size()) / (this->vertex_size);
 
@@ -155,13 +186,27 @@ template <> inline void Shape2D<float>::generate_filling_vbo() {
                  &filling_vertexes[0], GL_STATIC_DRAW);
 }
 
-template <typename T> class Shape3D : public Shape<T> {
+/**
+ * @class Shape3D
+ * @brief This is a base class for all 3D shapes.
+ * @details It inherits from Shape class. Template parameter can either be float
+ * of double. It is meant to contain functions common to all 3D shapes - like
+ * area and volume.
+ */
+template <typename T>
+class Shape3D : public Shape<T> {
   protected:
   public:
     T area();
 };
 
-template <> inline float Shape3D<float>::area() {
+/**
+ * @brief This function calculates area of the given 3D shape.
+ * @details It sums the areas of all triangles. For each triangle it calculates
+ * the area using Heron formula.
+ */
+template <>
+inline float Shape3D<float>::area() {
     float ar = 0;
     for (unsigned tri = 0; tri < this->element_array.size() / 3; tri += 1) {
         int vert1_ind = this->element_array[3 * tri];

@@ -1,10 +1,12 @@
-template <class T> inline void hash_combine(std::size_t &seed, const T &v) {
+template <class T>
+inline void hash_combine(std::size_t &seed, const T &v) {
     std::hash<T> hasher;
     seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
 }
 
 namespace std {
-template <typename S, typename T> struct hash<pair<S, T>> {
+template <typename S, typename T>
+struct hash<pair<S, T>> {
     inline size_t operator()(const pair<S, T> &v) const {
         size_t seed = 0;
         ::hash_combine(seed, v.first);
@@ -500,6 +502,11 @@ inline __m128 legendre_next(__m128 Pn, __m128 Pnm1, __m128 x_vec, int n) {
     return result;
 }
 
+/**
+ *@brief This function calculates tangens of sse vector.
+ *@details For detailed documentation on formula used check pdf files discussing
+ *trigonometric functions. This is float version and uses sse instructions.
+ */
 inline __m128 tan(__m128 x) {
 
     // this function should calculate tan to 1e-8 precision
@@ -587,6 +594,11 @@ inline __m128 tan(__m128 x) {
 }
 
 #ifdef __AVX2__
+/**
+ *@brief This function calculates tangens of sse vector.
+ *@details For detailed documentation on formula used check pdf files discussing
+ *trigonometric functions. This is double version and uses avx2 instructions.
+ */
 inline __m256d tan(__m256d x) {
     // this function should calculate tan to 1e-8 precision
     // stevec : 34459425 * a - 4729725 * a ^ 3 + 135135 * a ^ 5 - 990 a ^ 7 + a
@@ -618,6 +630,11 @@ inline __m256d tan(__m256d x) {
 }
 #endif
 
+/**
+ *@brief This function calculates arcus tangens of sse vector.
+ *@details For detailed documentation on formula used check pdf files discussing
+ *trigonometric functions. This is float version and uses sse instructions.
+ */
 inline __m128 arctan(__m128 x) {
     // this comparison sets 0xffff if true - which is not 1.0
     __m128 cmp1 = _mm_cmpgt_ps(_mm_setzero_ps(), x);
@@ -677,6 +694,11 @@ inline __m128 arctan(__m128 x) {
 }
 
 #ifdef __AVX2__
+/**
+ *@brief This function calculates arcus tangens of sse vector.
+ *@details For detailed documentation on formula used check pdf files discussing
+ *trigonometric functions. This is double version and uses avx2 instructions.
+ */
 inline __m256d arctan(__m256d x) {
     // this comparison sets 0xffff if true - which is not 1.0
     __m256d cmp1 = _mm256_cmp_pd(_mm256_setzero_pd(), x, _CMP_GT_OS);
@@ -766,5 +788,3 @@ inline __m256d arctan(__m256d x) {
     return result;
 }
 #endif
-
-
