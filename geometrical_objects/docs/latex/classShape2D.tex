@@ -2,6 +2,11 @@
 \label{classShape2D}\index{Shape2\+D$<$ T $>$@{Shape2\+D$<$ T $>$}}
 
 
+\mbox{\hyperlink{classThis}{This}} is a base class for all 2D shapes.  
+
+
+
+
 {\ttfamily \#include \char`\"{}shape.\+hpp\char`\"{}}
 
 Inheritance diagram for Shape2D$<$ T $>$\+:\begin{figure}[H]
@@ -21,7 +26,7 @@ Inheritance diagram for Shape2D$<$ T $>$\+:\begin{figure}[H]
 void \mbox{\hyperlink{classShape2D_a210e702aa5918b88f25fb6b63a911fc8}{generate\+\_\+filling\+\_\+vbo}} ()
 \item 
 {\footnotesize template$<$$>$ }\\void \mbox{\hyperlink{classShape2D_a328d401b8f1962078e904d4b1003d7a5}{generate\+\_\+filling\+\_\+vbo}} ()
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Generates vertexes which fill the interior of 2D shapes. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -30,6 +35,14 @@ unsigned \mbox{\hyperlink{classShape2D_a220cf4cf96da8bd43627ffffd00a0718}{F\+I\+
 \mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$ T $>$ \mbox{\hyperlink{classShape2D_ae3e216c9d8422b47f46bff9259bd17be}{filling\+\_\+vertexes}}
 \end{DoxyCompactItemize}
 
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class Shape2\+D$<$ T $>$}
+
+\mbox{\hyperlink{classThis}{This}} is a base class for all 2D shapes. 
+
+It inherits from \mbox{\hyperlink{classShape}{Shape}} class. Template parameter can either be float of double. It is meant to contain functions common to all 2D shapes. 
 
 \subsection{Member Function Documentation}
 \mbox{\Hypertarget{classShape2D_a210e702aa5918b88f25fb6b63a911fc8}\label{classShape2D_a210e702aa5918b88f25fb6b63a911fc8}} 
@@ -45,6 +58,10 @@ void \mbox{\hyperlink{classShape2D}{Shape2D}}$<$ T $>$\+::generate\+\_\+filling\
 \subsubsection{\texorpdfstring{generate\+\_\+filling\+\_\+vbo()}{generate\_filling\_vbo()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$$>$ \\
 void \mbox{\hyperlink{classShape2D}{Shape2D}}$<$ float $>$\+::generate\+\_\+filling\+\_\+vbo (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+Generates vertexes which fill the interior of 2D shapes. 
 
 \mbox{\Hypertarget{classShape2D_af67c7aed6e58b5aa0e3518a3ad1de75b}\label{classShape2D_af67c7aed6e58b5aa0e3518a3ad1de75b}} 
 \index{Shape2D@{Shape2D}!get\+\_\+filling\+\_\+vertexes@{get\+\_\+filling\+\_\+vertexes}}
@@ -63,14 +80,14 @@ void \mbox{\hyperlink{classShape2D}{Shape2D}}$<$ float $>$\+::generate\+\_\+fill
 {\footnotesize\ttfamily template$<$typename T $>$ \\
 unsigned \mbox{\hyperlink{classShape2D}{Shape2D}}$<$ T $>$\+::F\+I\+L\+L\+I\+N\+G\+\_\+\+V\+BO\hspace{0.3cm}{\ttfamily [protected]}}
 
-\mbox{\Hypertarget{classShape2D_ae3e216c9d8422b47f46bff9259bd17be}\label{classShape2D_ae3e216c9d8422b47f46bff9259bd17be}} 
+2D shapes consist of line, this buffer is meant to fill 2D shapes. \mbox{\Hypertarget{classShape2D_ae3e216c9d8422b47f46bff9259bd17be}\label{classShape2D_ae3e216c9d8422b47f46bff9259bd17be}} 
 \index{Shape2D@{Shape2D}!filling\+\_\+vertexes@{filling\+\_\+vertexes}}
 \index{filling\+\_\+vertexes@{filling\+\_\+vertexes}!Shape2D@{Shape2D}}
 \subsubsection{\texorpdfstring{filling\+\_\+vertexes}{filling\_vertexes}}
 {\footnotesize\ttfamily template$<$typename T $>$ \\
 \mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$T$>$ \mbox{\hyperlink{classShape2D}{Shape2D}}$<$ T $>$\+::filling\+\_\+vertexes\hspace{0.3cm}{\ttfamily [protected]}}
 
-
+vertexes for interior of 2D shapes. 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

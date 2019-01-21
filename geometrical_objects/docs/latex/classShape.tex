@@ -2,7 +2,7 @@
 \label{classShape}\index{Shape$<$ T $>$@{Shape$<$ T $>$}}
 
 
-virtual base class @  
+virtual base class for 2D and 3D shapes  
 
 
 
@@ -19,7 +19,7 @@ Inheritance diagram for Shape$<$ T $>$\+:\begin{figure}[H]
 \begin{DoxyCompactItemize}
 \item 
 virtual void \mbox{\hyperlink{classShape_ac5a35fe1b2ecb8fcfc050a31c8969805}{set\+\_\+min\+\_\+number\+\_\+of\+\_\+vertexes}} (unsigned num)
-\item 
+\begin{DoxyCompactList}\small\item\em As the name says, it sets minimal number of vertexes for a given shape. \end{DoxyCompactList}\item 
 virtual void \mbox{\hyperlink{classShape_a69dabd50440dba1ac463ad6819cdb506}{set\+\_\+vertex\+\_\+colors}} (\mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$ float $>$ \&colors\+\_\+)
 \item 
 \mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$ T $>$ \mbox{\hyperlink{classShape_a3729bbdd0c4e4f3379498734807bb545}{get\+\_\+vertexes}} ()
@@ -31,12 +31,12 @@ unsigned \mbox{\hyperlink{classShape_a131e85c7f5cad85bffb92e6719117cab}{num\+\_\
 virtual unsigned \mbox{\hyperlink{classShape_a58713d8cf7c4175e7c76eae75c94bc13}{get\+\_\+vertex\+\_\+size}} ()
 \item 
 void \mbox{\hyperlink{classShape_aabeb601fe95b412987d5b5c276bf8a7a}{generate\+\_\+random\+\_\+colors}} ()
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Generate random colors for each vertex. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 void \mbox{\hyperlink{classShape_a8b4f54a694871f9d131fdd105e1ca709}{initialize\+\_\+buffers}} ()
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Allocates and initializes vertex buffer object, element buffer object and vertex array object. It also allocates color buffer -\/ where color for each vertex is stored. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -58,7 +58,7 @@ unsigned \mbox{\hyperlink{classShape_a95c775e548b129e23d2dd32e23fb0f3e}{E\+BO}}
 \item 
 unsigned \mbox{\hyperlink{classShape_a66502f6f87b46a705d131dc7b0b67d42}{C\+BO}}
 \item 
-unsigned \mbox{\hyperlink{classShape_acb30d3bdd3434dc2cb3074a4d61985ed}{min\+\_\+vertexes}} = 5
+unsigned \mbox{\hyperlink{classShape_acb30d3bdd3434dc2cb3074a4d61985ed}{min\+\_\+vertexes}}
 \item 
 \mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$ float $>$ \mbox{\hyperlink{classShape_a1590ef02d7090f28d1ad312fd46f5030}{vertex\+\_\+colors}}
 \end{DoxyCompactItemize}
@@ -79,7 +79,9 @@ void \mbox{\hyperlink{classShape_aaff31c90cf40c78284454009c9fe0966}{draw\+\_\+2d
 \subsubsection*{template$<$typename T$>$\newline
 class Shape$<$ T $>$}
 
-virtual base class @ 
+virtual base class for 2D and 3D shapes 
+
+All shapes inherit from this class. It contains all basic structures for drawing including opengl buffers. 
 
 \subsection{Member Function Documentation}
 \mbox{\Hypertarget{classShape_aabeb601fe95b412987d5b5c276bf8a7a}\label{classShape_aabeb601fe95b412987d5b5c276bf8a7a}} 
@@ -88,6 +90,10 @@ virtual base class @
 \subsubsection{\texorpdfstring{generate\+\_\+random\+\_\+colors()}{generate\_random\_colors()}}
 {\footnotesize\ttfamily template$<$typename T$>$ \\
 void \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::generate\+\_\+random\+\_\+colors (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Generate random colors for each vertex. 
 
 \mbox{\Hypertarget{classShape_aabe9bd208b0ece9824cb45deccc11ba7}\label{classShape_aabe9bd208b0ece9824cb45deccc11ba7}} 
 \index{Shape@{Shape}!get\+\_\+colors@{get\+\_\+colors}}
@@ -117,6 +123,10 @@ virtual unsigned \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::get\+\_\+verte
 {\footnotesize\ttfamily template$<$typename T$>$ \\
 void \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::initialize\+\_\+buffers (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
 
+
+
+Allocates and initializes vertex buffer object, element buffer object and vertex array object. It also allocates color buffer -\/ where color for each vertex is stored. 
+
 \mbox{\Hypertarget{classShape_a131e85c7f5cad85bffb92e6719117cab}\label{classShape_a131e85c7f5cad85bffb92e6719117cab}} 
 \index{Shape@{Shape}!num\+\_\+vertexes@{num\+\_\+vertexes}}
 \index{num\+\_\+vertexes@{num\+\_\+vertexes}!Shape@{Shape}}
@@ -131,6 +141,15 @@ unsigned \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::num\+\_\+vertexes (\be
 {\footnotesize\ttfamily template$<$typename T$>$ \\
 virtual void \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::set\+\_\+min\+\_\+number\+\_\+of\+\_\+vertexes (\begin{DoxyParamCaption}\item[{unsigned}]{num }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
 
+
+
+As the name says, it sets minimal number of vertexes for a given shape. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em num} & minimal number of vertexes \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{classShape_a69dabd50440dba1ac463ad6819cdb506}\label{classShape_a69dabd50440dba1ac463ad6819cdb506}} 
 \index{Shape@{Shape}!set\+\_\+vertex\+\_\+colors@{set\+\_\+vertex\+\_\+colors}}
 \index{set\+\_\+vertex\+\_\+colors@{set\+\_\+vertex\+\_\+colors}!Shape@{Shape}}
@@ -217,9 +236,14 @@ vector holding all elements in correct order \mbox{\Hypertarget{classShape_acb30
 \index{min\+\_\+vertexes@{min\+\_\+vertexes}!Shape@{Shape}}
 \subsubsection{\texorpdfstring{min\+\_\+vertexes}{min\_vertexes}}
 {\footnotesize\ttfamily template$<$typename T$>$ \\
-unsigned \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::min\+\_\+vertexes = 5\hspace{0.3cm}{\ttfamily [protected]}}
+unsigned \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::min\+\_\+vertexes\hspace{0.3cm}{\ttfamily [protected]}}
 
-\mbox{\Hypertarget{classShape_a30771567edd66db5d14dc630f2d63f82}\label{classShape_a30771567edd66db5d14dc630f2d63f82}} 
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+=
+        5
+\end{DoxyCode}
+minimal number of vertexes to be generated for a given shape \mbox{\Hypertarget{classShape_a30771567edd66db5d14dc630f2d63f82}\label{classShape_a30771567edd66db5d14dc630f2d63f82}} 
 \index{Shape@{Shape}!V\+AO@{V\+AO}}
 \index{V\+AO@{V\+AO}!Shape@{Shape}}
 \subsubsection{\texorpdfstring{V\+AO}{VAO}}
@@ -240,7 +264,7 @@ vertex buffer object \mbox{\Hypertarget{classShape_a1590ef02d7090f28d1ad312fd46f
 {\footnotesize\ttfamily template$<$typename T$>$ \\
 \mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$float$>$ \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$\+::vertex\+\_\+colors\hspace{0.3cm}{\ttfamily [protected]}}
 
-\mbox{\Hypertarget{classShape_a7cf9cc243cdd64215eca4d81704c7199}\label{classShape_a7cf9cc243cdd64215eca4d81704c7199}} 
+Vector holding a color for each vertex. Four consequtive numbers form a rgb color value \mbox{\Hypertarget{classShape_a7cf9cc243cdd64215eca4d81704c7199}\label{classShape_a7cf9cc243cdd64215eca4d81704c7199}} 
 \index{Shape@{Shape}!vertex\+\_\+size@{vertex\+\_\+size}}
 \index{vertex\+\_\+size@{vertex\+\_\+size}!Shape@{Shape}}
 \subsubsection{\texorpdfstring{vertex\+\_\+size}{vertex\_size}}

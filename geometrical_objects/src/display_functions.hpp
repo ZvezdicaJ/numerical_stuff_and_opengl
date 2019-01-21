@@ -6,6 +6,12 @@ void OnMinusPressed(GLFWwindow *window);
 void OnEnterPressed(GLFWwindow *window, unsigned &enter_count);
 void OnClosePressed(GLFWwindow *window);
 
+/**
+ * @brief  This function is for initialization of Shape vector. It's not a
+ * general function and you have to check the implementation to see which shapes
+ * are implemented.
+ * @param shapes Vector of pointers to Shape objects.
+ */
 template <typename T>
 void initialize_shapes(std::vector<Shape<T> *> &shapes) {
     static_assert(std::is_same<float, T>::value ||
@@ -24,6 +30,7 @@ void display(std::vector<Shape<T> *> &shapes) {
     Shader<RENDER_TYPE::UNIFORM_COLOR> shader;
     display_all_shapes(shapes, shader);
 }
+
 
 template <RENDER_TYPE T, typename U>
 void display_all_shapes(std::vector<Shape<U> *> &shapes, Shader<T> &shader) {

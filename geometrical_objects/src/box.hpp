@@ -1,4 +1,9 @@
 #ifndef __BOX__
+
+/**
+ *@class Box
+ *@brief 3D box shape.
+ */
 template <typename T>
 class Box : public Shape3D<T> {
   private:
@@ -13,15 +18,21 @@ class Box : public Shape3D<T> {
     float perimeter();
 };
 
+/**
+   @brief A basic constructor.
+   @details The constructor generates vertexes and initializes buffers
+ */
 template <RENDER_TYPE T>
 Box<T>::Box() {
     this->vertex_size = 4;
     this->min_vertexes = 8;
     this->generate_vertexes();
-    this->compile_shaders();
     this->initialize_buffers();
 };
 
+/**
+ * @brief This function sets the correct vertexes.
+ */
 template <RENDER_TYPE T>
 void Box<T>::generate_vertexes() {
     vertexes = std::vector<float>({-0.5,

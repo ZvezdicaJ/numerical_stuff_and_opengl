@@ -1,5 +1,14 @@
 enum class RENDER_TYPE { UNIFORM_COLOR = 0, CUSTOM_COLOR = 1 };
 
+/**
+ * @class Shader
+ * @brief Class for shaders. This class compiles three shaders, one for each
+ * dimension.
+ * @details Class can either be UNIFORM_COLOR or CUSTOM_COLOR class. The
+ * difference is in shaders they compile. The first one compiles shader which
+ * assigns a single color to all vertexes. The latter assigns seprate color to
+ * each vertex.
+ */
 template <RENDER_TYPE T>
 class Shader {
   protected:
@@ -21,6 +30,9 @@ class Shader {
     unsigned get_shader_program(int i) { return shader_program[i]; }
 };
 
+/**
+ * @brief Constructor compiles shaders and tests them.
+ */
 template <>
 inline void Shader<RENDER_TYPE::UNIFORM_COLOR>::compile_shaders() {
     // create empty fragment shader
@@ -58,6 +70,9 @@ inline void Shader<RENDER_TYPE::UNIFORM_COLOR>::compile_shaders() {
     glDeleteShader(fragmentShader);
 }
 
+/**
+ * @brief Constructor compiles shaders and tests them.
+ */
 template <>
 inline void Shader<RENDER_TYPE::CUSTOM_COLOR>::compile_shaders() {
     // create empty fragment shader

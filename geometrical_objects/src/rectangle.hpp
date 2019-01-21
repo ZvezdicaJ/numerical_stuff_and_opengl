@@ -1,4 +1,8 @@
 #ifndef __RECTANGLE__
+/**
+ * @class Rectangle
+ * @brief Class holding rectangle vertexes.
+ */
 template <typename T = float>
 class Rectangle : public Shape2D<T> {
   private:

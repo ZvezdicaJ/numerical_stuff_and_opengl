@@ -2,6 +2,11 @@
 \label{classShape3D}\index{Shape3\+D$<$ T $>$@{Shape3\+D$<$ T $>$}}
 
 
+\mbox{\hyperlink{classThis}{This}} is a base class for all 3D shapes.  
+
+
+
+
 {\ttfamily \#include \char`\"{}shape.\+hpp\char`\"{}}
 
 Inheritance diagram for Shape3D$<$ T $>$\+:\begin{figure}[H]
@@ -16,9 +21,17 @@ Inheritance diagram for Shape3D$<$ T $>$\+:\begin{figure}[H]
 T \mbox{\hyperlink{classShape3D_add8607daa60f43c6cb71e7162c107d71}{area}} ()
 \item 
 {\footnotesize template$<$$>$ }\\float \mbox{\hyperlink{classShape3D_ae3c7c5cca570561caf09868885bea389}{area}} ()
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classThis}{This}} function calculates area of the given 3D shape. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class Shape3\+D$<$ T $>$}
+
+\mbox{\hyperlink{classThis}{This}} is a base class for all 3D shapes. 
+
+It inherits from \mbox{\hyperlink{classShape}{Shape}} class. Template parameter can either be float of double. It is meant to contain functions common to all 3D shapes -\/ like area and volume. 
 
 \subsection{Member Function Documentation}
 \mbox{\Hypertarget{classShape3D_add8607daa60f43c6cb71e7162c107d71}\label{classShape3D_add8607daa60f43c6cb71e7162c107d71}} 
@@ -36,6 +49,10 @@ T \mbox{\hyperlink{classShape3D}{Shape3D}}$<$ T $>$\+::area (\begin{DoxyParamCap
 float \mbox{\hyperlink{classShape3D}{Shape3D}}$<$ float $>$\+::area (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
+
+\mbox{\hyperlink{classThis}{This}} function calculates area of the given 3D shape. 
+
+It sums the areas of all triangles. For each triangle it calculates the area using Heron formula. 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

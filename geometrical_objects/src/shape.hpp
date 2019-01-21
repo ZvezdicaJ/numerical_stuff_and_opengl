@@ -76,6 +76,12 @@ class Shape {
         min_vertexes = num;
     };
 
+    /**
+     * @brief Set color for each vertex.
+     * @param colors_ A vector containing colors. 4 consequtive numbers form an
+     * rgb color value. Number of colors should be the same as the number of
+     * vertexes.
+     */
     virtual void set_vertex_colors(aligned_vector<float> &colors_) {
         assert(colors_.size() / 4 == vertexes.size() / vertex_size &&
                "Each vertex should have a color value in the form of vec4: "
