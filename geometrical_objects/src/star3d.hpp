@@ -1,24 +1,24 @@
-#ifndef __STAR__
+#ifndef __STAR3D__
 
-template <typename T = float> class Star : public Shape2D<T> {
+template <typename T = float> class Star3d : public Shape3D<T> {
   private:
     void generate_vertexes(int = 10, T = 0.5);
 
   public:
-    Star();
-    Star(int, T = 0.5);
-    Star(Star &&) = default;
-    Star &operator=(Star &&) = default;
-    Star(const Star &) = default;
-    Star &operator=(const Star &) = default;
+    Star3d();
+    Star3d(int, T = 0.5);
+    Star3d(Star3d &&) = default;
+    Star3d &operator=(Star3d &&) = default;
+    Star3d(const Star3d &) = default;
+    Star3d &operator=(const Star3d &) = default;
     T perimeter();
     T ratio;
 };
 
-template <typename T> Star<T>::Star() {
+template <typename T> Star3d<T>::Star3d() {
     this->draw_type = 'V';
-    this->vertex_size = 2;
-    this->min_vertexes = 50;
+    this->vertex_size = 3;
+    this->min_vertexes = 2;
     this->generate_vertexes();
     this->initialize_buffers();
     this->generate_filling_ebo();
@@ -26,7 +26,7 @@ template <typename T> Star<T>::Star() {
     // this->VAO << std::endl;
 };
 
-template <typename T> Star<T>::Star(int bulges, T ratio_) : ratio(ratio_) {
+template <typename T> Star3d<T>::Star3d(int bulges, T ratio_) : ratio(ratio_) {
     this->draw_type = 'V';
     this->vertex_size = 2;
     this->min_vertexes = 50;
@@ -35,12 +35,16 @@ template <typename T> Star<T>::Star(int bulges, T ratio_) : ratio(ratio_) {
 };
 
 template <>
-inline void Star<float>::generate_vertexes(int bulges, float ratio) {
+inline void Star3d<float>::generate_vertexes(int bulges, float ratio) {
     // this function always generates 4n-1 different vertexes;
     // -1 becase the last point is the same as the first one
 
-    this->vertexes.reserve(4 * bulges);
-    this->vertexes.resize(4 * bulges);
+    this->vertexes.reserve(2 * 3 *
+                           bulges); // 2 because to each leg owns 2 points and 3
+                                    // because each point has 3 coordinates
+    this->vertexes.resize(2 * 3 *
+                          bulges); // 2 because to each leg owns 2 points and 3
+                                   // because each point has 3 coordinates
     int tocke = 2 * bulges;
     int r = 4 * ((tocke) / 4); // points should be a multiple of 4
     int reminder = tocke - r;  // stevilo preostalih tock
@@ -89,7 +93,7 @@ inline void Star<float>::generate_vertexes(int bulges, float ratio) {
 }
 
 template <>
-inline void Star<double>::generate_vertexes(int bulges, double ratio) {
+inline void Star3d<double>::generate_vertexes(int bulges, double ratio) {
     // this function always generates 4n-1 different vertexes;
     // -1 becase the last point is the same as the first one
 
@@ -139,5 +143,5 @@ inline void Star<double>::generate_vertexes(int bulges, double ratio) {
     }
 }
 
-#define __STAR__
+#define __STAR3D__
 #endif

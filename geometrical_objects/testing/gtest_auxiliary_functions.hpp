@@ -401,3 +401,36 @@ TEST(arctan, avx2) {
     for (int j = 0; j < 4; j++)
         EXPECT_THAT(p[j], testing::DoubleNear(correct_result[j], 1e-13));
 }
+
+TEST(find_products, test1) {
+    int num = 20;
+    std::vector<std::pair<int, int>> correct_pairs({{1, 20}, {2, 10}, {4, 5}});
+    std::vector<std::pair<int, int>> pairs = find_products(num);
+    ASSERT_EQ(correct_pairs.size(), pairs.size());
+    for (unsigned i = 0; i < pairs.size(); i++) {
+        ASSERT_EQ(correct_pairs[i], pairs[i]);
+    }
+
+    num = 50;
+    correct_pairs =
+        std::vector<std::pair<int, int>>({{1, 20}, {2, 10}, {4, 5}});
+    pairs = find_products(num);
+    ASSERT_EQ(correct_pairs.size(), pairs.size());
+    for (unsigned i = 0; i < pairs.size(); i++) {
+        ASSERT_EQ(correct_pairs[i], pairs[i]);
+    }
+}
+
+TEST(closest_pair, test1) {
+    std::vector<std::pair<int, int>> pairs(
+        {{1, 20}, {2, 10}, {4, 5}, {4, 6}, {7, 10}, {9, 20}, {100, 151}});
+    std::pair<int, int> result = closest_pair(pairs);
+    std::pair<int, int> correct_result({4, 5});
+    ASSERT_EQ(result, correct_result);
+
+    pairs = std::vector<std::pair<int, int>>(
+        {{1, 20}, {-2, 10}, {5, 5}, {-4, 6}, {7, 10}, {-9, 20}, {-100, 151}});
+    result = std::pair<int, int>(closest_pair(pairs));
+    correct_result = std::pair<int, int>({5, 5});
+    ASSERT_EQ(result, correct_result);
+}

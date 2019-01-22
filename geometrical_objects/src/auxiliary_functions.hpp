@@ -1,12 +1,10 @@
-template <class T>
-inline void hash_combine(std::size_t &seed, const T &v) {
+template <class T> inline void hash_combine(std::size_t &seed, const T &v) {
     std::hash<T> hasher;
     seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
 }
 
 namespace std {
-template <typename S, typename T>
-struct hash<pair<S, T>> {
+template <typename S, typename T> struct hash<pair<S, T>> {
     inline size_t operator()(const pair<S, T> &v) const {
         size_t seed = 0;
         ::hash_combine(seed, v.first);
@@ -788,3 +786,24 @@ inline __m256d arctan(__m256d x) {
     return result;
 }
 #endif
+
+inline std::vector<std::pair<int, int>> find_products(int num) {
+    int upper_bound = std::floor(std::sqrt((float)num));
+    std::vector<std::pair<int, int>> pairs;
+    pairs.reserve(upper_bound / 2);
+    for (int i = 0; i < upper_bound; i++) {
+        if (num % i == 0)
+            pairs.emplace_back(i, num / i);
+    }
+    return pairs;
+}
+
+inline std::pair<int, int>
+closest_pair(std::vector<std::pair<int, int>> pairs) {
+    std::pair<int, int> min_el = *std::min_element(
+        std::begin(pairs), std::end(pairs),
+        [](std::pair<int, int> a, std::pair<int, int> b) {
+            return std::abs(a.first - a.second) < std::abs(b.first - b.second);
+        });
+    return min_el;
+}
