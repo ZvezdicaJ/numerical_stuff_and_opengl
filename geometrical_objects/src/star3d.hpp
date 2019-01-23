@@ -1,5 +1,9 @@
 #ifndef __STAR3D__
 
+/**
+   @class Star3d
+   @brief this class contains vertexes and elements for 3 dimensional star shape.
+ */
 template <typename T = float> class Star3d : public Shape3D<T> {
   private:
     void generate_vertexes(int = 10, T = 0.5);
@@ -34,8 +38,11 @@ template <typename T> Star3d<T>::Star3d(int bulges, T ratio_) : ratio(ratio_) {
     this->initialize_buffers();
 };
 
-template <>
-inline void Star3d<float>::generate_vertexes(int bulges, float ratio) {
+/**
+   @brief Generates vertexes for 3d star.
+ */
+template <typename T>
+inline void Star3d<T>::generate_vertexes(int bulges, T ratio) {
     // this function always generates 4n-1 different vertexes;
     // -1 becase the last point is the same as the first one
 
@@ -49,99 +56,30 @@ inline void Star3d<float>::generate_vertexes(int bulges, float ratio) {
     int r = 4 * ((tocke) / 4); // points should be a multiple of 4
     int reminder = tocke - r;  // stevilo preostalih tock
 
-    float korak = M_PI / (float)bulges;
-    __m128 ansatz = _mm_set_ps(ratio, 1.0, ratio, 1.0);
-    __m128 cons = _mm_set_ps(0, 1, 2, 3);
+    // first number is number of steps in fi direction.
+    // second number is number of steps in theta direction.
+    std::pair<int, int> steps = closest_pair(find_products(bulges));
 
-    __m128 korak_vec = _mm_set_ps1(korak);
-    for (int i = 0; i < r; i += 4) {
-        __m128 i_vec = _mm_set_ps1(i);
-        __m128 fi_vec = _mm_mul_ps(_mm_add_ps(i_vec, cons), korak_vec);
+    float korak_fi = M_PI / steps.first;
+    float korak_c_theta = 2.0 / steps.second;
 
-        __m128 cos_vec = _mm_mul_ps(cos(fi_vec), ansatz);
-        __m128 sin_vec = _mm_mul_ps(sin(fi_vec), ansatz);
+    int index;
 
-        __m128 tocki12 = _mm_unpackhi_ps(cos_vec, sin_vec);
-        tocki12 = _mm_shuffle_ps(tocki12, tocki12, _MM_SHUFFLE(1, 0, 3, 2));
-        __m128 tocki34 = _mm_unpacklo_ps(cos_vec, sin_vec);
-        tocki34 = _mm_shuffle_ps(tocki34, tocki34, _MM_SHUFFLE(1, 0, 3, 2));
-
-        _mm_storeu_ps(&(this->vertexes[0]) + 2 * i, tocki12);
-        _mm_storeu_ps(&(this->vertexes[0]) + 2 * i + 4, tocki34);
-    }
-
-    int starting_indeks = 4 * bulges - 2 - reminder * 2;
-    float factor;
-    int stevec = 0;
-    for (int i = reminder; i > 0; i--) {
-        if (!stevec) {
-            factor = 1.0;
-            stevec = 1;
-        } else if (stevec) {
-            factor = ratio;
-            stevec = 0;
+    for (int j = 0; j < steps.second; j++) {
+        T ct = -1 + korak_c_theta;
+        T st = sqrt(1 - ct * ct);
+        for (int i = 0; i < steps.first; i++) {
+            T fi = i * korak_fi;
+            T cf = cos(fi);
+            T sf = sin(fi);
+            vertexes[index] = st * cf;
+            vertexes[index + 1] = st * sf;
+            vertexes[index + 2] = ct;
+            index += 3;
         }
-        float angle = 2.0 * M_PI - (reminder + 1 - i) * korak;
-        int indeks = starting_indeks + 2 * i;
-        (this->vertexes)[indeks] = factor * std::cos(angle);
-        (this->vertexes)[indeks + 1] = factor * std::sin(angle);
-
-        // std::cout << "indeks: " << indeks << std::endl;
-        // std::cout << "kot: " << angle << " cos:  " << std::cos(angle)
-        // << " sin:  " << std::sin(angle) << std::endl;
     }
 }
 
-template <>
-inline void Star3d<double>::generate_vertexes(int bulges, double ratio) {
-    // this function always generates 4n-1 different vertexes;
-    // -1 becase the last point is the same as the first one
-
-    this->vertexes.reserve(4 * bulges);
-    this->vertexes.resize(4 * bulges);
-    int tocke = 2 * bulges;
-    int r = 4 * ((tocke) / 4);
-    int reminder = tocke - r; // stevilo preostalih tock
-
-    double korak = M_PI / (double)bulges;
-    __m256d ansatz = _mm256_setr_pd(ratio, ratio, 1.0, 1.0);
-    __m256d cons = _mm256_setr_pd(0, 2, 3, 1);
-
-    __m256d korak_vec = _mm256_set1_pd(korak);
-    for (int i = 0; i < r; i += 4) {
-        __m256d i_vec = _mm256_set1_pd(i);
-        __m256d fi_vec = _mm256_mul_pd(_mm256_add_pd(i_vec, cons), korak_vec);
-        __m256d cos_vec = _mm256_mul_pd(cos(fi_vec), ansatz);
-        __m256d sin_vec = _mm256_mul_pd(sin(fi_vec), ansatz);
-
-        __m256d tocki12 = _mm256_shuffle_pd(cos_vec, sin_vec, 0b1100);
-        __m256d tocki34 = _mm256_shuffle_pd(cos_vec, sin_vec, 0b0011);
-
-        _mm256_storeu_pd(&(this->vertexes[0]) + 2 * i, tocki12);
-        _mm256_storeu_pd(&(this->vertexes[0]) + 2 * i + 4, tocki34);
-    }
-
-    int starting_indeks = 4 * bulges - 2 - reminder * 2;
-    double factor;
-    int stevec = 0;
-    for (int i = reminder; i > 0; i--) {
-        if (!stevec) {
-            factor = 1.0;
-            stevec = 1;
-        } else if (stevec) {
-            factor = ratio;
-            stevec = 0;
-        }
-        double angle = 2.0 * M_PI - (reminder + 1 - i) * korak;
-        int indeks = starting_indeks + 2 * i;
-        (this->vertexes)[indeks] = factor * std::cos(angle);
-        (this->vertexes)[indeks + 1] = factor * std::sin(angle);
-
-        // std::cout << "indeks: " << indeks << std::endl;
-        // std::cout << "kot: " << angle << " cos:  " << std::cos(angle)
-        // << " sin:  " << std::sin(angle) << std::endl;
-    }
-}
 
 #define __STAR3D__
 #endif

@@ -787,6 +787,11 @@ inline __m256d arctan(__m256d x) {
 }
 #endif
 
+/**
+ * @brief The function finds all integer pairs whose multiplication yield the
+ * supplied.
+ * @param number to be factorized
+ */
 inline std::vector<std::pair<int, int>> find_products(int num) {
     int upper_bound = std::floor(std::sqrt((float)num));
     std::vector<std::pair<int, int>> pairs;
@@ -798,6 +803,10 @@ inline std::vector<std::pair<int, int>> find_products(int num) {
     return pairs;
 }
 
+/**
+ * @brief The function return closest pair of numbers
+ * @param Vector of pairs among which to find closest pair
+ */
 inline std::pair<int, int>
 closest_pair(std::vector<std::pair<int, int>> pairs) {
     std::pair<int, int> min_el = *std::min_element(
