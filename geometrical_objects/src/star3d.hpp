@@ -5,7 +5,8 @@
    @brief this class contains vertexes and elements for 3 dimensional star
    shape.
  */
-template <typename T = float> class Star3d : public Shape3D<T> {
+template <typename T = float>
+class Star3d : public Shape3D<T> {
   private:
     void generate_vertexes(int = 10, T = 0.5);
 
@@ -20,7 +21,8 @@ template <typename T = float> class Star3d : public Shape3D<T> {
     T ratio;
 };
 
-template <typename T> Star3d<T>::Star3d(int bulges, T ratio_) : ratio(ratio_) {
+template <typename T>
+Star3d<T>::Star3d(int bulges, T ratio_) : ratio(ratio_) {
     this->draw_type = 'V';
     this->vertex_size = 2;
     this->min_vertexes = 50;
@@ -54,9 +56,12 @@ inline void Star3d<T>::generate_vertexes(int bulges, T ratio) {
 
     int index = 0;
 
-    for (int j = 0; j < steps.second; j++) {
+    for (int j = 0; j <= steps.second; j++) {
         T ct = -1 + korak_c_theta;
         T st = sqrt(1 - ct * ct);
+
+        T ct2 = -1 + korak_c_theta * 3.0 / 2.0;
+        T st2 = sqrt(1 - ct2 * ct2);
         for (int i = 0; i < steps.first; i++) {
             T fi = i * korak_fi;
             T cf = cos(fi);
@@ -64,23 +69,19 @@ inline void Star3d<T>::generate_vertexes(int bulges, T ratio) {
             vertexes[index] = st * cf;
             vertexes[index + 1] = st * sf;
             vertexes[index + 2] = ct;
-            index += 3;
+            if (j != steps.second) {
+                T fi2 = i * korak_fi + korak_fi / 2;
+                T cf2 = cos(fi);
+                T sf2 = sin(fi);
+                vertexes[index + 3] = st2 * cf2;
+                vertexes[index + 4] = st2 * sf2;
+                vertexes[index + 5] = ct2;
+                index += 6;
+            } else
+                index += 3;
         }
     }
 
-    for (int j = 0; j < steps.second - 1; j++) {
-        T ct = -1 + korak_c_theta + korak_theta / 2;
-        T st = sqrt(1 - ct * ct);
-        for (int i = 0; i < 2 * steps.first - 1; i++) {
-            T fi = i * korak_fi + korak_fi / 2;
-            T cf = cos(fi);
-            T sf = sin(fi);
-            vertexes[index] = st * cf;
-            vertexes[index + 1] = st * sf;
-            vertexes[index + 2] = ct;
-            index += 3;
-        }
-    }
     // set elements
     int column = 0;
     int row = 0;
@@ -92,7 +93,7 @@ inline void Star3d<T>::generate_vertexes(int bulges, T ratio) {
         int p2 = column + row * steps.first + 1;
         int p3 = column + (row + 1) * steps.first;
         int p4 = column + (row + 1) * steps.first + 1;
-        element_array[triangle]=
+        element_array[triangle] =
     }
 }
 
