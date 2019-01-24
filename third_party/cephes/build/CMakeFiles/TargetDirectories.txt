@@ -1,3 +1,0 @@
-/home/jure/Documents/opengl/third_party/cephes/build/CMakeFiles/rebuild_cache.dir
-/home/jure/Documents/opengl/third_party/cephes/build/CMakeFiles/cephes.dir
-/home/jure/Documents/opengl/third_party/cephes/build/CMakeFiles/edit_cache.dir
