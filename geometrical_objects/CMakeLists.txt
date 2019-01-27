@@ -41,7 +41,7 @@ message(STATUS "glfw libraries: ${GLFW_LIBRARIES}")
 #target_compile_definitions(${PROJECT_NAME} PRIVATE "GLFW_INCLUDE_NONE")
 
 # GLAD
-set(GLAD_DIR /home/jure/Downloads/glad)
+set(GLAD_DIR ../third_party/glad)
 add_library(glad SHARED "${GLAD_DIR}/src/glad.c")
 target_include_directories(glad PRIVATE "${GLAD_DIR}/include")
 

@@ -1,0 +1,5 @@
+* linguist-vendored
+*.tex linguist-vendored=false
+*.html linguist-vendored=false
+*.nb linguist-vendored=false
+*.pdf linguist-vendored=false
