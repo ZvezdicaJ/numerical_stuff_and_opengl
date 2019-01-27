@@ -70,7 +70,7 @@ void draw(Shape<T> &shape, Shader<RENDER_TYPE::UNIFORM_COLOR> &shader_object,
 
     if (shape.vertex_size == 3) {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shape.EBO);
-        glDrawElements(GL_TRIANGLES, shape.element_array.size(),
+        glDrawElements(GL_TRIANGLES, 3, // shape.element_array.size(),
                        GL_UNSIGNED_INT, 0);
     } else if (shape.vertex_size == 2) {
         glDrawArrays(GL_LINE_LOOP, 0,
@@ -256,10 +256,10 @@ void draw_2d_object(Shape2D<T> &shape,
                     std::array<float, 3> rotation_axis = {0, 0, 1},
                     float angle = 0, glm::vec4 color = {0.5, 0.5, 0.5, 0.5}) {
     // if (shape_.vertex_size == 2) {
-        // std::cout << "draw_2d_object can display only 2d shapes";
+    // std::cout << "draw_2d_object can display only 2d shapes";
     //    return;
     // }
-    //Shape2D<T> shape = std::static_cast<Shape2D<T>>(shape_);
+    // Shape2D<T> shape = std::static_cast<Shape2D<T>>(shape_);
     //    assert(shape.vertex_size == 2 && "draw_polygon is made only for 2d
     //    shapes");
     unsigned shaderProgram =

@@ -1,10 +1,12 @@
-template <class T> inline void hash_combine(std::size_t &seed, const T &v) {
+template <class T>
+inline void hash_combine(std::size_t &seed, const T &v) {
     std::hash<T> hasher;
     seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
 }
 
 namespace std {
-template <typename S, typename T> struct hash<pair<S, T>> {
+template <typename S, typename T>
+struct hash<pair<S, T>> {
     inline size_t operator()(const pair<S, T> &v) const {
         size_t seed = 0;
         ::hash_combine(seed, v.first);
@@ -796,9 +798,12 @@ inline std::vector<std::pair<int, int>> find_products(int num) {
     int upper_bound = std::floor(std::sqrt((float)num));
     std::vector<std::pair<int, int>> pairs;
     pairs.reserve(upper_bound / 2);
-    for (int i = 0; i < upper_bound; i++) {
-        if (num % i == 0)
-            pairs.emplace_back(i, num / i);
+
+    for (int i = 1; i <= upper_bound; i++) {
+        if (num % i == 0) {
+            std::pair<int, int> p({i, num / i});
+            pairs.push_back(std::make_pair(i, num / i));
+        }
     }
     return pairs;
 }

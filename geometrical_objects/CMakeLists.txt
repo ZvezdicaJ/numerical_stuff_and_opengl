@@ -2,19 +2,19 @@ cmake_minimum_required(VERSION 3.2)
 #set(CMAKE_C_COMPILER gcc CACHE STRING "C compiler" FORCE)
 #set(CMAKE_CXX_COMPILER g++ CACHE STRING "C++ compiler" FORCE)
 
-set(CMAKE_CXX_COMPILER "g++" CACHE STRING "C++ compiler" FORCE)
+#set(CMAKE_CXX_COMPILER "g++" CACHE STRING "C++ compiler" FORCE)
 
-#set(CMAKE_CXX_COMPILER "/opt/intel/system_studio_2019/compilers_and_libraries/linux/bin/intel64/icc" CACHE STRING "C++ compiler" FORCE)
+set(CMAKE_CXX_COMPILER "/opt/intel/system_studio_2019/compilers_and_libraries/linux/bin/intel64/icc" CACHE STRING "C++ compiler" FORCE)
 
 message(STATUS "compiler: ${CMAKE_CXX_COMPILER}")
 if("g++" STREQUAL "$CMAKE_CXX_COMPILER")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -ffast-math -msse -mavx -mavx2 -mfma -Wall -Wnon-template-friend -Wno-unused-variable")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse -msse4.1 -mno-avx -mno-avx2 -mno-fma -Wall -Wnon-template-friend -Wno-unused-variable")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -ffast-math -msse -mavx -mavx2 -mfma -Wall -Wnon-template-friend -Wno-unused-variable -Wmaybe-uninitialized")
+  #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse -msse4.1 -mno-avx -mno-avx2 -mno-fma -Wall -Wnon-template-friend -Wno-unused-variable")
 
 else("g++" STREQUAL "$CMAKE_CXX_COMPILER")
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -ffast-math -msse -mavx -mavx2 -mfma -Wall -Wno-unused-variable")
+  
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -ffast-math -msse -mavx -mavx2 -mfma -Wall -Wno-unused-variable")
 
 endif("g++" STREQUAL "$CMAKE_CXX_COMPILER")
 
@@ -45,13 +45,19 @@ set(GLAD_DIR /home/jure/Downloads/glad)
 add_library(glad SHARED "${GLAD_DIR}/src/glad.c")
 target_include_directories(glad PRIVATE "${GLAD_DIR}/include")
 
+set(APEX_MEMMOVE_DIR ../third_party/apex_memmove/)
+add_library(apex_memmove "${APEX_MEMMOVE_DIR}/apex_memmove.c"
+  "${APEX_MEMMOVE_DIR}/apex_memmove.cpp"
+  "${APEX_MEMMOVE_DIR}/apex_memmove.h")
+
+
 add_executable(opengl_test
   src/opengl_test.cpp
   src/check_shaders.cpp
   src/display_functions.cpp)
 
 target_include_directories(opengl_test PRIVATE "${GLAD_DIR}/include")
-target_link_libraries(opengl_test glad /usr/local/lib/libglfw.so)
+target_link_libraries(opengl_test glad /usr/local/lib/libglfw.so apex_memmove)
 
 
 # Locate GTest
@@ -63,7 +69,8 @@ add_executable(runTests
   testing/gtest_tests.cpp)
 
 target_include_directories(runTests PRIVATE "${GLAD_DIR}/include")
-target_link_libraries(runTests glad /usr/local/lib/libglfw.so libdl.so)
+target_link_libraries(runTests glad /usr/local/lib/libglfw.so libdl.so
+  apex_memmove)
 
 target_link_libraries(runTests ${GTEST_LIBRARIES} pthread)
 

@@ -42,6 +42,7 @@
 #include "star.hpp"
 #include "box.hpp"
 #include "disk.hpp"
+#include "star3d.hpp"
 #include "display_functions.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL

@@ -410,15 +410,15 @@ TEST(find_products, test1) {
     for (unsigned i = 0; i < pairs.size(); i++) {
         ASSERT_EQ(correct_pairs[i], pairs[i]);
     }
-
+    
     num = 50;
     correct_pairs =
-        std::vector<std::pair<int, int>>({{1, 20}, {2, 10}, {4, 5}});
+        std::vector<std::pair<int, int>>({{1, 50}, {2, 25}, {5, 10}});
     pairs = find_products(num);
     ASSERT_EQ(correct_pairs.size(), pairs.size());
     for (unsigned i = 0; i < pairs.size(); i++) {
         ASSERT_EQ(correct_pairs[i], pairs[i]);
-    }
+        }
 }
 
 TEST(closest_pair, test1) {
@@ -428,9 +428,9 @@ TEST(closest_pair, test1) {
     std::pair<int, int> correct_result({4, 5});
     ASSERT_EQ(result, correct_result);
 
-    pairs = std::vector<std::pair<int, int>>(
+        pairs = std::vector<std::pair<int, int>>(
         {{1, 20}, {-2, 10}, {5, 5}, {-4, 6}, {7, 10}, {-9, 20}, {-100, 151}});
     result = std::pair<int, int>(closest_pair(pairs));
     correct_result = std::pair<int, int>({5, 5});
     ASSERT_EQ(result, correct_result);
-}
+    }

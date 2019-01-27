@@ -190,7 +190,7 @@ inline void Shape2D<float>::generate_filling_vbo() {
         filling_vertexes[2 * filling_number_of_points - 4] =
             vertexes[2 * number_of_points - 1];
     }
-    print_vertexes(&filling_vertexes[0], filling_vertexes.size() / 2, 2);
+    //print_vertexes(&filling_vertexes[0], filling_vertexes.size() / 2, 2);
     /*std::cout
         << "address is 16 byte aligned: "
         << (((unsigned long)(&filling_vertexes[filling_number_of_points - 4]) &
