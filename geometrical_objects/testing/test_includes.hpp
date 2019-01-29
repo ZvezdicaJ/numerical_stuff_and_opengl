@@ -18,10 +18,12 @@
 #include <unordered_map>
 #include <vector>
 #include <random>
+#include <list>
 #include <functional>
 #include <boost/align/aligned_allocator.hpp> // this is for aligned std::vector
 
 #include "../src/type_definitions.hpp"
+#include "../src/convex_hull.hpp"
 
 #include "../src/check_shaders.hpp"
 #include "../src/shaders.hpp"

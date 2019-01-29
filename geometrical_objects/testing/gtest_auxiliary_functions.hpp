@@ -61,7 +61,7 @@ TEST(load_store, avx2) {
 }
 #endif
 
-#ifdef __FMA__
+#ifdef __SSE__
 TEST(cross_product, sse) {
     __m128 a = _mm_setr_ps(1.0, 2.0, 3.0, 0.0);
     __m128 b = _mm_setr_ps(5.0, -2.0, 9.0, 0.0);
@@ -96,6 +96,7 @@ TEST(factorial, scalar) {
     ASSERT_EQ(24, scalar_factorial(4));
 }
 
+#ifdef __SSE__
 TEST(chebyshev, sse) {
     std::array<float, 4> x_vec({1, 2, 3, 0});
     __m128 x = _mm_loadu_ps(x_vec.data());
@@ -121,6 +122,7 @@ TEST(chebyshev, sse) {
     for (int j = 0; j < 4; j++)
         EXPECT_THAT(p[j], testing::FloatNear(correct_result[j], 1e-4));
 }
+#endif
 
 #ifdef __AVX2__
 TEST(chebyshev, avx2) {
@@ -279,6 +281,7 @@ TEST(chebyshev_next, avx2_test3) {
 }
 #endif
 
+#ifdef __SSE__
 TEST(cos, sse) {
     std::array<float, 4> x_vec({-M_PI, 0, M_PI / 2, M_PI});
     __m128 x = _mm_loadu_ps(x_vec.data());
@@ -289,6 +292,7 @@ TEST(cos, sse) {
     for (int j = 0; j < 4; j++)
         EXPECT_THAT(p[j], testing::FloatNear(correct_result[j], 5e-6));
 }
+#endif
 
 #ifdef __AVX2__
 TEST(cos, avx2) {
@@ -303,6 +307,7 @@ TEST(cos, avx2) {
 }
 #endif
 
+#ifdef __SSE__
 TEST(tan, sse) {
     std::array<float, 4> x_vec({-0.7, -0.3, 0.33, 1.553});
     __m128 x = _mm_loadu_ps(x_vec.data());
@@ -330,6 +335,7 @@ TEST(tan, sse) {
         EXPECT_THAT(p[j], testing::FloatNear(correct_result[j], tol));
     }
 }
+#endif
 
 #ifdef __AVX2__
 TEST(tan, avx2) {
@@ -360,6 +366,7 @@ TEST(tan, avx2) {
 }
 #endif
 
+#ifdef __SSE__
 TEST(arctan, sse) {
     std::array<float, 4> x_vec({-50, -0.4, 0.37, 0.97});
     __m128 x = _mm_loadu_ps(x_vec.data());
@@ -379,7 +386,9 @@ TEST(arctan, sse) {
     for (int j = 0; j < 4; j++)
         EXPECT_THAT(p[j], testing::FloatNear(correct_result[j], 2e-7));
 }
+#endif
 
+#ifdef __AVX2__
 TEST(arctan, avx2) {
     std::array<double, 4> x_vec({-50, -0.4, 0.37, 0.97});
     __m256d x = _mm256_loadu_pd(x_vec.data());
@@ -401,6 +410,7 @@ TEST(arctan, avx2) {
     for (int j = 0; j < 4; j++)
         EXPECT_THAT(p[j], testing::DoubleNear(correct_result[j], 1e-13));
 }
+#endif
 
 TEST(find_products, test1) {
     int num = 20;
@@ -410,7 +420,7 @@ TEST(find_products, test1) {
     for (unsigned i = 0; i < pairs.size(); i++) {
         ASSERT_EQ(correct_pairs[i], pairs[i]);
     }
-    
+
     num = 50;
     correct_pairs =
         std::vector<std::pair<int, int>>({{1, 50}, {2, 25}, {5, 10}});
@@ -418,7 +428,7 @@ TEST(find_products, test1) {
     ASSERT_EQ(correct_pairs.size(), pairs.size());
     for (unsigned i = 0; i < pairs.size(); i++) {
         ASSERT_EQ(correct_pairs[i], pairs[i]);
-        }
+    }
 }
 
 TEST(closest_pair, test1) {
@@ -428,9 +438,9 @@ TEST(closest_pair, test1) {
     std::pair<int, int> correct_result({4, 5});
     ASSERT_EQ(result, correct_result);
 
-        pairs = std::vector<std::pair<int, int>>(
+    pairs = std::vector<std::pair<int, int>>(
         {{1, 20}, {-2, 10}, {5, 5}, {-4, 6}, {7, 10}, {-9, 20}, {-100, 151}});
     result = std::pair<int, int>(closest_pair(pairs));
     correct_result = std::pair<int, int>({5, 5});
     ASSERT_EQ(result, correct_result);
-    }
+}

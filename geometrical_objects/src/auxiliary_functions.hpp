@@ -1,12 +1,10 @@
-template <class T>
-inline void hash_combine(std::size_t &seed, const T &v) {
+template <class T> inline void hash_combine(std::size_t &seed, const T &v) {
     std::hash<T> hasher;
     seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
 }
 
 namespace std {
-template <typename S, typename T>
-struct hash<pair<S, T>> {
+template <typename S, typename T> struct hash<pair<S, T>> {
     inline size_t operator()(const pair<S, T> &v) const {
         size_t seed = 0;
         ::hash_combine(seed, v.first);
@@ -55,6 +53,8 @@ struct hash<pair<S, T>> {
 #define _CMP_GT_OQ 0x1e    /* Greater-than (ordered, non-signaling)  */
 #define _CMP_TRUE_US 0x1f  /* True (unordered, signaling)  */
 #endif
+
+#ifdef __SSE__
 /**
  *Function loads 3 floats to a sse vector, the last value is set to 0.
  * @param value float pointer pointing to first element
@@ -84,9 +84,11 @@ inline __m128 load_vertex2(float *value) {
     // we now need to cast the __m128i register into a __m18 one (0ZYX)
     return _mm_movelh_ps(_mm_castsi128_ps(xy), z);
 }
+#endif
 
 /**
- * @brief Calculates cross product of two __m128 vectors (floats): a x b.
+ * @brief Old version: Calculates cross product of two __m128 vectors (floats):
+ * a x b.
  * @param a __m128 vector
  * @param b __m128 vector
  */
@@ -109,6 +111,11 @@ inline __m128 cross_product_old(__m128 a, __m128 b) {
     return result;
 }
 
+/**
+ * @brief Calculates cross product of two __m128 vectors (floats): a x b.
+ * @param a __m128 vector
+ * @param b __m128 vector
+ */
 inline __m128 cross_product(__m128 a, __m128 b) {
 #ifndef __FMA__
     __m128 result = _mm_sub_ps(
@@ -220,6 +227,7 @@ inline int scalar_factorial(int n) {
     return prod;
 }
 
+#ifdef __SSE__
 /**
  * @brief Calculates Chebyshev polynomials.
  * @param n number of Chebyshev polynomial to calculate
@@ -272,6 +280,7 @@ inline __m128 chebyshev(int n, __m128 x_vec) {
     }
     return Tnp1;
 }
+#endif
 
 #ifdef __AVX2__
 /**
@@ -312,6 +321,7 @@ inline __m256d chebyshev(int n, __m256d x_vec) {
 }
 #endif
 
+#ifdef __SSE__
 /**
  * @brief Given previous two chebyshev polynomials and vector of x values, the
  * function calculates next chebyshev polynomial.
@@ -328,6 +338,7 @@ inline __m128 chebyshev_next(__m128 &cn, __m128 &cn_1, __m128 &x_vec) {
                       cn_1);
 #endif
 }
+#endif
 
 #ifdef __AVX2__
 /**
@@ -342,6 +353,7 @@ inline __m256d chebyshev_next(__m256d &cn, __m256d &cn_1, __m256d &x_vec) {
 }
 #endif
 
+#ifdef __SSE__
 /**
  * @brief Given previous two chebyshev polynomials and vector of x values, the
  * function calculates next chebyshev polynomial.
@@ -380,6 +392,7 @@ inline __m128 cos(__m128 x_vec_) {
     }
     return sum;
 }
+#endif
 
 #ifdef __AVX2__
 /**
@@ -416,6 +429,7 @@ inline __m256d cos(__m256d x_vec_) {
 }
 #endif
 
+#ifdef __SSE__
 /**
  * @brief calculates single precision sin.
  * @param x_vec vector of x values for which the sin is calculated
@@ -446,7 +460,9 @@ inline __m128 sin(__m128 x_vec_) {
     }
     return sum;
 }
+#endif
 
+#ifdef __AVX2__
 /**
  * @brief calculates double precision sin.
  * @param x_vec vector of x values for which the sin is calculated
@@ -471,7 +487,9 @@ inline __m256d sin(__m256d x_vec_) {
     }
     return sum;
 }
+#endif
 
+#ifdef __SSE__
 /**
  * @brief given two consequtive Legendre polynomials, this code calculates next
  * Legendre polynomial
@@ -501,7 +519,9 @@ inline __m128 legendre_next(__m128 Pn, __m128 Pnm1, __m128 x_vec, int n) {
 #endif
     return result;
 }
+#endif
 
+#ifdef __SSE__
 /**
  *@brief This function calculates tangens of sse vector.
  *@details For detailed documentation on formula used check pdf files discussing
@@ -524,6 +544,7 @@ inline __m128 tan(__m128 x) {
     __m128 x8 = _mm_mul_ps(x4, x4);
     __m128 x9 = _mm_mul_ps(x4, x5);
     __m128 coeff1 = _mm_set_ps1(34459425);
+#ifdef __FMA__
     __m128 numerator = _mm_fmsub_ps(
         x, coeff1,
         _mm_fmsub_ps(x3, _mm_set_ps1(4729725),
@@ -536,14 +557,37 @@ inline __m128 tan(__m128 x) {
             x6, _mm_set_ps1(13860),
             _mm_fmsub_ps(x4, _mm_set_ps1(945945),
                          _mm_fmsub_ps(x2, _mm_set_ps1(16216200), coeff1))));
+#endif
+#ifndef __FMA__
+    __m128 numerator = _mm_sub_ps(
+        _mm_mul_ps(x, coeff1),
+        _mm_sub_ps(
+            _mm_mul_ps(x3, _mm_set_ps1(4729725)),
+            _mm_sub_ps(_mm_mul_ps(x5, _mm_set_ps1(135135)),
+                       _mm_sub_ps(_mm_mul_ps(x7, _mm_set_ps1(990)), x9))));
+    // imenovalec: 34459425 - 16216200*a^2 + 945945 a^4 - 13860*a^6 + 45*a^8
+    __m128 denominator = _mm_sub_ps(
+        _mm_mul_ps(x8, _mm_set_ps1(45)),
+        _mm_sub_ps(_mm_mul_ps(x6, _mm_set_ps1(13860)),
+                   _mm_sub_ps(_mm_mul_ps(x4, _mm_set_ps1(945945)),
+                              _mm_sub_ps(_mm_mul_ps(x2, _mm_set_ps1(16216200)),
+                                         coeff1))));
+#endif
     return _mm_div_ps(numerator, denominator);
+}
 
-    /* version 2 C(5,a)
+
+/**
+ *@brief This function calculates tangens of sse vector.
+ *@details For detailed documentation on formula used check pdf files discussing
+ *trigonometric functions. This is float version and uses sse instructions.
+ */
+inline __m128 tan_ver2(__m128 x) {
     __m128 x2 = _mm_mul_ps(x, x);
     // stevec    -654729075 a + 91891800 a^3 - 2837835 a^5 + 25740 a^7 - 55 a^9
     __m128 numerator = _mm_sub_ps(x2, _mm_set_ps1(55));
     __m128 coeff1 = _mm_set_ps1(654729075);
-
+#ifdef __FMA__
     numerator = _mm_fmadd_ps(x, _mm_mul_ps(x, numerator), _mm_set_ps1(25740));
     numerator = _mm_fmsub_ps(x, _mm_mul_ps(x, numerator), _mm_set_ps1(2837835));
     numerator =
@@ -563,20 +607,27 @@ inline __m128 tan(__m128 x) {
         _mm_fmadd_ps(x, _mm_mul_ps(x, denominator), _mm_set_ps1(310134825));
 
     denominator = _mm_fmsub_ps(x, _mm_mul_ps(x, denominator), coeff1);
+#endif
     return _mm_div_ps(numerator, denominator);
-    */
-    /* version 4 S(4,a)
+}
+
+/**
+ *@brief This function calculates tangens of sse vector.
+ *@details For detailed documentation on formula used check pdf files discussing
+ *trigonometric functions. This is float version and uses sse instructions.
+ */
+inline __m128 tan_ver3(__m128 x) {
+    // version 4 S(4,a)
     // this function should calculate tan to 1e-8 precision
     // stevec : 34459425 * a - 4729725 * a ^ 3 + 135135 * a ^ 5 - 990 a ^ 7 + a
     // ^ 9;
     __m128 x2 = _mm_mul_ps(x, x);
     __m128 coeff1 = _mm_set_ps1(34459425);
-    __m128 numerator = _mm_sub_ps(x2,_mm_set_ps1(-990));
+    __m128 numerator = _mm_sub_ps(x2, _mm_set_ps1(-990));
+#ifdef __FMA__
     numerator = _mm_fmadd_ps(x, _mm_mul_ps(x, numerator), _mm_set_ps1(135135));
-    numerator =
-        _mm_fmsub_ps(x, _mm_mul_ps(x, numerator), _mm_set_ps1(4729725));
-    numerator =
-        _mm_fmadd_ps(x, _mm_mul_ps(x, numerator), coeff1;
+    numerator = _mm_fmsub_ps(x, _mm_mul_ps(x, numerator), _mm_set_ps1(4729725));
+    numerator = _mm_fmadd_ps(x, _mm_mul_ps(x, numerator), coeff1);
     numerator = _mm_mul_ps(x, numerator);
 
     // imenovalec: 34459425 - 16216200*a^2 + 945945 a^4 - 13860*a^6 + 45*a^8
@@ -587,11 +638,11 @@ inline __m128 tan(__m128 x) {
         _mm_fmadd_ps(x, _mm_mul_ps(x, denominator), _mm_set_ps1(945945));
     denominator =
         _mm_fmsub_ps(x, _mm_mul_ps(x, denominator), _mm_set_ps1(16216200));
-    denominator =
-        _mm_fmadd_ps(x, _mm_mul_ps(x, denominator), coeff1);
+    denominator = _mm_fmadd_ps(x, _mm_mul_ps(x, denominator), coeff1);
+#endif
     return _mm_div_ps(numerator, denominator);
-    */
 }
+#endif
 
 #ifdef __AVX2__
 /**
@@ -601,8 +652,8 @@ inline __m128 tan(__m128 x) {
  */
 inline __m256d tan(__m256d x) {
     // this function should calculate tan to 1e-8 precision
-    // stevec : 34459425 * a - 4729725 * a ^ 3 + 135135 * a ^ 5 - 990 a ^ 7 + a
-    // ^ 9;
+    // stevec : 34459425 * a - 4729725 * a ^ 3 + 135135 * a ^ 5 - 990 a ^ 7
+    // + a ^ 9;
     __m256d x2 = _mm256_mul_pd(x, x);
     __m256d x3 = _mm256_mul_pd(x2, x);
     __m256d x4 = _mm256_mul_pd(x2, x2);
@@ -630,6 +681,7 @@ inline __m256d tan(__m256d x) {
 }
 #endif
 
+#ifdef __SSE__
 /**
  *@brief This function calculates arcus tangens of sse vector.
  *@details For detailed documentation on formula used check pdf files discussing
@@ -643,8 +695,12 @@ inline __m128 arctan(__m128 x) {
     __m128 cmp1x2 = _mm_mul_ps(_mm_set_ps1(2.0), cmp1);
     // cmp1 =_mm_xor_ps(v, _mm_set1_ps(-0.0)); convert 1 to -1
     // now calculate absolute value
+#ifdef __FMA__
     x = _mm_fmadd_ps(cmp1x2, x, x);
-
+#endif
+#ifndef __FMA__
+    x = _mm_add_ps(_mm_mul_ps(cmp1x2, x), x);
+#endif
     __m128 cmp2 = _mm_cmpgt_ps(x, _mm_set_ps1(1.0));
     // cmp2 = _mm_and_ps(cmp2, _mm_set_ps1(1.0));
 
@@ -654,6 +710,7 @@ inline __m128 arctan(__m128 x) {
     // numerator coefficients a^0, a^1, a^2, a^3,....
     // {0, 2342475135, 0, 5941060125, 0, 5429886462, 0, 2146898754, 0,
     //        341536195, 0, 14928225}
+#ifdef __FMA__
     __m128 numerator = _mm_fmadd_ps(_mm_mul_ps(x, _mm_set_ps1(14928225)), x,
                                     _mm_set_ps1(341536195));
     numerator =
@@ -683,15 +740,54 @@ inline __m128 arctan(__m128 x) {
         _mm_fmadd_ps(x, _mm_mul_ps(denominator, x), _mm_set_ps1(6721885170));
     denominator =
         _mm_fmadd_ps(x, _mm_mul_ps(denominator, x), _mm_set_ps1(2342475135));
+#endif
+#ifndef __FMA__
+    __m128 numerator =
+        _mm_add_ps(_mm_mul_ps(_mm_mul_ps(x, _mm_set_ps1(14928225)), x),
+                   _mm_set_ps1(341536195));
+    numerator = _mm_add_ps(_mm_mul_ps(_mm_mul_ps(x, numerator), x),
+                           _mm_set_ps1(2146898754));
 
+    numerator = _mm_add_ps(_mm_mul_ps(_mm_mul_ps(x, numerator), x),
+                           _mm_set_ps1(5429886462));
+
+    numerator = _mm_fmadd_ps(_mm_mul_ps(_mm_mul_ps(x, numerator), x),
+                             _mm_set_ps1(5941060125));
+
+    numerator = _mm_add_ps(_mm_mul_ps(_mm_mul_ps(x, numerator), x),
+                           _mm_set_ps1(2342475135));
+    numerator = _mm_mul_ps(numerator, x);
+
+    // {2342475135, 0, 6721885170, 0, 7202019825, 0, 3537834300, 0,
+    // 780404625, 0, 62432370, 0, 800415}
+    __m128 denominator =
+        _mm_add_ps(_mm_mul_ps(x, _mm_mul_ps(x, _mm_set_ps1(800415))),
+                   _mm_set_ps1(62432370));
+    denominator = _mm_add_ps(_mm_mul_ps(x, _mm_mul_ps(denominator, x)),
+                             _mm_set_ps1(780404625));
+    denominator = _mm_add_ps(_mm_mul_ps(x, _mm_mul_ps(denominator, x)),
+                             _mm_set_ps1(3537834300));
+    denominator = _mm_add_ps(_mm_mul_ps(x, _mm_mul_ps(denominator, x)),
+                             _mm_set_ps1(7202019825));
+    denominator = _mm_add_ps(_mm_mul_ps(x, _mm_mul_ps(denominator, x)),
+                             _mm_set_ps1(6721885170));
+    denominator = _mm_add_ps(_mm_mul_ps(x, _mm_mul_ps(denominator, x)),
+                             _mm_set_ps1(2342475135));
+#endif
     __m128 result = _mm_div_ps(numerator, denominator);
     __m128 pi2 = _mm_set_ps1(M_PI / 2.0);
     __m128 x_pi = _mm_sub_ps(pi2, result);
     result = _mm_blendv_ps(result, x_pi, cmp2);
+#ifdef __FMA__
     cmp1 = _mm_fmadd_ps(cmp1, _mm_set_ps1(2.0), _mm_set_ps1(1.0));
+#endif
+#ifndef __FMA__
+    cmp1 = _mm_add_ps(_mm_mul_ps(cmp1, _mm_set_ps1(2.0)), _mm_set_ps1(1.0));
+#endif
     result = _mm_mul_ps(result, cmp1);
     return result;
 }
+#endif
 
 #ifdef __AVX2__
 /**
