@@ -28,6 +28,7 @@
 #include <boost/align/aligned_allocator.hpp> // this is for aligned std::vector
 
 #include "type_definitions.hpp"
+#include "convex_hull.hpp"
 
 #include "check_shaders.hpp"
 #include "shaders.hpp"

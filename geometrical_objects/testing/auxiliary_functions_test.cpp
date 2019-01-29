@@ -75,7 +75,7 @@ void test_factorial(int n_min, int n_max) {
     file << "sse_version scalar_version" << std::endl;
     for (int i = n_min; i <= n_max; i++) {
         __m128i sse_fac = sse_factorial(i);
-        file << *((int *)&sse_fac) << " ";
+        file << _mm_extract_epi32(sse_fac, 0b00000000) << " ";
         int sca_fac = scalar_factorial(i);
         file << sca_fac << std::endl;
     }
