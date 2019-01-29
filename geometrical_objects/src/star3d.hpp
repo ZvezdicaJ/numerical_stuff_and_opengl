@@ -41,7 +41,7 @@ inline void Star3d<T>::generate_vertexes(int bulges, T ratio) {
     // second number is number of steps in theta direction.
     std::pair<int, int> steps = closest_pair(find_products(bulges));
 
-    float korak_fi = M_PI / steps.first;
+    float korak_fi = 2 * M_PI / steps.first;
     float korak_c_theta = 2.0 / steps.second;
 
     this->vertexes.reserve(3 * (2 * bulges + steps.first));
@@ -62,19 +62,19 @@ inline void Star3d<T>::generate_vertexes(int bulges, T ratio) {
 
     // loop v smeri theta - po vrsticah
     for (int j = 0; j <= steps.second; j++) {
-        T ct = -1 + korak_c_theta;
+        T ct = -1.0 + j * korak_c_theta;
         T st = sqrt(1 - ct * ct);
 
-        T ct2 = -1 + korak_c_theta * 3.0 / 2.0;
+        T ct2 = -1 + j * korak_c_theta + korak_c_theta / 2.0;
         T st2 = sqrt(1 - ct2 * ct2);
         // loop v smeri phi - po stolpcih
         for (int i = 0; i < steps.first; i++) {
             T fi = i * korak_fi;
             T cf = cos(fi);
             T sf = sin(fi);
-            this->vertexes[index] = ratio*st * cf;
-            this->vertexes[index + 1] = ratio*st * sf;
-            this->vertexes[index + 2] = ratio*ct;
+            this->vertexes[index] = ratio * st * cf;
+            this->vertexes[index + 1] = ratio * st * sf;
+            this->vertexes[index + 2] = ratio * ct;
             if (j != steps.second) {
                 T fi2 = i * korak_fi + korak_fi / 2;
                 T cf2 = cos(fi);
@@ -110,15 +110,15 @@ inline void Star3d<T>::generate_vertexes(int bulges, T ratio) {
                 p2 = j * 2 * steps.first;
                 p4 = (j + 1) * 2 * steps.first;
             }
-            __m128i tri = _mm_set_epi32(p1, p2, mid_point, p2);
+            __m128i tri = _mm_setr_epi32(p1, p2, mid_point, p2);
             _mm_stream_si128((__m128i *)&(this->element_array[element_index]),
                              tri);
 
-            tri = _mm_set_epi32(p3, mid_point, p3, p4);
+            tri = _mm_setr_epi32(p4, mid_point, p3, p4);
             _mm_stream_si128(
                 (__m128i *)&(this->element_array[element_index + 4]), tri);
 
-            tri = _mm_set_epi32(mid_point, p4, p1, mid_point);
+            tri = _mm_setr_epi32(mid_point, p3, p1, mid_point);
             _mm_stream_si128(
                 (__m128i *)&(this->element_array[element_index + 8]), tri);
 
@@ -129,7 +129,9 @@ inline void Star3d<T>::generate_vertexes(int bulges, T ratio) {
         }
     }
     std::cout << "element index: " << element_index << std::endl;
+    // std::cout << element_array << std::endl;
     print_vertexes(&(this->vertexes[0]), (this->vertexes).size() / 3, 3);
+    print_vertexes(this->element_array);
 }
 
 #define __STAR3D__

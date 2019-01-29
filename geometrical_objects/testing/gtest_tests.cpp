@@ -4,6 +4,7 @@
 #include "gmock/gmock.h"
 #include "gtest_auxiliary_functions.hpp"
 #include "shape_test.hpp"
+#include "convex_hull_test.hpp"
 
 int main(int argc, char **argv) {
     glfwInit();
