@@ -22,6 +22,7 @@
 #include <functional>
 #include <boost/align/aligned_allocator.hpp> // this is for aligned std::vector
 
+#include "../../third_party/apex_memmove/apex_memmove.h"
 #include "../src/type_definitions.hpp"
 #include "../src/convex_hull.hpp"
 

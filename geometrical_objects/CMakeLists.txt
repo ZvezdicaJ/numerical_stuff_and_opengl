@@ -48,8 +48,7 @@ add_library(glad SHARED "${GLAD_DIR}/src/glad.c")
 target_include_directories(glad PRIVATE "${GLAD_DIR}/include")
 
 set(APEX_MEMMOVE_DIR ../third_party/apex_memmove/)
-add_library(apex_memmove "${APEX_MEMMOVE_DIR}/apex_memmove.c"
-  "${APEX_MEMMOVE_DIR}/apex_memmove.cpp"
+add_library(apex_memmove "${APEX_MEMMOVE_DIR}/apex_memmove.cpp"
   "${APEX_MEMMOVE_DIR}/apex_memmove.h")
 
 

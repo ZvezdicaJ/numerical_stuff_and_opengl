@@ -31,8 +31,24 @@ TEST(convex_hull, convex_hull) {
                                               {1.0, -1.0},
                                               {-1.0, -1.0},
                                               {-0.3, 0.4}});
-    std::list<std::array<float, 2>> solution(
-        {{1.0, 1.0}, {-1.0, 1.0}, {1.0, -1.0}, {-1.0, -1.0}});
-    convex_hull(points);
-    // ASSERT_EQ(point_side_2d(point, vec), solution);
+    std::vector<std::array<float, 2>> solution(
+        {{-1.0, 1.0}, {1.0, 1.0}, {1.0, -1.0}, {-1.0, -1.0}});
+    std::vector<std::array<float, 2>> function_result = convex_hull(points);
+    ASSERT_EQ(function_result, solution);
+
+    std::vector<std::array<float, 2>> points2({{0.2, 0.9},
+                                              {0.2, 0.5},
+                                              {-0.5, -0.3},
+                                              {-0.6, -0.9},
+                                              {0, 2},
+                                              {0, -2},
+                                              {1.0, 1.0},
+                                              {-1.0, 1.0},
+                                              {1.0, -1.0},
+                                              {-1.0, -1.0},
+                                              {-0.3, 0.4}});
+    std::vector<std::array<float, 2>> solution2(
+        {{-1.0, 1.0}, {1.0, 1.0}, {1.0, -1.0}, {-1.0, -1.0}});
+    std::vector<std::array<float, 2>> function_result2 = convex_hull(points);
+    ASSERT_EQ(function_result2, solution2);
 }

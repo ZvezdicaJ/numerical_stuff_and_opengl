@@ -45,7 +45,8 @@ SIDE point_side_2d(std::array<T, 2> vec, std::array<T, 2> point) {
  * @param vec  vector relative to which the side is calculated
  * @param point point for which we calculate the side.
  */
-template <typename T> SIDE point_side_2d(float *vec, float *point) {
+template <typename T>
+SIDE point_side_2d(float *vec, float *point) {
     static_assert(std::is_same<T, float>::value ||
                       std::is_same<T, double>::value,
                   "point_side_2d: point type should be float or double");
@@ -74,9 +75,9 @@ convex_hull(std::vector<std::array<T, 2>> &collection) {
     std::sort(
         collection.begin(), collection.end(),
         [](std::array<T, 2> a, std::array<T, 2> b) { return a[0] < b[0]; });
-    for (unsigned j = 0; j < collection.size(); j++)
-        std::cout << collection[j][0] << " " << collection[j][1] << std::endl;
-    unsigned s = collection.size();
+    // for (unsigned j = 0; j < collection.size(); j++)
+    //    std::cout << collection[j][0] << " " << collection[j][1] << std::endl;
+    int s = (int)collection.size();
     // reserve Lupper
     std::vector<std::array<T, 2>> Lupper;
     Lupper.reserve(s);
@@ -94,8 +95,8 @@ convex_hull(std::vector<std::array<T, 2>> &collection) {
     }
     if (collection.size() <= 2)
         return Lupper;
-
-    for (unsigned i = 2; i < collection.size(); i++) {
+    // std::cout << "upper" << std::endl;
+    for (int i = 2; i < collection.size(); i++) {
         std::array<T, 2> next_point = collection[i];
         std::array<T, 2> vec =
             Lupper[Lupper.size() - 1] - Lupper[Lupper.size() - 2];
@@ -105,18 +106,42 @@ convex_hull(std::vector<std::array<T, 2>> &collection) {
                 break;
             vec = Lupper[Lupper.size() - 1] - Lupper[Lupper.size() - 2];
         }
+        Lupper.push_back(next_point);
     }
-
-    for (unsigned i = s - 3; i > 0; i--) {
+    // std::cout << "lower: " << std::endl;
+    for (int i = s - 3; i >= 0; i--) {
+        //  std::cout << "i: " << i << std::endl;
         std::array<T, 2> next_point = collection[i];
         std::array<T, 2> vec =
-            Lupper[Llower.size() - 1] - Lupper[Llower.size() - 2];
+            Llower[Llower.size() - 1] - Llower[Llower.size() - 2];
         while (SIDE::RIGHT != point_side_2d(vec, next_point)) {
             Llower.pop_back();
             if (Llower.size() == 1)
                 break;
             vec = Llower[Llower.size() - 1] - Llower[Llower.size() - 2];
         }
+        Llower.push_back(next_point);
     }
+    /*
+    std::cout << "Lupper size: " << Lupper.size() << std::endl;
+    for (int i = 0; i < Lupper.size(); i++) {
+        std::cout << Lupper[i][0] << " " << Lupper[i][1] << std::endl;
+    }
+    std::cout << "Llower size: " << Llower.size() << std::endl;
+    for (int i = 0; i < Llower.size(); i++) {
+        std::cout << Llower[i][0] << " " << Llower[i][1] << std::endl;
+    }*/
+
+    int d = Lupper.size();
+    Lupper.resize(Lupper.size() + Llower.size() - 2);
+    apex::memcpy((void *)&Lupper[d], (void *)&Llower[1],
+                 sizeof(std::array<T, 2>) * (Llower.size() - 2));
+    // memcpy((void *)&Lupper[d], (void *)&Llower[1],
+    //       sizeof(std::array<T, 2>) * (Llower.size() - 2));
+    /*
+    std::cout << "Lupper size: " << Lupper.size() << std::endl;
+    for (int i = 0; i < Lupper.size(); i++) {
+        std::cout << Lupper[i][0] << " " << Lupper[i][1] << std::endl;
+        }*/
     return Lupper;
 }
