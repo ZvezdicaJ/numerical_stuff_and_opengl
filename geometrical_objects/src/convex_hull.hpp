@@ -45,8 +45,7 @@ SIDE point_side_2d(std::array<T, 2> vec, std::array<T, 2> point) {
  * @param vec  vector relative to which the side is calculated
  * @param point point for which we calculate the side.
  */
-template <typename T>
-SIDE point_side_2d(float *vec, float *point) {
+template <typename T> SIDE point_side_2d(float *vec, float *point) {
     static_assert(std::is_same<T, float>::value ||
                       std::is_same<T, double>::value,
                   "point_side_2d: point type should be float or double");
@@ -65,7 +64,7 @@ SIDE point_side_2d(float *vec, float *point) {
 }
 
 template <typename T>
-std::list<std::array<T, 2>>
+std::vector<std::array<T, 2>>
 convex_hull(std::vector<std::array<T, 2>> &collection) {
     static_assert(std::is_same<T, float>::value ||
                       std::is_same<T, double>::value,
@@ -77,51 +76,47 @@ convex_hull(std::vector<std::array<T, 2>> &collection) {
         [](std::array<T, 2> a, std::array<T, 2> b) { return a[0] < b[0]; });
     for (unsigned j = 0; j < collection.size(); j++)
         std::cout << collection[j][0] << " " << collection[j][1] << std::endl;
+    unsigned s = collection.size();
     // reserve Lupper
-    std::list<std::array<T, 2>> Lupper;
+    std::vector<std::array<T, 2>> Lupper;
+    Lupper.reserve(s);
+    // reserve Llower
+    std::vector<std::array<T, 2>> Llower;
+    Llower.reserve(s);
     // put p1 and p2 into L upper
-    if (!collection.empty())
+    if (s != 0) {
         Lupper.push_back(collection[0]);
-    if (collection.size() > 1)
+        Llower.push_back(collection[s - 1]);
+    }
+    if (s > 1) {
         Lupper.push_back(collection[1]);
+        Llower.push_back(collection[s - 2]);
+    }
     if (collection.size() <= 2)
         return Lupper;
 
     for (unsigned i = 2; i < collection.size(); i++) {
-        Lupper.push_back(collection[i]);
-        int d = Lupper.size();
-        auto before_last = Lupper.end()--;
-        before_last = before_last--;
-        std::array<T, 2> vec = (*(before_last) - *(before_last--));
-        while (Lupper.size() > 2 &&
-               SIDE::RIGHT != point_side_2d(vec, *(Lupper.end()--))) {
-            auto it = (Lupper.end()--);
-            Lupper.erase(it--);
-            break;
+        std::array<T, 2> next_point = collection[i];
+        std::array<T, 2> vec =
+            Lupper[Lupper.size() - 1] - Lupper[Lupper.size() - 2];
+        while (SIDE::RIGHT != point_side_2d(vec, next_point)) {
+            Lupper.pop_back();
+            if (Lupper.size() == 1)
+                break;
+            vec = Lupper[Lupper.size() - 1] - Lupper[Lupper.size() - 2];
         }
     }
-    /*
-    // reserve Llower
-    std::list<std::array<T, 2>> Llower;
-    // put p1 and p2 into L upper
-    Llower.push_back(collection[collection.size() - 1]);
-    Llower.push_back(collection[collection.size() - 2]);
-    if (collection.size() <= 2)
-        return Llower;
-    for (unsigned i = collection.size() - 2; i > 0; i++) {
-        Llower.push_back(collection[i]);
-        int d = Llower.size();
-        auto before_last = Llower.end()--;
-        before_last = before_last--;
-        std::array<T, 2> vec = (*(before_last) - *(before_last--));
-        while (Llower.size() > 2 &&
-               SIDE::RIGHT != point_side_2d(vec, *Llower.end()--)) {
-            Llower.erase((Llower.end()--)--);
+
+    for (unsigned i = s - 3; i > 0; i--) {
+        std::array<T, 2> next_point = collection[i];
+        std::array<T, 2> vec =
+            Lupper[Llower.size() - 1] - Lupper[Llower.size() - 2];
+        while (SIDE::RIGHT != point_side_2d(vec, next_point)) {
+            Llower.pop_back();
+            if (Llower.size() == 1)
+                break;
+            vec = Llower[Llower.size() - 1] - Llower[Llower.size() - 2];
         }
     }
-    Llower.erase(Llower.end()--);
-    Llower.erase(Llower.begin());
-    Lupper.insert(Lupper.end(), Llower.begin(), Llower.end()--);
     return Lupper;
-    */
 }
