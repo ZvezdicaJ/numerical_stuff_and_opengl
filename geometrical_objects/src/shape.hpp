@@ -6,8 +6,7 @@
  * @details All shapes inherit from this class. It contains all basic
  * structures for drawing including opengl buffers.
  */
-template <typename T>
-class Shape {
+template <typename T> class Shape {
     static_assert(std::is_same<float, T>::value ||
                       std::is_same<double, T>::value,
                   "Shapes can only be instantiated with floating point types: "
@@ -134,8 +133,7 @@ class Shape {
  * @details It inherits from Shape class. Template parameter can either be float
  * of double. It is meant to contain functions common to all 2D shapes.
  */
-template <typename T>
-class Shape2D : public Shape<T> {
+template <typename T> class Shape2D : public Shape<T> {
   protected:
     unsigned FILLING_VBO; /**<2D shapes consist of line, this buffer is meant to
                              fill 2D shapes.   */
@@ -155,42 +153,38 @@ class Shape2D : public Shape<T> {
 /**
  * @brief Generates vertexes which fill the interior of 2D shapes.
  */
-template <>
-inline void Shape2D<float>::generate_filling_vbo() {
+template <> inline void Shape2D<float>::generate_filling_vbo() {
 
     int vertexes_size = (this->vertexes.size());
     int number_of_points = vertexes_size / (this->vertex_size);
-    int filling_number_of_points;
-    if (number_of_points % 2 == 0)
-        filling_number_of_points = 3 * number_of_points / 2 + 1;
-    else
-        filling_number_of_points = 3 * (number_of_points) / 2;
-    filling_vertexes.reserve(2 * filling_number_of_points);
+    // number of points that filling takes
+    int filling_number_of_points = 2 * number_of_points;
+    // reserve and resize to filling_number_of_points
+    filling_vertexes.reserve(2 * filling_number_of_points + 2);
     filling_vertexes.resize(2 * filling_number_of_points);
 
-    std::cout << "number of points: " << number_of_points << std::endl;
-    std::cout << "filling_vertexes size: " << filling_vertexes.size()
-              << std::endl;
-
-    for (int i = 0; i < number_of_points - 1; i += 2) {
+    //    std::cout << "number of points: " << number_of_points << std::endl;
+    // std::cout << "filling_vertexes size: " << filling_vertexes.size()
+    //          << std::endl;
+    unsigned index = 0;
+    for (int i = 0; i < number_of_points - 1; i += 1) {
         // std::cout << i << std::endl;
         const __m128i point12 =
             _mm_stream_load_si128((__m128i *)&(this->vertexes[2 * i]));
-        _mm_storeu_si128((__m128i *)(&filling_vertexes[0] + 3 * i), point12);
-        _mm_storeu_ps(&filling_vertexes[0] + 3 * i + 4, _mm_setzero_ps());
+        _mm_stream_si128((__m128i *)(&filling_vertexes[0] + index), point12);
+        _mm_stream_ps(&filling_vertexes[0] + index + 4, _mm_setzero_ps());
+        index += 6;
     }
-    if (number_of_points % 2 == 0) {
-        filling_vertexes[2 * filling_number_of_points - 2] = vertexes[0];
-        filling_vertexes[2 * filling_number_of_points - 1] = vertexes[1];
-    } else {
-        filling_vertexes[2 * filling_number_of_points - 2] = vertexes[0];
-        filling_vertexes[2 * filling_number_of_points - 1] = vertexes[1];
-        filling_vertexes[2 * filling_number_of_points - 3] =
-            vertexes[2 * number_of_points - 2];
-        filling_vertexes[2 * filling_number_of_points - 4] =
-            vertexes[2 * number_of_points - 1];
-    }
-    //print_vertexes(&filling_vertexes[0], filling_vertexes.size() / 2, 2);
+    const __m128i point12 =
+        _mm_stream_load_si128((__m128i *)&(this->vertexes[vertexes_size - 2]));
+    _mm_stream_si128((__m128i *)(&filling_vertexes[0] + index), point12);
+
+    point12 = _mm_stream_load_si128((__m128i *)&(this->vertexes[0]));
+    _mm_stream_si128((__m128i *)(&filling_vertexes[0] + index + 2), point12);
+
+    _mm_stream_ps(&filling_vertexes[0] + index + 4, _mm_setzero_ps());
+
+    // print_vertexes(&filling_vertexes[0], filling_vertexes.size() / 2, 2);
     /*std::cout
         << "address is 16 byte aligned: "
         << (((unsigned long)(&filling_vertexes[filling_number_of_points - 4]) &
@@ -212,8 +206,7 @@ inline void Shape2D<float>::generate_filling_vbo() {
  * of double. It is meant to contain functions common to all 3D shapes - like
  * area and volume.
  */
-template <typename T>
-class Shape3D : public Shape<T> {
+template <typename T> class Shape3D : public Shape<T> {
   protected:
   public:
     T area();
@@ -224,8 +217,7 @@ class Shape3D : public Shape<T> {
  * @details It sums the areas of all triangles. For each triangle it calculates
  * the area using Heron formula.
  */
-template <>
-inline float Shape3D<float>::area() {
+template <> inline float Shape3D<float>::area() {
     float ar = 0;
     unsigned triangle_number = this->element_array.size() / 3;
     for (unsigned tri = 0; tri < triangle_number; tri += 1) {
@@ -259,8 +251,7 @@ inline float Shape3D<float>::area() {
  * @details It sums the areas of all triangles. For each triangle it calculates
  * the area using Heron formula.
  */
-template <>
-inline double Shape3D<double>::area() {
+template <> inline double Shape3D<double>::area() {
     double ar = 0;
     unsigned triangle_number = this->element_array.size() / 3;
     __m256d zeros = _mm256_setzero_pd();
