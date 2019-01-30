@@ -576,7 +576,6 @@ inline __m128 tan(__m128 x) {
     return _mm_div_ps(numerator, denominator);
 }
 
-
 /**
  *@brief This function calculates tangens of sse vector.
  *@details For detailed documentation on formula used check pdf files discussing
@@ -607,6 +606,29 @@ inline __m128 tan_ver2(__m128 x) {
         _mm_fmadd_ps(x, _mm_mul_ps(x, denominator), _mm_set_ps1(310134825));
 
     denominator = _mm_fmsub_ps(x, _mm_mul_ps(x, denominator), coeff1);
+#endif
+#ifndef __FMA__
+    numerator =
+        _mm_add_ps(_mm_mul_ps(x, _mm_mul_ps(x, numerator)), _mm_set_ps1(25740));
+    numerator = _mm_sub_ps(_mm_mul_ps(x, _mm_mul_ps(x, numerator)),
+                           _mm_set_ps1(2837835));
+    numerator = _mm_add_ps(_mm_mul_ps(x, _mm_mul_ps(x, numerator)),
+                           _mm_set_ps1(91891800));
+    numerator = _mm_sub_ps(_mm_mul_ps(x, _mm_mul_ps(x, numerator)), coeff1);
+    numerator = _mm_mul_ps(x, numerator);
+
+    // imenovalec
+    //   -654729075 + 310134825 a^2 - 18918900 a^4 + 315315 a^6 -
+    //   1485 a^8 + a^10
+    __m128 denominator = _mm_sub_ps(x2, _mm_set_ps1(-1485));
+    denominator = _mm_add_ps(_mm_mul_ps(x, _mm_mul_ps(x, denominator)),
+                             _mm_set_ps1(315315));
+    denominator = _mm_sub_ps(_mm_mul_ps(x, _mm_mul_ps(x, denominator)),
+                             _mm_set_ps1(18918900));
+    denominator = _mm_add_ps(_mm_mul_ps(x, _mm_mul_ps(x, denominator)),
+                             _mm_set_ps1(310134825));
+
+    denominator = _mm_sub_ps(_mm_mul_ps(x, _mm_mul_ps(x, denominator)), coeff1);
 #endif
     return _mm_div_ps(numerator, denominator);
 }
@@ -639,6 +661,24 @@ inline __m128 tan_ver3(__m128 x) {
     denominator =
         _mm_fmsub_ps(x, _mm_mul_ps(x, denominator), _mm_set_ps1(16216200));
     denominator = _mm_fmadd_ps(x, _mm_mul_ps(x, denominator), coeff1);
+#endif
+#ifndef __FMA__
+    numerator = _mm_add_ps(_mm_mul_ps(x, _mm_mul_ps(x, numerator)),
+                           _mm_set_ps1(135135));
+    numerator = _mm_sub_ps(_mm_mul_ps(x, _mm_mul_ps(x, numerator)),
+                           _mm_set_ps1(4729725));
+    numerator = _mm_add_ps(_mm_mul_ps(x, _mm_mul_ps(x, numerator)), coeff1);
+    numerator = _mm_mul_ps(x, numerator);
+
+    // imenovalec: 34459425 - 16216200*a^2 + 945945 a^4 - 13860*a^6 + 45*a^8
+    __m128 denominator = _mm_add_ps(x2, _mm_set_ps1(45));
+    denominator = _mm_sub_ps(_mm_mul_ps(x, _mm_mul_ps(x, denominator)),
+                             _mm_set_ps1(13860));
+    denominator = _mm_add_ps(_mm_mul_ps(x, _mm_mul_ps(x, denominator)),
+                             _mm_set_ps1(945945));
+    denominator = _mm_sub_ps(_mm_mul_ps(x, _mm_mul_ps(x, denominator)),
+                             _mm_set_ps1(16216200));
+    denominator = _mm_add_ps(_mm_mul_ps(x, _mm_mul_ps(x, denominator)), coeff1);
 #endif
     return _mm_div_ps(numerator, denominator);
 }
