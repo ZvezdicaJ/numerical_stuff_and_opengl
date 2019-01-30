@@ -175,7 +175,7 @@ template <> inline void Shape2D<float>::generate_filling_vbo() {
         _mm_stream_ps(&filling_vertexes[0] + index + 4, _mm_setzero_ps());
         index += 6;
     }
-    const __m128i point12 =
+   __m128i point12 =
         _mm_stream_load_si128((__m128i *)&(this->vertexes[vertexes_size - 2]));
     _mm_stream_si128((__m128i *)(&filling_vertexes[0] + index), point12);
 
