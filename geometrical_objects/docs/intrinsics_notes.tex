@@ -1,0 +1,107 @@
+\documentclass[openany, longbibliography,slovene,a4paper,12pt]{article}
+%\documentclass[openany,slovene,a4paper,12pt]{article}
+\usepackage[a4paper,inner=3.5cm,outer=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+
+\usepackage{braket}
+\usepackage{float}
+\usepackage{afterpage}
+\usepackage{graphicx}
+\usepackage{amssymb}
+
+\usepackage[tbtags]{amsmath}
+\usepackage[T1]{fontenc}
+\graphicspath{{./slike/}{../slike_vezikel_z_robom/}{/home/jure/sola/magisterij/uporabljene_slike/}
+{../eps_pdf/}}
+\DeclareGraphicsExtensions{.eps,.jpeg,.png,.gif,.pdf}
+\usepackage[outdir=./slike/]{epstopdf}
+\epstopdfsetup{
+	suffix=,
+}
+\usepackage[multidot]{grffile}
+
+%\usepackage[slovene]{babel}      % slovenski delilni vzorci (!)
+%\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{makeidx}
+\usepackage{enumerate}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[tbtags]{mathtools}
+
+\usepackage[section]{placeins}
+
+\usepackage[hyphens,spaces,obeyspaces]{url}
+\usepackage{breakurl}
+
+
+\usepackage{ragged2e}
+\edef\UrlBreaks{\do\-\UrlBreaks}
+
+\usepackage{makeidx}
+\pagestyle{headings}
+\makeindex
+\usepackage{fancyhdr}
+\usepackage[titletoc,title]{appendix}
+
+
+\usepackage[sort, numbers]{natbib}
+\usepackage[pdfa]{hyperref}
+\usepackage[x-1a]{pdfx}
+\usepackage{pdfpages}
+\usepackage{breqn}
+
+
+\DeclareMathOperator{\arcsinh}{arcsinh}
+
+\def\epsfg#1#2{\epsfig{file=#1.eps,width=#2}}
+\def\legendamp#1#2{\vbox{\hsize=#1\caption{\small #2}}}
+
+\setcounter{topnumber}{4}
+\setcounter{bottomnumber}{4}
+\setcounter{totalnumber}{5}
+\renewcommand{\topfraction}{0.99}
+\renewcommand{\bottomfraction}{0.99}
+\renewcommand{\textfraction}{0.0}
+\setlength{\tabcolsep}{10pt}
+\renewcommand{\arraystretch}{1.5}
+
+\def\bi#1{\hbox{\boldmath{$#1$}}}
+\let\oldvec\vec
+\def\vec#1{\mbox{\boldmath$#1$}}
+\def\pol{{\textstyle{1\over2}}}
+\def\svec#1{\mbox{{\scriptsize \boldmath$#1$}}}
+
+\newcommand{\dif}{\mathrm{d}}
+\usepackage{xparse}
+\DeclareDocumentCommand{\myint}{o m o o}  
+{%
+	\int \IfValueT{#1}{#1} \dif #2 \IfValueT{#3}{\dif#3} \IfValueT{#4}{\dif#4}
+}
+\newcommand{\Alpha}{A}
+\newcommand{\Beta}{B}
+\newcommand{\Epsilon}{E}
+\newcommand{\Kappa}{K}
+
+
+\begin{document}
+\section{AVX zapiski}
+Avx slang:
+\begin{itemize}
+\item upper half: 127-255
+\item lower half: 0-127 
+\end{itemize}
+\subsection{Printing avx register}
+One can print avx register like this:
+\begin{verbatim}
+_m256d reg=_mm256_set_pd(1,2,3,4); // sets reg[255-192]=1 and reg[0-63]=4
+double *p = (double*)&reg
+std::cout << p[0]<<' ' << p[1]<<' ' << p[2]<<' ' << p[3] << std::endl;
+double arr[4];
+_mm_storeu_pd(arr, reg);
+std::cout << arr[0]<<' '<< arr[1]<<' '<< arr[2]<<' '<< arr[3] << std::endl;
+\end{verbatim}
+This will print 1 2 3 4. Thus, it starts at 0 -> at the lower part of register!
+The same happens in the second case - where we print array called $arr$.
+
+
+\end{document}

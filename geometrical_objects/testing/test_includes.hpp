@@ -41,5 +41,7 @@
 #include "../src/disk.hpp"
 #include "../src/display_functions.hpp"
 
+#include "../src/sort.hpp"
+
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
