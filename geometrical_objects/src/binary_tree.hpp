@@ -10,9 +10,16 @@ class binary_tree() {
 
       public:
         node() = default;
-        node(T value, ){};
-        unsigned left_leaf_index() { return left_leaf; }
-        unsigned right_leaf_index() { return right_leaf; }
+        node(T value_, unsigned parent_index_)
+            : value(value_), parent_index(parent_index_){};
+        void set_left_leaf_index(unsigned left_leaf_) {
+            left_leaf = left_leaf_;
+        }
+        void set_right_leaf_index(unsigned right_leaf_) {
+            right_leaf = right_leaf_;
+        }
+        unsigned get_left_leaf_index() { return left_leaf; }
+        unsigned get_right_leaf_index() { return right_leaf; }
         T get_value() { return value; }
     };
 
@@ -34,12 +41,29 @@ class binary_tree() {
      * vektor - index of the last element to be read
      */
     unsigned construction_helper(
-        const std::aligned_vector<T> &starting_elements, unsinged start_index,
+        const std::aligned_vector<T> &starting_elements, unsigned start_index,
         unsigned end_index, unsigned parent_index) {
-        unsigned mid = start_index + end_index;
-        unsigned id = nodes.size();
-        if (mid % 2 == 0) {
+        // end of recursion case
+        if (start_index == end_index) {
+            nodes.emplace_back(starting_elements[start_index], parent_index);
+            return start_index;
         }
+
+        unsigned mid = (start_index + end_index) / 2;
+        unsigned id = nodes.size();
+        else {
+            mid = mid / 2;
+            nodes.emplace_back(starting_elements[mid], parent_index);
+
+            unsigned id_smaller_child = construction_helper(
+                starting_elements, start_index, end_index + mid - 1);
+            set_left_leaf_index(id_smaller_child);
+
+            unsigned id_larger_child = construction_helper(
+                starting_elements, start_index + mid + 1, end_index);
+            set_right_leaf_index(id_larger_child);
+        }
+
         return id;
     };
 

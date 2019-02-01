@@ -1,6 +1,8 @@
+#ifdef __AVX2__
+
 TEST(sort, bitonic_avx_reg_sort) {
-    __m256d a = _mm256_set_pd(4, 3, 2, 1);
-    __m256d sorted = bitonic_avx_reg_sort(a);
+    __m256d sorted = _mm256_set_pd(4, 3, 2, 1);
+    bitonic_avx_reg_sort(sorted);
 
     __m256d test_print = _mm256_set_pd(256, 192, 128, 64);
     double arr[4];
@@ -12,3 +14,4 @@ TEST(sort, bitonic_avx_reg_sort) {
     std::cout << arr2[0] << " " << arr2[1] << " " << arr2[2] << " " << arr2[3]
               << std::endl;
 }
+#endif
