@@ -33,6 +33,26 @@ class binary_tree() {
     binary_tree &operator=(const binary_tree &) = default;
 
     /**
+     *@brief Constructor accepts a vector of arbitrary types and constructs a
+     *binary tree based on provided comparator
+     * @params starting_elements a vector of values or objects
+     * @params comparator a std::function object which know how to compare two
+     *values/objects It should return true if the first T1<T2 (first provided
+     *object is smaller than the second).
+     */
+    binary_tree(const aligned_vector<T> &starting_elements,
+                std::function<bool(T &, T &)> comparator) {
+        std::sort(starting_elements.begin(), starting_elements.end(),
+                  comparator);
+
+        nodes.reserve(starting_elements.size());
+        unsigned size = starting_elements.size();
+        unsigned mid_element = size / 2;
+        construction_helper(starting_elements, left_half_index, end_index, 0);
+        construction_helper(starting_elements, 0, right_half_index, 0);
+    };
+
+    /**
      * @brief The function helps with the construction of binary tree.
      * @params starting_elements elements to be inserted into the tree
      * @params start_index index at which to start reading the starting_elements
@@ -65,17 +85,5 @@ class binary_tree() {
         }
 
         return id;
-    };
-
-    binary_tree(const aligned_vector<T> &starting_elements,
-                std::function<void(T &, T &)> comparator) {
-        std::sort(starting_elements.begin(), starting_elements.end(),
-                  comparator);
-
-        nodes.reserve(starting_elements.size());
-        unsigned size = starting_elements.size();
-        unsigned mid_element = size / 2;
-        construction_helper(starting_elements, left_half_index, end_index, 0);
-        construction_helper(starting_elements, 0, right_half_index, 0);
     };
 }

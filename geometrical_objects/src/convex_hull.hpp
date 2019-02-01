@@ -96,7 +96,7 @@ convex_hull(std::vector<std::array<T, 2>> &collection) {
     if (collection.size() <= 2)
         return Lupper;
     // std::cout << "upper" << std::endl;
-    for (int i = 2; i < collection.size(); i++) {
+    for (unsigned i = 2; i < collection.size(); i++) {
         std::array<T, 2> next_point = collection[i];
         std::array<T, 2> vec =
             Lupper[Lupper.size() - 1] - Lupper[Lupper.size() - 2];

@@ -108,9 +108,11 @@ void bitonic_2reg_sort(__m256d &reg1, __m256d &reg0) {
  * @param first_index is the starting index of element to be sorted
  * @param last_index is the last index of element to be sorted
  */
-inline aligned_vector<__m256d> bitonic_n_sort(aligned_vector<__m256d> &full_vec,
-                                              unsigned first_index = 0,
-                                              unsigned last_index = -1) {
+inline void bitonic_n_sort(aligned_vector<__m256d> &full_vec,
+                           unsigned first_index = 0, unsigned last_index = 0) {
+    if (last_index == 0)
+        last_index = full_vec.size() - 1;
+
     unsigned num_to_sort = 1 + last_index - first_index;
     if (num_to_sort == 1)
         bitonic_avx_reg_sort(full_vec[first_index]);
@@ -119,7 +121,7 @@ inline aligned_vector<__m256d> bitonic_n_sort(aligned_vector<__m256d> &full_vec,
         bitonic_2reg_sort(full_vec[first_index], full_vec[last_index]);
 
     else if (num_to_sort % 2 == 0) {
-        for (int i = 0; i < num_to_sort / 2; i++) {
+        for (unsigned i = 0; i < num_to_sort / 2; i++) {
             __m256d reverse2 = _mm256_permute4x64_pd(full_vec[first_index + i],
                                                      _MM_SHUFFLE(0, 1, 2, 3));
             __m256d max = _mm256_max_pd(full_vec[last_index - i], reverse2);
@@ -138,7 +140,7 @@ inline aligned_vector<__m256d> bitonic_n_sort(aligned_vector<__m256d> &full_vec,
         __m256d additional_reg =
             _mm256_set1_pd(std::numeric_limits<double>::max());
 
-        for (int i = 0; i < num_to_sort / 2; i++) {
+        for (unsigned i = 0; i < num_to_sort / 2; i++) {
             __m256d reverse2 = _mm256_permute4x64_pd(
                 full_vec[first_index + i + 1], _MM_SHUFFLE(0, 1, 2, 3));
             __m256d max = _mm256_max_pd(full_vec[last_index - i], reverse2);
