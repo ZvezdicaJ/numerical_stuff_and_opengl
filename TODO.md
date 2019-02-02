@@ -1,4 +1,4 @@
-# Geometrical objects
+# Todo list
 
 * Implement vectorized arccos and arcsin
 * Finish binary tree
