@@ -1,5 +1,5 @@
 # Geometrical objects
 
-*Implement vectorized arc cos and arcsin
-*
- * 
+* Implement vectorized arccos and arcsin
+* Finish binary tree
+* Finish vectorized bitonic sort
