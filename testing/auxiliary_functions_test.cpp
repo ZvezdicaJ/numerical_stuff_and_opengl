@@ -1,4 +1,31 @@
-#include "standard_includes.hpp"
+#include <xmmintrin.h>
+#include <algorithm>
+#include <array>
+#include <cmath>
+#include <ctime>
+#include <string>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <iostream>
+#include <limits>
+#include <string>
+#include <type_traits>
+#include <unordered_map>
+#include <vector>
+#include <iomanip>
+#include <fstream>
+#include <chrono>
+#include <random>
+#include <list>
+#include <functional>
+#include <boost/align/aligned_allocator.hpp> // this is for aligned std::vector
+
+#include "apex_memmove.h"
+#include "type_definitions.hpp"
+#include "convex_hull.hpp"
+#include "auxiliary_functions.hpp"
+#include "print_functions.hpp"
 
 void test_chebyshev() {
 

@@ -1,6 +1,12 @@
+
+#ifndef GLFW_INCLUDE_NONE
+#define GLFW_INCLUDE_NONE
+#endif
+
 #ifndef __glad_h_
 #include <glad/glad.h>
 #endif
+
 #include <GLFW/glfw3.h>
 #include <xmmintrin.h>
 #include <algorithm>
@@ -26,6 +32,7 @@
 #include "type_definitions.hpp"
 #include "convex_hull.hpp"
 
+
 #include "check_shaders.hpp"
 #include "shaders.hpp"
 #include "shader_class.hpp"
@@ -36,12 +43,12 @@
 #include "sphere.hpp"
 #include "circle.hpp"
 #include "rectangle.hpp"
-#include "box.hpp"
 #include "star.hpp"
+#include "box.hpp"
 #include "disk.hpp"
+#include "star3d.hpp"
 #include "display_functions.hpp"
-
-#include "sort.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
+

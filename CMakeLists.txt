@@ -43,29 +43,35 @@ message(STATUS "glfw libraries: ${GLFW_LIBRARIES}")
 #target_compile_definitions(${PROJECT_NAME} PRIVATE "GLFW_INCLUDE_NONE")
 
 # GLAD
-set(GLAD_DIR ../third_party/glad)
+set(GLAD_DIR ./third_party/glad)
 add_library(glad SHARED "${GLAD_DIR}/src/glad.c")
 target_include_directories(glad PRIVATE "${GLAD_DIR}/include")
 
-set(APEX_MEMMOVE_DIR ../third_party/apex_memmove/)
+set(APEX_MEMMOVE_DIR ./third_party/apex_memmove/)
 add_library(apex_memmove "${APEX_MEMMOVE_DIR}/apex_memmove.cpp"
   "${APEX_MEMMOVE_DIR}/apex_memmove.h")
-
+include_directories("${APEX_MEMMOVE_DIR}")
+include_directories("./src/shaders")
+include_directories("./src/")
+include_directories("./src/display_and_drawing_functions")
+include_directories("./src/shapes")
+include_directories("./src/algorithms")
+include_directories("./src/print_functions")
 
 add_executable(opengl_test
-  src/opengl_test.cpp
-  src/check_shaders.cpp
-  src/display_functions.cpp)
+  examples/opengl_test/opengl_test.cpp
+  src/shaders/check_shaders.cpp
+  src/display_and_drawing_functions/display_functions.cpp)
 
-target_include_directories(opengl_test PRIVATE "${GLAD_DIR}/include")
+target_include_directories(opengl_test PRIVATE "${GLAD_DIR}/include" "./examples/opengl_test")
 target_link_libraries(opengl_test glad /usr/local/lib/libglfw.so apex_memmove)
-
 
 # Locate GTest
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
 add_executable(test_auxiliary_functions testing/auxiliary_functions_test.cpp)
+target_include_directories(test_auxiliary_functions PRIVATE "${GLAD_DIR}/include" "./examples/opengl_test")
 add_executable(runTests
   testing/gtest_tests.cpp)
 
