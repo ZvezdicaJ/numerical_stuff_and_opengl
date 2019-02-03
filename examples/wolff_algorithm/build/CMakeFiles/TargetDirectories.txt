@@ -1,0 +1,6 @@
+/home/jure/Documents/opengl_ucenje/examples/wolff_algorithm/build/CMakeFiles/rebuild_cache.dir
+/home/jure/Documents/opengl_ucenje/examples/wolff_algorithm/build/CMakeFiles/ising.dir
+/home/jure/Documents/opengl_ucenje/examples/wolff_algorithm/build/CMakeFiles/display_functions.dir
+/home/jure/Documents/opengl_ucenje/examples/wolff_algorithm/build/CMakeFiles/edit_cache.dir
+/home/jure/Documents/opengl_ucenje/examples/wolff_algorithm/build/CMakeFiles/glad.dir
+/home/jure/Documents/opengl_ucenje/examples/wolff_algorithm/build/CMakeFiles/apex_memmove.dir

@@ -1,0 +1,1 @@
+g++   -O3 -march=native -ffast-math -msse -mavx -mavx2 -mfma -Wall -Wno-unused-variable  -rdynamic CMakeFiles/ising.dir/ising.cpp.o  -o ../bin/ising -Wl,-rpath,/home/jure/Documents/opengl_ucenje/examples/wolff_algorithm/lib:/usr/local/lib ../lib/libdisplay_functions.a ../lib/libglad.so /usr/local/lib/libglfw.so ../lib/libapex_memmove.a 

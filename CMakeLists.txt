@@ -51,16 +51,13 @@ set(APEX_MEMMOVE_DIR ./third_party/apex_memmove/)
 add_library(apex_memmove "${APEX_MEMMOVE_DIR}/apex_memmove.cpp"
   "${APEX_MEMMOVE_DIR}/apex_memmove.h")
 include_directories("${APEX_MEMMOVE_DIR}")
+
 include_directories("./src/shaders")
 include_directories("./src/")
 include_directories("./src/display_and_drawing_functions")
 include_directories("./src/shapes")
 include_directories("./src/algorithms")
 include_directories("./src/print_functions")
-
-add_executable(opengl_test
-  examples/opengl_test/opengl_test.cpp
-  src/display_and_drawing_functions/display_functions.cpp)
 
 target_include_directories(opengl_test PRIVATE "${GLAD_DIR}/include" "./examples/opengl_test")
 target_link_libraries(opengl_test glad /usr/local/lib/libglfw.so apex_memmove)
@@ -69,11 +66,13 @@ target_link_libraries(opengl_test glad /usr/local/lib/libglfw.so apex_memmove)
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
-add_executable(test_auxiliary_functions testing/auxiliary_functions_test.cpp)
+#this is to generate auxiliary functions
+add_executable(auxiliary_functions_data testing/auxiliary_functions_test.cpp)
 target_include_directories(test_auxiliary_functions PRIVATE "${GLAD_DIR}/include" "./examples/opengl_test")
+
+# this is for gtests
 add_executable(runTests
   testing/gtest_tests.cpp)
-
 target_include_directories(runTests PRIVATE "${GLAD_DIR}/include")
 target_link_libraries(runTests glad /usr/local/lib/libglfw.so libdl.so
   apex_memmove)

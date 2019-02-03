@@ -2,7 +2,7 @@
 
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
-#include "gtest_auxiliary_functions.hpp"
+#include "auxiliary_functions_test.hpp"
 #include "shape_test.hpp"
 #include "convex_hull_test.hpp"
 #include "sort_test.hpp"

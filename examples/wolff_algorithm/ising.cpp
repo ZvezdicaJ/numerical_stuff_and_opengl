@@ -18,4 +18,7 @@
 
 #include "wolff.hpp"
 
-int main() { wolff_algorithm obj1; }
+int main() {
+    IsingModel<float> alg1;
+
+}
