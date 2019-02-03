@@ -1,3 +1,5 @@
+#pragma once
+
 namespace shaders {
 // vertex shader
 // it accepts a single vertex (3D, 4D,... coordinate) and transforms it into

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef __SHAPE__
 
 /**

@@ -1,3 +1,4 @@
+#pragma once
 #ifdef __AVX__
 #define __BITONIC_SORT_FLOAT__
 /**

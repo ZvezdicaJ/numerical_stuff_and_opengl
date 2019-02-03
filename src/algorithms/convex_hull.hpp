@@ -1,3 +1,4 @@
+#pragma once
 enum class SIDE { LEFT = -1, RIGHT = 1, COLINEAR = 0 };
 /*
 template <typename T, long unsigned N>

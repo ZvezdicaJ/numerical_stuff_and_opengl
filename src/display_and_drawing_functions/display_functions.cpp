@@ -1,5 +1,4 @@
-#include "opengl_test.hpp"
-
+#include "display_functions.hpp"
 void pause_screen() {
     bool run = true;
     while (run) {

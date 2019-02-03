@@ -60,7 +60,6 @@ include_directories("./src/print_functions")
 
 add_executable(opengl_test
   examples/opengl_test/opengl_test.cpp
-  src/shaders/check_shaders.cpp
   src/display_and_drawing_functions/display_functions.cpp)
 
 target_include_directories(opengl_test PRIVATE "${GLAD_DIR}/include" "./examples/opengl_test")

@@ -1,4 +1,6 @@
+#pragma once
 enum class RENDER_TYPE { UNIFORM_COLOR = 0, CUSTOM_COLOR = 1 };
+#include "shaders.hpp"
 
 /**
  * @class Shader
@@ -19,6 +21,61 @@ class Shader {
         false}; /**< true/false depending on whether the shaders were compiled*/
 
     void compile_shaders();
+    /**
+     * @brief check if vertex shader has been successfully compiled
+     * @param shader_ an unsigned integer referring to vertex shader
+     */
+    bool check_vertex_shader(const unsigned shader_) {
+        // check if shader successfully compiled
+        int success;
+        char infoLog[512];
+        glGetShaderiv(shader_, GL_COMPILE_STATUS, &success);
+
+        if (!success) {
+            glGetShaderInfoLog(shader_, 512, NULL, infoLog);
+            std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n"
+                      << infoLog << std::endl;
+            return false;
+        }
+        return true;
+    }
+    /**
+     * @brief check if fragment shader has been successfully compiled
+     * @param shader_ an unsigned integer referring to fragment shader
+     */
+    bool check_fragment_shader(const unsigned shader_) {
+        // check if shader successfully compiled
+        int success;
+        char infoLog[512];
+        glGetShaderiv(shader_, GL_COMPILE_STATUS, &success);
+
+        if (!success) {
+            glGetShaderInfoLog(shader_, 512, NULL, infoLog);
+            std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n"
+                      << infoLog << std::endl;
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @brief check if shader program has been successfully linked
+     * @param shaderProgram an unsigned integer referring to shader program
+     */
+    bool check_shader_program(const unsigned shaderProgram) {
+        // check if shader successfully compiled
+        int success;
+        char infoLog[512];
+
+        glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+        if (!success) {
+            glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+            std::cout << "ERROR::SHADER_PROGRAM::COMPILATION_FAILED\n"
+                      << infoLog << std::endl;
+            return false;
+        }
+        return true;
+    }
 
   public:
     Shader() { compile_shaders(); };
@@ -42,7 +99,7 @@ inline void Shader<RENDER_TYPE::UNIFORM_COLOR>::compile_shaders() {
     glShaderSource(fragmentShader, 1, &(shaders::uniform_fragment_shader),
                    NULL);
     glCompileShader(fragmentShader);
-    check_fragment_shader(fragmentShader);
+    this->check_fragment_shader(fragmentShader);
 
     for (int i = 0; i < 3; i++) {
         // create empty shader
@@ -56,13 +113,13 @@ inline void Shader<RENDER_TYPE::UNIFORM_COLOR>::compile_shaders() {
         glCompileShader(vertexShader);
 
         // check if successfully compiled
-        check_vertex_shader(vertexShader);
+        this->check_vertex_shader(vertexShader);
 
         shader_program[i] = glCreateProgram();
         glAttachShader(shader_program[i], vertexShader);
         glAttachShader(shader_program[i], fragmentShader);
         glLinkProgram(shader_program[i]);
-        check_shader_program(shader_program[i]);
+        this->check_shader_program(shader_program[i]);
         shaders_compiled[i] = true;
         // glUseProgram(shaderProgram);
         glDeleteShader(vertexShader);

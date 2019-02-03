@@ -1,3 +1,4 @@
+#pragma once
 #ifndef __ALIGNED_VECTOR__
 
 /*template <typename T>

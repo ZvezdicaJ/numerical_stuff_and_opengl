@@ -1,0 +1,6 @@
+/home/jure/Documents/opengl_ucenje/examples/opengl_test/build/CMakeFiles/rebuild_cache.dir
+/home/jure/Documents/opengl_ucenje/examples/opengl_test/build/CMakeFiles/display_functions.dir
+/home/jure/Documents/opengl_ucenje/examples/opengl_test/build/CMakeFiles/edit_cache.dir
+/home/jure/Documents/opengl_ucenje/examples/opengl_test/build/CMakeFiles/opengl_test.dir
+/home/jure/Documents/opengl_ucenje/examples/opengl_test/build/CMakeFiles/glad.dir
+/home/jure/Documents/opengl_ucenje/examples/opengl_test/build/CMakeFiles/apex_memmove.dir

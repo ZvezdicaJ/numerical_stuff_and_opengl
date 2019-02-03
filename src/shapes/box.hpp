@@ -1,3 +1,4 @@
+#pragma once
 #ifndef __BOX__
 
 /**
@@ -67,5 +68,5 @@ void Box<T>::generate_vertexes() {
                              2,7,4 });
 }
 
-#define __RECTENGLE__
+#define __BOX__
 #endif

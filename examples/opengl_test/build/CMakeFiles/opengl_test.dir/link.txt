@@ -1,0 +1,1 @@
+g++   -O3 -march=native -ffast-math -msse -mavx -mavx2 -mfma -Wall -Wno-unused-variable  -rdynamic CMakeFiles/opengl_test.dir/opengl_test.cpp.o  -o ../bin/opengl_test -Wl,-rpath,/home/jure/Documents/opengl_ucenje/examples/opengl_test/lib:/usr/local/lib ../lib/libdisplay_functions.a ../lib/libglad.so /usr/local/lib/libglfw.so ../lib/libapex_memmove.a 

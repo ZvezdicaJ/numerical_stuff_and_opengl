@@ -1,3 +1,4 @@
+#pragma once
 // this header file has to be included before  shape.hpp and after
 // shader_class.hpp
 

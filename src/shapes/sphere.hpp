@@ -1,3 +1,4 @@
+#pragma once
 #ifndef __SPHERE__
 
 /** @class This class contains vertex and element data for 3d sphere.

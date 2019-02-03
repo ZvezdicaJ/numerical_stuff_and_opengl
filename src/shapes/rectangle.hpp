@@ -1,3 +1,4 @@
+#pragma once
 #ifndef __RECTANGLE__
 /**
  * @class Rectangle

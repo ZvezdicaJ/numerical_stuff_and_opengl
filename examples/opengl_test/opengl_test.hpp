@@ -33,7 +33,6 @@
 #include "convex_hull.hpp"
 
 
-#include "check_shaders.hpp"
 #include "shaders.hpp"
 #include "shader_class.hpp"
 #include "auxiliary_functions.hpp"

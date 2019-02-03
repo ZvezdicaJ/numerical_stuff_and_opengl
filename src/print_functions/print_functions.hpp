@@ -1,3 +1,4 @@
+#pragma once
 template <typename T>
 inline void print_vertex(T *ver, const std::string vertex_name = "",
                          unsigned vert_size = 3) {
