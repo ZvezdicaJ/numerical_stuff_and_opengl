@@ -12,6 +12,6 @@
 *.ind
 *.log
 *.synctex.gz
-/build
-/bin
-/lib
+**/build
+**/bin
+**/lib
