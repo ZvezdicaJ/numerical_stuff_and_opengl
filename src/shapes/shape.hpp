@@ -138,12 +138,12 @@ class Shape {
 template <typename T>
 class Shape2D : public Shape<T> {
   protected:
-    unsigned FILLING_VBO; /**<2D shapes consist of lines, this buffer is meant
-                             to fill 2D shapes.   */
-    unsigned FILLING_EBO; /**<2D shapes consist of lines, this buffer contains
-                             elements to fill 2D shapes.   */
-    char filling_render_type; /**< tells whether to render element buffer - 'E'
-                                 of array buffer - 'V' */
+    unsigned FILLING_VBO;   /**<2D shapes consist of lines, this buffer is meant
+                               to fill 2D shapes.   */
+    unsigned FILLING_EBO;   /**<2D shapes consist of lines, this buffer contains
+                               elements to fill 2D shapes.   */
+    char filling_draw_type; /**< tells whether to render element buffer - 'E'
+                                   of array buffer - 'V' */
 
     aligned_vector<T>
         filling_vertexes; /**<vertexes for interior of 2D shapes.  */

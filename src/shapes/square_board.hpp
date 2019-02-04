@@ -28,6 +28,7 @@ class SquareBoard : public Shape2D<T> {
 template <typename T>
 SquareBoard<T>::SquareBoard() {
     this->draw_type = 'V';
+    this->filling_draw_type = 'E';
     this->vertex_size = 2;
     this->min_vertexes = 10;
     this->generate_vertexes();
