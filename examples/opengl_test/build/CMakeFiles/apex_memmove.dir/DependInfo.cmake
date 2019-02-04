@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/jure/Documents/opengl_ucenje/third_party/apex_memmove/apex_memmove.cpp" "/home/jure/Documents/opengl_ucenje/examples/opengl_test/build/CMakeFiles/apex_memmove.dir/home/jure/Documents/opengl_ucenje/third_party/apex_memmove/apex_memmove.cpp.o"
+  "/home/jure/Documents/opengl/third_party/apex_memmove/apex_memmove.cpp" "/home/jure/Documents/opengl/examples/opengl_test/build/CMakeFiles/apex_memmove.dir/home/jure/Documents/opengl/third_party/apex_memmove/apex_memmove.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

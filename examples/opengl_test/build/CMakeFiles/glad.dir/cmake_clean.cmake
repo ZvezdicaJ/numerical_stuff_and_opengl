@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/glad.dir/home/jure/Documents/opengl_ucenje/third_party/glad/src/glad.c.o"
+  "CMakeFiles/glad.dir/home/jure/Documents/opengl/third_party/glad/src/glad.c.o"
   "../lib/libglad.pdb"
   "../lib/libglad.so"
 )

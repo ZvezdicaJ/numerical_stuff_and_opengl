@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/jure/Documents/opengl_ucenje/src/display_and_drawing_functions/display_functions.cpp" "/home/jure/Documents/opengl_ucenje/examples/opengl_test/build/CMakeFiles/display_functions.dir/home/jure/Documents/opengl_ucenje/src/display_and_drawing_functions/display_functions.cpp.o"
+  "/home/jure/Documents/opengl/src/display_and_drawing_functions/display_functions.cpp" "/home/jure/Documents/opengl/examples/opengl_test/build/CMakeFiles/display_functions.dir/home/jure/Documents/opengl/src/display_and_drawing_functions/display_functions.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -22,8 +22,8 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/jure/Documents/opengl_ucenje/examples/opengl_test/build/CMakeFiles/glad.dir/DependInfo.cmake"
-  "/home/jure/Documents/opengl_ucenje/examples/opengl_test/build/CMakeFiles/apex_memmove.dir/DependInfo.cmake"
+  "/home/jure/Documents/opengl/examples/opengl_test/build/CMakeFiles/glad.dir/DependInfo.cmake"
+  "/home/jure/Documents/opengl/examples/opengl_test/build/CMakeFiles/apex_memmove.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

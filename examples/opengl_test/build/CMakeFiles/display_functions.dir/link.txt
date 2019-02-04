@@ -1,2 +1,2 @@
-/usr/bin/ar qc ../lib/libdisplay_functions.a  CMakeFiles/display_functions.dir/home/jure/Documents/opengl_ucenje/src/display_and_drawing_functions/display_functions.cpp.o
+/usr/bin/ar qc ../lib/libdisplay_functions.a  CMakeFiles/display_functions.dir/home/jure/Documents/opengl/src/display_and_drawing_functions/display_functions.cpp.o
 /usr/bin/ranlib ../lib/libdisplay_functions.a

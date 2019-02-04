@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/display_functions.dir/home/jure/Documents/opengl_ucenje/src/display_and_drawing_functions/display_functions.cpp.o"
+  "CMakeFiles/display_functions.dir/home/jure/Documents/opengl/src/display_and_drawing_functions/display_functions.cpp.o"
   "../lib/libdisplay_functions.pdb"
   "../lib/libdisplay_functions.a"
 )

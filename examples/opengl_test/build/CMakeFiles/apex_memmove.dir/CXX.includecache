@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/jure/Documents/opengl_ucenje/third_party/apex_memmove/apex_memmove.cpp
+/home/jure/Documents/opengl/third_party/apex_memmove/apex_memmove.cpp
 apex_memmove.h
-/home/jure/Documents/opengl_ucenje/third_party/apex_memmove/apex_memmove.h
+/home/jure/Documents/opengl/third_party/apex_memmove/apex_memmove.h
 cstring
 -
 emmintrin.h
@@ -18,7 +18,7 @@ intrin.h
 cpuid.h
 -
 
-/home/jure/Documents/opengl_ucenje/third_party/apex_memmove/apex_memmove.h
+/home/jure/Documents/opengl/third_party/apex_memmove/apex_memmove.h
 cstddef
 -
 stddef.h

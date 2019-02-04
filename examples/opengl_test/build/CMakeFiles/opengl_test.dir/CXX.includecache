@@ -112,6 +112,8 @@ shaders.hpp
 
 ../../../src/shapes/sphere.hpp
 
+../../../src/shapes/square_board.hpp
+
 ../../../src/shapes/star.hpp
 
 ../../../src/shapes/star3d.hpp
@@ -138,11 +140,11 @@ windows.h
 KHR/khrplatform.h
 -
 
-/home/jure/Documents/opengl_ucenje/examples/opengl_test/opengl_test.cpp
+/home/jure/Documents/opengl/examples/opengl_test/opengl_test.cpp
 opengl_test.hpp
-/home/jure/Documents/opengl_ucenje/examples/opengl_test/opengl_test.hpp
+/home/jure/Documents/opengl/examples/opengl_test/opengl_test.hpp
 
-/home/jure/Documents/opengl_ucenje/examples/opengl_test/opengl_test.hpp
+/home/jure/Documents/opengl/examples/opengl_test/opengl_test.hpp
 glad/glad.h
 -
 GLFW/glfw3.h
@@ -186,39 +188,41 @@ functional
 boost/align/aligned_allocator.hpp
 -
 apex_memmove.h
-/home/jure/Documents/opengl_ucenje/examples/opengl_test/apex_memmove.h
+/home/jure/Documents/opengl/examples/opengl_test/apex_memmove.h
 type_definitions.hpp
-/home/jure/Documents/opengl_ucenje/examples/opengl_test/type_definitions.hpp
+/home/jure/Documents/opengl/examples/opengl_test/type_definitions.hpp
 convex_hull.hpp
-/home/jure/Documents/opengl_ucenje/examples/opengl_test/convex_hull.hpp
+/home/jure/Documents/opengl/examples/opengl_test/convex_hull.hpp
 shaders.hpp
-/home/jure/Documents/opengl_ucenje/examples/opengl_test/shaders.hpp
+/home/jure/Documents/opengl/examples/opengl_test/shaders.hpp
 shader_class.hpp
-/home/jure/Documents/opengl_ucenje/examples/opengl_test/shader_class.hpp
+/home/jure/Documents/opengl/examples/opengl_test/shader_class.hpp
 auxiliary_functions.hpp
-/home/jure/Documents/opengl_ucenje/examples/opengl_test/auxiliary_functions.hpp
+/home/jure/Documents/opengl/examples/opengl_test/auxiliary_functions.hpp
 print_functions.hpp
-/home/jure/Documents/opengl_ucenje/examples/opengl_test/print_functions.hpp
+/home/jure/Documents/opengl/examples/opengl_test/print_functions.hpp
 drawing_functions.hpp
-/home/jure/Documents/opengl_ucenje/examples/opengl_test/drawing_functions.hpp
+/home/jure/Documents/opengl/examples/opengl_test/drawing_functions.hpp
 shape.hpp
-/home/jure/Documents/opengl_ucenje/examples/opengl_test/shape.hpp
+/home/jure/Documents/opengl/examples/opengl_test/shape.hpp
 sphere.hpp
-/home/jure/Documents/opengl_ucenje/examples/opengl_test/sphere.hpp
+/home/jure/Documents/opengl/examples/opengl_test/sphere.hpp
 circle.hpp
-/home/jure/Documents/opengl_ucenje/examples/opengl_test/circle.hpp
+/home/jure/Documents/opengl/examples/opengl_test/circle.hpp
 rectangle.hpp
-/home/jure/Documents/opengl_ucenje/examples/opengl_test/rectangle.hpp
+/home/jure/Documents/opengl/examples/opengl_test/rectangle.hpp
 star.hpp
-/home/jure/Documents/opengl_ucenje/examples/opengl_test/star.hpp
+/home/jure/Documents/opengl/examples/opengl_test/star.hpp
 box.hpp
-/home/jure/Documents/opengl_ucenje/examples/opengl_test/box.hpp
+/home/jure/Documents/opengl/examples/opengl_test/box.hpp
 disk.hpp
-/home/jure/Documents/opengl_ucenje/examples/opengl_test/disk.hpp
+/home/jure/Documents/opengl/examples/opengl_test/disk.hpp
 star3d.hpp
-/home/jure/Documents/opengl_ucenje/examples/opengl_test/star3d.hpp
+/home/jure/Documents/opengl/examples/opengl_test/star3d.hpp
+square_board.hpp
+/home/jure/Documents/opengl/examples/opengl_test/square_board.hpp
 display_functions.hpp
-/home/jure/Documents/opengl_ucenje/examples/opengl_test/display_functions.hpp
+/home/jure/Documents/opengl/examples/opengl_test/display_functions.hpp
 glm/gtx/string_cast.hpp
 -
 

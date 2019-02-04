@@ -20,7 +20,7 @@ windows.h
 KHR/khrplatform.h
 -
 
-/home/jure/Documents/opengl_ucenje/third_party/glad/src/glad.c
+/home/jure/Documents/opengl/third_party/glad/src/glad.c
 stdio.h
 -
 stdlib.h

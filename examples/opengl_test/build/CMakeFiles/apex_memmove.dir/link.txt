@@ -1,2 +1,2 @@
-/usr/bin/ar qc ../lib/libapex_memmove.a  CMakeFiles/apex_memmove.dir/home/jure/Documents/opengl_ucenje/third_party/apex_memmove/apex_memmove.cpp.o
+/usr/bin/ar qc ../lib/libapex_memmove.a  CMakeFiles/apex_memmove.dir/home/jure/Documents/opengl/third_party/apex_memmove/apex_memmove.cpp.o
 /usr/bin/ranlib ../lib/libapex_memmove.a

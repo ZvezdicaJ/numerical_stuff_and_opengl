@@ -7,7 +7,8 @@
  * @details All shapes inherit from this class. It contains all basic
  * structures for drawing including opengl buffers.
  */
-template <typename T> class Shape {
+template <typename T>
+class Shape {
     static_assert(std::is_same<float, T>::value ||
                       std::is_same<double, T>::value,
                   "Shapes can only be instantiated with floating point types: "
@@ -34,7 +35,7 @@ template <typename T> class Shape {
         5; /**< minimal number of vertexes to be generated for a given shape */
     aligned_vector<float>
         vertex_colors; /**< Vector holding a color for each vertex. Four
-                          consequtive numbers form a rgb color value*/
+        consequtive numbers form a rgb color value*/
 
     /**
      * @brief Allocates and initializes vertex buffer object, element buffer
@@ -134,13 +135,21 @@ template <typename T> class Shape {
  * @details It inherits from Shape class. Template parameter can either be float
  * of double. It is meant to contain functions common to all 2D shapes.
  */
-template <typename T> class Shape2D : public Shape<T> {
+template <typename T>
+class Shape2D : public Shape<T> {
   protected:
-    unsigned FILLING_VBO; /**<2D shapes consist of line, this buffer is meant to
-                             fill 2D shapes.   */
+    unsigned FILLING_VBO; /**<2D shapes consist of lines, this buffer is meant
+                             to fill 2D shapes.   */
+    unsigned FILLING_EBO; /**<2D shapes consist of lines, this buffer contains
+                             elements to fill 2D shapes.   */
+    char filling_render_type; /**< tells whether to render element buffer - 'E'
+                                 of array buffer - 'V' */
+
     aligned_vector<T>
         filling_vertexes; /**<vertexes for interior of 2D shapes.  */
-    void generate_filling_vbo();
+    aligned_vector<int>
+        filling_elements; /**<vertexes for interior of 2D shapes.  */
+    virtual void generate_filling_vbo();
 
   public:
     aligned_vector<T> get_filling_vertexes() { return filling_vertexes; }
@@ -154,7 +163,8 @@ template <typename T> class Shape2D : public Shape<T> {
 /**
  * @brief Generates vertexes which fill the interior of 2D shapes.
  */
-template <> inline void Shape2D<float>::generate_filling_vbo() {
+template <>
+inline void Shape2D<float>::generate_filling_vbo() {
 
     int vertexes_size = (this->vertexes.size());
     int number_of_points = vertexes_size / (this->vertex_size);
@@ -168,6 +178,7 @@ template <> inline void Shape2D<float>::generate_filling_vbo() {
     // std::cout << "filling_vertexes size: " << filling_vertexes.size()
     //          << std::endl;
     unsigned index = 0;
+    // in this loop you copy all pairs of points except the last one
     for (int i = 0; i < number_of_points - 1; i += 1) {
         // std::cout << i << std::endl;
         const __m128i point12 =
@@ -204,7 +215,8 @@ template <> inline void Shape2D<float>::generate_filling_vbo() {
 /**
  * @brief Generates vertexes which fill the interior of 2D shapes.
  */
-template <> inline void Shape2D<double>::generate_filling_vbo() {
+template <>
+inline void Shape2D<double>::generate_filling_vbo() {
 
     int vertexes_size = (this->vertexes.size());
     int number_of_points = vertexes_size / (this->vertex_size);
@@ -258,7 +270,8 @@ template <> inline void Shape2D<double>::generate_filling_vbo() {
  * of double. It is meant to contain functions common to all 3D shapes - like
  * area and volume.
  */
-template <typename T> class Shape3D : public Shape<T> {
+template <typename T>
+class Shape3D : public Shape<T> {
   protected:
   public:
     T area();
@@ -269,7 +282,8 @@ template <typename T> class Shape3D : public Shape<T> {
  * @details It sums the areas of all triangles. For each triangle it calculates
  * the area using Heron formula.
  */
-template <> inline float Shape3D<float>::area() {
+template <>
+inline float Shape3D<float>::area() {
     float ar = 0;
     unsigned triangle_number = this->element_array.size() / 3;
     for (unsigned tri = 0; tri < triangle_number; tri += 1) {
@@ -303,7 +317,8 @@ template <> inline float Shape3D<float>::area() {
  * @details It sums the areas of all triangles. For each triangle it calculates
  * the area using Heron formula.
  */
-template <> inline double Shape3D<double>::area() {
+template <>
+inline double Shape3D<double>::area() {
     double ar = 0;
     unsigned triangle_number = this->element_array.size() / 3;
     __m256d zeros = _mm256_setzero_pd();

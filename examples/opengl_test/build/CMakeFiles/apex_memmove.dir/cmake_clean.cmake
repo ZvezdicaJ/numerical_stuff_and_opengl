@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/apex_memmove.dir/home/jure/Documents/opengl_ucenje/third_party/apex_memmove/apex_memmove.cpp.o"
+  "CMakeFiles/apex_memmove.dir/home/jure/Documents/opengl/third_party/apex_memmove/apex_memmove.cpp.o"
   "../lib/libapex_memmove.pdb"
   "../lib/libapex_memmove.a"
 )

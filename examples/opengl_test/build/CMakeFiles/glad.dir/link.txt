@@ -1,1 +1,1 @@
-/usr/bin/cc -fPIC   -shared -Wl,-soname,libglad.so -o ../lib/libglad.so CMakeFiles/glad.dir/home/jure/Documents/opengl_ucenje/third_party/glad/src/glad.c.o 
+/usr/bin/cc -fPIC   -shared -Wl,-soname,libglad.so -o ../lib/libglad.so CMakeFiles/glad.dir/home/jure/Documents/opengl/third_party/glad/src/glad.c.o 
