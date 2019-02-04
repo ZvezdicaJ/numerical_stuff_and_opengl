@@ -16,9 +16,9 @@
 #include <list>
 #include <functional>
 
-#include "wolff.hpp"
+#include "Ising_model.hpp"
 
 int main() {
-    IsingModel<float> alg1;
-
+    IsingModel<float> alg1(100);
+    std::cout << alg1.calc_magnetization() << std::endl;
 }
