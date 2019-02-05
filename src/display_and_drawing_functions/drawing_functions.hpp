@@ -337,7 +337,7 @@ void draw_2d_object(Shape2D<T> &shape,
                     std::array<float, 3> rotation_axis = {0, 0, 1},
                     float angle = 0) {
 
-    assert(colors_loaded == true &&
+    assert(shape.colors_loaded == true &&
            "to draw 2d shape with custom colors, you have to load colors");
     // if (shape_.vertex_size == 2) {
     // std::cout << "draw_2d_object can display only 2d shapes";

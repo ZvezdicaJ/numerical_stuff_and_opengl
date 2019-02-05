@@ -30,14 +30,14 @@ class IsingModel {
     T average_energy2 = 0;
     unsigned samples = 0;
 
-     static std::mt19937_64 generator;
-    //std::default_random_engine generator;
+    // std::default_random_engine generator;
 
-    static std::uniform_real_distribution<T> real_dist;
-    static decltype(std::bind(real_dist, generator)) real_generator;
+    std::mt19937_64 engine;
+    std::uniform_int_distribution<int> int_distribution;
+    std::uniform_real_distribution<T> real_distribution;
 
-    std::uniform_int_distribution<int> int_dist;
-    decltype(std::bind(int_dist, generator)) int_generator;
+    unsigned random_int() { return int_distribution(engine); }
+    unsigned random_real() { return real_distribution(engine); }
 
     void enforce_boundary_conditions() {
         for (unsigned j = 0; j < size; j++) {
@@ -50,16 +50,23 @@ class IsingModel {
     }
 
     void set_random_spin_directions() {
-        for (unsigned i = 0; i < size; i++) {
-            for (unsigned j = 0; j < size; j++) {
+        int spin_up = 0;
+        int spin_down = 0;
+        for (unsigned i = 1; i < size - 1; i++) {
+            for (unsigned j = 1; j < size - 1; j++) {
                 // h[i][j]=1;
-                if (real_generator() >= 0.5) {
+                std::cout << "random: " << random_real() << std::endl;
+                if (random_real() >= 0.5) {
                     *(spin_array + i * size + j) = DOWN;
+                    spin_down++;
                 } else {
                     *(spin_array + i * size + j) = UP;
+                    spin_up++;
                 }
             }
         }
+        std::cout << "random spin up: " << spin_up << std::endl;
+        std::cout << "random spin down: " << spin_down << std::endl;
     }
 
     void wolff_cluster_step(int spin, int k, int l) {
@@ -67,29 +74,29 @@ class IsingModel {
         *(spin_array + k * size + l) = -*(spin_array + k * size + l);
 
         if (k != size - 2 && *(spin_array + (k + 1) * size + l) == spin &&
-            std::exp(-2 * J / temperature) < real_generator()) {
+            std::exp(-2 * J / temperature) < random_real()) {
             wolff_cluster_step(spin, k + 1, l);
         }
         if (k != 1 && *(spin_array + (k - 1) * size + l) == spin &&
-            std ::exp(-2 * J / temperature) < real_generator()) {
+            std ::exp(-2 * J / temperature) < random_real()) {
             wolff_cluster_step(spin, k - 1, l);
         }
 
         if (l != size - 2 && *(spin_array + k * size + l + 1) == spin &&
-            std::exp(-2 * J / temperature) < real_generator()) {
+            std::exp(-2 * J / temperature) < random_real()) {
             wolff_cluster_step(spin, k, l + 1);
         }
 
         if (l != 1 && *(spin_array + k * size + l - 1) == spin &&
-            std::exp(-2 * J / temperature) < real_generator()) {
+            std::exp(-2 * J / temperature) < random_real()) {
             wolff_cluster_step(spin, k, l - 1);
         }
     }
 
     void flip_cluster() {
         // randomly choose k and l
-        int k = int_generator();
-        int l = int_generator();
+        int k = random_int();
+        int l = random_int();
         spin_dir spin = *(spin_array + k + size + l);
         wolff_cluster_step(spin, k, l);
     }
@@ -99,7 +106,7 @@ class IsingModel {
         int s = 0;
         for (unsigned i = 1; i < size - 1; i++) {
             for (unsigned j = 1; j < size - 1; j++) {
-                s += *(spin_array + i * size + j);
+                s += (int)*(spin_array + i * size + j);
             }
         }
         magnetization = s;
@@ -108,15 +115,10 @@ class IsingModel {
 
     IsingModel(unsigned size_ = 50) : size(size_) {
         spin_array = (spin_dir *)malloc(sizeof(spin_dir) * size_ * size_);
-
-        static std::uniform_real_distribution<T> real_dist =
-            std::uniform_real_distribution<T>(0.0, 1.0);
-        static decltype(std::bind(real_dist, generator)) real_generator;
-
-        static std::uniform_int_distribution<int> int_dist =
-            std::uniform_int_distribution<int>(1, size - 2);
-        static decltype(std::bind(int_dist, generator)) int_generator;
-
+        int_distribution = std::uniform_int_distribution<int>(1, size_ - 2);
+        real_distribution = std::uniform_real_distribution<T>(0.0, 1.0);
+        std::random_device rd;
+        engine = std::mt19937_64();
         set_random_spin_directions();
         enforce_boundary_conditions();
     };
