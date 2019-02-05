@@ -187,6 +187,37 @@ inline void bitonic_sort(__m256 &reg0, __m256 &reg1) {
     return;
 }
 
+inline void bitonic_sort(__m256 &reg0, __m256 &reg1, __m256 &reg2,
+                         __m256 &reg3) {
+
+    // sort each quarter
+    bitonic_sort(reg0);
+    bitonic_sort(reg1);
+    bitonic_sort(reg2);
+    bitonic_sort(reg3);
+    // sort each half
+    bitonic_sort(reg0, reg1);
+    bitonic_sort(reg2, reg3);
+
+    // sort full width
+    __m256 reversed_halves0 = _mm256_permute2f128_ps(reg0, reg0, 0b00000001);
+    __m256 reversed0 =
+        _mm256_shuffle_ps(reversed_halves0, reversed_halves0, 0b00011011);
+    reg0 = _mm_min_ps(reversed0, reg3);
+    reg3 = _mm_max_ps(reversed0, reg3);
+
+    __m256 reversed_halves1 = _mm256_permute2f128_ps(reg1, reg1, 0b00000001);
+    __m256 reversed1 =
+        _mm256_shuffle_ps(reversed_halves1, reversed_halves1, 0b00011011);
+    reg1 = _mm_min_ps(reversed1, reg2);
+    reg2 = _mm_max_ps(reversed1, reg2);
+
+    reg3 = _mm256_max_ps(reg1, reg3);
+    reg1 = _mm256_min_ps(reg1, reg3);
+    reg2 = _mm256_max_ps(reg2, reg0);
+    reg0 = _mm256_min_ps(reg2, reg0);
+}
+
 #ifdef __AVX2__
 #define __BITONIC_SORT_DOUBLE__
 /**
@@ -228,11 +259,11 @@ inline void bitonic_sort(__m256d &reg) {
 
 /**
  * @brief The function accepts two __m256d vectors and sorts them.
- * @param reg1 upper vector of numbers - at the end it contains larger values,
- * the largest value is in the upper half of register [255:192]
+ * @param reg1 upper vector of numbers - at the end it contains larger
+ * values, the largest value is in the upper half of register [255:192]
  *
- * @param reg0 lower vector of numbers - at the end it contains smaller values.
- * The smallest value is in the lowest half of register - at [63:0]
+ * @param reg0 lower vector of numbers - at the end it contains smaller
+ * values. The smallest value is in the lowest half of register - at [63:0]
  *
  */
 inline void bitonic_sort(__m256d &reg0, __m256d &reg1) {
@@ -308,10 +339,10 @@ inline void bitonic_sort(__m256d &reg0, __m256d &reg1) {
 }
 
 /**
- *@brief The function accepts a vector of __m256d vectors and sorts them - sort
- *number which they contain.
- *@details The function is recursive and accepts two additional parameters. They
- *tell which part of the vector should be sorted.
+ *@brief The function accepts a vector of __m256d vectors and sorts them -
+ *sort number which they contain.
+ *@details The function is recursive and accepts two additional parameters.
+ *They tell which part of the vector should be sorted.
  * @param full_vec vector containing all subvectors (all the numbers to be
  *sorted)
  * @param first_index is the starting index of element to be sorted
