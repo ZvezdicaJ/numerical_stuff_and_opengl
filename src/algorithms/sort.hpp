@@ -211,27 +211,41 @@ inline void bitonic_sort(__m256 &reg0, __m256 &reg1, __m256 &reg2,
         _mm256_shuffle_ps(reversed_halves1, reversed_halves1, 0b00011011);
     reg1 = _mm256_min_ps(reversed1, reg2);
     reg2 = _mm256_max_ps(reversed1, reg2);
-
-    reg3 = _mm256_max_ps(reg1, reg3);
-    reg1 = _mm256_min_ps(reg1, reg3);
-    reg2 = _mm256_max_ps(reg2, reg0);
-    reg0 = _mm256_min_ps(reg2, reg0);
-
-    reg1 = _mm256_max_ps(reg0, reg1);
-    reg0 = _mm256_min_ps(reg0, reg1);
-    reg3 = _mm256_max_ps(reg2, reg3);
-    reg2 = _mm256_min_ps(reg2, reg3);
-
+    {
+        __m256 max = _mm256_max_ps(reg1, reg3);
+        __m256 min = _mm256_min_ps(reg1, reg3);
+        reg1 = min;
+        reg3 = max;
+        max = _mm256_max_ps(reg2, reg0);
+        min = _mm256_min_ps(reg2, reg0);
+        reg2 = max;
+        reg0 = min;
+    }
+    {
+        __m256 max = _mm256_max_ps(reg0, reg1);
+        __m256 min = _mm256_min_ps(reg0, reg1);
+        reg0 = min;
+        reg1 = max;
+        max = _mm256_max_ps(reg2, reg3);
+        min = _mm256_min_ps(reg2, reg3);
+        reg2 = min;
+        reg3 = max;
+    }
+    print_avx(reg0, "reg0");
+    print_avx(reg1, "reg1");
+    print_avx(reg2, "reg2");
+    print_avx(reg3, "reg3");
     // mix across avx lanes each register separately
     {
         // register 0:  *----* *----*     *----* *----*
         __m256 shuffled_reg = _mm256_shuffle_ps(reg0, reg0, 0b01001110);
-        __m256 max = _mm256_max_ps(reg1, shuffled_reg);
-        __m256 min = _mm256_min_ps(reg1, shuffled_reg);
+        __m256 max = _mm256_max_ps(reg0, shuffled_reg);
+        __m256 min = _mm256_min_ps(reg0, shuffled_reg);
         // max mora biti pri 256
         // min is located at the start of register (at 0 - lower half)
         reg0 = _mm256_blend_ps(max, min, 0b00110011);
     }
+    print_avx(reg0, "\nreg0");
     {
         //  *----* *----*     *----* *----*
         __m256 shuffled_reg = _mm256_shuffle_ps(reg1, reg1, 0b01001110);
@@ -263,8 +277,8 @@ inline void bitonic_sort(__m256 &reg0, __m256 &reg1, __m256 &reg2,
     {
         // and finally repeat the first step: *--*  *--*  *--* *--*
         __m256 shuffled_reg = _mm256_shuffle_ps(reg0, reg0, 0b10110001);
-        __m256 max = _mm256_max_ps(reg1, shuffled_reg);
-        __m256 min = _mm256_min_ps(reg1, shuffled_reg);
+        __m256 max = _mm256_max_ps(reg0, shuffled_reg);
+        __m256 min = _mm256_min_ps(reg0, shuffled_reg);
         // this will produce smallest number to in the [0:63] register
         reg0 = _mm256_blend_ps(min, max, 0b10101010);
     }
@@ -292,6 +306,13 @@ inline void bitonic_sort(__m256 &reg0, __m256 &reg1, __m256 &reg2,
         // this will produce smallest number to in the [0:63] register
         reg3 = _mm256_blend_ps(min, max, 0b10101010);
     }
+
+
+    std::cout << std::endl;
+    print_avx(reg0, "reg0");
+    print_avx(reg1, "reg1");
+    print_avx(reg2, "reg2");
+    print_avx(reg3, "reg3");
 }
 
 #ifdef __AVX2__
@@ -431,7 +452,6 @@ inline void bitonic_sort(__m256d &reg0, __m256d &reg1, __m256d &reg2,
     bitonic_sort(reg3);       // sort fourth register
     bitonic_sort(reg0, reg1); // sort third register
     bitonic_sort(reg2, reg3); // sort fourth register
-
     {
         // reverse one of registers register reg0
         __m256d reverse = _mm256_permute4x64_pd(reg0, _MM_SHUFFLE(0, 1, 2, 3));
@@ -452,20 +472,36 @@ inline void bitonic_sort(__m256d &reg0, __m256d &reg1, __m256d &reg2,
         // print_avx(max, "max: ");
         // print_avx(min, "min: ");
     }
-    reg1 = _mm256_min_pd(reg3, reg1);
-    reg3 = _mm256_max_pd(reg3, reg1);
-    reg0 = _mm256_min_pd(reg2, reg0);
-    reg2 = _mm256_max_pd(reg2, reg0);
+    {
+        __m256d min = _mm256_min_pd(reg3, reg1);
+        __m256d max = _mm256_max_pd(reg3, reg1);
+        reg1 = min;
+        reg3 = max;
 
-    reg0 = _mm256_min_pd(reg0, reg1);
-    reg1 = _mm256_max_pd(reg0, reg1);
-    reg2 = _mm256_min_pd(reg2, reg3);
-    reg3 = _mm256_max_pd(reg2, reg3);
+        min = _mm256_min_pd(reg2, reg0);
+        max = _mm256_max_pd(reg2, reg0);
+        reg0 = min;
+        reg2 = max;
+    }
+    {
+        __m256d min = _mm256_min_pd(reg0, reg1);
+        __m256d max = _mm256_max_pd(reg0, reg1);
+        reg0 = min;
+        reg1 = max;
 
+        min = _mm256_min_pd(reg2, reg3);
+        max = _mm256_max_pd(reg2, reg3);
+        reg2 = min;
+        reg3 = max;
+    }
+    /*    print_avx(reg0, "reg0");
+    print_avx(reg1, "reg1");
+    print_avx(reg2, "reg2");
+    print_avx(reg3, "reg3");*/
     { // shuffling between 128bit lanes
         __m256d shuffled_reg = _mm256_permute4x64_pd(reg0, 0b01001110);
-        __m256d max = _mm256_max_pd(reg1, shuffled_reg);
-        __m256d min = _mm256_min_pd(reg1, shuffled_reg);
+        __m256d max = _mm256_max_pd(reg0, shuffled_reg);
+        __m256d min = _mm256_min_pd(reg0, shuffled_reg);
         // max mora biti pri 256
         reg0 = _mm256_blend_pd(max, min, 0b0011);
     }
@@ -490,7 +526,7 @@ inline void bitonic_sort(__m256d &reg0, __m256d &reg1, __m256d &reg2,
         // max mora biti pri 256
         reg3 = _mm256_blend_pd(max, min, 0b0011);
     }
-    // shuffle neighbours
+    // shuffle neighbour numbers
     {
         __m256d shuffled_reg1 = _mm256_shuffle_pd(reg1, reg1, 0b0101);
         __m256d max = _mm256_max_pd(reg1, shuffled_reg1);
@@ -500,8 +536,8 @@ inline void bitonic_sort(__m256d &reg0, __m256d &reg1, __m256d &reg2,
     }
     {
         __m256d shuffled_reg = _mm256_shuffle_pd(reg2, reg2, 0b0101);
-        __m256d max = _mm256_max_pd(reg1, shuffled_reg);
-        __m256d min = _mm256_min_pd(reg1, shuffled_reg);
+        __m256d max = _mm256_max_pd(reg2, shuffled_reg);
+        __m256d min = _mm256_min_pd(reg2, shuffled_reg);
         // this will produce smallest number to in the [0:63] register
         reg2 = _mm256_unpacklo_pd(min, max);
     }
