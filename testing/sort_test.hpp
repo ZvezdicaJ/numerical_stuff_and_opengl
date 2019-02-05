@@ -97,6 +97,85 @@ TEST(sort, bitonic_avx_sort_2reg) {
     }
 }
 
+TEST(sort, bitonic_avx_sort_4reg) {
+    {
+        __m256d reg0 = _mm256_setr_pd(1, 2, 3, 4);
+        __m256d reg1 = _mm256_setr_pd(5, 6, 7, 8);
+        __m256d reg2 = _mm256_setr_pd(9, 10, 11, 12);
+        __m256d reg3 = _mm256_setr_pd(13, 14, 15, 16);
+
+        bitonic_sort(reg0, reg1, reg2, reg3);
+        double *s1 = (double *)&reg0;
+        double *s2 = (double *)&reg1;
+        double *s3 = (double *)&reg2;
+        double *s4 = (double *)&reg3;
+        double sol1[4] = {1, 2, 3, 4};
+        double sol2[4] = {5, 6, 7, 8};
+        double sol3[4] = {9, 10, 11, 12};
+        double sol4[4] = {13, 14, 15, 16};
+        for (int i = 0; i < 4; i++) {
+            ASSERT_EQ(*(s1 + i), sol1[i]);
+            ASSERT_EQ(*(s2 + i), sol2[i]);
+            ASSERT_EQ(*(s3 + i), sol3[i]);
+            ASSERT_EQ(*(s4 + i), sol4[i]);
+        }
+    }
+    {
+        __m256d reg0 = _mm256_setr_pd(-1, -2, 18, 29);
+        __m256d reg1 = _mm256_setr_pd(500, -80, 2, -5);
+        __m256d reg2 = _mm256_setr_pd(-10, 22, 180, -2900);
+        __m256d reg3 = _mm256_setr_pd(38, -120, 25, -17);
+        bitonic_sort(reg0, reg1, reg2, reg3);
+        double *s1 = (double *)&reg0;
+        double *s2 = (double *)&reg1;
+        double *s3 = (double *)&reg2;
+        double *s4 = (double *)&reg3;
+        std::vector<double> sol({-80, -5, -2, -1, -10, 2, 18, 29, 500, 22, 180,
+                                 -2900, 38, -120, 25, -17});
+        std::sort(sol.begin(), sol.end());
+        for (int i = 0; i < 4; i++) {
+            ASSERT_EQ(*(s1 + i), sol[i]);
+            ASSERT_EQ(*(s2 + i), sol[i + 4]);
+            ASSERT_EQ(*(s3 + i), sol[i + 8]);
+            ASSERT_EQ(*(s4 + i), sol[i + 12]);
+        }
+    }
+
+    {
+        std::vector<double> inp0({random_double(), random_double(),
+                                  random_double(), random_double()});
+        std::vector<double> inp1({random_double(), random_double(),
+                                  random_double(), random_double()});
+        std::vector<double> inp2({random_double(), random_double(),
+                                  random_double(), random_double()});
+        std::vector<double> inp3({random_double(), random_double(),
+                                  random_double(), random_double()});
+
+        __m256d reg0 = _mm256_loadu_pd(inp0.data());
+        __m256d reg1 = _mm256_loadu_pd(inp1.data());
+        __m256d reg2 = _mm256_loadu_pd(inp2.data());
+        __m256d reg3 = _mm256_loadu_pd(inp3.data());
+
+        inp0.insert(inp0.end(), inp1.begin(), inp1.end());
+        inp0.insert(inp0.end(), inp2.begin(), inp2.end());
+        inp0.insert(inp0.end(), inp3.begin(), inp3.end());
+        std::sort(std::begin(inp0), std::end(inp0));
+
+        bitonic_sort(reg0, reg1, reg2, reg3);
+        double *s1 = (double *)&reg0;
+        double *s2 = (double *)&reg1;
+        double *s3 = (double *)&reg2;
+        double *s4 = (double *)&reg3;
+        // std::cout << "inp: " << std::endl;
+        for (int i = 0; i < 4; i++) {
+            ASSERT_EQ(*(s1 + i), inp0[i]);
+            ASSERT_EQ(*(s2 + i), inp0[i + 4]);
+            ASSERT_EQ(*(s3 + i), inp0[i + 8]);
+            ASSERT_EQ(*(s4 + i), inp0[i + 12]);
+        }
+    }
+}
+
 TEST(sort, bitonic_avx_reg_sort_float) {
 
     {
@@ -170,7 +249,7 @@ TEST(sort, bitonic_avx_sort_float_two_vectors) {
             ASSERT_EQ(*(s2 + i), sol2[i]);
         }
     }
-    
+
     {
         std::vector<float> inp0({random_float(), random_float(), random_float(),
                                  random_float(), random_float(), random_float(),

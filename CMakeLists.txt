@@ -59,16 +59,9 @@ include_directories("./src/shapes")
 include_directories("./src/algorithms")
 include_directories("./src/print_functions")
 
-target_include_directories(opengl_test PRIVATE "${GLAD_DIR}/include" "./examples/opengl_test")
-target_link_libraries(opengl_test glad /usr/local/lib/libglfw.so apex_memmove)
-
 # Locate GTest
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
-
-#this is to generate auxiliary functions
-add_executable(auxiliary_functions_data testing/auxiliary_functions_test.cpp)
-target_include_directories(test_auxiliary_functions PRIVATE "${GLAD_DIR}/include" "./examples/opengl_test")
 
 # this is for gtests
 add_executable(runTests
