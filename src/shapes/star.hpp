@@ -29,6 +29,7 @@ class Star : public Shape2D<T> {
 template <typename T>
 Star<T>::Star(int bulges, T ratio) {
     this->draw_type = 'V';
+    this->filling_draw_type = 'V';
     this->vertex_size = 2;
     this->min_vertexes = 50;
     this->generate_vertexes(bulges, ratio);

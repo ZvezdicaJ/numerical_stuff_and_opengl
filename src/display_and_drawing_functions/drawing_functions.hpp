@@ -318,13 +318,13 @@ void draw_2d_object(Shape2D<T> &shape,
     } else if (shape.filling_draw_type == 'E') {
 
         glBindBuffer(GL_ARRAY_BUFFER, shape.FILLING_VBO);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shape.FILLING_EBO);
         glBindVertexArray(shape.VAO);
         glVertexAttribPointer(0, shape.vertex_size, type, GL_TRUE,
                               shape.vertex_size * sizeof(T), (void *)0);
         glEnableVertexAttribArray(0);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shape.FILLING_EBO);
 
-        glDrawElements(GL_TRIANGLES, shape.filling_element_array.size(),
+        glDrawElements(GL_TRIANGLES, shape.filling_elements.size(),
                        GL_UNSIGNED_INT, 0);
     }
     // glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // render as filled triangles
@@ -383,40 +383,26 @@ void draw_2d_object(Shape2D<T> &shape,
         type = GL_DOUBLE;
     else
         type = GL_FLOAT;
+    glBindBuffer(GL_ARRAY_BUFFER, shape.FILLING_VBO);
+    glBindVertexArray(shape.VAO);
+    glVertexAttribPointer(0, shape.vertex_size, type, GL_TRUE,
+                          shape.vertex_size * sizeof(T), (void *)0);
+    glEnableVertexAttribArray(0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, shape.CBO);
+    glBindVertexArray(shape.VAO);
+    glVertexAttribPointer(1, 4, type, GL_TRUE, 4 * sizeof(float), (void *)0);
+    glEnableVertexAttribArray(1);
 
     if (shape.filling_draw_type == 'V') {
-
-        glBindBuffer(GL_ARRAY_BUFFER, shape.FILLING_VBO);
-        glBindVertexArray(shape.VAO);
-        glVertexAttribPointer(0, shape.vertex_size, type, GL_TRUE,
-                              shape.vertex_size * sizeof(T), (void *)0);
-        glEnableVertexAttribArray(0);
-
-        glBindBuffer(GL_ARRAY_BUFFER, shape.CBO);
-        glBindVertexArray(shape.VAO);
-        glVertexAttribPointer(1, 4, type, GL_TRUE, 4 * sizeof(float),
-                              (void *)0);
-        glEnableVertexAttribArray(1);
 
         glDrawArrays(GL_TRIANGLES, 0,
                      shape.filling_vertexes.size() / shape.vertex_size);
 
     } else if (shape.filling_draw_type == 'E') {
 
-        glBindBuffer(GL_ARRAY_BUFFER, shape.FILLING_VBO);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shape.FILLING_EBO);
-        glBindVertexArray(shape.VAO);
-        glVertexAttribPointer(0, shape.vertex_size, type, GL_TRUE,
-                              shape.vertex_size * sizeof(T), (void *)0);
-        glEnableVertexAttribArray(0);
-
-        glBindBuffer(GL_ARRAY_BUFFER, shape.CBO);
-        glBindVertexArray(shape.VAO);
-        glVertexAttribPointer(1, 4, type, GL_TRUE, 4 * sizeof(float),
-                              (void *)0);
-        glEnableVertexAttribArray(1);
-
-        glDrawElements(GL_TRIANGLES, shape.filling_element_array.size(),
+        glDrawElements(GL_TRIANGLES, shape.filling_elements.size(),
                        GL_UNSIGNED_INT, 0);
     }
     // glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // render as filled triangles

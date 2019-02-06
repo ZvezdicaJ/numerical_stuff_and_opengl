@@ -171,40 +171,29 @@ inline void Shape2D<float>::generate_filling_vbo() {
     // number of points that filling takes
     int filling_number_of_points = 2 * number_of_points;
     // reserve and resize to filling_number_of_points
-    filling_vertexes.reserve(2 * filling_number_of_points + 2);
-    filling_vertexes.resize(2 * filling_number_of_points);
+    filling_vertexes.reserve(6 * filling_number_of_points + 2);
+    filling_vertexes.resize(6 * filling_number_of_points);
 
-    //    std::cout << "number of points: " << number_of_points << std::endl;
-    // std::cout << "filling_vertexes size: " << filling_vertexes.size()
-    //          << std::endl;
     unsigned index = 0;
-    // in this loop you copy all pairs of points except the last one
+    // std::cout << "fillinf number of points: " << 3 * filling_number_of_points
+    //          << std::endl;
     for (int i = 0; i < number_of_points - 1; i += 1) {
         // std::cout << i << std::endl;
         const __m128i point12 =
-            _mm_stream_load_si128((__m128i *)&(this->vertexes[2 * i]));
-        _mm_stream_si128((__m128i *)(&filling_vertexes[0] + index), point12);
-        _mm_stream_ps(&filling_vertexes[0] + index + 4, _mm_setzero_ps());
+            _mm_loadu_si128((__m128i *)&(this->vertexes[2 * i]));
+        _mm_storeu_si128((__m128i *)(&filling_vertexes[0] + index), point12);
+        _mm_storeu_ps(&filling_vertexes[0] + index + 4, _mm_setzero_ps());
         index += 6;
     }
     __m128i point12 =
-        _mm_stream_load_si128((__m128i *)&(this->vertexes[vertexes_size - 2]));
-    _mm_stream_si128((__m128i *)(&filling_vertexes[0] + index), point12);
+        _mm_loadu_si128((__m128i *)&(this->vertexes[vertexes_size - 2]));
+    _mm_storeu_si128((__m128i *)(&filling_vertexes[0] + index), point12);
 
-    point12 = _mm_stream_load_si128((__m128i *)&(this->vertexes[0]));
-    _mm_stream_si128((__m128i *)(&filling_vertexes[0] + index + 2), point12);
+    point12 = _mm_loadu_si128((__m128i *)&(this->vertexes[0]));
+    _mm_storeu_si128((__m128i *)(&filling_vertexes[0] + index + 2), point12);
 
-    _mm_stream_ps(&filling_vertexes[0] + index + 4, _mm_setzero_ps());
+    _mm_storeu_ps(&filling_vertexes[0] + index + 4, _mm_setzero_ps());
 
-    // print_vertexes(&filling_vertexes[0], filling_vertexes.size() / 2, 2);
-    /*std::cout
-        << "address is 16 byte aligned: "
-        << (((unsigned long)(&filling_vertexes[filling_number_of_points - 4]) &
-             15))
-        << std::endl;
-    */
-    //    _mm_storeu_ps(&filling_vertexes[filling_number_of_points - 4],
-    //    point12);
     glGenBuffers(1, &FILLING_VBO);
     glBindBuffer(GL_ARRAY_BUFFER, FILLING_VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * filling_vertexes.size(),

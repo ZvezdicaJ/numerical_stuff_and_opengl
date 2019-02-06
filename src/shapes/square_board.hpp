@@ -66,15 +66,14 @@ inline void SquareBoard<float>::generate_vertexes() {
         for (unsigned j = 0; j < num_points - 4; j += 4) {
             // std::cout << "i, j: " << i << " " << j << "  index: " << index
             //          << "  " << stevec << std::endl;
-            __m128 ycoord = _mm_mul_ps(ansatz, step_vec);
+            __m128 ycoord = _mm_add_ps(_mm_mul_ps(ansatz, step_vec), origin);
             ansatz = _mm_add_ps(ansatz, _mm_set_ps1(4.0));
-
             __m128 tocki12 = _mm_shuffle_ps(xcoord, ycoord, 0b01000100);
             tocki12 = _mm_shuffle_ps(tocki12, tocki12, 0b11011000);
             _mm_storeu_ps(&(this->vertexes[index]), tocki12);
             index += 4;
 
-            __m128 tocki34 = _mm_shuffle_ps(xcoord, ycoord, 0b11011101);
+            __m128 tocki34 = _mm_shuffle_ps(xcoord, ycoord, 0b11101101);
             tocki34 = _mm_shuffle_ps(tocki34, tocki34, 0b11011000);
             _mm_storeu_ps(&(this->vertexes[index]), tocki34);
             index += 4;
@@ -84,7 +83,7 @@ inline void SquareBoard<float>::generate_vertexes() {
         for (unsigned j = 0; j <= reminder; j++) {
             vertexes[index] = (float)i * step - 1.0;
             index += 1;
-            vertexes[index] = (float)(j + integer_part) * (step)-1.0;
+            vertexes[index] = (float)(j + integer_part) * step - 1.0;
             index += 1;
             stevec += 2;
             // std::cout << "index: " << index << std::endl;
@@ -94,10 +93,10 @@ inline void SquareBoard<float>::generate_vertexes() {
 
     this->element_array.reserve(8 * size * size);
     this->element_array.resize(8 * size * size + 1);
-    __m128i element_ansatz1 = _mm_setr_epi32(0, 1, size, size + 1);
-    __m128i element_ansatz2 = _mm_setr_epi32(0, size, 1, size + 1);
+    __m128i element_ansatz1 = _mm_setr_epi32(0, 1, size + 1, size + 2);
+    __m128i element_ansatz2 = _mm_setr_epi32(0, size + 1, 1, size + 2);
     __m128i increase = _mm_set1_epi32(1);
-    __m128i jump = _mm_set1_epi32(size);
+    __m128i jump = _mm_set1_epi32(size + 1);
     index = 0;
     for (unsigned i = 0; i < size; i++) {
         for (unsigned j = 0; j < size; j++) {
@@ -107,9 +106,12 @@ inline void SquareBoard<float>::generate_vertexes() {
             _mm_storeu_si128((__m128i *)&(this->element_array[index]),
                              element_ansatz2);
             index += 4;
+
             element_ansatz1 = _mm_add_epi32(element_ansatz1, increase);
             element_ansatz2 = _mm_add_epi32(element_ansatz2, increase);
         }
+        element_ansatz1 = _mm_add_epi32(element_ansatz1, increase);
+        element_ansatz2 = _mm_add_epi32(element_ansatz2, increase);
     }
     // std::cout << "element generation finished" << std::endl;
 }
