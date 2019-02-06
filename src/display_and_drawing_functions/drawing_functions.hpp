@@ -71,11 +71,18 @@ void draw(Shape<T> &shape, Shader<RENDER_TYPE::UNIFORM_COLOR> &shader_object,
 
     if (shape.vertex_size == 3) {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shape.EBO);
-        glDrawElements(GL_TRIANGLES, 3, // shape.element_array.size(),
+        glDrawElements(GL_TRIANGLES, shape.element_array.size(),
                        GL_UNSIGNED_INT, 0);
     } else if (shape.vertex_size == 2) {
-        glDrawArrays(GL_LINE_LOOP, 0,
-                     shape.vertexes.size() / shape.vertex_size);
+        if (shape.draw_type == 'V')
+            glDrawArrays(GL_LINE_LOOP, 0,
+                         shape.vertexes.size() / shape.vertex_size);
+
+        else if (shape.draw_type == 'E') {
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shape.EBO);
+            glDrawElements(GL_LINES, shape.element_array.size(),
+                           GL_UNSIGNED_INT, 0);
+        }
     }
     // color = glm::vec4(0.5f, 0.5f, 0.5f, 0.5f);
     // glUniform4fv(triangle_color, 1, glm::value_ptr(color));
@@ -147,8 +154,15 @@ void draw(Shape<T> &shape, Shader<RENDER_TYPE::CUSTOM_COLOR> &shader_object,
         glDrawElements(GL_TRIANGLES, shape.element_array.size(),
                        GL_UNSIGNED_INT, 0);
     } else if (shape.vertex_size == 2) {
-        glDrawArrays(GL_LINE_LOOP, 0,
-                     shape.vertexes.size() / shape.vertex_size);
+        if (shape.draw_type == 'V')
+            glDrawArrays(GL_LINE_LOOP, 0,
+                         shape.vertexes.size() / shape.vertex_size);
+
+        else if (shape.draw_type == 'E') {
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shape.EBO);
+            glDrawElements(GL_LINES, shape.element_array.size(),
+                           GL_UNSIGNED_INT, 0);
+        }
     }
     // color = glm::vec4(0.5f, 0.5f, 0.5f, 0.5f);
     // glUniform4fv(triangle_color, 1, glm::value_ptr(color));

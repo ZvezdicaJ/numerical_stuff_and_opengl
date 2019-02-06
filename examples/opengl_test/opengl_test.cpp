@@ -49,14 +49,14 @@ int main() {
     // std::vector<float> vert2 = circle2.get_vertexes();
     // print_vertexes(vert2, vert2.size() / 2, 2);
 
-    Disk<float> disk1;
+    //Disk<float> disk1;
     // aligned_vector<float> vert = rect1.get_filling_vertexes();
     // std::cout << "rect filing vertexes: " << std::endl;
     // print_vertexes(vert, vert.size() / 2, 2);
-    Star3d<float> star3d;
     Sphere<double> sphere1(1000);
-    Box<float> box1;
-    Star<float> star1(10, 0.2);
+    //Box<float> box1;
+    SquareBoard<float> board;
+    //Star<float> star1(10, 0.2);
     float fi = 0.0;
     while (!glfwWindowShouldClose(window)) {
         OnMinusPressed(window);
@@ -65,8 +65,8 @@ int main() {
         glfwPollEvents(); // check if any events happend (mouse press, key
                           // press)
                           // display(shapes2);
-        draw(star3d, shader1, {0.5, 0.5, 0.5}, {0, 0, 0}, {1, 1, 1},
-                       fi, {0.5, 0, 0.5, 0.5});
+        draw(sphere1, shader1, {0.5, 0.5, 0.5}, {0, 0, 0}, {1, 1, 1}, fi,
+             {0.5, 0.5, 0.5, 0.5});
         /*
 draw(star1, shader1, {0.5, 0.5, 0.5}, {0, 0, 0}, {1, 1, 1}, fi,
 {0.5, 0, 0.5, 0.5});

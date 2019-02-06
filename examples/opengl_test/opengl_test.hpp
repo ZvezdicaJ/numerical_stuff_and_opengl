@@ -32,7 +32,6 @@
 #include "type_definitions.hpp"
 #include "convex_hull.hpp"
 
-
 #include "shaders.hpp"
 #include "shader_class.hpp"
 #include "auxiliary_functions.hpp"
@@ -45,10 +44,8 @@
 #include "star.hpp"
 #include "box.hpp"
 #include "disk.hpp"
-#include "star3d.hpp"
 #include "square_board.hpp"
 #include "display_functions.hpp"
-
+#include "square_board.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
-
