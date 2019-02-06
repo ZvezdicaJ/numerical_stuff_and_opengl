@@ -200,17 +200,22 @@ inline void bitonic_sort(__m256 &reg0, __m256 &reg1, __m256 &reg2,
     bitonic_sort(reg2, reg3);
 
     // sort full width
-    __m256 reversed_halves0 = _mm256_permute2f128_ps(reg0, reg0, 0b00000001);
-    __m256 reversed0 =
-        _mm256_shuffle_ps(reversed_halves0, reversed_halves0, 0b00011011);
-    reg0 = _mm256_min_ps(reversed0, reg3);
-    reg3 = _mm256_max_ps(reversed0, reg3);
+    { // reverse lover half and compare to upper half
+        __m256 reversed_halves0 =
+            _mm256_permute2f128_ps(reg0, reg0, 0b00000001);
+        __m256 reversed0 =
+            _mm256_shuffle_ps(reversed_halves0, reversed_halves0, 0b00011011);
+        reg0 = _mm256_min_ps(reversed0, reg3);
+        reg3 = _mm256_max_ps(reversed0, reg3);
 
-    __m256 reversed_halves1 = _mm256_permute2f128_ps(reg1, reg1, 0b00000001);
-    __m256 reversed1 =
-        _mm256_shuffle_ps(reversed_halves1, reversed_halves1, 0b00011011);
-    reg1 = _mm256_min_ps(reversed1, reg2);
-    reg2 = _mm256_max_ps(reversed1, reg2);
+        __m256 reversed_halves1 =
+            _mm256_permute2f128_ps(reg1, reg1, 0b00000001);
+        __m256 reversed1 =
+            _mm256_shuffle_ps(reversed_halves1, reversed_halves1, 0b00011011);
+        reg1 = _mm256_min_ps(reversed1, reg2);
+        reg2 = _mm256_max_ps(reversed1, reg2);
+    }
+    // compare (reg1, reg3) and  (reg0, reg2)
     {
         __m256 max = _mm256_max_ps(reg1, reg3);
         __m256 min = _mm256_min_ps(reg1, reg3);
@@ -221,6 +226,7 @@ inline void bitonic_sort(__m256 &reg0, __m256 &reg1, __m256 &reg2,
         reg2 = max;
         reg0 = min;
     }
+    // compare (reg0, reg2) and  (reg1, reg3)
     {
         __m256 max = _mm256_max_ps(reg0, reg1);
         __m256 min = _mm256_min_ps(reg0, reg1);
@@ -231,11 +237,32 @@ inline void bitonic_sort(__m256 &reg0, __m256 &reg1, __m256 &reg2,
         reg2 = min;
         reg3 = max;
     }
-    print_avx(reg0, "reg0");
-    print_avx(reg1, "reg1");
-    print_avx(reg2, "reg2");
-    print_avx(reg3, "reg3");
-    // mix across avx lanes each register separately
+    { // mix across avx lanes
+        __m256 shuffled_reg = _mm256_permute2f128_ps(reg0, reg0, 0b00000001);
+        __m256 max = _mm256_max_ps(reg0, shuffled_reg);
+        __m256 min = _mm256_min_ps(reg0, shuffled_reg);
+        reg0 = _mm256_blend_ps(max, min, 0b00001111);
+    }
+    { // mix across avx lanes
+        __m256 shuffled_reg = _mm256_permute2f128_ps(reg1, reg1, 0b00000001);
+        __m256 max = _mm256_max_ps(reg1, shuffled_reg);
+        __m256 min = _mm256_min_ps(reg1, shuffled_reg);
+        reg1 = _mm256_blend_ps(max, min, 0b00001111);
+    }
+    { // mix across avx lanes
+        __m256 shuffled_reg = _mm256_permute2f128_ps(reg2, reg2, 0b00000001);
+        __m256 max = _mm256_max_ps(reg2, shuffled_reg);
+        __m256 min = _mm256_min_ps(reg2, shuffled_reg);
+        reg2 = _mm256_blend_ps(max, min, 0b00001111);
+    }
+    { // mix across avx lanes
+        __m256 shuffled_reg = _mm256_permute2f128_ps(reg3, reg3, 0b00000001);
+        __m256 max = _mm256_max_ps(reg3, shuffled_reg);
+        __m256 min = _mm256_min_ps(reg3, shuffled_reg);
+        reg3 = _mm256_blend_ps(max, min, 0b00001111);
+    }
+
+    // mix inside avx lanes each register separately, but jump single value
     {
         // register 0:  *----* *----*     *----* *----*
         __m256 shuffled_reg = _mm256_shuffle_ps(reg0, reg0, 0b01001110);
@@ -245,7 +272,7 @@ inline void bitonic_sort(__m256 &reg0, __m256 &reg1, __m256 &reg2,
         // min is located at the start of register (at 0 - lower half)
         reg0 = _mm256_blend_ps(max, min, 0b00110011);
     }
-    print_avx(reg0, "\nreg0");
+
     {
         //  *----* *----*     *----* *----*
         __m256 shuffled_reg = _mm256_shuffle_ps(reg1, reg1, 0b01001110);
@@ -306,13 +333,6 @@ inline void bitonic_sort(__m256 &reg0, __m256 &reg1, __m256 &reg2,
         // this will produce smallest number to in the [0:63] register
         reg3 = _mm256_blend_ps(min, max, 0b10101010);
     }
-
-
-    std::cout << std::endl;
-    print_avx(reg0, "reg0");
-    print_avx(reg1, "reg1");
-    print_avx(reg2, "reg2");
-    print_avx(reg3, "reg3");
 }
 
 #ifdef __AVX2__

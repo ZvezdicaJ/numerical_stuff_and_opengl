@@ -326,14 +326,18 @@ TEST(sort, bitonic_avx_sort_4reg_float) {
     }
 
     {
-        std::vector<float> inp0(
-            {random_float(), random_float(), random_float(), random_float()});
-        std::vector<float> inp1(
-            {random_float(), random_float(), random_float(), random_float()});
-        std::vector<float> inp2(
-            {random_float(), random_float(), random_float(), random_float()});
-        std::vector<float> inp3(
-            {random_float(), random_float(), random_float(), random_float()});
+        std::vector<float> inp0({random_float(), random_float(), random_float(),
+                                 random_float(), random_float(), random_float(),
+                                 random_float(), random_float()});
+        std::vector<float> inp1({random_float(), random_float(), random_float(),
+                                 random_float(), random_float(), random_float(),
+                                 random_float(), random_float()});
+        std::vector<float> inp2({random_float(), random_float(), random_float(),
+                                 random_float(), random_float(), random_float(),
+                                 random_float(), random_float()});
+        std::vector<float> inp3({random_float(), random_float(), random_float(),
+                                 random_float(), random_float(), random_float(),
+                                 random_float(), random_float()});
 
         __m256 reg0 = _mm256_loadu_ps(inp0.data());
         __m256 reg1 = _mm256_loadu_ps(inp1.data());
@@ -350,12 +354,11 @@ TEST(sort, bitonic_avx_sort_4reg_float) {
         float *s2 = (float *)&reg1;
         float *s3 = (float *)&reg2;
         float *s4 = (float *)&reg3;
-        // std::cout << "inp: " << std::endl;
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 8; i++) {
             ASSERT_EQ(*(s1 + i), inp0[i]);
-            ASSERT_EQ(*(s2 + i), inp0[i + 4]);
-            ASSERT_EQ(*(s3 + i), inp0[i + 8]);
-            ASSERT_EQ(*(s4 + i), inp0[i + 12]);
+            ASSERT_EQ(*(s2 + i), inp0[i + 8]);
+            ASSERT_EQ(*(s3 + i), inp0[i + 16]);
+            ASSERT_EQ(*(s4 + i), inp0[i + 24]);
         }
     }
 }
