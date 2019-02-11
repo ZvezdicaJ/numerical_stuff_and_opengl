@@ -362,4 +362,23 @@ TEST(sort, bitonic_avx_sort_4reg_float) {
         }
     }
 }
+
+TEST(sort, xtest_2n_sort_double_ver) {
+
+    std::vector<double> inp0(
+        {random_float(), random_float(), random_float(), random_float()});
+
+    __m256d reg0 = _mm256_loadu_pd(inp0.data());
+    aligned_vector<__m256d> reg_vec;
+    reg_vec.push_back(reg0);
+
+    sort_2n_vector(reg_vec.data(), 0, 4);
+    double *s1 = (double *)&reg0;
+
+    std::sort(std::begin(inp0), std::end(inp0));
+
+    for (int i = 0; i < 4; i++) {
+        ASSERT_EQ(*((double *)&reg_vec[0] + i), inp0[i]);
+    }
+}
 #endif

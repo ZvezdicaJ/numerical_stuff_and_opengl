@@ -9,13 +9,14 @@ set(CMAKE_CXX_COMPILER "g++" CACHE STRING "C++ compiler" FORCE)
 #set(CMAKE_CXX_COMPILER "/opt/intel/system_studio_2019/compilers_and_libraries/linux/bin/intel64/icc" CACHE STRING "C++ compiler" FORCE)
 
 message(STATUS "compiler: ${CMAKE_CXX_COMPILER}")
-if("g++" STREQUAL "$CMAKE_CXX_COMPILER")
 
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -ffast-math -Wall -Wnon-template-friend -Wno-unused-variable -Wmaybe-uninitialized")
+if("g++" STREQUAL "$CMAKE_CXX_COMPILER")
+  # setting flags for gcc compiler
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -ffast-math -Wall -Wnon-template-friend -Wno-unused-variable -Wmaybe-uninitialized -Wno-ignored-attributes")
   #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse -msse4.1 -mno-avx -mno-avx2 -mno-fma -Wall -Wnon-template-friend -Wno-unused-variable")
 
-else("g++" STREQUAL "$CMAKE_CXX_COMPILER")
-  
+else("icc" STREQUAL "$CMAKE_CXX_COMPILER")
+  # setting flags for intel compiler 
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -ffast-math -msse -mavx -mavx2 -mfma -Wall -Wno-unused-variable")
 
 endif("g++" STREQUAL "$CMAKE_CXX_COMPILER")
