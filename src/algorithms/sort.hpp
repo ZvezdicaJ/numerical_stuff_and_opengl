@@ -651,34 +651,10 @@ inline void compare_full_length(__m256 *arr, unsigned start, unsigned end) {
 
             __m256 reversed_halves1 =
                 _mm256_permute2f128_ps(vec1, vec1, 0b00000001);
-            __m256 reversed1 = _mm256_shuffle_ps(reversed_halves0,
-                                                 reversed_halves0, 0b00011011);
+            __m256 reversed1 = _mm256_shuffle_ps(reversed_halves1,
+                                                 reversed_halves1, 0b00011011);
             vec1 = _mm256_min_ps(reversed1, vec2);
             vec2 = _mm256_max_ps(reversed1, vec2);
-        }
-        // compare (reg1, reg3) and  (reg0, reg2)
-        {
-            __m256 max = _mm256_max_ps(vec1, vec2);
-            __m256 min = _mm256_min_ps(vec1, vec2);
-            vec1 = min;
-            vec2 = max;
-        }
-    }
-
-    inline void compare_full_length(__m256d * arr, unsigned start,
-                                    unsigned end) {
-        unsigned length = end - start;
-        unsigned half = length / 2;
-        for (unsigned i = 0; i < length / 2; i++) {
-            __m256d &vec1 = arr[i];
-            __m256d &vec2 = arr[length - i];
-            // reverse one of registers register reg0
-            __m256d reverse =
-                _mm256_permute4x64_pd(vec1, _MM_SHUFFLE(0, 1, 2, 3));
-            // register 2 vsebuje min vrednosti
-            vec1 = _mm256_min_pd(vec2, reverse);
-            // register 1 vsebuje max vrednosti
-            vec2 = _mm256_max_pd(vec2, reverse);
         }
     }
 
@@ -688,66 +664,115 @@ inline void compare_full_length(__m256 *arr, unsigned start, unsigned end) {
 
         if (start == end) {
             __m256d &reg = arr[start];
-            // this is the ending case do single vector permutations
-            { // shuffling between 128bit lanes of 256bit register
-                __m256d shuffled_reg = _mm256_permute4x64_pd(reg, 0b01001110);
-                __m256d max = _mm256_max_pd(reg, shuffled_reg);
-                __m256d min = _mm256_min_pd(reg, shuffled_reg);
-                // max mora biti pri 256
-                reg = _mm256_blend_pd(max, min, 0b0011);
+            { // mix across avx lanes
+                __m256 shuffled_reg =
+                    _mm256_permute2f128_ps(reg3, reg3, 0b00000001);
+                __m256 max = _mm256_max_ps(reg3, shuffled_reg);
+                __m256 min = _mm256_min_ps(reg3, shuffled_reg);
+                reg3 = _mm256_blend_ps(max, min, 0b00001111);
             }
-            // shuffle neighbour numbers
+
+            // mix inside avx lanes each register separately, but jump single
+            // value
             {
-                __m256d shuffled_reg = _mm256_shuffle_pd(reg, reg, 0b0101);
-                __m256d max = _mm256_max_pd(reg, shuffled_reg);
-                __m256d min = _mm256_min_pd(reg, shuffled_reg);
-                // this will produce smallest number to in the [0:63] register
-                reg = _mm256_unpacklo_pd(min, max);
+                // register 0:  *----* *----*     *----* *----*
+                __m256 shuffled_reg = _mm256_shuffle_ps(reg0, reg0, 0b01001110);
+                __m256 max = _mm256_max_ps(reg0, shuffled_reg);
+                __m256 min = _mm256_min_ps(reg0, shuffled_reg);
+                // max mora biti pri 256
+                // min is located at the start of register (at 0 - lower half)
+                reg0 = _mm256_blend_ps(max, min, 0b00110011);
             }
             return;
         }
 
-        for (unsigned i = 0; i < length / 2; i++) {
-            {
-                __m256d reg0 = arr[i];              // i-ti od začetka
-                __m256d reg1 = arr[length / 2 + i]; // ta je prvi čez polovico
-                // reverse one of registers
+        inline void compare_full_length(__m256d * arr, unsigned start,
+                                        unsigned end) {
+            unsigned length = end - start;
+            unsigned half = length / 2;
+            for (unsigned i = 0; i < length / 2; i++) {
+                __m256d &vec1 = arr[i];
+                __m256d &vec2 = arr[length - i];
+                // reverse one of registers register reg0
                 __m256d reverse =
-                    _mm256_permute4x64_pd(reg0, _MM_SHUFFLE(0, 1, 2, 3));
+                    _mm256_permute4x64_pd(vec1, _MM_SHUFFLE(0, 1, 2, 3));
                 // register 2 vsebuje min vrednosti
-                reg0 = _mm256_min_pd(reg1, reverse);
+                vec1 = _mm256_min_pd(vec2, reverse);
                 // register 1 vsebuje max vrednosti
-                reg1 = _mm256_max_pd(reg1, reverse);
-                // print_avx(max, "max: ");
-                // print_avx(min, "min: ");
-            }
-        }
-        lane_crossing_compare(arr, start, end / 2, depth + 1);
-        lane_crossing_compare(arr, end / 2 + 1, end, depth + 1);
-    };
-
-    inline void sort_2n_vector(__m256d * arr, unsigned start, unsigned end) {
-
-        unsigned full_length = end - start + 1;
-        if (full_length <= 0 || (full_length & (full_length - 1)) != 0)
-            std::cerr << "The array to be sorted is not the power of 2!"
-                      << std::endl;
-
-        // outer loop
-        // len is a number of __m256d vectors in a loop
-        for (unsigned len = 2; len <= full_length; len *= 2) {
-            // inner loop goes over all subdivisions
-            // k is the (n-1)th index of vector in array
-            for (unsigned n = 2; n <= full_length; n *= 2) {
-                // first compare full length of divisions
-                compare_full_length(arr, n / 2, n - 1);
-                // then do cross comparison
-                // below function is recursive
-                lane_crossing_compare(arr, n / 2, n - 1);
+                vec2 = _mm256_max_pd(vec2, reverse);
             }
         }
 
-        return;
-    }
+        inline void lane_crossing_compare(__m256d * arr, unsigned start,
+                                          unsigned end, unsigned depth = 0) {
+            unsigned length = end - start;
+
+            if (start == end) {
+                __m256d &reg = arr[start];
+                // this is the ending case do single vector permutations
+                { // shuffling between 128bit lanes of 256bit register
+                    __m256d shuffled_reg =
+                        _mm256_permute4x64_pd(reg, 0b01001110);
+                    __m256d max = _mm256_max_pd(reg, shuffled_reg);
+                    __m256d min = _mm256_min_pd(reg, shuffled_reg);
+                    // max mora biti pri 256
+                    reg = _mm256_blend_pd(max, min, 0b0011);
+                }
+                // shuffle neighbour numbers
+                {
+                    __m256d shuffled_reg = _mm256_shuffle_pd(reg, reg, 0b0101);
+                    __m256d max = _mm256_max_pd(reg, shuffled_reg);
+                    __m256d min = _mm256_min_pd(reg, shuffled_reg);
+                    // this will produce smallest number to in the [0:63]
+                    // register
+                    reg = _mm256_unpacklo_pd(min, max);
+                }
+                return;
+            }
+
+            for (unsigned i = 0; i < length / 2; i++) {
+                {
+                    __m256d reg0 = arr[i]; // i-ti od začetka
+                    __m256d reg1 =
+                        arr[length / 2 + i]; // ta je prvi čez polovico
+                    // reverse one of registers
+                    __m256d reverse =
+                        _mm256_permute4x64_pd(reg0, _MM_SHUFFLE(0, 1, 2, 3));
+                    // register 2 vsebuje min vrednosti
+                    reg0 = _mm256_min_pd(reg1, reverse);
+                    // register 1 vsebuje max vrednosti
+                    reg1 = _mm256_max_pd(reg1, reverse);
+                    // print_avx(max, "max: ");
+                    // print_avx(min, "min: ");
+                }
+            }
+            lane_crossing_compare(arr, start, end / 2, depth + 1);
+            lane_crossing_compare(arr, end / 2 + 1, end, depth + 1);
+        };
+
+        inline void sort_2n_vector(__m256d * arr, unsigned start,
+                                   unsigned end) {
+
+            unsigned full_length = end - start + 1;
+            if (full_length <= 0 || (full_length & (full_length - 1)) != 0)
+                std::cerr << "The array to be sorted is not the power of 2!"
+                          << std::endl;
+
+            // outer loop
+            // len is a number of __m256d vectors in a loop
+            for (unsigned len = 2; len <= full_length; len *= 2) {
+                // inner loop goes over all subdivisions
+                // k is the (n-1)th index of vector in array
+                for (unsigned n = 2; n <= full_length; n *= 2) {
+                    // first compare full length of divisions
+                    compare_full_length(arr, n / 2, n - 1);
+                    // then do cross comparison
+                    // below function is recursive
+                    lane_crossing_compare(arr, n / 2, n - 1);
+                }
+            }
+
+            return;
+        }
 
 #endif
