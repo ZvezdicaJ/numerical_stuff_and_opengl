@@ -363,22 +363,36 @@ TEST(sort, bitonic_avx_sort_4reg_float) {
     }
 }
 
-TEST(sort, xtest_2n_sort_double_ver) {
+TEST(sort, test_2n_sort_double_ver) {
 
-    std::vector<double> inp0(
-        {random_float(), random_float(), random_float(), random_float()});
+    {
+        aligned_vector<double> inp0(
+            {random_float(), random_float(), random_float(), random_float()});
+        aligned_vector<double> inp1 = inp0;
 
-    __m256d reg0 = _mm256_loadu_pd(inp0.data());
-    aligned_vector<__m256d> reg_vec;
-    reg_vec.push_back(reg0);
+        sort_2n_vector(inp0.data(), 0, 3);
+        std::sort(std::begin(inp1), std::end(inp1));
 
-    sort_2n_vector(reg_vec.data(), 0, 4);
-    double *s1 = (double *)&reg0;
+        for (int i = 0; i < 4; i++) {
+            ASSERT_EQ(inp1[i], inp0[i]);
+        }
+    }
 
-    std::sort(std::begin(inp0), std::end(inp0));
+    {
+        aligned_vector<double> inp0;
+        aligned_vector<double> inp1;
+        inp0.reserve(8);
+        for (int i = 0; i < 8; i++)
+            inp0.push_back(random_float());
 
-    for (int i = 0; i < 4; i++) {
-        ASSERT_EQ(*((double *)&reg_vec[0] + i), inp0[i]);
+        inp1 = inp0;
+        sort_2n_vector(inp1.data(), 0, 7);
+
+        std::sort(std::begin(inp0), std::end(inp0));
+
+        for (int i = 0; i < 8; i++) {
+            ASSERT_EQ(inp1[i], inp0[i]);
+        }
     }
 }
 #endif
