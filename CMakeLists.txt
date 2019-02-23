@@ -12,7 +12,7 @@ message(STATUS "compiler: ${CMAKE_CXX_COMPILER}")
 
 if("g++" STREQUAL "$CMAKE_CXX_COMPILER")
   # setting flags for gcc compiler
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -ffast-math -Wall -Wnon-template-friend -Wno-unused-variable -Wmaybe-uninitialized -Wno-ignored-attributes -fabi-version=4")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -ffast-math -Wall -Wnon-template-friend -Wno-unused-variable -Wmaybe-uninitialized -Wignored-attributes -fabi-version=4")
   #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse -msse4.1 -mno-avx -mno-avx2 -mno-fma -Wall -Wnon-template-friend -Wno-unused-variable")
 
 else("icc" STREQUAL "$CMAKE_CXX_COMPILER")

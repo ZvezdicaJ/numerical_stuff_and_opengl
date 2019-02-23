@@ -688,25 +688,48 @@ inline void lane_crossing_compare(__m256 *arr, unsigned start, unsigned end,
 }
 
 // double implementation
-inline void compare_full_length(__m256d *arr, unsigned start, unsigned end) {
-    unsigned length = end - start;
+/** @brief compared vectors from top and bottom of array and then gradually
+ * compare inner vectors.
+ * @param arr pointer to the array to be sorted
+ * @param start index of the first element to be sorted
+ * @param end index of the last element to be sorted
+ */
+inline void compare_full_length(double *arr, unsigned start, unsigned end) {
+    unsigned length = end - start + 1;
     unsigned half = length / 2;
-    for (unsigned i = 0; i < length / 2; i++) {
-        __m256d &vec1 = arr[i];
-        __m256d &vec2 = arr[length - i];
+    for (unsigned i = 0; i < half; i + 4) {
+        double *p1 = arr + start + i;
+        double *p2 = arr + end - 3 - i;
+        __m256d vec1 = _mm256_loadu_pd(p1);
+        __m256d vec2 = _mm256_loadu_pd(p2);
         // reverse one of registers register reg0
         __m256d reverse = _mm256_permute4x64_pd(vec1, _MM_SHUFFLE(0, 1, 2, 3));
         // register 2 vsebuje min vrednosti
         vec1 = _mm256_min_pd(vec2, reverse);
         // register 1 vsebuje max vrednosti
         vec2 = _mm256_max_pd(vec2, reverse);
+        __m256d vec1 = _mm256_storeu_pd(p1, vec1);
+        __m256d vec2 = _mm256_storeu_pd(p2, vec2);
     }
 }
 
-inline void lane_crossing_compare(__m256d *arr, unsigned start, unsigned end,
-                                  unsigned depth = 0) {
+/** @brief compared vectors from top and bottom of array and then gradually
+ * compare inner vectors.
+ * @param arr pointer to the array to be sorted
+ * @param start index of the first element to be sorted
+ * @param end index of the last element to be sorted
+ * @param depth a parameter to follow the depth of recursion
+ */
+inline void lane_crossing_compare(double *arr, unsigned start, unsigned end,
+                                  unsigned depth) {
+    if (depth > 10)
+        exit(0);
     unsigned length = end - start;
 
+    std::cout << "start: " << start << std::endl;
+    std::cout << "end: " << end << std::endl;
+    std::cout << "depth " << depth << std::endl;
+    std::cout << "new end: " << (start + end) / 2 << std::endl;
     if (start == end) {
         __m256d &reg = arr[start];
         // this is the ending case do single vector permutations
@@ -717,6 +740,7 @@ inline void lane_crossing_compare(__m256d *arr, unsigned start, unsigned end,
             // max mora biti pri 256
             reg = _mm256_blend_pd(max, min, 0b0011);
         }
+        std::cout << "ok\n" << std::endl;
         // shuffle neighbour numbers
         {
             __m256d shuffled_reg = _mm256_shuffle_pd(reg, reg, 0b0101);
@@ -726,13 +750,14 @@ inline void lane_crossing_compare(__m256d *arr, unsigned start, unsigned end,
             // register
             reg = _mm256_unpacklo_pd(min, max);
         }
+        std::cout << "ok\n" << std::endl;
         return;
     }
 
     for (unsigned i = 0; i < length / 2; i++) {
         {
-            __m256d reg0 = arr[i];              // i-ti od začetka
-            __m256d reg1 = arr[length / 2 + i]; // ta je prvi čez polovico
+            __m256d &reg0 = arr[i];              // i-ti od začetka
+            __m256d &reg1 = arr[length / 2 + i]; // ta je prvi čez polovico
             // reverse one of registers
             __m256d reverse =
                 _mm256_permute4x64_pd(reg0, _MM_SHUFFLE(0, 1, 2, 3));
@@ -744,58 +769,89 @@ inline void lane_crossing_compare(__m256d *arr, unsigned start, unsigned end,
             // print_avx(min, "min: ");
         }
     }
-    lane_crossing_compare(arr, start, end / 2, depth + 1);
-    lane_crossing_compare(arr, end / 2 + 1, end, depth + 1);
+    lane_crossing_compare(arr, start, (start + end) / 2, depth + 1);
+    lane_crossing_compare(arr, (start + end) / 2 + 1, end, depth + 1);
 };
 
 inline aligned_vector<__m256d> partition(double *arr, unsigned start,
                                          unsigned end) {
 
-    unsigned full_length = end - start + 1;
-
     aligned_vector<__m256d> avx_vec;
+    unsigned full_length = end - start + 1;
     avx_vec.reserve(full_length / 4);
-    for (int i = 0; i < full_length; i += 4)
-        avx_vec.push_back(_mm256_loadu_pd(arr + i));
+    avx_vec.resize(full_length / 4);
+    for (unsigned i = start; i <= end; i += 4) {
+        __m256i tmp = _mm256_stream_load_si256((__m256i *)(arr + i));
+        print_avx((__m256d)tmp, "loaded avx reg: ");
+        //_mm256_stream_pd(avx_vec.data() + i / 4, (__m256d)tmp);
+        avx_vec.push_back((__m256d)tmp);
+        print_avx(avx_vec[0], "loaded avx reg: ");
+    }
     return avx_vec;
 }
 
 inline void sort_2n_vector(double *array, unsigned start, unsigned end) {
 
-    unsigned full_length = end - start + 1;
-    // std::cout << "full_length: " << full_length << "  "
-    //          <<  !(full_length & (full_length - 1))
-    //          << std::endl;
-
+    unsigned full_length = end - start + 1; // number of double numbers to sort
+    unsigned vec_count = full_length / 4;
+    std::cout << "vec_count: " << vec_count << std::endl;
+    std::cout << "vec_count: " << full_length << std::endl;
+    std::cout << "vec_count: " << vec_count << std::endl;
     assert((full_length >= 0 && !(full_length & (full_length - 1))) &&
            "The array to be sorted is not the power of 2!");
 
-    __m256d *arr = reinterpret_cast<__m256d *>(array);
-    // aligned_vector<__m256d> avx_vec = partition(array, start, end);
     //__m256d *arr = avx_vec.data();
-
     if (full_length == 4) {
-        return bitonic_sort(*arr);
+
+        __m256d vec = _mm_loadu_pd(array);
+        bitonic_sort(vec);
+        _mm256_storeu_pd(array, vec);
+
     } else if (full_length == 8) {
-        return bitonic_sort(*arr, *(arr + 1));
-    } else if (full_length >= 8) {
-        for (int i = 0; i < full_length; i++)
-            bitonic_sort(*(arr + i));
+
+        __m256d vec1 = _mm_loadu_pd(array);
+        __m256d vec2 = _mm_loadu_pd(array + 4);
+        bitonic_sort(vec1, vec2);
+        _mm256_storeu_pd(array, vec1);
+        _mm256_storeu_pd(array, vec2);
+
+    } else if (full_length == 16) {
+
+        __m256d vec1 = _mm_loadu_pd(array);
+        __m256d vec2 = _mm_loadu_pd(array + 4);
+        __m256d vec3 = _mm_loadu_pd(array + 8);
+        __m256d vec4 = _mm_loadu_pd(array + 12);
+        bitonic_sort(vec1, vec2, vec3, vec4);
+        _mm256_storeu_pd(array, vec1);
+        _mm256_storeu_pd(array, vec2);
+        _mm256_storeu_pd(array, vec3);
+        _mm256_storeu_pd(array, vec4);
+
+    } else if (full_length >= 32) {
+        for (unsigned i = start; i <= end; i++)
+            bitonic_sort(avx_vec[i]);
+
         // outer loop
+
         // len is a number of __m256d vectors in a loop
-        for (unsigned len = 2; len <= full_length; len *= 2) {
+        // this is the outer most loop
+        for (unsigned len = 2; len <= vec_count; len *= 2) {
+
             // inner loop goes over all subdivisions
-            // k is the (n-1)th index of vector in array
-            for (unsigned n = 2; n <= full_length; n *= 2) {
+            for (unsigned n = 0; n < vec_count; n += len) {
                 // first compare full length of divisions
-                compare_full_length(arr, n / 2, n - 1);
+                compare_full_length(avx_vec, n, n + len - 1);
                 // then do cross comparison
-                // below function is recursive
-                lane_crossing_compare(arr, n / 2, n - 1);
+                // below function is recursive ---
+                // like a loop over all sizes of subdivision
+                //   std::cout << "n: " << n << std::endl;
+                // std::cout << "len: " << len << std::endl;
+                // std::cout << "n + len -1: " << n + len - 1 << std::endl;
+                // lane_crossing_compare(arr, n, n + len - 1, 0);
             }
         }
     }
-    return;
+    // print_avx(*arr, "test arr print: ");
 }
 
 #endif

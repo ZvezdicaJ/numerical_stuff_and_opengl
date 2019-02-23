@@ -394,5 +394,23 @@ TEST(sort, test_2n_sort_double_ver) {
             ASSERT_EQ(inp1[i], inp0[i]);
         }
     }
+
+    /*    {
+        unsigned size = 32;
+        aligned_vector<double> inp0;
+        aligned_vector<double> inp1;
+        inp0.reserve(size);
+        for (unsigned i = 0; i < size; i++)
+            inp0.push_back(random_float());
+
+        inp1 = inp0;
+        sort_2n_vector(inp1.data(), 0, size - 1);
+
+         std::sort(std::begin(inp0), std::end(inp0));
+
+        for (unsigned i = 0; i < size; i++) {
+            ASSERT_EQ(inp1[i], inp0[i]);
+            }
+    }*/
 }
 #endif
