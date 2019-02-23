@@ -394,23 +394,29 @@ TEST(sort, test_2n_sort_double_ver) {
             ASSERT_EQ(inp1[i], inp0[i]);
         }
     }
+}
 
-    /*    {
-        unsigned size = 32;
-        aligned_vector<double> inp0;
-        aligned_vector<double> inp1;
-        inp0.reserve(size);
-        for (unsigned i = 0; i < size; i++)
-            inp0.push_back(random_float());
+TEST(sort, test_2n_sort_double_ver_test2) {
+    unsigned size = 2048;
+    aligned_vector<double> inp0;
+    aligned_vector<double> inp1;
+    inp0.reserve(size);
+    for (unsigned i = 0; i < size; i++)
+        inp0.push_back(random_float());
 
-        inp1 = inp0;
-        sort_2n_vector(inp1.data(), 0, size - 1);
+    inp1 = inp0;
+    sort_2n_vector(inp1.data(), 0, size - 1);
 
-         std::sort(std::begin(inp0), std::end(inp0));
-
-        for (unsigned i = 0; i < size; i++) {
-            ASSERT_EQ(inp1[i], inp0[i]);
-            }
-    }*/
+    std::sort(std::begin(inp0), std::end(inp0));
+    /*
+    for (auto a : inp0)
+        std::cout << a << " ";
+    std::cout <<"\n\n"<< std::endl;
+    for (auto a : inp1)
+        std::cout << a << " ";
+    */
+    for (unsigned i = 0; i < size; i++) {
+        ASSERT_EQ(inp1[i], inp0[i]);
+    }
 }
 #endif
