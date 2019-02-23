@@ -773,22 +773,6 @@ inline void lane_crossing_compare(double *arr, unsigned start, unsigned end,
     lane_crossing_compare(arr, (start + end) / 2 + 1, end, depth + 1);
 };
 
-inline aligned_vector<__m256d> partition(double *arr, unsigned start,
-                                         unsigned end) {
-
-    aligned_vector<__m256d> avx_vec;
-    unsigned full_length = end - start + 1;
-    avx_vec.reserve(full_length / 4);
-    avx_vec.resize(full_length / 4);
-    for (unsigned i = start; i <= end; i += 4) {
-        __m256i tmp = _mm256_stream_load_si256((__m256i *)(arr + i));
-        print_avx((__m256d)tmp, "loaded avx reg: ");
-        //_mm256_stream_pd(avx_vec.data() + i / 4, (__m256d)tmp);
-        avx_vec.push_back((__m256d)tmp);
-        print_avx(avx_vec[0], "loaded avx reg: ");
-    }
-    return avx_vec;
-}
 
 inline void sort_2n_vector(double *array, unsigned start, unsigned end) {
 
