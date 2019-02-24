@@ -397,7 +397,7 @@ TEST(sort, test_2n_sort_double_ver) {
 }
 
 TEST(sort, test_2n_sort_double_ver_test2) {
-    unsigned size = 2048;
+    unsigned size = 1024;
     aligned_vector<double> inp0;
     aligned_vector<double> inp1;
     inp0.reserve(size);
@@ -405,18 +405,90 @@ TEST(sort, test_2n_sort_double_ver_test2) {
         inp0.push_back(random_float());
 
     inp1 = inp0;
+    auto start = std::chrono::system_clock::now();
     sort_2n_vector(inp1.data(), 0, size - 1);
+    auto end = std::chrono::system_clock::now();
+    auto elapsed1 = end - start;
+    std::cout << "bitonic double sort timing: " << elapsed1.count() << '\n';
 
+    start = std::chrono::system_clock::now();
     std::sort(std::begin(inp0), std::end(inp0));
+    end = std::chrono::system_clock::now();
+    auto elapsed2 = end - start;
+    std::cout << "std double sort timing: " << elapsed2.count() << '\n';
+    std::cout << "speedup: "
+              << (float)elapsed2.count() / (float)elapsed1.count() << std::endl;
+    for (unsigned i = 0; i < size; i++) {
+        ASSERT_EQ(inp1[i], inp0[i]);
+    }
+}
+
+TEST(sort, test_2n_sort_float_ver) {
+
+    {
+        aligned_vector<float> inp0(
+            {random_float(), random_float(), random_float(), random_float(),
+             random_float(), random_float(), random_float(), random_float()});
+        aligned_vector<float> inp1 = inp0;
+
+        sort_2n_vector(inp0.data(), 0, 7);
+        std::sort(std::begin(inp1), std::end(inp1));
+
+        for (int i = 0; i < 7; i++) {
+            ASSERT_EQ(inp1[i], inp0[i]);
+        }
+    }
+
+    {
+        aligned_vector<float> inp0;
+        aligned_vector<float> inp1;
+        inp0.reserve(16);
+        for (int i = 0; i < 16; i++)
+            inp0.push_back(random_float());
+
+        inp1 = inp0;
+        sort_2n_vector(inp1.data(), 0, 15);
+
+        std::sort(std::begin(inp0), std::end(inp0));
+
+        for (int i = 0; i < 16; i++) {
+            ASSERT_EQ(inp1[i], inp0[i]);
+        }
+    }
+}
+
+TEST(sort, test_2n_sort_float_ver_test2) {
+    unsigned size = 1024;
+    aligned_vector<float> inp0;
+    aligned_vector<float> inp1;
+    inp0.reserve(size);
+    for (unsigned i = 0; i < size; i++)
+        inp0.push_back(random_float());
+
+    inp1 = inp0;
+    auto start = std::chrono::system_clock::now();
+    sort_2n_vector(inp1.data(), 0, size - 1);
+    auto end = std::chrono::system_clock::now();
+    auto elapsed1 = end - start;
+    std::cout << "bitonic float sort timing: " << elapsed1.count() << '\n';
+
+    start = std::chrono::system_clock::now();
+    std::sort(std::begin(inp0), std::end(inp0));
+    end = std::chrono::system_clock::now();
+    auto elapsed2 = end - start;
+    std::cout << "std float sort timing: " << elapsed2.count() << '\n';
+    std::cout << "speedup: "
+              << (float)elapsed2.count() / (float)elapsed1.count() << std::endl;
     /*
-    for (auto a : inp0)
-        std::cout << a << " ";
-    std::cout <<"\n\n"<< std::endl;
-    for (auto a : inp1)
-        std::cout << a << " ";
+    for (int i = 0; i < size; i++) {
+        std::cout << inp0[i] << " " << inp1[i] << std::endl;
+        if (i != 0 && i % 7 == 0)
+            std::cout << " " << std::endl;
+            }
     */
     for (unsigned i = 0; i < size; i++) {
         ASSERT_EQ(inp1[i], inp0[i]);
     }
 }
+
 #endif
