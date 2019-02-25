@@ -397,7 +397,7 @@ TEST(sort, test_2n_sort_double_ver) {
 }
 
 TEST(sort, test_2n_sort_double_ver_test2) {
-    unsigned size = 1024;
+    unsigned size = 8192;
     aligned_vector<double> inp0;
     aligned_vector<double> inp1;
     inp0.reserve(size);
@@ -458,7 +458,7 @@ TEST(sort, test_2n_sort_float_ver) {
 }
 
 TEST(sort, test_2n_sort_float_ver_test2) {
-    unsigned size = 1024;
+    unsigned size = 8192;
     aligned_vector<float> inp0;
     aligned_vector<float> inp1;
     inp0.reserve(size);
@@ -486,6 +486,42 @@ TEST(sort, test_2n_sort_float_ver_test2) {
             std::cout << " " << std::endl;
             }
     */
+    for (unsigned i = 0; i < size; i++) {
+        ASSERT_EQ(inp1[i], inp0[i]);
+    }
+}
+
+TEST(sort, test_sort_float_vector_test1) {
+    unsigned size = 8 * 5;
+    aligned_vector<float> inp0;
+    aligned_vector<float> inp1;
+    inp0.reserve(size);
+    for (unsigned i = 0; i < size; i++)
+        inp0.push_back(random_float());
+
+    inp1 = inp0;
+    auto start = std::chrono::system_clock::now();
+    sort_vector(inp1.data(), 0, size - 1);
+    auto end = std::chrono::system_clock::now();
+    auto elapsed1 = end - start;
+    std::cout << "bitonic float sort timing: " << elapsed1.count() << '\n';
+
+    start = std::chrono::system_clock::now();
+    std::sort(std::begin(inp0), std::end(inp0));
+    end = std::chrono::system_clock::now();
+    auto elapsed2 = end - start;
+    std::cout << "std float sort timing: " << elapsed2.count() << '\n';
+    std::cout << "speedup: "
+              << (float)elapsed2.count() / (float)elapsed1.count() << std::endl;
+    int k = 0;
+    /*
+    for (int i = 0; i < size; i++) {
+        k += 1;
+        std::cout << inp0[i] << " " << inp1[i] << std::endl;
+        if (k != 0 && k % 8 == 0)
+            std::cout << " " << std::endl;
+            }*/
+
     for (unsigned i = 0; i < size; i++) {
         ASSERT_EQ(inp1[i], inp0[i]);
     }
