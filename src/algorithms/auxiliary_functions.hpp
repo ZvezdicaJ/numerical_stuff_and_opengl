@@ -1,11 +1,13 @@
 #pragma once
-template <class T> inline void hash_combine(std::size_t &seed, const T &v) {
+template <class T>
+inline void hash_combine(std::size_t &seed, const T &v) {
     std::hash<T> hasher;
     seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
 }
 
 namespace std {
-template <typename S, typename T> struct hash<pair<S, T>> {
+template <typename S, typename T>
+struct hash<pair<S, T>> {
     inline size_t operator()(const pair<S, T> &v) const {
         size_t seed = 0;
         ::hash_combine(seed, v.first);
@@ -55,9 +57,9 @@ template <typename S, typename T> struct hash<pair<S, T>> {
 #define _CMP_TRUE_US 0x1f  /* True (unordered, signaling)  */
 #endif
 
-#ifdef __SSE__
 /**
- *Function loads 3 floats to a sse vector, the last value is set to 0.
+ *@brief Function loads 3 floats to an sse vector -> x:[32:0], y:[32:64],
+ *z:[64:96]
  * @param value float pointer pointing to first element
  * @return returns __m128 vector, last element is 0.
  */
@@ -73,7 +75,7 @@ inline __m128 load_vertex(float *value) {
 }
 
 /**
- *Function loads 3 floats to a sse vector, the last value is set to 0.
+ *Function loads 3 floats to an sse vector -> x:[32:0], y:[32:64], z:[64:96]
  * @param value float pointer pointing to first element
  * @return returns __m128 vector, last element is 0.
  */
@@ -85,7 +87,6 @@ inline __m128 load_vertex2(float *value) {
     // we now need to cast the __m128i register into a __m18 one (0ZYX)
     return _mm_movelh_ps(_mm_castsi128_ps(xy), z);
 }
-#endif
 
 /**
  * @brief Old version: Calculates cross product of two __m128 vectors (floats):
@@ -149,7 +150,6 @@ inline __m256d cross_product(__m256d a, __m256d b) {
 }
 #endif
 
-#ifdef __SSE__
 /**
  * @brief Calculates scalar product of two __m128 vectors (floats): a x b.
  * @param a __m128 vector
@@ -168,7 +168,6 @@ inline float CalcDotProduct(__m128 x, __m128 y) {
     return _mm_cvtss_f32(
         sumsReg); // Result in the lower part of the SSE Register
 }
-#endif
 
 /**
  * @brief Calculates cross product of two float vectors: a x b.
@@ -197,7 +196,6 @@ inline double CalcDotProduct(__m256d x, __m256d y) {
 }
 #endif
 
-// this is slow; do not use
 /**
  * @brief Calculates factorial of integer and returns vector containing the
  * result - this is slow and useless - do not use.
@@ -228,9 +226,8 @@ inline int scalar_factorial(int n) {
     return prod;
 }
 
-#ifdef __SSE__
 /**
- * @brief Calculates Chebyshev polynomials.
+ * @brief Calculates single precision Chebyshev polynomials.
  * @param n number of Chebyshev polynomial to calculate
  * @param x_vec vector of x values for which the value of polynomial is
  * calculated
@@ -281,11 +278,10 @@ inline __m128 chebyshev(int n, __m128 x_vec) {
     }
     return Tnp1;
 }
-#endif
 
 #ifdef __AVX2__
 /**
- * @brief Calculates Chebyshev polynomials.
+ * @brief Calculates double precision Chebyshev polynomials.
  * @param n number of Chebyshev polynomial to calculate
  * @param x_vec vector of x values for which the value of polynomial is
  * calculated
@@ -322,7 +318,6 @@ inline __m256d chebyshev(int n, __m256d x_vec) {
 }
 #endif
 
-#ifdef __SSE__
 /**
  * @brief Given previous two chebyshev polynomials and vector of x values, the
  * function calculates next chebyshev polynomial.
@@ -339,7 +334,6 @@ inline __m128 chebyshev_next(__m128 &cn, __m128 &cn_1, __m128 &x_vec) {
                       cn_1);
 #endif
 }
-#endif
 
 #ifdef __AVX2__
 /**
@@ -352,9 +346,7 @@ inline __m128 chebyshev_next(__m128 &cn, __m128 &cn_1, __m128 &x_vec) {
 inline __m256d chebyshev_next(__m256d &cn, __m256d &cn_1, __m256d &x_vec) {
     return _mm256_fmsub_pd(_mm256_mul_pd(_mm256_set1_pd(2.0), cn), x_vec, cn_1);
 }
-#endif
 
-#ifdef __SSE__
 /**
  * @brief Given previous two chebyshev polynomials and vector of x values, the
  * function calculates next chebyshev polynomial.
@@ -393,7 +385,6 @@ inline __m128 cos(__m128 x_vec_) {
     }
     return sum;
 }
-#endif
 
 #ifdef __AVX2__
 /**
@@ -430,7 +421,6 @@ inline __m256d cos(__m256d x_vec_) {
 }
 #endif
 
-#ifdef __SSE__
 /**
  * @brief calculates single precision sin.
  * @param x_vec vector of x values for which the sin is calculated
@@ -461,7 +451,6 @@ inline __m128 sin(__m128 x_vec_) {
     }
     return sum;
 }
-#endif
 
 #ifdef __AVX2__
 /**
@@ -490,7 +479,6 @@ inline __m256d sin(__m256d x_vec_) {
 }
 #endif
 
-#ifdef __SSE__
 /**
  * @brief given two consequtive Legendre polynomials, this code calculates next
  * Legendre polynomial
@@ -520,9 +508,7 @@ inline __m128 legendre_next(__m128 Pn, __m128 Pnm1, __m128 x_vec, int n) {
 #endif
     return result;
 }
-#endif
 
-#ifdef __SSE__
 /**
  *@brief This function calculates tangens of sse vector.
  *@details For detailed documentation on formula used check pdf files discussing
@@ -578,7 +564,8 @@ inline __m128 tan(__m128 x) {
 }
 
 /**
- *@brief This function calculates tangens of sse vector.
+ *@brief This function calculates tangens of sse vector. It's an alternative to
+ *above function, but it's somehow (unexpectedly) less accurate.
  *@details For detailed documentation on formula used check pdf files discussing
  *trigonometric functions. This is float version and uses sse instructions.
  */
@@ -635,7 +622,8 @@ inline __m128 tan_ver2(__m128 x) {
 }
 
 /**
- *@brief This function calculates tangens of sse vector.
+ *@brief This function calculates tangens of sse vector.  It's an alternative to
+ *above function, but it's somehow (unexpectedly) less accurate.
  *@details For detailed documentation on formula used check pdf files discussing
  *trigonometric functions. This is float version and uses sse instructions.
  */
@@ -690,6 +678,7 @@ inline __m128 tan_ver3(__m128 x) {
  *@brief This function calculates tangens of sse vector.
  *@details For detailed documentation on formula used check pdf files discussing
  *trigonometric functions. This is double version and uses avx2 instructions.
+ *@param x vector of angles for which tangens is calculated
  */
 inline __m256d tan(__m256d x) {
     // this function should calculate tan to 1e-8 precision
@@ -722,7 +711,6 @@ inline __m256d tan(__m256d x) {
 }
 #endif
 
-#ifdef __SSE__
 /**
  *@brief This function calculates arcus tangens of sse vector.
  *@details For detailed documentation on formula used check pdf files discussing
@@ -828,11 +816,10 @@ inline __m128 arctan(__m128 x) {
     result = _mm_mul_ps(result, cmp1);
     return result;
 }
-#endif
 
 #ifdef __AVX2__
 /**
- *@brief This function calculates arcus tangens of sse vector.
+ *@brief This function calculates arcus tangens of avx vector.
  *@details For detailed documentation on formula used check pdf files discussing
  *trigonometric functions. This is double version and uses avx2 instructions.
  */
@@ -928,7 +915,7 @@ inline __m256d arctan(__m256d x) {
 
 /**
  * @brief The function finds all integer pairs whose multiplication yield the
- * supplied.
+ * supplied integer.
  * @param number to be factorized
  */
 inline std::vector<std::pair<int, int>> find_products(int num) {
@@ -946,7 +933,7 @@ inline std::vector<std::pair<int, int>> find_products(int num) {
 }
 
 /**
- * @brief The function return closest pair of numbers
+ * @brief The function return closest pair of numbers in a vector of pairs
  * @param Vector of pairs among which to find closest pair
  */
 inline std::pair<int, int>

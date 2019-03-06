@@ -4,8 +4,17 @@
 #include <functional>
 #include <ctime>
 
+/**
+ * @class spin_dir
+ * @brief This enum contains two possible spin directions in in Ising model
+ */
 enum spin_dir : int { UP = 1, DOWN = -1 };
 
+/**
+ * @class IsingModel
+ * @brief Ising model containing two possible spin flipping methods - metropolis
+ * and wolff.
+ */
 template <typename T>
 class IsingModel {
     static_assert(std::is_same<T, float>::value ||
@@ -13,17 +22,18 @@ class IsingModel {
                   "wolff_algorithm can either be float of double type");
 
   private:
-    unsigned size = 302;
-    T J = 1;
-    T H = 0;
-    T tc = 2.269185;
-    T temperature = 2;
-    spin_dir *spin_array;
-    unsigned cluster_size = 0;
-    int magnetization = 0;
-    int magnetization2 = 0;
-    T energy = 0;
-    T energy2 = 0;
+    unsigned size =
+        302; /**<size of spin array, spin array is always square size*size */
+    T J = 1; /**< coupling constant between spins*/
+    T H = 0; /**< external field strength */
+    T tc = 2.269185;           /**< critical temperature of Ising model */
+    T temperature = 2;         /**< real temperature of spin array */
+    spin_dir *spin_array;      /**< pointer to spin array */
+    unsigned cluster_size = 0; /**< variable monitoring size of wolff cluster*/
+    int magnetization = 0;     /**< magnetization of spin array */
+    int magnetization2 = 0;    /**< square of magnetization of spin array */
+    T energy = 0;              /**< energy of spin array  */
+    T energy2 = 0;             /**< square of energy of spin array  */
     int average_magnetization = 0;
     int average_magnetization2 = 0;
     T average_energy = 0;
@@ -37,6 +47,9 @@ class IsingModel {
     std::uniform_int_distribution<int> random_int;
     std::uniform_real_distribution<T> random_real;
 
+    /**
+     * @brief enforce periodic boundary conditions
+     */
     void enforce_boundary_conditions() {
         for (unsigned j = 0; j < size; j++) {
             *(spin_array + j) = *(spin_array + size * (size - 2) + j);
@@ -47,6 +60,9 @@ class IsingModel {
         }
     }
 
+    /**
+     * @brief set random spin directions
+     */
     void set_random_spin_directions() {
         int spin_up = 0;
         int spin_down = 0;
@@ -67,6 +83,15 @@ class IsingModel {
         // std::cout << "random spin down: " << spin_down << std::endl;
     }
 
+    /**
+     *@brief Make a Wolff algorithm step. This is a helper for flip_cluster()
+     *function.
+     *@details Choose a random spin and flip it. Then check it's neighbours. If
+     *they have the same spin turn them with the probability of exp^(-2J/T).
+     *@param spin Direction of the chosen spin
+     *@param k index indicating position in spin array
+     *@param l index indicating position in spin array
+     */
     void wolff_cluster_step(spin_dir spin, unsigned k, unsigned l) {
 
         *(spin_array + k * size + l) =
@@ -94,6 +119,11 @@ class IsingModel {
     }
 
   public:
+    /** @brief Basic constructor for IsingModel class.
+     *  @details By default it sets the temperature to 2 and size of spin array
+     * to 50. It also initializes random generator, sets random spin directions
+     * and enforces periodic boundary conditions for the start of calculation
+     */
     IsingModel(unsigned size_ = 50, T temperature_ = 2)
         : size(size_), rng(rd()), temperature(temperature_),
           random_int(std::uniform_int_distribution<int>(1, size_ - 2)),
@@ -104,6 +134,10 @@ class IsingModel {
         enforce_boundary_conditions();
     };
 
+    /**
+     * @brief calculate magnetization - difference between spins up and spins
+     * down
+     */
     int calc_magnetization() {
         int s = 0;
         for (unsigned i = 1; i < size - 1; i++) {
@@ -115,8 +149,18 @@ class IsingModel {
         return s;
     }
 
+    /**
+     * @brief sets the temperature
+     */
     void set_temperature(T temperature_) { temperature = temperature_; }
+
+    /** @brief Get the size of the cluster in the last Wolff step.
+     */
     unsigned get_cluster_size() { return cluster_size; }
+
+    /** @brief The function flips the cluster using Wolff algorithm.
+     * @details It calls the wolff_cluster_step() function.
+     */
     void flip_cluster() {
         // randomly choose k and l
         unsigned k = random_int(rng);
@@ -127,6 +171,8 @@ class IsingModel {
         wolff_cluster_step(spin, k, l);
     }
 
+    /**@brief The function calculates energy of the spin array.
+     */
     T calc_energy() {
         T w = 0;
         for (unsigned i = 1; i < size - 1; i++) {
@@ -141,6 +187,11 @@ class IsingModel {
         return energy;
     }
 
+    /** @brief The function calculates various properties of spin array.
+     *  @details calls of this function are counted, to calculate average
+     * magnetization. If you change the temperature, you should reset average
+     * magnetization.
+     */
     void calculate_properties() {
         magnetization = (T)calc_magnetization();
         magnetization2 = magnetization * magnetization;
@@ -153,6 +204,11 @@ class IsingModel {
         samples++;
     }
 
+    /**@brief Makes a metropolis step.
+     * @details a random spin is chosen and flipped with the probability
+     * exp(-dE/T)
+     * @param spin_flips number of metropolis spin flips to make
+     */
     void metropolis_steps(unsigned spin_flips) {
         spin_dir *p = spin_array;
         T dE;

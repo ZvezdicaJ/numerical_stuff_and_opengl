@@ -20,6 +20,7 @@
 #include <random>
 #include <list>
 #include <chrono>
+#include <thread>
 #include <functional>
 #include <boost/align/aligned_allocator.hpp> // this is for aligned std::vector
 

@@ -1,12 +1,68 @@
 #ifdef __AVX2__
 
+using namespace FLOAT_SORT;
+
 std::default_random_engine generator(std::time(0));
 std::uniform_real_distribution<float> float_dist(-100, 100);
 std::uniform_real_distribution<double> double_dist(-100, 100);
 auto random_float = std::bind(float_dist, generator);
 auto random_double = std::bind(double_dist, generator);
 
-TEST(sort, bitonic_avx_reg_sort_double) {
+TEST(MODULO, MOD2) {
+    ASSERT_EQ(mod2(5), 1);
+    ASSERT_EQ(mod2(2), 0);
+    ASSERT_EQ(mod2(1), 1);
+    ASSERT_EQ(mod2(0), 0);
+}
+
+TEST(MODULO, MOD4) {
+    ASSERT_EQ(mod4(5), 1);
+    ASSERT_EQ(mod4(2), 2);
+    ASSERT_EQ(mod4(1), 1);
+    ASSERT_EQ(mod4(0), 0);
+    ASSERT_EQ(mod4(9), 1);
+    ASSERT_EQ(mod4(7), 3);
+}
+
+TEST(MODULO, MOD8) {
+    ASSERT_EQ(mod8(5), 5);
+    ASSERT_EQ(mod8(2), 2);
+    ASSERT_EQ(mod8(1), 1);
+    ASSERT_EQ(mod8(0), 0);
+    ASSERT_EQ(mod8(25), 1);
+    ASSERT_EQ(mod8(23), 7);
+}
+/*
+TEST(MASK, MASK_LOAD) {
+    {
+        __m256i mask = _mm256_set_epi32(0, 0, 0, 0, 1, 1, 1, 1);
+        aligned_vector<float> arr({0, 1, 2, 3, 4, 5, 6, 7});
+
+        __m256 reg = _mm256_maskload_ps(arr.data(), mask);
+        float *r = (float *)&reg;
+        aligned_vector<float> correct_result({0, 0, 0, 0, 0, 0, 0, 0});
+
+        for (int i = 0; i < 8; i++)
+            ASSERT_EQ(r[i], correct_result[i]);
+    }
+    {
+        // high bit of the mask element has to be set
+        __m256i mask = _mm256_set_epi32(10, 10, 10, 0xffffffff, 10, 10, 10, 10);
+        print_avx(mask, "mask: ");
+        aligned_vector<float> arr({0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0});
+
+        __m256 reg = _mm256_maskload_ps(&arr[0], mask);
+        std::cout << "arr: " << arr[0] << " " << arr[1] << std::endl;
+        print_avx(reg, "maskload reg: ");
+        float *r = (float *)&reg;
+        aligned_vector<float> correct_result({0, 1, 2, 3, 4, 5, 6, 7});
+
+        for (int i = 0; i < 8; i++)
+            ASSERT_EQ(*(r + i), correct_result[i]);
+    }
+    }*/
+
+TEST(SORT, BITONIC_AVX_SORT_REG_DOUBLE) {
     {
         __m256d reg = _mm256_setr_pd(0, 1, 2, 3);
         bitonic_sort(reg);
@@ -47,7 +103,7 @@ TEST(sort, bitonic_avx_reg_sort_double) {
     }
 }
 
-TEST(sort, bitonic_avx_sort_2reg) {
+TEST(SORT, BITONIC_AVX_SORT_REG2) {
     {
         __m256d reg0 = _mm256_setr_pd(1, 2, 3, 4);
         __m256d reg1 = _mm256_setr_pd(5, 6, 7, 8);
@@ -97,7 +153,7 @@ TEST(sort, bitonic_avx_sort_2reg) {
     }
 }
 
-TEST(sort, bitonic_avx_sort_4reg_double) {
+TEST(SORT, BITONIC_AVX_SORT_4REG_DOUBLE) {
     {
         __m256d reg0 = _mm256_setr_pd(1, 2, 3, 4);
         __m256d reg1 = _mm256_setr_pd(5, 6, 7, 8);
@@ -178,7 +234,7 @@ TEST(sort, bitonic_avx_sort_4reg_double) {
     }
 }
 
-TEST(sort, bitonic_avx_reg_sort_float) {
+TEST(SORT, BITONIC_AVX_REG_SORT_FLOAT) {
 
     {
         __m256 reg = _mm256_setr_ps(0, 1, 2, 3, 4, 5, 6, 7);
@@ -224,7 +280,7 @@ TEST(sort, bitonic_avx_reg_sort_float) {
     }
 }
 
-TEST(sort, bitonic_avx_sort_float_two_vectors) {
+TEST(SORT, BITONIC_AVX_SORT_FLOAT_TWO_VECTORS) {
     {
         __m256 reg0 = _mm256_setr_ps(1, 2, 3, 4, 5, 6, 7, 8);
         __m256 reg1 = _mm256_setr_ps(9, 10, 11, 12, 13, 14, 15, 16);
@@ -277,7 +333,7 @@ TEST(sort, bitonic_avx_sort_float_two_vectors) {
     }
 }
 
-TEST(sort, bitonic_avx_sort_4reg_float) {
+TEST(SORT, BITONIC_AVX_SORT_4REG_FLOAT) {
     {
         __m256 reg0 = _mm256_setr_ps(1, 2, 3, 4, 5, 6, 7, 8);
         __m256 reg1 = _mm256_setr_ps(9, 10, 11, 12, 13, 14, 15, 16);
@@ -363,7 +419,7 @@ TEST(sort, bitonic_avx_sort_4reg_float) {
     }
 }
 
-TEST(sort, test_2n_sort_double_ver) {
+TEST(SORT, TEST_2N_SORT_DOUBLE_VER) {
 
     {
         aligned_vector<double> inp0(
@@ -396,7 +452,7 @@ TEST(sort, test_2n_sort_double_ver) {
     }
 }
 
-TEST(sort, test_2n_sort_double_ver_test2) {
+TEST(SORT, TEST_2N_SORT_DOUBLE_VER_TEST2) {
     unsigned size = 8192;
     aligned_vector<double> inp0;
     aligned_vector<double> inp1;
@@ -409,21 +465,22 @@ TEST(sort, test_2n_sort_double_ver_test2) {
     sort_2n_vector(inp1.data(), 0, size - 1);
     auto end = std::chrono::system_clock::now();
     auto elapsed1 = end - start;
-    std::cout << "bitonic double sort timing: " << elapsed1.count() << '\n';
+    std::cout << "\nBITONIC DOUBLE SORT TIMING: " << elapsed1.count() << '\n';
 
     start = std::chrono::system_clock::now();
     std::sort(std::begin(inp0), std::end(inp0));
     end = std::chrono::system_clock::now();
     auto elapsed2 = end - start;
-    std::cout << "std double sort timing: " << elapsed2.count() << '\n';
-    std::cout << "speedup: "
-              << (float)elapsed2.count() / (float)elapsed1.count() << std::endl;
+    std::cout << "STD DOUBLE SORT TIMING: " << elapsed2.count() << '\n';
+    std::cout << "SPEEDUP: "
+              << (float)elapsed2.count() / (float)elapsed1.count() << "\n"
+              << std::endl;
     for (unsigned i = 0; i < size; i++) {
         ASSERT_EQ(inp1[i], inp0[i]);
     }
 }
 
-TEST(sort, test_2n_sort_float_ver) {
+TEST(SORT, TEST_2N_SORT_FLOAT_VER) {
 
     {
         aligned_vector<float> inp0(
@@ -457,7 +514,7 @@ TEST(sort, test_2n_sort_float_ver) {
     }
 }
 
-TEST(sort, test_2n_sort_float_ver_test2) {
+TEST(SORT, TEST_2N_SORT_FLOAT_VER_TEST2) {
     unsigned size = 8192;
     aligned_vector<float> inp0;
     aligned_vector<float> inp1;
@@ -470,15 +527,16 @@ TEST(sort, test_2n_sort_float_ver_test2) {
     sort_2n_vector(inp1.data(), 0, size - 1);
     auto end = std::chrono::system_clock::now();
     auto elapsed1 = end - start;
-    std::cout << "bitonic float sort timing: " << elapsed1.count() << '\n';
+    std::cout << "\nBITONIC FLOAT SORT TIMING: " << elapsed1.count() << "\n";
 
     start = std::chrono::system_clock::now();
     std::sort(std::begin(inp0), std::end(inp0));
     end = std::chrono::system_clock::now();
     auto elapsed2 = end - start;
-    std::cout << "std float sort timing: " << elapsed2.count() << '\n';
-    std::cout << "speedup: "
-              << (float)elapsed2.count() / (float)elapsed1.count() << std::endl;
+    std::cout << "STD FLOAT SORT TIMING: " << elapsed2.count() << '\n';
+    std::cout << "SPEEDUP: "
+              << (float)elapsed2.count() / (float)elapsed1.count() << "\n"
+              << std::endl;
     /*
     for (int i = 0; i < size; i++) {
         std::cout << inp0[i] << " " << inp1[i] << std::endl;
@@ -491,8 +549,8 @@ TEST(sort, test_2n_sort_float_ver_test2) {
     }
 }
 
-TEST(sort, test_sort_float_vector_test1) {
-    unsigned size = 8 * 5;
+TEST(SORT, TEST_SORT_FLOAT_VECTOR_TEST1) {
+    unsigned size = 4000;
     aligned_vector<float> inp0;
     aligned_vector<float> inp1;
     inp0.reserve(size);
@@ -501,29 +559,50 @@ TEST(sort, test_sort_float_vector_test1) {
 
     inp1 = inp0;
     auto start = std::chrono::system_clock::now();
-    sort_vector(inp1.data(), 0, size - 1);
+    sort_8n_vector(inp1.data(), 0, size - 1);
     auto end = std::chrono::system_clock::now();
     auto elapsed1 = end - start;
-    std::cout << "bitonic float sort timing: " << elapsed1.count() << '\n';
+    std::cout << "\nBITONIC FLOAT SORT TIMING: " << elapsed1.count() << '\n';
 
     start = std::chrono::system_clock::now();
     std::sort(std::begin(inp0), std::end(inp0));
     end = std::chrono::system_clock::now();
     auto elapsed2 = end - start;
-    std::cout << "std float sort timing: " << elapsed2.count() << '\n';
-    std::cout << "speedup: "
-              << (float)elapsed2.count() / (float)elapsed1.count() << std::endl;
+    std::cout << "STD FLOAT SORT TIMING: " << elapsed2.count() << '\n';
+    std::cout << "SPEEDUP: "
+              << (float)elapsed2.count() / (float)elapsed1.count() << "\n"
+              << std::endl;
     int k = 0;
-    /*
-    for (int i = 0; i < size; i++) {
-        k += 1;
-        std::cout << inp0[i] << " " << inp1[i] << std::endl;
-        if (k != 0 && k % 8 == 0)
-            std::cout << " " << std::endl;
-            }*/
 
     for (unsigned i = 0; i < size; i++) {
         ASSERT_EQ(inp1[i], inp0[i]);
+    }
+}
+
+TEST(SORT, TEST_SORT_FLOAT_VECTOR_ALL_CASES) {
+
+    for (unsigned size = 17; size < 32; size++) {
+        aligned_vector<float> inp0;
+        aligned_vector<float> inp1;
+        inp0.reserve(size);
+        for (unsigned i = 0; i < size; i++)
+            inp0.push_back(random_float());
+
+        inp1 = inp0;
+        sort_vector(inp1, 0, size - 1);
+
+        //std::cout << "end of sort_vector" << std::endl;
+        std::sort(std::begin(inp0), std::end(inp0));
+
+        /* for (int i = 0; i < size; i++) {
+            std::cout << inp1[i] << std::endl;
+            if (mod8(i + 1) == 0)
+                std::cout << "\n";
+                }*/
+
+        for (int i = 0; i < size; i++) {
+            ASSERT_EQ(inp1[i], inp0[i]);
+        }
     }
 }
 

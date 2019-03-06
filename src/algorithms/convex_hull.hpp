@@ -68,6 +68,7 @@ SIDE point_side_2d(float *vec, float *point) {
 template <typename T>
 std::vector<std::array<T, 2>>
 convex_hull(std::vector<std::array<T, 2>> &collection) {
+
     static_assert(std::is_same<T, float>::value ||
                       std::is_same<T, double>::value,
                   "point_side_2d: point type should be float or double");
