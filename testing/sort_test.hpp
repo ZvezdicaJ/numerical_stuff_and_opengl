@@ -1,6 +1,6 @@
 #ifdef __AVX2__
 
-using namespace FLOAT_SORT;
+using namespace BITONIC_SORT;
 
 std::default_random_engine generator(std::time(0));
 std::uniform_real_distribution<float> float_dist(-100, 100);
@@ -617,6 +617,33 @@ TEST(SORT, TEST_SORT_DOUBLE_4n_VECTOR) {
 
         inp1 = inp0;
         sort_4n_vector(inp1.data(), 0, size - 1);
+
+        // std::cout << "end of sort_vector" << std::endl;
+        std::sort(std::begin(inp0), std::end(inp0));
+
+        /* for (int i = 0; i < size; i++) {
+           std::cout << inp1[i] << std::endl;
+           if (mod8(i + 1) == 0)
+           std::cout << "\n";
+           }*/
+
+        for (int i = 0; i < size; i++) {
+            ASSERT_EQ(inp1[i], inp0[i]);
+        }
+    }
+}
+
+TEST(SORT, TEST_SORT_DOUBLE_VECTOR_ALL_CASES) {
+
+    for (unsigned size = 17; size < 32; size++) {
+        aligned_vector<double> inp0;
+        aligned_vector<double> inp1;
+        inp0.reserve(size);
+        for (unsigned i = 0; i < size; i++)
+            inp0.push_back(random_double());
+
+        inp1 = inp0;
+        sort_vector(inp1, 0, size - 1);
 
         // std::cout << "end of sort_vector" << std::endl;
         std::sort(std::begin(inp0), std::end(inp0));
