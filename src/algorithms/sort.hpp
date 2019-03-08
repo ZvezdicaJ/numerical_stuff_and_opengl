@@ -359,12 +359,7 @@ inline void bitonic_sort(__m256 &reg0, __m256 &reg1, __m256 &reg2,
 inline void compare_full_length(float *arr, unsigned start, unsigned end) {
     unsigned length = end - start + 1;
     unsigned half = length / 2;
-    // for (unsigned i = 0; i < half; i += 8) {
-    // std::cout << "half: " << half << std::endl;
     for (int i = 0; i < half; i += 8) {
-        // std::cout << "i: " << i << std::endl;
-        // std::cout << "end: " << end << std::endl;
-        // std::cout << "start: " << start << std::endl;
         float *p1 = arr + start + i;
         float *p2 = arr + end - 7 - i;
         { // reverse lover half and compare to upper half
@@ -443,8 +438,6 @@ inline void lane_crossing_compare(float *arr, unsigned start, unsigned end,
             // register 1 vsebuje max vrednosti
             reg1 = _mm256_max_ps(reg1, reg0);
             reg0 = min;
-            // print_avx(max, "max: ");
-            // print_avx(min, "min: ");
             _mm256_store_ps(p1, reg0);
             _mm256_store_ps(p2, reg1);
         }
@@ -1635,7 +1628,10 @@ inline void lane_crossing_compare_all_cases(double *arr, unsigned start,
             // this will produce smallest number to in the [0:63]
             // register
             reg = _mm256_unpacklo_pd(min, max);
-            _mm256_store_pd(arr + start, reg);
+            if (diff < 3)
+                _mm256_maskstore_pd(arr + start, mask, reg);
+            else
+                _mm256_store_pd(arr + start, reg);
         }
         return;
     }
@@ -1698,7 +1694,7 @@ inline void sort_vector(aligned_vector<double> &array, unsigned start,
             __m256d vec1 = _mm256_load_pd(array.data() + i);
             bitonic_sort(vec1);
             _mm256_store_pd(array.data() + i, vec1);
-        } 
+        }
         ///////////////////////////////// load the partial one
         int reminder = mod4(end);
         double *p = array.data() + end - reminder;
@@ -1720,8 +1716,8 @@ inline void sort_vector(aligned_vector<double> &array, unsigned start,
             for (unsigned n = 0; n < imaginary_length; n += len) {
                 compare_full_length_all_cases(array.data(), n, n + len - 1,
                                               last_index);
-                //lane_crossing_compare_all_cases(array.data(), n, n + len - 1,
-                //                                last_index, 0);
+                lane_crossing_compare_all_cases(array.data(), n, n + len - 1,
+                                                last_index, 0);
             }
         }
     }

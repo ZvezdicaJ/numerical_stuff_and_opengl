@@ -581,7 +581,7 @@ TEST(SORT, TEST_SORT_FLOAT_VECTOR_TEST1) {
 
 TEST(SORT, TEST_SORT_FLOAT_VECTOR_ALL_CASES) {
 
-    for (unsigned size = 17; size < 32; size++) {
+    for (unsigned size = 17; size < 10000; size++) {
         aligned_vector<float> inp0;
         aligned_vector<float> inp1;
         inp0.reserve(size);
@@ -608,7 +608,7 @@ TEST(SORT, TEST_SORT_FLOAT_VECTOR_ALL_CASES) {
 
 TEST(SORT, TEST_SORT_DOUBLE_4n_VECTOR) {
 
-    for (unsigned size = 4; size <= 16; size += 4) {
+    for (unsigned size = 4; size <= 2000; size += 4) {
         aligned_vector<double> inp0;
         aligned_vector<double> inp1;
         inp0.reserve(size);
@@ -635,7 +635,7 @@ TEST(SORT, TEST_SORT_DOUBLE_4n_VECTOR) {
 
 TEST(SORT, TEST_SORT_DOUBLE_VECTOR_ALL_CASES) {
 
-    for (unsigned size = 17; size < 32; size++) {
+    for (unsigned size = 17; size < 10000; size++) {
         aligned_vector<double> inp0;
         aligned_vector<double> inp1;
         inp0.reserve(size);
@@ -645,7 +645,6 @@ TEST(SORT, TEST_SORT_DOUBLE_VECTOR_ALL_CASES) {
         inp1 = inp0;
         sort_vector(inp1, 0, size - 1);
 
-        // std::cout << "end of sort_vector" << std::endl;
         std::sort(std::begin(inp0), std::end(inp0));
 
         /* for (int i = 0; i < size; i++) {

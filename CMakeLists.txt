@@ -12,7 +12,7 @@ message(STATUS "compiler: ${CMAKE_CXX_COMPILER}")
 if("g++" STREQUAL "$CMAKE_CXX_COMPILER")
   # setting flags for gcc compiler
   # comment if you set intel compiler
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -march=native -ffast-math -Wall -Wno-sign-compare -Wno-template-friend -Wno-unused-variable -Wmaybe-uninitialized -Wignored-attributes -fabi-version=4")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -march=native -ffast-math -Wno-sign-compare -Wno-template-friend -Wno-unused-variable -Wmaybe-uninitialized -Wignored-attributes -fabi-version=4")
   #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse -msse4.1 -mno-avx -mno-avx2 -mno-fma -Wall -Wnon-template-friend -Wno-unused-variable")
 
 else("icc" STREQUAL "$CMAKE_CXX_COMPILER")
@@ -72,3 +72,11 @@ target_link_libraries(runTests glad /usr/local/lib/libglfw.so libdl.so
   apex_memmove)
 
 target_link_libraries(runTests ${GTEST_LIBRARIES} pthread)
+
+
+
+#benchmarks section
+
+message(STATUS "benchmark libraries: ${BENCHMARK_LIBRARIES}")
+add_executable(sort_benchmarks benchmarks/sort_benchmarks.cpp)
+target_link_libraries(sort_benchmarks apex_memmove libdl.so libbenchmark.a pthread)

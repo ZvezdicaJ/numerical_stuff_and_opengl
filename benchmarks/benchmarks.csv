@@ -1,0 +1,100 @@
+2019-03-08 21:31:42
+Running ../bin/sort_benchmarks
+Run on (4 X 3000 MHz CPU s)
+CPU Caches:
+  L1 Data 32K (x2)
+  L1 Instruction 32K (x2)
+  L2 Unified 256K (x2)
+  L3 Unified 3072K (x1)
+Load Average: 3.18, 2.66, 2.10
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+name,iterations,real_time,cpu_time,time_unit,bytes_per_second,items_per_second,label,error_occurred,error_message,"Number to sort:"
+"bitonic_2n_float_sort_bench/8",1301590,501.561,502.419,ns,,,,,,8
+"bitonic_2n_float_sort_bench/16",1298567,520.569,521.15,ns,,,,,,16
+"bitonic_2n_float_sort_bench/32",1162285,589.733,591.858,ns,,,,,,32
+"bitonic_2n_float_sort_bench/64",882510,785.21,786.34,ns,,,,,,64
+"bitonic_2n_float_sort_bench/128",542217,1264.39,1265.58,ns,,,,,,128
+"bitonic_2n_float_sort_bench/256",299001,2347.07,2350.62,ns,,,,,,256
+"bitonic_2n_float_sort_bench/512",153455,4746.93,4748.83,ns,,,,,,512
+"bitonic_2n_float_sort_bench/1024",65097,10359.4,10390.5,ns,,,,,,1024
+"bitonic_2n_float_sort_bench/2048",30016,23082.6,23159.3,ns,,,,,,2048
+"bitonic_2n_float_sort_bench/4096",13416,52434.4,52582.6,ns,,,,,,4096
+"bitonic_2n_float_sort_bench/8192",5665,118200,118423,ns,,,,,,8192
+"bitonic_2n_float_sort_bench/16384",2690,267566,267860,ns,,,,,,16384
+"bitonic_2n_float_sort_bench/32768",1058,597817,598114,ns,,,,,,32768
+"bitonic_2n_float_sort_bench/65536",525,1.2833e+06,1.28342e+06,ns,,,,,,65536
+"bitonic_2n_float_sort_bench/131072",235,2.94281e+06,2.93896e+06,ns,,,,,,131072
+"bitonic_2n_float_sort_bench/262144",96,6.6999e+06,6.70012e+06,ns,,,,,,262144
+"bitonic_2n_float_sort_bench/524288",44,1.53632e+07,1.53633e+07,ns,,,,,,524288
+"bitonic_2n_float_sort_bench/1048576",20,3.46816e+07,3.46816e+07,ns,,,,,,1.04858e+06
+"bitonic_2n_float_sort_bench/2097152",8,8.01656e+07,8.01648e+07,ns,,,,,,2.09715e+06
+"bitonic_2n_float_sort_bench/4194304",4,1.77558e+08,1.77552e+08,ns,,,,,,4.1943e+06
+"bitonic_2n_float_sort_bench/8388608",2,3.99575e+08,3.99565e+08,ns,,,,,,8.38861e+06
+"bitonic_2n_float_sort_bench/16777216",1,8.94934e+08,8.94924e+08,ns,,,,,,1.67772e+07
+"bitonic_2n_float_sort_bench/33554432",1,2.48659e+09,2.48037e+09,ns,,,,,,3.35544e+07
+"bitonic_2n_float_sort_bench/67108864",1,4.87838e+09,4.84617e+09,ns,,,,,,6.71089e+07
+"bitonic_2n_float_sort_bench_BigO",,71.6334,71.2387,N,,,,,,
+"bitonic_2n_float_sort_bench_RMS",,0.224285,0.221579,,,,,,,
+"bitonic_8n_float_sort_bench/8",1105812,590.466,590.7,ns,,,,,,8
+"bitonic_8n_float_sort_bench/64",685267,980.481,982.888,ns,,,,,,64
+"bitonic_8n_float_sort_bench/512",133589,5749.44,5741.03,ns,,,,,,512
+"bitonic_8n_float_sort_bench/4096",9718,61631.3,61735.7,ns,,,,,,4096
+"bitonic_8n_float_sort_bench/32768",905,628643,629067,ns,,,,,,32768
+"bitonic_8n_float_sort_bench/262144",95,7.3512e+06,7.35161e+06,ns,,,,,,262144
+"bitonic_8n_float_sort_bench/2097152",8,9.55958e+07,9.55939e+07,ns,,,,,,2.09715e+06
+"bitonic_8n_float_sort_bench/16777216",1,1.09216e+09,1.09204e+09,ns,,,,,,1.67772e+07
+"bitonic_8n_float_sort_bench/67108864",1,5.0787e+09,5.07867e+09,ns,,,,,,6.71089e+07
+"bitonic_8n_float_sort_bench_BigO",,75.0284,75.0276,N,,,,,,
+"bitonic_8n_float_sort_bench_RMS",,0.087682,0.0877329,,,,,,,
+"bitonic_float_sort_bench/8",1380681,528.961,529.852,ns,,,,,,8
+"bitonic_float_sort_bench/16",1194481,544.398,544.668,ns,,,,,,16
+"bitonic_float_sort_bench/32",1036150,657.772,659.329,ns,,,,,,32
+"bitonic_float_sort_bench/64",833169,820.23,821.878,ns,,,,,,64
+"bitonic_float_sort_bench/128",501820,1480.31,1474.13,ns,,,,,,128
+"bitonic_float_sort_bench/256",315395,2165.51,2168.06,ns,,,,,,256
+"bitonic_float_sort_bench/512",159635,4385.08,4386.94,ns,,,,,,512
+"bitonic_float_sort_bench/1024",69275,9881.16,9901.58,ns,,,,,,1024
+"bitonic_float_sort_bench/2048",31671,21826.4,21873.3,ns,,,,,,2048
+"bitonic_float_sort_bench/4096",12863,49502.7,49591,ns,,,,,,4096
+"bitonic_float_sort_bench/8192",5846,113070,113211,ns,,,,,,8192
+"bitonic_float_sort_bench/16384",2807,243446,243640,ns,,,,,,16384
+"bitonic_float_sort_bench/32768",1192,632503,632856,ns,,,,,,32768
+"bitonic_float_sort_bench/65536",429,1.36688e+06,1.36678e+06,ns,,,,,,65536
+"bitonic_float_sort_bench/131072",248,2.82692e+06,2.82723e+06,ns,,,,,,131072
+"bitonic_float_sort_bench/262144",99,6.42416e+06,6.42446e+06,ns,,,,,,262144
+"bitonic_float_sort_bench/524288",46,1.46952e+07,1.46942e+07,ns,,,,,,524288
+"bitonic_float_sort_bench/1048576",15,4.08905e+07,4.08902e+07,ns,,,,,,1.04858e+06
+"bitonic_float_sort_bench/2097152",6,9.44746e+07,9.44749e+07,ns,,,,,,2.09715e+06
+"bitonic_float_sort_bench/4194304",3,2.18943e+08,2.18944e+08,ns,,,,,,4.1943e+06
+"bitonic_float_sort_bench/8388608",1,5.09388e+08,5.09121e+08,ns,,,,,,8.38861e+06
+"bitonic_float_sort_bench/16777216",1,1.09553e+09,1.09552e+09,ns,,,,,,1.67772e+07
+"bitonic_float_sort_bench/33554432",1,2.342e+09,2.34178e+09,ns,,,,,,3.35544e+07
+"bitonic_float_sort_bench/67108864",1,4.41557e+09,4.41555e+09,ns,,,,,,6.71089e+07
+"bitonic_float_sort_bench_BigO",,66.4019,66.4001,N,,,,,,
+"bitonic_float_sort_bench_RMS",,0.0871446,0.0871077,,,,,,,
+"std_float_sort_bench/8",1122669,586.475,588.547,ns,,,,,,8
+"std_float_sort_bench/16",942504,715.769,719.032,ns,,,,,,16
+"std_float_sort_bench/32",508461,1344.83,1354.38,ns,,,,,,32
+"std_float_sort_bench/64",277268,2518.48,2535.67,ns,,,,,,64
+"std_float_sort_bench/128",127942,5122.89,5151.58,ns,,,,,,128
+"std_float_sort_bench/256",63565,10986.2,11049.4,ns,,,,,,256
+"std_float_sort_bench/512",29211,23838.3,23948.7,ns,,,,,,512
+"std_float_sort_bench/1024",13033,52317.7,52513.7,ns,,,,,,1024
+"std_float_sort_bench/2048",6068,113843,114197,ns,,,,,,2048
+"std_float_sort_bench/4096",2817,247756,248321,ns,,,,,,4096
+"std_float_sort_bench/8192",1301,536203,536954,ns,,,,,,8192
+"std_float_sort_bench/16384",597,1.14982e+06,1.15066e+06,ns,,,,,,16384
+"std_float_sort_bench/32768",285,2.42721e+06,2.42794e+06,ns,,,,,,32768
+"std_float_sort_bench/65536",133,5.16349e+06,5.16408e+06,ns,,,,,,65536
+"std_float_sort_bench/131072",61,1.09551e+07,1.09559e+07,ns,,,,,,131072
+"std_float_sort_bench/262144",30,2.30597e+07,2.30602e+07,ns,,,,,,262144
+"std_float_sort_bench/524288",14,4.91849e+07,4.91855e+07,ns,,,,,,524288
+"std_float_sort_bench/1048576",7,1.02123e+08,1.02123e+08,ns,,,,,,1.04858e+06
+"std_float_sort_bench/2097152",3,2.14601e+08,2.14598e+08,ns,,,,,,2.09715e+06
+"std_float_sort_bench/4194304",2,4.48082e+08,4.48082e+08,ns,,,,,,4.1943e+06
+"std_float_sort_bench/8388608",1,9.37155e+08,9.37146e+08,ns,,,,,,8.38861e+06
+"std_float_sort_bench/16777216",1,1.96666e+09,1.96664e+09,ns,,,,,,1.67772e+07
+"std_float_sort_bench/33554432",1,4.11756e+09,4.11754e+09,ns,,,,,,3.35544e+07
+"std_float_sort_bench/67108864",1,8.43663e+09,8.43661e+09,ns,,,,,,6.71089e+07
+"std_float_sort_bench_BigO",,124.511,124.51,N,,,,,,
+"std_float_sort_bench_RMS",,0.0640562,0.0640594,,,,,,,

@@ -1,0 +1,918 @@
+{
+  "context": {
+    "date": "2019-03-08 21:01:54",
+    "host_name": "jure-Latitude-E7270",
+    "executable": "../bin/sort_benchmarks",
+    "num_cpus": 4,
+    "mhz_per_cpu": 3000,
+    "cpu_scaling_enabled": true,
+    "caches": [
+      {
+        "type": "Data",
+        "level": 1,
+        "size": 32000000,
+        "num_sharing": 2
+      },
+      {
+        "type": "Instruction",
+        "level": 1,
+        "size": 32000000,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 2,
+        "size": 256000000,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 3,
+        "size": 3072000000,
+        "num_sharing": 4
+      }
+    ],
+    "load_avg": [0.48,0.9,0.99],
+    "library_build_type": "release"
+  },
+  "benchmarks": [
+    {
+      "name": "bitonic_2n_float_sort_bench/8",
+      "run_name": "bitonic_2n_float_sort_bench/8",
+      "run_type": "iteration",
+      "iterations": 1520747,
+      "real_time": 4.5594922104971351e+02,
+      "cpu_time": 4.5830605419570838e+02,
+      "time_unit": "ns",
+      "Number to sort:": 8.0000000000000000e+00
+    },
+    {
+      "name": "bitonic_2n_float_sort_bench/16",
+      "run_name": "bitonic_2n_float_sort_bench/16",
+      "run_type": "iteration",
+      "iterations": 1474199,
+      "real_time": 4.7218116984769870e+02,
+      "cpu_time": 4.7453454655713625e+02,
+      "time_unit": "ns",
+      "Number to sort:": 1.6000000000000000e+01
+    },
+    {
+      "name": "bitonic_2n_float_sort_bench/32",
+      "run_name": "bitonic_2n_float_sort_bench/32",
+      "run_type": "iteration",
+      "iterations": 1319481,
+      "real_time": 5.2786338306704829e+02,
+      "cpu_time": 5.3047690720805520e+02,
+      "time_unit": "ns",
+      "Number to sort:": 3.2000000000000000e+01
+    },
+    {
+      "name": "bitonic_2n_float_sort_bench/64",
+      "run_name": "bitonic_2n_float_sort_bench/64",
+      "run_type": "iteration",
+      "iterations": 1018709,
+      "real_time": 6.8262943291537874e+02,
+      "cpu_time": 6.8615945377856292e+02,
+      "time_unit": "ns",
+      "Number to sort:": 6.4000000000000000e+01
+    },
+    {
+      "name": "bitonic_2n_float_sort_bench/128",
+      "run_name": "bitonic_2n_float_sort_bench/128",
+      "run_type": "iteration",
+      "iterations": 617842,
+      "real_time": 1.1223658720618034e+03,
+      "cpu_time": 1.1258467310408753e+03,
+      "time_unit": "ns",
+      "Number to sort:": 1.2800000000000000e+02
+    },
+    {
+      "name": "bitonic_2n_float_sort_bench/256",
+      "run_name": "bitonic_2n_float_sort_bench/256",
+      "run_type": "iteration",
+      "iterations": 358580,
+      "real_time": 1.9441744420564689e+03,
+      "cpu_time": 1.9485455435319964e+03,
+      "time_unit": "ns",
+      "Number to sort:": 2.5600000000000000e+02
+    },
+    {
+      "name": "bitonic_2n_float_sort_bench/512",
+      "run_name": "bitonic_2n_float_sort_bench/512",
+      "run_type": "iteration",
+      "iterations": 176828,
+      "real_time": 3.9469442161838697e+03,
+      "cpu_time": 3.9516380267833360e+03,
+      "time_unit": "ns",
+      "Number to sort:": 5.1200000000000000e+02
+    },
+    {
+      "name": "bitonic_2n_float_sort_bench/1024",
+      "run_name": "bitonic_2n_float_sort_bench/1024",
+      "run_type": "iteration",
+      "iterations": 80329,
+      "real_time": 8.6437069587485839e+03,
+      "cpu_time": 8.6451207533930065e+03,
+      "time_unit": "ns",
+      "Number to sort:": 1.0240000000000000e+03
+    },
+    {
+      "name": "bitonic_2n_float_sort_bench/2048",
+      "run_name": "bitonic_2n_float_sort_bench/2048",
+      "run_type": "iteration",
+      "iterations": 36743,
+      "real_time": 1.9061173556723174e+04,
+      "cpu_time": 1.9067321421765020e+04,
+      "time_unit": "ns",
+      "Number to sort:": 2.0480000000000000e+03
+    },
+    {
+      "name": "bitonic_2n_float_sort_bench/4096",
+      "run_name": "bitonic_2n_float_sort_bench/4096",
+      "run_type": "iteration",
+      "iterations": 16453,
+      "real_time": 4.2401777534385314e+04,
+      "cpu_time": 4.2413927794322124e+04,
+      "time_unit": "ns",
+      "Number to sort:": 4.0960000000000000e+03
+    },
+    {
+      "name": "bitonic_2n_float_sort_bench/8192",
+      "run_name": "bitonic_2n_float_sort_bench/8192",
+      "run_type": "iteration",
+      "iterations": 7318,
+      "real_time": 9.4930743200628873e+04,
+      "cpu_time": 9.4941107406422714e+04,
+      "time_unit": "ns",
+      "Number to sort:": 8.1920000000000000e+03
+    },
+    {
+      "name": "bitonic_2n_float_sort_bench/16384",
+      "run_name": "bitonic_2n_float_sort_bench/16384",
+      "run_type": "iteration",
+      "iterations": 3291,
+      "real_time": 2.1307440146934951e+05,
+      "cpu_time": 2.1308140747489897e+05,
+      "time_unit": "ns",
+      "Number to sort:": 1.6384000000000000e+04
+    },
+    {
+      "name": "bitonic_2n_float_sort_bench/32768",
+      "run_name": "bitonic_2n_float_sort_bench/32768",
+      "run_type": "iteration",
+      "iterations": 1462,
+      "real_time": 4.7846393359794118e+05,
+      "cpu_time": 4.7848137756499997e+05,
+      "time_unit": "ns",
+      "Number to sort:": 3.2768000000000000e+04
+    },
+    {
+      "name": "bitonic_2n_float_sort_bench/65536",
+      "run_name": "bitonic_2n_float_sort_bench/65536",
+      "run_type": "iteration",
+      "iterations": 655,
+      "real_time": 1.0680706869523779e+06,
+      "cpu_time": 1.0680897480915908e+06,
+      "time_unit": "ns",
+      "Number to sort:": 6.5536000000000000e+04
+    },
+    {
+      "name": "bitonic_2n_float_sort_bench/131072",
+      "run_name": "bitonic_2n_float_sort_bench/131072",
+      "run_type": "iteration",
+      "iterations": 288,
+      "real_time": 2.4111716874257480e+06,
+      "cpu_time": 2.4111665381944105e+06,
+      "time_unit": "ns",
+      "Number to sort:": 1.3107200000000000e+05
+    },
+    {
+      "name": "bitonic_2n_float_sort_bench/262144",
+      "run_name": "bitonic_2n_float_sort_bench/262144",
+      "run_type": "iteration",
+      "iterations": 121,
+      "real_time": 5.3691776859124713e+06,
+      "cpu_time": 5.3693325950412136e+06,
+      "time_unit": "ns",
+      "Number to sort:": 2.6214400000000000e+05
+    },
+    {
+      "name": "bitonic_2n_float_sort_bench/524288",
+      "run_name": "bitonic_2n_float_sort_bench/524288",
+      "run_type": "iteration",
+      "iterations": 58,
+      "real_time": 1.1963476086560244e+07,
+      "cpu_time": 1.1963530724138077e+07,
+      "time_unit": "ns",
+      "Number to sort:": 5.2428800000000000e+05
+    },
+    {
+      "name": "bitonic_2n_float_sort_bench/1048576",
+      "run_name": "bitonic_2n_float_sort_bench/1048576",
+      "run_type": "iteration",
+      "iterations": 24,
+      "real_time": 2.8265811125796366e+07,
+      "cpu_time": 2.8266468708333526e+07,
+      "time_unit": "ns",
+      "Number to sort:": 1.0485760000000000e+06
+    },
+    {
+      "name": "bitonic_2n_float_sort_bench/2097152",
+      "run_name": "bitonic_2n_float_sort_bench/2097152",
+      "run_type": "iteration",
+      "iterations": 10,
+      "real_time": 6.6260002799390353e+07,
+      "cpu_time": 6.6261274800001144e+07,
+      "time_unit": "ns",
+      "Number to sort:": 2.0971520000000000e+06
+    },
+    {
+      "name": "bitonic_2n_float_sort_bench/4194304",
+      "run_name": "bitonic_2n_float_sort_bench/4194304",
+      "run_type": "iteration",
+      "iterations": 5,
+      "real_time": 1.4805615480145207e+08,
+      "cpu_time": 1.4805465820000023e+08,
+      "time_unit": "ns",
+      "Number to sort:": 4.1943040000000000e+06
+    },
+    {
+      "name": "bitonic_2n_float_sort_bench/8388608",
+      "run_name": "bitonic_2n_float_sort_bench/8388608",
+      "run_type": "iteration",
+      "iterations": 2,
+      "real_time": 3.2777697099663782e+08,
+      "cpu_time": 3.2776395750000376e+08,
+      "time_unit": "ns",
+      "Number to sort:": 8.3886080000000000e+06
+    },
+    {
+      "name": "bitonic_2n_float_sort_bench/16777216",
+      "run_name": "bitonic_2n_float_sort_bench/16777216",
+      "run_type": "iteration",
+      "iterations": 1,
+      "real_time": 7.2612138299882650e+08,
+      "cpu_time": 7.2611260699999034e+08,
+      "time_unit": "ns",
+      "Number to sort:": 1.6777216000000000e+07
+    },
+    {
+      "name": "bitonic_2n_float_sort_bench/33554432",
+      "run_name": "bitonic_2n_float_sort_bench/33554432",
+      "run_type": "iteration",
+      "iterations": 1,
+      "real_time": 1.6026373409986262e+09,
+      "cpu_time": 1.6026179299999938e+09,
+      "time_unit": "ns",
+      "Number to sort:": 3.3554432000000000e+07
+    },
+    {
+      "name": "bitonic_2n_float_sort_bench/67108864",
+      "run_name": "bitonic_2n_float_sort_bench/67108864",
+      "run_type": "iteration",
+      "iterations": 1,
+      "real_time": 3.4697107350002627e+09,
+      "cpu_time": 3.4696682480000048e+09,
+      "time_unit": "ns",
+      "Number to sort:": 6.7108864000000000e+07
+    },
+    {
+      "name": "bitonic_2n_float_sort_bench_BigO",
+      "run_name": "bitonic_2n_float_sort_bench",
+      "run_type": "aggregate",
+      "aggregate_name": "BigO",
+      "cpu_coefficient": 5.0351345121631468e+01,
+      "real_coefficient": 5.0351971592296032e+01,
+      "big_o": "N",
+      "time_unit": "ns"
+    },
+    {
+      "name": "bitonic_2n_float_sort_bench_RMS",
+      "run_name": "bitonic_2n_float_sort_bench",
+      "run_type": "aggregate",
+      "aggregate_name": "RMS",
+      "rms": 1.6302722719904092e-01
+    },
+    {
+      "name": "bitonic_8n_float_sort_bench/8",
+      "run_name": "bitonic_8n_float_sort_bench/8",
+      "run_type": "iteration",
+      "iterations": 1280866,
+      "real_time": 5.2972162558746720e+02,
+      "cpu_time": 5.3474441745150421e+02,
+      "time_unit": "ns",
+      "Number to sort:": 8.0000000000000000e+00
+    },
+    {
+      "name": "bitonic_8n_float_sort_bench/64",
+      "run_name": "bitonic_8n_float_sort_bench/64",
+      "run_type": "iteration",
+      "iterations": 815931,
+      "real_time": 7.9521657151990576e+02,
+      "cpu_time": 7.9980054563418651e+02,
+      "time_unit": "ns",
+      "Number to sort:": 6.4000000000000000e+01
+    },
+    {
+      "name": "bitonic_8n_float_sort_bench/512",
+      "run_name": "bitonic_8n_float_sort_bench/512",
+      "run_type": "iteration",
+      "iterations": 154024,
+      "real_time": 4.5452680560162980e+03,
+      "cpu_time": 4.5529676738681983e+03,
+      "time_unit": "ns",
+      "Number to sort:": 5.1200000000000000e+02
+    },
+    {
+      "name": "bitonic_8n_float_sort_bench/4096",
+      "run_name": "bitonic_8n_float_sort_bench/4096",
+      "run_type": "iteration",
+      "iterations": 13846,
+      "real_time": 4.7263845404405460e+04,
+      "cpu_time": 4.7271302108880067e+04,
+      "time_unit": "ns",
+      "Number to sort:": 4.0960000000000000e+03
+    },
+    {
+      "name": "bitonic_8n_float_sort_bench/32768",
+      "run_name": "bitonic_8n_float_sort_bench/32768",
+      "run_type": "iteration",
+      "iterations": 1211,
+      "real_time": 5.3226267797818582e+05,
+      "cpu_time": 5.3224943435168837e+05,
+      "time_unit": "ns",
+      "Number to sort:": 3.2768000000000000e+04
+    },
+    {
+      "name": "bitonic_8n_float_sort_bench/262144",
+      "run_name": "bitonic_8n_float_sort_bench/262144",
+      "run_type": "iteration",
+      "iterations": 110,
+      "real_time": 5.9033399999448601e+06,
+      "cpu_time": 5.9034050727279009e+06,
+      "time_unit": "ns",
+      "Number to sort:": 2.6214400000000000e+05
+    },
+    {
+      "name": "bitonic_8n_float_sort_bench/2097152",
+      "run_name": "bitonic_8n_float_sort_bench/2097152",
+      "run_type": "iteration",
+      "iterations": 9,
+      "real_time": 7.0461391667777210e+07,
+      "cpu_time": 7.0450927000000745e+07,
+      "time_unit": "ns",
+      "Number to sort:": 2.0971520000000000e+06
+    },
+    {
+      "name": "bitonic_8n_float_sort_bench/16777216",
+      "run_name": "bitonic_8n_float_sort_bench/16777216",
+      "run_type": "iteration",
+      "iterations": 1,
+      "real_time": 7.7612225600023520e+08,
+      "cpu_time": 7.7607655399999940e+08,
+      "time_unit": "ns",
+      "Number to sort:": 1.6777216000000000e+07
+    },
+    {
+      "name": "bitonic_8n_float_sort_bench/67108864",
+      "run_name": "bitonic_8n_float_sort_bench/67108864",
+      "run_type": "iteration",
+      "iterations": 1,
+      "real_time": 3.7039457549981308e+09,
+      "cpu_time": 3.7038937149999995e+09,
+      "time_unit": "ns",
+      "Number to sort:": 6.7108864000000000e+07
+    },
+    {
+      "name": "bitonic_8n_float_sort_bench_BigO",
+      "run_name": "bitonic_8n_float_sort_bench",
+      "run_type": "aggregate",
+      "aggregate_name": "BigO",
+      "cpu_coefficient": 5.4646934898273173e+01,
+      "real_coefficient": 5.4647828726203791e+01,
+      "big_o": "N",
+      "time_unit": "ns"
+    },
+    {
+      "name": "bitonic_8n_float_sort_bench_RMS",
+      "run_name": "bitonic_8n_float_sort_bench",
+      "run_type": "aggregate",
+      "aggregate_name": "RMS",
+      "rms": 1.0021320262199454e-01
+    },
+    {
+      "name": "bitonic_float_sort_bench/8",
+      "run_name": "bitonic_float_sort_bench/8",
+      "run_type": "iteration",
+      "iterations": 1520230,
+      "real_time": 4.5489884692709524e+02,
+      "cpu_time": 4.5876291021281918e+02,
+      "time_unit": "ns",
+      "Number to sort:": 8.0000000000000000e+00
+    },
+    {
+      "name": "bitonic_float_sort_bench/16",
+      "run_name": "bitonic_float_sort_bench/16",
+      "run_type": "iteration",
+      "iterations": 1395555,
+      "real_time": 4.7221083716728720e+02,
+      "cpu_time": 4.7524662804747913e+02,
+      "time_unit": "ns",
+      "Number to sort:": 1.6000000000000000e+01
+    },
+    {
+      "name": "bitonic_float_sort_bench/32",
+      "run_name": "bitonic_float_sort_bench/32",
+      "run_type": "iteration",
+      "iterations": 1246472,
+      "real_time": 5.5336746210772526e+02,
+      "cpu_time": 5.5618219502704676e+02,
+      "time_unit": "ns",
+      "Number to sort:": 3.2000000000000000e+01
+    },
+    {
+      "name": "bitonic_float_sort_bench/64",
+      "run_name": "bitonic_float_sort_bench/64",
+      "run_type": "iteration",
+      "iterations": 996011,
+      "real_time": 6.9436136043479496e+02,
+      "cpu_time": 6.9762188269158833e+02,
+      "time_unit": "ns",
+      "Number to sort:": 6.4000000000000000e+01
+    },
+    {
+      "name": "bitonic_float_sort_bench/128",
+      "run_name": "bitonic_float_sort_bench/128",
+      "run_type": "iteration",
+      "iterations": 622368,
+      "real_time": 1.1201536582764725e+03,
+      "cpu_time": 1.1233023998658277e+03,
+      "time_unit": "ns",
+      "Number to sort:": 1.2800000000000000e+02
+    },
+    {
+      "name": "bitonic_float_sort_bench/256",
+      "run_name": "bitonic_float_sort_bench/256",
+      "run_type": "iteration",
+      "iterations": 358650,
+      "real_time": 1.9486104212162170e+03,
+      "cpu_time": 1.9510588958666046e+03,
+      "time_unit": "ns",
+      "Number to sort:": 2.5600000000000000e+02
+    },
+    {
+      "name": "bitonic_float_sort_bench/512",
+      "run_name": "bitonic_float_sort_bench/512",
+      "run_type": "iteration",
+      "iterations": 179559,
+      "real_time": 3.8890018452671902e+03,
+      "cpu_time": 3.8919389838355692e+03,
+      "time_unit": "ns",
+      "Number to sort:": 5.1200000000000000e+02
+    },
+    {
+      "name": "bitonic_float_sort_bench/1024",
+      "run_name": "bitonic_float_sort_bench/1024",
+      "run_type": "iteration",
+      "iterations": 79850,
+      "real_time": 8.7133052598282065e+03,
+      "cpu_time": 8.7171183218514725e+03,
+      "time_unit": "ns",
+      "Number to sort:": 1.0240000000000000e+03
+    },
+    {
+      "name": "bitonic_float_sort_bench/2048",
+      "run_name": "bitonic_float_sort_bench/2048",
+      "run_type": "iteration",
+      "iterations": 36624,
+      "real_time": 1.9027235219711230e+04,
+      "cpu_time": 1.9031361784600547e+04,
+      "time_unit": "ns",
+      "Number to sort:": 2.0480000000000000e+03
+    },
+    {
+      "name": "bitonic_float_sort_bench/4096",
+      "run_name": "bitonic_float_sort_bench/4096",
+      "run_type": "iteration",
+      "iterations": 16464,
+      "real_time": 4.2446428489023609e+04,
+      "cpu_time": 4.2450715075338107e+04,
+      "time_unit": "ns",
+      "Number to sort:": 4.0960000000000000e+03
+    },
+    {
+      "name": "bitonic_float_sort_bench/8192",
+      "run_name": "bitonic_float_sort_bench/8192",
+      "run_type": "iteration",
+      "iterations": 7194,
+      "real_time": 9.4804689585165092e+04,
+      "cpu_time": 9.4813727967716681e+04,
+      "time_unit": "ns",
+      "Number to sort:": 8.1920000000000000e+03
+    },
+    {
+      "name": "bitonic_float_sort_bench/16384",
+      "run_name": "bitonic_float_sort_bench/16384",
+      "run_type": "iteration",
+      "iterations": 3270,
+      "real_time": 2.1252812870337759e+05,
+      "cpu_time": 2.1253265565769427e+05,
+      "time_unit": "ns",
+      "Number to sort:": 1.6384000000000000e+04
+    },
+    {
+      "name": "bitonic_float_sort_bench/32768",
+      "run_name": "bitonic_float_sort_bench/32768",
+      "run_type": "iteration",
+      "iterations": 1374,
+      "real_time": 4.7409846417647728e+05,
+      "cpu_time": 4.7408806404642627e+05,
+      "time_unit": "ns",
+      "Number to sort:": 3.2768000000000000e+04
+    },
+    {
+      "name": "bitonic_float_sort_bench/65536",
+      "run_name": "bitonic_float_sort_bench/65536",
+      "run_type": "iteration",
+      "iterations": 639,
+      "real_time": 1.0632777356731936e+06,
+      "cpu_time": 1.0632711486696918e+06,
+      "time_unit": "ns",
+      "Number to sort:": 6.5536000000000000e+04
+    },
+    {
+      "name": "bitonic_float_sort_bench/131072",
+      "run_name": "bitonic_float_sort_bench/131072",
+      "run_type": "iteration",
+      "iterations": 291,
+      "real_time": 2.4070497316436735e+06,
+      "cpu_time": 2.4070574467357928e+06,
+      "time_unit": "ns",
+      "Number to sort:": 1.3107200000000000e+05
+    },
+    {
+      "name": "bitonic_float_sort_bench/262144",
+      "run_name": "bitonic_float_sort_bench/262144",
+      "run_type": "iteration",
+      "iterations": 127,
+      "real_time": 5.3438464646327570e+06,
+      "cpu_time": 5.3439408188973926e+06,
+      "time_unit": "ns",
+      "Number to sort:": 2.6214400000000000e+05
+    },
+    {
+      "name": "bitonic_float_sort_bench/524288",
+      "run_name": "bitonic_float_sort_bench/524288",
+      "run_type": "iteration",
+      "iterations": 56,
+      "real_time": 1.2031544392941995e+07,
+      "cpu_time": 1.2031514857143933e+07,
+      "time_unit": "ns",
+      "Number to sort:": 5.2428800000000000e+05
+    },
+    {
+      "name": "bitonic_float_sort_bench/1048576",
+      "run_name": "bitonic_float_sort_bench/1048576",
+      "run_type": "iteration",
+      "iterations": 25,
+      "real_time": 2.8325956839544233e+07,
+      "cpu_time": 2.8327050199999917e+07,
+      "time_unit": "ns",
+      "Number to sort:": 1.0485760000000000e+06
+    },
+    {
+      "name": "bitonic_float_sort_bench/2097152",
+      "run_name": "bitonic_float_sort_bench/2097152",
+      "run_type": "iteration",
+      "iterations": 10,
+      "real_time": 6.5020110199111506e+07,
+      "cpu_time": 6.5019178000004277e+07,
+      "time_unit": "ns",
+      "Number to sort:": 2.0971520000000000e+06
+    },
+    {
+      "name": "bitonic_float_sort_bench/4194304",
+      "run_name": "bitonic_float_sort_bench/4194304",
+      "run_type": "iteration",
+      "iterations": 5,
+      "real_time": 1.4642369159846565e+08,
+      "cpu_time": 1.4642370120000124e+08,
+      "time_unit": "ns",
+      "Number to sort:": 4.1943040000000000e+06
+    },
+    {
+      "name": "bitonic_float_sort_bench/8388608",
+      "run_name": "bitonic_float_sort_bench/8388608",
+      "run_type": "iteration",
+      "iterations": 2,
+      "real_time": 3.2153332549569315e+08,
+      "cpu_time": 3.2152866450000060e+08,
+      "time_unit": "ns",
+      "Number to sort:": 8.3886080000000000e+06
+    },
+    {
+      "name": "bitonic_float_sort_bench/16777216",
+      "run_name": "bitonic_float_sort_bench/16777216",
+      "run_type": "iteration",
+      "iterations": 1,
+      "real_time": 7.2423115099809361e+08,
+      "cpu_time": 7.2421967600000417e+08,
+      "time_unit": "ns",
+      "Number to sort:": 1.6777216000000000e+07
+    },
+    {
+      "name": "bitonic_float_sort_bench/33554432",
+      "run_name": "bitonic_float_sort_bench/33554432",
+      "run_type": "iteration",
+      "iterations": 1,
+      "real_time": 1.5722378050049884e+09,
+      "cpu_time": 1.5721954409999909e+09,
+      "time_unit": "ns",
+      "Number to sort:": 3.3554432000000000e+07
+    },
+    {
+      "name": "bitonic_float_sort_bench/67108864",
+      "run_name": "bitonic_float_sort_bench/67108864",
+      "run_type": "iteration",
+      "iterations": 1,
+      "real_time": 3.5515032080002127e+09,
+      "cpu_time": 3.5494285270000033e+09,
+      "time_unit": "ns",
+      "Number to sort:": 6.7108864000000000e+07
+    },
+    {
+      "name": "bitonic_float_sort_bench_BigO",
+      "run_name": "bitonic_float_sort_bench",
+      "run_type": "aggregate",
+      "aggregate_name": "BigO",
+      "cpu_coefficient": 5.1057179636524459e+01,
+      "real_coefficient": 5.1080641429291319e+01,
+      "big_o": "N",
+      "time_unit": "ns"
+    },
+    {
+      "name": "bitonic_float_sort_bench_RMS",
+      "run_name": "bitonic_float_sort_bench",
+      "run_type": "aggregate",
+      "aggregate_name": "RMS",
+      "rms": 2.0339431715086320e-01
+    },
+    {
+      "name": "std_float_sort_bench/8",
+      "run_name": "std_float_sort_bench/8",
+      "run_type": "iteration",
+      "iterations": 1128361,
+      "real_time": 6.4223607356522984e+02,
+      "cpu_time": 6.1834447486405372e+02,
+      "time_unit": "ns",
+      "Number to sort:": 8.0000000000000000e+00
+    },
+    {
+      "name": "std_float_sort_bench/16",
+      "run_name": "std_float_sort_bench/16",
+      "run_type": "iteration",
+      "iterations": 988510,
+      "real_time": 7.0669014023920113e+02,
+      "cpu_time": 7.0965294028400592e+02,
+      "time_unit": "ns",
+      "Number to sort:": 1.6000000000000000e+01
+    },
+    {
+      "name": "std_float_sort_bench/32",
+      "run_name": "std_float_sort_bench/32",
+      "run_type": "iteration",
+      "iterations": 520211,
+      "real_time": 1.3348164497393191e+03,
+      "cpu_time": 1.3415028248228070e+03,
+      "time_unit": "ns",
+      "Number to sort:": 3.2000000000000000e+01
+    },
+    {
+      "name": "std_float_sort_bench/64",
+      "run_name": "std_float_sort_bench/64",
+      "run_type": "iteration",
+      "iterations": 267390,
+      "real_time": 2.5920651941766405e+03,
+      "cpu_time": 2.5999758143686649e+03,
+      "time_unit": "ns",
+      "Number to sort:": 6.4000000000000000e+01
+    },
+    {
+      "name": "std_float_sort_bench/128",
+      "run_name": "std_float_sort_bench/128",
+      "run_type": "iteration",
+      "iterations": 132997,
+      "real_time": 5.2147092971637730e+03,
+      "cpu_time": 5.2298571922748688e+03,
+      "time_unit": "ns",
+      "Number to sort:": 1.2800000000000000e+02
+    },
+    {
+      "name": "std_float_sort_bench/256",
+      "run_name": "std_float_sort_bench/256",
+      "run_type": "iteration",
+      "iterations": 63776,
+      "real_time": 1.0739921369915170e+04,
+      "cpu_time": 1.0755404164564135e+04,
+      "time_unit": "ns",
+      "Number to sort:": 2.5600000000000000e+02
+    },
+    {
+      "name": "std_float_sort_bench/512",
+      "run_name": "std_float_sort_bench/512",
+      "run_type": "iteration",
+      "iterations": 30610,
+      "real_time": 2.3108044503285124e+04,
+      "cpu_time": 2.3097088631166411e+04,
+      "time_unit": "ns",
+      "Number to sort:": 5.1200000000000000e+02
+    },
+    {
+      "name": "std_float_sort_bench/1024",
+      "run_name": "std_float_sort_bench/1024",
+      "run_type": "iteration",
+      "iterations": 12182,
+      "real_time": 5.8478581699328410e+04,
+      "cpu_time": 5.8543453209683998e+04,
+      "time_unit": "ns",
+      "Number to sort:": 1.0240000000000000e+03
+    },
+    {
+      "name": "std_float_sort_bench/2048",
+      "run_name": "std_float_sort_bench/2048",
+      "run_type": "iteration",
+      "iterations": 5714,
+      "real_time": 1.2572554466288535e+05,
+      "cpu_time": 1.2580019530976063e+05,
+      "time_unit": "ns",
+      "Number to sort:": 2.0480000000000000e+03
+    },
+    {
+      "name": "std_float_sort_bench/4096",
+      "run_name": "std_float_sort_bench/4096",
+      "run_type": "iteration",
+      "iterations": 2599,
+      "real_time": 2.4267123120823206e+05,
+      "cpu_time": 2.4275401346695839e+05,
+      "time_unit": "ns",
+      "Number to sort:": 4.0960000000000000e+03
+    },
+    {
+      "name": "std_float_sort_bench/8192",
+      "run_name": "std_float_sort_bench/8192",
+      "run_type": "iteration",
+      "iterations": 1282,
+      "real_time": 6.2615806786476029e+05,
+      "cpu_time": 5.9485138689547463e+05,
+      "time_unit": "ns",
+      "Number to sort:": 8.1920000000000000e+03
+    },
+    {
+      "name": "std_float_sort_bench/16384",
+      "run_name": "std_float_sort_bench/16384",
+      "run_type": "iteration",
+      "iterations": 533,
+      "real_time": 1.2047812812782538e+06,
+      "cpu_time": 1.1786423208253016e+06,
+      "time_unit": "ns",
+      "Number to sort:": 1.6384000000000000e+04
+    },
+    {
+      "name": "std_float_sort_bench/32768",
+      "run_name": "std_float_sort_bench/32768",
+      "run_type": "iteration",
+      "iterations": 301,
+      "real_time": 2.3238568834717185e+06,
+      "cpu_time": 2.3237575714287674e+06,
+      "time_unit": "ns",
+      "Number to sort:": 3.2768000000000000e+04
+    },
+    {
+      "name": "std_float_sort_bench/65536",
+      "run_name": "std_float_sort_bench/65536",
+      "run_type": "iteration",
+      "iterations": 138,
+      "real_time": 4.9011538262741370e+06,
+      "cpu_time": 4.8999998478259044e+06,
+      "time_unit": "ns",
+      "Number to sort:": 6.5536000000000000e+04
+    },
+    {
+      "name": "std_float_sort_bench/131072",
+      "run_name": "std_float_sort_bench/131072",
+      "run_type": "iteration",
+      "iterations": 65,
+      "real_time": 1.0379682769304894e+07,
+      "cpu_time": 1.0380069923077976e+07,
+      "time_unit": "ns",
+      "Number to sort:": 1.3107200000000000e+05
+    },
+    {
+      "name": "std_float_sort_bench/262144",
+      "run_name": "std_float_sort_bench/262144",
+      "run_type": "iteration",
+      "iterations": 31,
+      "real_time": 2.2111438580454446e+07,
+      "cpu_time": 2.2107973225806452e+07,
+      "time_unit": "ns",
+      "Number to sort:": 2.6214400000000000e+05
+    },
+    {
+      "name": "std_float_sort_bench/524288",
+      "run_name": "std_float_sort_bench/524288",
+      "run_type": "iteration",
+      "iterations": 15,
+      "real_time": 4.6395817600326456e+07,
+      "cpu_time": 4.6396629466667607e+07,
+      "time_unit": "ns",
+      "Number to sort:": 5.2428800000000000e+05
+    },
+    {
+      "name": "std_float_sort_bench/1048576",
+      "run_name": "std_float_sort_bench/1048576",
+      "run_type": "iteration",
+      "iterations": 7,
+      "real_time": 9.8422603573583603e+07,
+      "cpu_time": 9.8401795000002936e+07,
+      "time_unit": "ns",
+      "Number to sort:": 1.0485760000000000e+06
+    },
+    {
+      "name": "std_float_sort_bench/2097152",
+      "run_name": "std_float_sort_bench/2097152",
+      "run_type": "iteration",
+      "iterations": 3,
+      "real_time": 2.0525776233504680e+08,
+      "cpu_time": 2.0525854899999750e+08,
+      "time_unit": "ns",
+      "Number to sort:": 2.0971520000000000e+06
+    },
+    {
+      "name": "std_float_sort_bench/4194304",
+      "run_name": "std_float_sort_bench/4194304",
+      "run_type": "iteration",
+      "iterations": 2,
+      "real_time": 4.3053734549903309e+08,
+      "cpu_time": 4.3050160299999619e+08,
+      "time_unit": "ns",
+      "Number to sort:": 4.1943040000000000e+06
+    },
+    {
+      "name": "std_float_sort_bench/8388608",
+      "run_name": "std_float_sort_bench/8388608",
+      "run_type": "iteration",
+      "iterations": 1,
+      "real_time": 8.9982459599559665e+08,
+      "cpu_time": 8.9981762899999750e+08,
+      "time_unit": "ns",
+      "Number to sort:": 8.3886080000000000e+06
+    },
+    {
+      "name": "std_float_sort_bench/16777216",
+      "run_name": "std_float_sort_bench/16777216",
+      "run_type": "iteration",
+      "iterations": 1,
+      "real_time": 1.8896881610053241e+09,
+      "cpu_time": 1.8896577250000064e+09,
+      "time_unit": "ns",
+      "Number to sort:": 1.6777216000000000e+07
+    },
+    {
+      "name": "std_float_sort_bench/33554432",
+      "run_name": "std_float_sort_bench/33554432",
+      "run_type": "iteration",
+      "iterations": 1,
+      "real_time": 3.9473208359995623e+09,
+      "cpu_time": 3.9472599540000033e+09,
+      "time_unit": "ns",
+      "Number to sort:": 3.3554432000000000e+07
+    },
+    {
+      "name": "std_float_sort_bench/67108864",
+      "run_name": "std_float_sort_bench/67108864",
+      "run_type": "iteration",
+      "iterations": 1,
+      "real_time": 8.1014422530060987e+09,
+      "cpu_time": 8.1014192650000038e+09,
+      "time_unit": "ns",
+      "Number to sort:": 6.7108864000000000e+07
+    },
+    {
+      "name": "std_float_sort_bench_BigO",
+      "run_name": "std_float_sort_bench",
+      "run_type": "aggregate",
+      "aggregate_name": "BigO",
+      "cpu_coefficient": 1.1952900690468675e+02,
+      "real_coefficient": 1.1952972731413770e+02,
+      "big_o": "N",
+      "time_unit": "ns"
+    },
+    {
+      "name": "std_float_sort_bench_RMS",
+      "run_name": "std_float_sort_bench",
+      "run_type": "aggregate",
+      "aggregate_name": "RMS",
+      "rms": 6.4555587463881139e-02
+    }
+  ]
+}
