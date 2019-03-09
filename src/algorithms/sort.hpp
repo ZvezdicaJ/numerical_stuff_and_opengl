@@ -903,11 +903,25 @@ inline void sort_vector(aligned_vector<float> &array, unsigned start,
     unsigned full_length = end - start + 1;
     if (full_length <= 1)
         return;
-    else if (!(full_length & (full_length - 1)))
+    else if (full_length < 8) {
+        __m256i mask;
+        __m256 reg;
+        maskload(full_length - 1, array.data(), mask, reg);
+        bitonic_sort(reg);
+        _mm256_maskstore_ps(array.data(), mask, reg);
+    } else if (!(full_length & (full_length - 1)))
         sort_2n_vector(array.data(), start, end);
     else if (mod8(full_length) == 0)
         sort_8n_vector(array.data(), start, end);
-    else {
+    else if (full_length < 16) {
+        __m256i mask;
+        __m256 reg1, reg2;
+        reg1 = _mm256_load_ps(array.data());
+        maskload(full_length - 9, array.data() + 8, mask, reg2);
+        bitonic_sort(reg1, reg2);
+        _mm256_store_ps(array.data(), reg1);
+        _mm256_maskstore_ps(array.data() + 8, mask, reg2);
+    } else {
         int pow2 = (int)std::ceil(std::log2f(end + 1));
         int imaginary_length = (int)std::pow(2, pow2);
         unsigned full_length = end - start + 1;

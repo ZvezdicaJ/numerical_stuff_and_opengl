@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.2)
 #set(CMAKE_C_COMPILER gcc CACHE STRING "C compiler" FORCE)
 #set(CMAKE_CXX_COMPILER g++ CACHE STRING "C++ compiler" FORCE)
 
+
 set(CMAKE_CXX_COMPILER "g++" CACHE STRING "C++ compiler" FORCE)
 
 # uncomment to set intel compiler
@@ -12,7 +13,7 @@ message(STATUS "compiler: ${CMAKE_CXX_COMPILER}")
 if("g++" STREQUAL "$CMAKE_CXX_COMPILER")
   # setting flags for gcc compiler
   # comment if you set intel compiler
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -march=native -ffast-math -Wno-sign-compare -Wno-template-friend -Wno-unused-variable -Wmaybe-uninitialized -Wignored-attributes -fabi-version=4")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -ffast-math -Wno-sign-compare -Wno-template-friend -Wno-unused-variable -Wmaybe-uninitialized -Wignored-attributes -fabi-version=4")
   #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse -msse4.1 -mno-avx -mno-avx2 -mno-fma -Wall -Wnon-template-friend -Wno-unused-variable")
 
 else("icc" STREQUAL "$CMAKE_CXX_COMPILER")

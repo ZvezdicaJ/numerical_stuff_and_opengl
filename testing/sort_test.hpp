@@ -581,7 +581,7 @@ TEST(SORT, TEST_SORT_FLOAT_VECTOR_TEST1) {
 
 TEST(SORT, TEST_SORT_FLOAT_VECTOR_ALL_CASES) {
 
-    for (unsigned size = 17; size < 10000; size++) {
+    for (unsigned size = 1; size < 4000; size++) {
         aligned_vector<float> inp0;
         aligned_vector<float> inp1;
         inp0.reserve(size);

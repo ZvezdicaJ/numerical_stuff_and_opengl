@@ -56,6 +56,19 @@ BENCHMARK(bitonic_8n_float_sort_bench)
     ->Complexity(benchmark::oN);
 ;
 
+// for the following two benches select values manually
+static void CustomArguments(benchmark::internal::Benchmark *b) {
+    std::vector<int> benches_to_run(
+        {10,       20,       40,       50,      80,      100,      200,
+         400,      800,      1600,     3200,    5000,    7500,     10000,
+         12000,    15000,    17000,    20000,   25000,   27000,    30000,
+         35000,    40000,    50000,    70000,   100000,  120000,   150000,
+         200000,   400000,   600000,   800000,  1000000, 1200000,  1500000,
+         1800000,  2000000,  2500000,  3000000, 5000000, (int)7e6, (int)1e7,
+         (int)2e7, (int)5e7, (int)7e7, (int)1e8});
+    for (int i = 0; i < benches_to_run.size(); i += 1)
+        b->Args({benches_to_run[i]});
+}
 static void bitonic_float_sort_bench(benchmark::State &state) {
 
     for (auto _ : state) {
@@ -73,11 +86,16 @@ static void bitonic_float_sort_bench(benchmark::State &state) {
     state.SetComplexityN(state.range(0));
 }
 
+BENCHMARK(bitonic_float_sort_bench)->Apply(CustomArguments);
+
+/*
 BENCHMARK(bitonic_float_sort_bench)
     ->RangeMultiplier(2)
-    ->Range(8, 67108864)
+    ->Range(2, 1e8)
+    ->RangeMultiplier(3)
+    ->Range(3, 1e8)
     ->Complexity(benchmark::oN);
-;
+*/
 
 static void std_float_sort_bench(benchmark::State &state) {
 
@@ -96,10 +114,15 @@ static void std_float_sort_bench(benchmark::State &state) {
     state.SetComplexityN(state.range(0));
 }
 
+/*
 BENCHMARK(std_float_sort_bench)
     ->RangeMultiplier(2)
-    ->Range(8, 67108864)
+    ->Range(2, 1e8)
+    ->RangeMultiplier(3)
+    ->Range(3, 1e8)
     ->Complexity(benchmark::oN);
-;
+*/
+
+BENCHMARK(std_float_sort_bench)->Apply(CustomArguments);
 
 BENCHMARK_MAIN();
