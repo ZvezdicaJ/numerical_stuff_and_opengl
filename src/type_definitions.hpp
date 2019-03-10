@@ -11,3 +11,6 @@ using aligned_vector =
     std::vector<T, boost::alignment::aligned_allocator<T, 32>>;
 #define __ALIGNED_VECTOR__ 1
 #endif
+
+#define LIKELY(condition) __builtin_expect(static_cast<bool>(condition), 1)
+#define UNLIKELY(condition) __builtin_expect(static_cast<bool>(condition), 0)
