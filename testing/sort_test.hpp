@@ -461,20 +461,11 @@ TEST(SORT, TEST_2N_SORT_DOUBLE_VER_TEST2) {
         inp0.push_back(random_float());
 
     inp1 = inp0;
-    auto start = std::chrono::system_clock::now();
-    sort_2n_vector(inp1.data(), 0, size - 1);
-    auto end = std::chrono::system_clock::now();
-    auto elapsed1 = end - start;
-    std::cout << "\nBITONIC DOUBLE SORT TIMING: " << elapsed1.count() << '\n';
 
-    start = std::chrono::system_clock::now();
+    sort_2n_vector(inp1.data(), 0, size - 1);
+
     std::sort(std::begin(inp0), std::end(inp0));
-    end = std::chrono::system_clock::now();
-    auto elapsed2 = end - start;
-    std::cout << "STD DOUBLE SORT TIMING: " << elapsed2.count() << '\n';
-    std::cout << "SPEEDUP: "
-              << (float)elapsed2.count() / (float)elapsed1.count() << "\n"
-              << std::endl;
+
     for (unsigned i = 0; i < size; i++) {
         ASSERT_EQ(inp1[i], inp0[i]);
     }
@@ -523,20 +514,11 @@ TEST(SORT, TEST_2N_SORT_FLOAT_VER_TEST2) {
         inp0.push_back(random_float());
 
     inp1 = inp0;
-    auto start = std::chrono::system_clock::now();
-    sort_2n_vector(inp1.data(), 0, size - 1);
-    auto end = std::chrono::system_clock::now();
-    auto elapsed1 = end - start;
-    std::cout << "\nBITONIC FLOAT SORT TIMING: " << elapsed1.count() << "\n";
 
-    start = std::chrono::system_clock::now();
+    sort_2n_vector(inp1.data(), 0, size - 1);
+
     std::sort(std::begin(inp0), std::end(inp0));
-    end = std::chrono::system_clock::now();
-    auto elapsed2 = end - start;
-    std::cout << "STD FLOAT SORT TIMING: " << elapsed2.count() << '\n';
-    std::cout << "SPEEDUP: "
-              << (float)elapsed2.count() / (float)elapsed1.count() << "\n"
-              << std::endl;
+
     /*
     for (int i = 0; i < size; i++) {
         std::cout << inp0[i] << " " << inp1[i] << std::endl;
@@ -558,21 +540,10 @@ TEST(SORT, TEST_SORT_FLOAT_VECTOR_TEST1) {
         inp0.push_back(random_float());
 
     inp1 = inp0;
-    auto start = std::chrono::system_clock::now();
-    sort_8n_vector(inp1.data(), 0, size - 1);
-    auto end = std::chrono::system_clock::now();
-    auto elapsed1 = end - start;
-    std::cout << "\nBITONIC FLOAT SORT TIMING: " << elapsed1.count() << '\n';
 
-    start = std::chrono::system_clock::now();
+    sort_8n_vector(inp1.data(), 0, size - 1);
+
     std::sort(std::begin(inp0), std::end(inp0));
-    end = std::chrono::system_clock::now();
-    auto elapsed2 = end - start;
-    std::cout << "STD FLOAT SORT TIMING: " << elapsed2.count() << '\n';
-    std::cout << "SPEEDUP: "
-              << (float)elapsed2.count() / (float)elapsed1.count() << "\n"
-              << std::endl;
-    int k = 0;
 
     for (unsigned i = 0; i < size; i++) {
         ASSERT_EQ(inp1[i], inp0[i]);

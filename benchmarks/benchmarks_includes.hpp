@@ -29,4 +29,4 @@
 #include "auxiliary_functions.hpp"
 #include "print_functions.hpp"
 
-#include "sort.hpp"
+#include "bitonic_sort.hpp"

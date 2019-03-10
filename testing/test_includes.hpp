@@ -42,7 +42,7 @@
 #include "disk.hpp"
 #include "display_functions.hpp"
 
-#include "sort.hpp"
+#include "bitonic_sort.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
