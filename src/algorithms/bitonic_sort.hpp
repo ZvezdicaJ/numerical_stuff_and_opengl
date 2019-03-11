@@ -776,14 +776,17 @@ inline void compare_full_length_all_cases(float *arr, unsigned start,
         // index of last vector to load
         int last_vec_to_load = end - 7 - i;
         int diff = last_index - last_vec_to_load;
-        if (diff < 0)
+        if (UNLIKELY(diff < 0))
             return;
         // define pointers to the start of vectors to load
         float *p1 = arr + start + i;
         float *p2 = arr + last_vec_to_load;
         __m256 vec2;
         __m256i mask;
-        maskload(diff, p2, mask, vec2);
+        if (UNLIKELY(diff < 7))
+            maskload(diff, p2, mask, vec2);
+        else
+            vec2 = _mm256_load_ps(p2);
         { // reverse lover half and compare to upper half
             __m256 vec1 = _mm256_load_ps(p1);
             __m256 reversed_halves =
@@ -796,7 +799,7 @@ inline void compare_full_length_all_cases(float *arr, unsigned start,
             vec1 =
                 _mm256_shuffle_ps(reversed_halves, reversed_halves, 0b00011011);
             _mm256_store_ps(p1, vec1);
-            if (diff <= 6)
+            if (UNLIKELY(diff <= 6))
                 _mm256_maskstore_ps(p2, mask, vec2);
             else
                 _mm256_store_ps(p2, vec2);
@@ -862,12 +865,12 @@ inline void lane_crossing_compare_all_cases(float *arr, unsigned start,
     float *p = arr + start;
     for (unsigned i = 0; i < length / 2; i += 8) {
         int diff = last_index - (start + length / 2 + i);
-        if (diff < 0)
+        if (UNLIKELY(diff < 0))
             break;
         __m256 reg1;
         __m256i mask;
         float *p2 = p + length / 2 + i;
-        if (diff < 7)
+        if (UNLIKELY(diff < 7))
             maskload(diff, p2, mask, reg1);
         else
             reg1 = _mm256_load_ps(p2);
@@ -879,7 +882,7 @@ inline void lane_crossing_compare_all_cases(float *arr, unsigned start,
         reg1 = _mm256_max_ps(reg1, reg0);
         reg0 = min;
         _mm256_store_ps(p1, reg0);
-        if (diff < 7)
+        if (UNLIKELY(diff < 7))
             _mm256_maskstore_ps(p2, mask, reg1);
         else
             _mm256_store_ps(p2, reg1);
@@ -1389,7 +1392,7 @@ inline void compare_full_length(double *arr, unsigned start, unsigned end,
     unsigned length = end - start + 1;
     unsigned half = length / 2; // half je index prvega cez polovico
     for (int i = half - 4; i >= 0; i -= 4) {
-        if (end - 3 - i > last_index)
+        if (UNLIKELY(end - 3 - i > last_index))
             break;
         double *p1 = arr + start + i;
         double *p2 = arr + end - 3 - i;

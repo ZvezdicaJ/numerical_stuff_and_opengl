@@ -120,7 +120,7 @@ One can now expand sin and cos functions into series on an interval $[-\pi,
 \begin{equation}
   cos(x)=\sum_na_nT_n\left(\frac{x}{\pi}\right).
   \end{equation}
-Multiplying both sides by $T_m(\frac{x}{\pi})/\sqrt{1-(x/\pi)^2}$ and
+Multiplying both sides by $\frac{1}{\pi}T_m(\frac{x}{\pi})/\sqrt{1-(x/\pi)^2}$ and
 integrating over the interval $[-\pi, \pi]$ yields for $m\neq0$:
 \begin{equation} \label{coeffm}
  \frac{1}{\pi}\int_{-\pi}^{\pi}\frac{\cos(x)T_m(\frac{x}{\pi})}{\sqrt{1-(x/\pi)^2}} \dif x = \frac{\pi}{2}a_m
@@ -129,16 +129,25 @@ and for $m=0$:
 \begin{equation}\label{coeff0}
  \frac{1}{\pi}\int_{-\pi}^{\pi}\frac{\cos(x)T_0(\frac{x}{\pi})}{\sqrt{1-(x/\pi)^2}} \dif x = \pi a_0.
 \end{equation}
+Using $x/\pi = cos(z)$  in equations \ref{coeffm} and  \ref{coeff0} leads to:
 
-To simplify integral calculation we use relation between $T_n(x)$ and $\cos(x)$:
-\begin{equation}
-  T_n(\cos\theta)=\cos n\theta.
+\begin{equation} \label{coeffm}
+a_m= \frac{1}{\pi}\int_{-\pi}^{\pi}\frac{\cos(\pi\cos(z))T_m(\cos(z))}{\sqrt{1-\cos^2(z)}} \dif(\pi\cos(z)) 
 \end{equation}
-Using $x/\pi = cos(z)$  in equations \label{coeffm} leads to:
+and for $m=0$:
+\begin{equation}\label{coeff0}
+  a_0=\frac{1}{\pi}\int_{-\pi}^{\pi}\frac{\cos(\pi\cos(z))T_0(\cos(z))}{\sqrt{1-\cos^2(z)}} \dif(\pi\cos(z))
+\end{equation}
+
+To simplify the integral calculation we use relation between $T_n(x)$ and $\cos(x)$:
 \begin{equation}
-  a_m = \frac{2}{\pi^2} \int_{-1}^{1}\frac{\cos(\pi\cos z)\cos(mz)}{\sqrt{1-\cos^2z}} \dif (\pi cosz)=-\frac{2}{\pi} \int_{\pi}^{0}\cos(\pi\cos z)\cos(mz) \dif z, 
+  T_n(\cos\theta)=\cos n\theta,
+\end{equation}
+which yields:
+\begin{equation}
+  a_m = \frac{2\pi}{\pi^2} \int_{-1}^{1}\frac{\cos(\pi\cos z)\cos(mz)}{\sqrt{1-\cos^2z}} \dif ( cosz)=-\frac{2}{\pi} \int_{\pi}^{0}\cos(\pi\cos z)\cos(mz) \dif z, 
   \end{equation}
-where we took into account that $\cos z = -1$ when $z=\pi$ and $1$ when $z=-\pi$.
+where we took into account that $\cos z = -1$ when $x=-\pi$ and $1$ when $x=\pi$.
   For $m=0$ we get:
   \begin{equation}
     a_0 = \frac{1}{\pi^2} \int_{-1}^{1}\frac{\cos(\pi\cos z)}{\sqrt{1-\cos^2z}} \dif (\pi cos\theta)=-\frac{1}{\pi} \int_{\pi}^{0}\cos(\pi\cos z) \dif z.
@@ -146,10 +155,10 @@ where we took into account that $\cos z = -1$ when $z=\pi$ and $1$ when $z=-\pi$
 
   Chebyshev polynomial can be divided into even and odd polynomials. For even
   $n$ polynomial is even and for odd $n$ polynomial is odd. Thus the integral
-  $\int cos(x) T_n(x\pi)$ will be zeo for all odd n. Only even $n$ polynomials
+  $\int \cos(x) T_n(x\pi)$ is zero for all odd n. Only even $n$ polynomials
   will participate in expansion of $\cos(x)$ into a series using Chebyshev
   polynomials.
-  The opposite happens when we expand $sin(x)$ into such series. Therefore only odd
+  The opposite happens when we expand $\sin(x)$ into such series. Therefore only odd
   $n$ polynomials will participate in series expansion. For $m\neq0$ we get:
 
 \begin{equation}
