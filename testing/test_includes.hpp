@@ -43,6 +43,7 @@
 #include "display_functions.hpp"
 
 #include "bitonic_sort.hpp"
+#include "hybrid_sort.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
