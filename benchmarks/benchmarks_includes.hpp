@@ -30,3 +30,4 @@
 #include "print_functions.hpp"
 
 #include "bitonic_sort.hpp"
+#include "hybrid_sort.hpp"

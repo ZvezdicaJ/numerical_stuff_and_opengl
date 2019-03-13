@@ -21,7 +21,7 @@ static void bitonic_2n_float_sort_bench(benchmark::State &state) {
         state.ResumeTiming();
         // benchmark::DoNotOptimize(sort_2n_vector(vec.data(), 0, vec.size() -
         // 1)); // DoNoOptimize will store the result to the memory
-        sort_2n_vector(vec.data(), 0, vec.size() - 1);
+        BITONIC_SORT::sort_2n_vector(vec.data(), 0, vec.size() - 1);
     }
     state.counters["Number to sort:"] = state.range(0);
     state.SetComplexityN(state.range(0));
@@ -44,13 +44,37 @@ static void bitonic_8n_float_sort_bench(benchmark::State &state) {
         state.ResumeTiming();
         // benchmark::DoNotOptimize(sort_2n_vector(vec.data(), 0, vec.size() -
         // 1)); // DoNoOptimize will store the result to the memory
-        sort_8n_vector(vec.data(), 0, vec.size() - 1);
+        BITONIC_SORT::sort_8n_vector(vec.data(), 0, vec.size() - 1);
     }
     state.counters["Number to sort:"] = state.range(0);
     state.SetComplexityN(state.range(0));
 }
 
 BENCHMARK(bitonic_8n_float_sort_bench)
+    ->RangeMultiplier(8)
+    ->Range(8, 67108864)
+    ->Complexity(benchmark::oN);
+;
+
+static void hybrid_8n_float_sort_bench(benchmark::State &state) {
+
+    for (auto _ : state) {
+        state.PauseTiming();
+        aligned_vector<float> vec;
+        vec.reserve(state.range(0));
+        for (int i = 0; i < state.range(0); i++) {
+            vec.push_back(random_float());
+        }
+        state.ResumeTiming();
+        // benchmark::DoNotOptimize(sort_2n_vector(vec.data(), 0, vec.size() -
+        // 1)); // DoNoOptimize will store the result to the memory
+        HYBRID_SORT::hybrid_sort_8n(vec, 0, vec.size() - 1);
+    }
+    state.counters["Number to sort:"] = state.range(0);
+    state.SetComplexityN(state.range(0));
+}
+
+BENCHMARK(hybrid_8n_float_sort_bench)
     ->RangeMultiplier(8)
     ->Range(8, 67108864)
     ->Complexity(benchmark::oN);
@@ -80,7 +104,7 @@ static void bitonic_float_sort_bench(benchmark::State &state) {
         state.ResumeTiming();
         // benchmark::DoNotOptimize(sort_2n_vector(vec.data(), 0, vec.size() -
         // 1)); // DoNoOptimize will store the result to the memory
-        sort_vector(vec, 0, vec.size() - 1);
+        BITONIC_SORT::sort_vector(vec, 0, vec.size() - 1);
     }
     state.counters["Number to sort:"] = state.range(0);
     state.SetComplexityN(state.range(0));

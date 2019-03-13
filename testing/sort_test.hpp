@@ -723,27 +723,29 @@ TEST(SORT, TEST_HYBRID_8n_FLOAT_SORT) {
 //////////////////////////////////////////////////////////////////////////////
 
 TEST(SORT, TEST_HYBRID_8n__FLOAT_SORT) {
-    int size = 32;
-    aligned_vector<float> inp0;
-    aligned_vector<float> inp1;
-    inp0.reserve(size);
-    for (unsigned i = 0; i < size; i++)
-        inp0.push_back(random_double());
 
-    inp1 = inp0;
-    HYBRID_SORT::hybrid_sort_8n(inp1, 0, size - 1);
+    for (int size = 0; size < 8 * 500; size += 8) {
+        aligned_vector<float> inp0;
+        aligned_vector<float> inp1;
+        inp0.reserve(size);
+        for (unsigned i = 0; i < size; i++)
+            inp0.push_back(random_float());
 
-    std::sort(std::begin(inp0), std::end(inp0));
+        inp1 = inp0;
+        HYBRID_SORT::hybrid_sort_8n(inp1, 0, size - 1);
 
-    std::cout << "sorted vector:       correct_result:" << std::endl;
-    for (int i = 0; i < size; i++) {
-        std::cout << inp1[i] << " " << inp0[i] << std::endl;
-        if (mod8(i + 1) == 0)
-            std::cout << "\n";
-    }
+        std::sort(std::begin(inp0), std::end(inp0));
+        /*
+        std::cout << "sorted vector:       correct_result:" << std::endl;
+        for (int i = 0; i < size; i++) {
+            std::cout << inp1[i] << " " << inp0[i] << std::endl;
+            if (mod8(i + 1) == 0)
+                std::cout << "\n";
+                }*/
 
-    for (int i = 0; i < size; i++) {
-        ASSERT_EQ(inp1[i], inp0[i]);
+        for (int i = 0; i < size; i++) {
+            ASSERT_EQ(inp1[i], inp0[i]);
+        }
     }
 }
 
