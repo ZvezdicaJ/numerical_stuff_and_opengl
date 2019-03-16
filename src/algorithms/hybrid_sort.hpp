@@ -12,8 +12,9 @@ namespace HYBRID_SORT {
 //////////////////////////////////////////
 
 // A utility function to swap two elements
-void swap(int *a, int *b) {
-    int t = *a;
+template <typename T>
+void swap(T *a, T *b) {
+    T t = *a;
     *a = *b;
     *b = t;
 }
@@ -23,13 +24,14 @@ void swap(int *a, int *b) {
     array, and places all smaller (smaller than pivot)
    to left of pivot and all greater elements to right
    of pivot */
-int scalar_partition(int arr[], int low, int high) {
+template <typename T>
+T scalar_partition(T *arr, int low, int high) {
     // pivot is an element around which we partition the given array
     // it can be chosen arbitrarily
     // we partition the given array in two parts:
     // first part: elements bigger than pivot
     // second part: elements smaller than pivot
-    int pivot = arr[high];
+    T pivot = arr[high];
     // set the starting index one less than the first element of array
     // before the first write it will get incremented by 1
     int i = (low - 1); // Index of smaller element
@@ -44,11 +46,11 @@ int scalar_partition(int arr[], int low, int high) {
         // equal to pivot
         if (arr[j] <= pivot) {
             i++; // increment index of smaller element
-            swap(&arr[i], &arr[j]);
+            swap(arr + i, arr + j);
         }
     }
     // in the end put the pivot in the middle
-    swap(&arr[i + 1], &arr[high]);
+    swap(arr + i + 1, arr + high);
     return (i + 1);
 }
 
@@ -56,7 +58,8 @@ int scalar_partition(int arr[], int low, int high) {
  arr[] --> Array to be sorted,
   low  --> Starting index,
   high  --> Ending index */
-void quickSort(int arr[], int low, int high) {
+template <typename T>
+void quickSort(T *arr, int low, int high) {
     if (low < high) {
         /* pi is partitioning index, arr[p] is now
            at right place */
@@ -237,7 +240,10 @@ __m256 compress256(__m256 src, unsigned int mask /* from movmskps */) {
 
 /**
  * @brief This function performs simd partition for quick sort algorithm
- * @param array POinter to the start of whole array
+ * @details The function is an avx2 implementation of an algorithm from the
+ * paper: A Novel Hybrid Quicksort Algorithm Vectorized using AVX-512 on Intel
+ * Skylake; Author: Berenger Bramas
+ * @param array Pointer to the start of whole array
  * @param left First index to be sorted
  * @param right Last index to be sorted - which is also pivot
  *
@@ -245,10 +251,9 @@ __m256 compress256(__m256 src, unsigned int mask /* from movmskps */) {
 void simd_partition(float *array, unsigned left, unsigned right) {
     int length = right - left + 1;
     if (length < 16)
-        scalar_partition(array, left, right);
-    static const S = 8;
-    unsigned length = end - start + 1;
-    float pivot = array[end];
+        scalar_partition<float>(array, (int)left, (int)right);
+    static const unsigned S = 8;
+    float pivot = array[right];
     __m256 pivotvec = _mm256_set1_ps(pivot);
 
     __m256 left_val = _mm256_loadu_ps(array + left);
@@ -260,11 +265,6 @@ void simd_partition(float *array, unsigned left, unsigned right) {
     __m256 right_val = _mm256_load_ps(array + right);
 
     while (left + S < right) {
-
-    }
-
-    for (int i = start; i < end - 7; i += 8) {
-        __m256 val = _mm256_loadu_ps(array + i);
     }
     unsigned reminder = mod8(length);
 }
