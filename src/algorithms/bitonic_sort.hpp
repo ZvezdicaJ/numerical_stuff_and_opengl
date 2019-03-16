@@ -1177,6 +1177,300 @@ inline void sort_vector(aligned_vector<float> &array, unsigned start,
     }
 }
 
+//////////////////////////////////////////////////////////////////
+// FLOAT ARRAY SORTING ALGORITHM FOR ARRAYS OF ARBITRARY LENGTH, the array must
+// contain 8n elements
+// float implementation using STREAMING INSTRUCTIONS
+
+inline void maskload_ver2(int diff, float *p2, __m256i &mask, __m256 &reg1) {
+    switch (diff) {
+    case 0: {
+        mask = _mm256_set_epi32(0, 0, 0, 0, 0, 0, 0, LOAD);
+        reg1 = _mm256_maskload_ps(p2, mask);
+        __m256 infinity =
+            _mm256_set1_ps(std::numeric_limits<float>::infinity());
+        reg1 = _mm256_blend_ps(infinity, reg1, 0b00000001);
+    } break;
+    case 1: {
+        mask = _mm256_set_epi32(0, 0, 0, 0, 0, 0, LOAD, LOAD);
+        reg1 = _mm256_maskload_ps(p2, mask);
+        __m256 infinity =
+            _mm256_set1_ps(std::numeric_limits<float>::infinity());
+        reg1 = _mm256_blend_ps(infinity, reg1, 0b00000011);
+    } break;
+    case 2: {
+        mask = _mm256_set_epi32(0, 0, 0, 0, 0, LOAD, LOAD, LOAD);
+        reg1 = _mm256_maskload_ps(p2, mask);
+        __m256 infinity =
+            _mm256_set1_ps(std::numeric_limits<float>::infinity());
+        reg1 = _mm256_blend_ps(infinity, reg1, 0b00000111);
+    } break;
+    case 3: {
+        mask = _mm256_set_epi32(0, 0, 0, 0, LOAD, LOAD, LOAD, LOAD);
+        reg1 = _mm256_maskload_ps(p2, mask);
+        __m256 infinity =
+            _mm256_set1_ps(std::numeric_limits<float>::infinity());
+        reg1 = _mm256_blend_ps(infinity, reg1, 0b00001111);
+    } break;
+    case 4: {
+        mask = _mm256_set_epi32(0, 0, 0, LOAD, LOAD, LOAD, LOAD, LOAD);
+        reg1 = _mm256_maskload_ps(p2, mask);
+        __m256 infinity =
+            _mm256_set1_ps(std::numeric_limits<float>::infinity());
+        reg1 = _mm256_blend_ps(infinity, reg1, 0b00011111);
+    } break;
+    case 5: {
+        mask = _mm256_set_epi32(0, 0, LOAD, LOAD, LOAD, LOAD, LOAD, LOAD);
+        reg1 = _mm256_maskload_ps(p2, mask);
+        __m256 infinity =
+            _mm256_set1_ps(std::numeric_limits<float>::infinity());
+        reg1 = _mm256_blend_ps(infinity, reg1, 0b00111111);
+    } break;
+    case 6: {
+        mask = _mm256_set_epi32(0, LOAD, LOAD, LOAD, LOAD, LOAD, LOAD, LOAD);
+        reg1 = _mm256_maskload_ps(p2, mask);
+        __m256 infinity =
+            _mm256_set1_ps(std::numeric_limits<float>::infinity());
+        reg1 = _mm256_blend_ps(infinity, reg1, 0b01111111);
+    } break;
+    };
+}
+
+/** @brief compared vectors from top and bottom of array and then gradually
+ * compare inner vectors.
+ * @param arr pointer to the float array to be sorted
+ * @param start index of the first element to be sorted
+ * @param end index of the last element to be sorted
+ */
+inline void compare_full_length_all_cases_ver2(float *arr, unsigned start,
+                                               unsigned end,
+                                               unsigned last_index) {
+    // std::cout << "start: " << start << "end: " << end
+    //          << " last index: " << last_index << std::endl;
+    unsigned length = end - start + 1;
+    unsigned half = length / 2; // half je index prvega cez polovico
+    for (int i = half - 8; i >= 0; i -= 8) {
+        // index of last vector to load
+        int last_vec_to_load = end - 7 - i;
+        int diff = last_index - last_vec_to_load;
+        if (UNLIKELY(diff < 0))
+            return;
+        // define pointers to the start of vectors to load
+        float *p1 = arr + start + i;
+        float *p2 = arr + last_vec_to_load;
+        __m256 vec2;
+        __m256i mask;
+        if (UNLIKELY(diff < 7))
+            maskload_ver2(diff, p2, mask, vec2);
+        else {
+            __m256i temp = _mm256_stream_load_si256((__m256i *)p2);
+            vec2 = _mm256_castsi256_ps(temp);
+            // vec2 = _mm256_load_ps(p2);
+        }
+        { // reverse lover half and compare to upper half
+            //__m256 vec1 = _mm256_load_ps(p1);
+            __m256i temp = _mm256_stream_load_si256((__m256i *)p1);
+            __m256 vec1 = _mm256_castsi256_ps(temp);
+
+            __m256 reversed_halves =
+                _mm256_permute2f128_ps(vec1, vec1, 0b00000001);
+            __m256 reversed =
+                _mm256_shuffle_ps(reversed_halves, reversed_halves, 0b00011011);
+            vec1 = _mm256_min_ps(reversed, vec2);
+            vec2 = _mm256_max_ps(reversed, vec2);
+            reversed_halves = _mm256_permute2f128_ps(vec1, vec1, 0b00000001);
+            vec1 =
+                _mm256_shuffle_ps(reversed_halves, reversed_halves, 0b00011011);
+            //_mm256_store_ps(p1, vec1);
+            _mm256_stream_ps(p1, vec1);
+
+            if (UNLIKELY(diff <= 6))
+                _mm256_maskstore_ps(p2, mask, vec2);
+            else {
+                _mm256_stream_ps(p2, vec2);
+                //_mm256_store_ps(p2, vec2);
+            }
+        }
+    }
+}
+
+/** @brief compared vectors from top and bottom of array and then gradually
+ * compare inner vectors.
+ * @param arr pointer to the array to be sorted
+ * @param start index of the first element to be sorted
+ * @param end index of the last element to be sorted
+ * @param depth a parameter to follow the depth of recursion
+ */
+inline void lane_crossing_compare_all_cases_ver2(float *arr, unsigned start,
+                                                 unsigned end,
+                                                 unsigned last_index,
+                                                 unsigned depth) {
+    if (start > last_index) {
+        return;
+    }
+    unsigned length = end - start + 1;
+    if (length == 8) {
+        int diff = last_index - start;
+        if (diff < 1)
+            return;
+        __m256 reg;
+        __m256i mask;
+        if (UNLIKELY(diff < 7)) {
+            maskload_ver2(diff, arr + start, mask, reg);
+        } else {
+            // reg=_mm256_load_ps(arr+start);
+            __m256i temp = _mm256_stream_load_si256((__m256i *)(arr + start));
+            reg = _mm256_castsi256_ps(temp);
+        }
+
+        {
+            // here one compares:
+            // 0-4, 1-5, 2-6, 3-7 -> reverse halves
+            __m256 reversed_halves =
+                _mm256_permute2f128_ps(reg, reg, 0b00000001);
+            __m256 max = _mm256_max_ps(reg, reversed_halves);
+            __m256 min = _mm256_min_ps(reg, reversed_halves);
+            reg = _mm256_blend_ps(max, min, 0b00001111);
+        }
+        {
+            //  here one compares:
+            // 0-2, 1-3, 4-6, 5-7 -> you have to mix elements inside halves
+            __m256 shuffled_reg = _mm256_shuffle_ps(reg, reg, 0b01001110);
+            __m256 max = _mm256_max_ps(reg, shuffled_reg);
+            __m256 min = _mm256_min_ps(reg, shuffled_reg);
+            reg = _mm256_blend_ps(max, min, 0b00110011);
+        }
+        {
+            // and finally repeat the first step: *--*  *--*  *--* *--*
+            __m256 shuffled_reg = _mm256_shuffle_ps(reg, reg, 0b10110001);
+            __m256 max = _mm256_max_ps(reg, shuffled_reg);
+            __m256 min = _mm256_min_ps(reg, shuffled_reg);
+            reg = _mm256_blend_ps(min, max, 0b10101010);
+
+            if (UNLIKELY(diff < 7))
+                _mm256_maskstore_ps(arr + start, mask, reg);
+            else {
+                _mm256_stream_ps(arr + start, reg);
+            }
+        }
+        return;
+    }
+
+    float *p = arr + start;
+    for (unsigned i = 0; i < length / 2; i += 8) {
+        int diff = last_index - (start + length / 2 + i);
+        if (UNLIKELY(diff < 0))
+            break;
+        __m256 reg1;
+        __m256i mask;
+        float *p2 = p + length / 2 + i;
+        if (UNLIKELY(diff < 7))
+            maskload(diff, p2, mask, reg1);
+        else {
+            // reg1 = _mm256_load_ps(p2);
+            __m256i temp = _mm256_stream_load_si256((__m256i *)p2);
+            reg1 = _mm256_castsi256_ps(temp);
+        }
+        float *p1 = p + i;
+        //__m256 reg0 = _mm256_load_ps(p1); // i-ti od začetka
+        __m256i temp = _mm256_stream_load_si256((__m256i *)p1);
+        __m256 reg0 = _mm256_castsi256_ps(temp);
+
+        // register 2 vsebuje min vrednosti
+        __m256 min = _mm256_min_ps(reg1, reg0);
+        // register 1 vsebuje max vrednosti
+        reg1 = _mm256_max_ps(reg1, reg0);
+        reg0 = min;
+        //_mm256_store_ps(p1, reg0);
+        _mm256_stream_ps(p1, reg0);
+
+        if (UNLIKELY(diff < 7))
+            _mm256_maskstore_ps(p2, mask, reg1);
+        else {
+            //_mm256_store_ps(p2, reg1);
+            _mm256_stream_ps(p2, reg1);
+        }
+    }
+    lane_crossing_compare_all_cases(arr, start, (start + end) / 2, last_index,
+                                    depth + 1);
+    lane_crossing_compare_all_cases(arr, (start + end) / 2 + 1, end, last_index,
+                                    depth + 1);
+};
+
+/**
+ * @brief The function sorts an array with 2^n elements
+ * @param array pointer to the start of the array
+ * @param start index of the first number to be sorted
+ * @param end index of the last number to be sorted
+ * @details end-start+1 should be 2^n
+ */
+inline void sort_vector_ver2(aligned_vector<float> &array, unsigned start,
+                             unsigned end) {
+
+    unsigned full_length = end - start + 1;
+    if (full_length <= 1)
+        return;
+    else if (full_length < 8) {
+        __m256i mask;
+        __m256 reg;
+        maskload(full_length - 1, array.data(), mask, reg);
+        bitonic_sort(reg);
+        _mm256_maskstore_ps(array.data(), mask, reg);
+    } else if (!(full_length & (full_length - 1)))
+        sort_2n_vector(array.data(), start, end);
+    else if (mod8(full_length) == 0)
+        sort_8n_vector(array.data(), start, end);
+    else if (full_length < 16) {
+        __m256i mask;
+        __m256 reg1, reg2;
+        reg1 = _mm256_load_ps(array.data());
+        maskload(full_length - 9, array.data() + 8, mask, reg2);
+        bitonic_sort(reg1, reg2);
+        _mm256_store_ps(array.data(), reg1);
+        _mm256_maskstore_ps(array.data() + 8, mask, reg2);
+    } else {
+        int pow2 = (int)std::ceil(std::log2f(end + 1));
+        int imaginary_length = (int)std::pow(2, pow2);
+        unsigned full_length = end - start + 1;
+        unsigned last_index = end;
+
+        for (unsigned i = start; i <= end - 7; i += 8) {
+            //__m256 vec1 = _mm256_load_ps(array.data() + i);
+            __m256i temp =
+                _mm256_stream_load_si256((__m256i *)(array.data() + i));
+            __m256 vec1 = _mm256_castsi256_ps(temp);
+            bitonic_sort(vec1);
+            _mm256_stream_ps(array.data() + i, vec1);
+        }
+        ///////////////////////////////// load the partial one
+        int reminder = mod8(end);
+        float *p = array.data() + end - reminder;
+        __m256 reg1;
+        __m256i mask;
+        maskload(reminder, p, mask, reg1);
+        bitonic_sort(reg1);
+        _mm256_maskstore_ps(array.data() + end - reminder, mask, reg1);
+
+        ///////////////////////////////////////////////////////
+
+        // outer loop
+        // len is number of floats in length to be compared
+        // each step increases this length by factor of 2.
+        // 8 and less has already been done above
+        // for (unsigned len = 16; len <= imaginary_length; len *= 2) {
+        for (unsigned len = 16; len <= imaginary_length; len *= 2) {
+            // std::cout << "len: " << len << std::endl;
+            // inner loop goes over all subdivisions
+            for (unsigned n = 0; n < imaginary_length; n += len) {
+                compare_full_length_all_cases(array.data(), n, n + len - 1,
+                                              last_index);
+                lane_crossing_compare_all_cases(array.data(), n, n + len - 1,
+                                                last_index, 0);
+            }
+        }
+    }
+}
+
 /////////////////////////////////////////////////////////////////////////
 // double implementation
 
@@ -1775,8 +2069,6 @@ inline void maskload(int diff, double *p2, __m256i &mask, __m256d &reg1) {
             _mm256_set1_pd(std::numeric_limits<double>::infinity());
         reg1 = _mm256_blend_pd(infinity, reg1, 0b0111);
     } break;
-    default:
-        reg1 = _mm256_load_pd(p2);
     };
 }
 
@@ -1803,7 +2095,10 @@ inline void compare_full_length_all_cases(double *arr, unsigned start,
         double *p2 = arr + last_vec_to_load;
         __m256d vec2;
         __m256i mask;
-        maskload(diff, p2, mask, vec2);
+        if (diff < 3)
+            maskload(diff, p2, mask, vec2);
+        else
+            vec2 = _mm256_load_pd(p2);
 
         __m256d vec1 = _mm256_load_pd(p1);
         // reverse one of registers register reg0
@@ -1841,7 +2136,10 @@ inline void lane_crossing_compare_all_cases(double *arr, unsigned start,
             return;
         __m256d reg;
         __m256i mask;
-        maskload(diff, arr + start, mask, reg);
+        if (diff < 3)
+            maskload(diff, arr + start, mask, reg);
+        else
+            reg = _mm256_load_pd(arr + start);
         // else
         { // shuffling between 128bit lanes of 256bit register
           // (3,2,1,0)->(1,0,3,2) one compares 0 and 2 ,  1 and 3
@@ -1910,7 +2208,15 @@ inline void sort_vector(aligned_vector<double> &array, unsigned start,
     unsigned full_length = end - start + 1;
     if (full_length <= 1)
         return;
-    else if (!(full_length & (full_length - 1)))
+    else if (full_length < 4) {
+        int reminder = mod4(end);
+        double *p = array.data() + end - reminder;
+        __m256d reg1;
+        __m256i mask;
+        maskload(reminder, p, mask, reg1);
+        bitonic_sort(reg1);
+        _mm256_maskstore_pd(array.data() + end - reminder, mask, reg1);
+    } else if (!(full_length & (full_length - 1)))
         sort_2n_vector(array.data(), start, end);
     else if (mod4(full_length) == 0)
         sort_4n_vector(array.data(), start, end);

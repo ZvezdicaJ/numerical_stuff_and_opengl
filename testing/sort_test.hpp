@@ -627,10 +627,37 @@ TEST(SORT, TEST_SORT_FLOAT_VECTOR_ALL_CASES) {
         std::sort(std::begin(inp0), std::end(inp0));
 
         /* for (int i = 0; i < size; i++) {
-            std::cout << inp1[i] << std::endl;
-            if (mod8(i + 1) == 0)
-                std::cout << "\n";
-                }*/
+           std::cout << inp1[i] << std::endl;
+           if (mod8(i + 1) == 0)
+           std::cout << "\n";
+           }*/
+
+        for (int i = 0; i < size; i++) {
+            ASSERT_EQ(inp1[i], inp0[i]);
+        }
+    }
+}
+
+TEST(SORT, TEST_SORT_FLOAT_VECTOR_ALL_CASES_VER2) {
+
+    for (unsigned size = 1; size < 4000; size++) {
+        aligned_vector<float> inp0;
+        aligned_vector<float> inp1;
+        inp0.reserve(size);
+        for (unsigned i = 0; i < size; i++)
+            inp0.push_back(random_float());
+
+        inp1 = inp0;
+        BITONIC_SORT::sort_vector_ver2(inp1, 0, size - 1);
+
+        // std::cout << "end of sort_vector" << std::endl;
+        std::sort(std::begin(inp0), std::end(inp0));
+
+        /* for (int i = 0; i < size; i++) {
+           std::cout << inp1[i] << std::endl;
+           if (mod8(i + 1) == 0)
+           std::cout << "\n";
+           }*/
 
         for (int i = 0; i < size; i++) {
             ASSERT_EQ(inp1[i], inp0[i]);
@@ -667,7 +694,7 @@ TEST(SORT, TEST_SORT_DOUBLE_4n_VECTOR) {
 
 TEST(SORT, TEST_SORT_DOUBLE_VECTOR_ALL_CASES) {
 
-    for (unsigned size = 17; size < 10000; size++) {
+    for (unsigned size = 1; size < 5000; size++) {
         aligned_vector<double> inp0;
         aligned_vector<double> inp1;
         inp0.reserve(size);

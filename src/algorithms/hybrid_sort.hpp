@@ -6,6 +6,72 @@
 
 namespace HYBRID_SORT {
 
+//////////////////////////////////////////
+//////// A scalar implementation of Quick sort from
+/// https://www.geeksforgeeks.org/quick-sort/
+//////////////////////////////////////////
+
+// A utility function to swap two elements
+void swap(int *a, int *b) {
+    int t = *a;
+    *a = *b;
+    *b = t;
+}
+
+/* This function takes last element as pivot, places
+   the pivot element at its correct position in sorted
+    array, and places all smaller (smaller than pivot)
+   to left of pivot and all greater elements to right
+   of pivot */
+int scalar_partition(int arr[], int low, int high) {
+    // pivot is an element around which we partition the given array
+    // it can be chosen arbitrarily
+    // we partition the given array in two parts:
+    // first part: elements bigger than pivot
+    // second part: elements smaller than pivot
+    int pivot = arr[high];
+    // set the starting index one less than the first element of array
+    // before the first write it will get incremented by 1
+    int i = (low - 1); // Index of smaller element
+
+    // start at the beginning of array
+    // check if an element is smaller than the pivot
+    // if yes put into the part of array containing smaller elements
+    // move that element that was previously there to upper part
+    // you are yet to check the upper part - as j increments
+    for (int j = low; j <= high - 1; j++) {
+        // If current element is smaller than or
+        // equal to pivot
+        if (arr[j] <= pivot) {
+            i++; // increment index of smaller element
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    // in the end put the pivot in the middle
+    swap(&arr[i + 1], &arr[high]);
+    return (i + 1);
+}
+
+/* The main function that implements QuickSort
+ arr[] --> Array to be sorted,
+  low  --> Starting index,
+  high  --> Ending index */
+void quickSort(int arr[], int low, int high) {
+    if (low < high) {
+        /* pi is partitioning index, arr[p] is now
+           at right place */
+        int pi = scalar_partition(arr, low, high);
+
+        // Separately sort elements before
+        // partition and after partition
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+//////////////////////////////////////////////////////////////////
+//////////////// End of scalar Quick sort
+///////////////////////////////////////////////////////////////////
+
 void print_aligned_vector(aligned_vector<float> vec, std::string str) {
     std::cout << str << " " << std::endl;
     for (int i = 0; i < vec.size(); i++) {
@@ -14,6 +80,9 @@ void print_aligned_vector(aligned_vector<float> vec, std::string str) {
             std::cout << "\n";
     }
 }
+///////////////////////////////////////////////////////
+///////////  This is just a try at my own merge  - which does not work in place
+///////////////////////////////////////////////////////
 
 /**
  * @brief function merges ordered arrays
@@ -28,7 +97,7 @@ inline void bitonic_merge_8n(float *array, int startA, int endA, int endB) {
     temp_vec.reserve(endB - startA + 8);
     float *p = temp_vec.data();
 
-    //std::cout << "startA: " << startA << "  endA: " << endA
+    // std::cout << "startA: " << startA << "  endA: " << endA
     //          << "  endB: " << endB << std::endl;
 
     __m256 reg1 = _mm256_load_ps(array + startA);
@@ -39,7 +108,7 @@ inline void bitonic_merge_8n(float *array, int startA, int endA, int endB) {
     // int i = startA;
     int i = 0;
     BITONIC_SORT::bitonic_merge(reg1, reg2);
-    //_mm256_store_ps(array + i, reg1);
+    // _mm256_store_ps(array + i, reg1);
     _mm256_store_ps(p + i, reg1);
     i += 8;
 
@@ -86,8 +155,9 @@ inline void bitonic_merge_8n(float *array, int startA, int endA, int endB) {
         _mm256_store_ps(p + i, reg1);
         i += 8;
     }
-    //    _mm256_store_ps(array + i, reg2);
+    //_mm256_store_ps(array + i, reg2);
     _mm256_store_ps(p + i, reg2);
+
     __m256i *pi = (__m256i *)p;
     __m256i *arr = (__m256i *)(array + startA);
     unsigned num_vec = (endB - startA + 8) / 8;
@@ -134,6 +204,69 @@ inline void hybrid_sort_8n(aligned_vector<float> &vec, int start, int end) {
                              std::min(start + 2 * width - 8, end - 7));
     }
     //
+}
+
+//////////////////////////////////////////////////////////////
+// HYBRID_SORT FROM PAPER: A Novel Hybrid Quicksort Algorithm Vectorized using
+// AVX-512 on Intel Skylake
+///////////////////////////////////////////////////////
+
+/** @brief Function compresses 256 vector based on mask.
+ * @detail more details on
+ * https://stackoverflow.com/questions/36932240/avx2-what-is-the-most-efficient-way-to-pack-left-based-on-a-mask
+ *
+ *
+ */
+__m256 compress256(__m256 src, unsigned int mask /* from movmskps */) {
+    uint64_t expanded_mask =
+        _pdep_u64(mask, 0x0101010101010101); // unpack each bit to a byte
+    expanded_mask *= 0xFF; // mask |= mask<<1 | mask<<2 | ... | mask<<7;
+    // ABC... -> AAAAAAAABBBBBBBBCCCCCCCC...: replicate each bit to fill its
+    // byte
+
+    const uint64_t identity_indices =
+        0x0706050403020100; // the identity shuffle for vpermps, packed to one
+                            // index per byte
+    uint64_t wanted_indices = _pext_u64(identity_indices, expanded_mask);
+
+    __m128i bytevec = _mm_cvtsi64_si128(wanted_indices);
+    __m256i shufmask = _mm256_cvtepu8_epi32(bytevec);
+
+    return _mm256_permutevar8x32_ps(src, shufmask);
+}
+
+/**
+ * @brief This function performs simd partition for quick sort algorithm
+ * @param array POinter to the start of whole array
+ * @param left First index to be sorted
+ * @param right Last index to be sorted - which is also pivot
+ *
+ */
+void simd_partition(float *array, unsigned left, unsigned right) {
+    int length = right - left + 1;
+    if (length < 16)
+        scalar_partition(array, left, right);
+    static const S = 8;
+    unsigned length = end - start + 1;
+    float pivot = array[end];
+    __m256 pivotvec = _mm256_set1_ps(pivot);
+
+    __m256 left_val = _mm256_loadu_ps(array + left);
+    int left_w = left;
+    left += 8;
+
+    int right_w = right + 1;
+    right -= 7;
+    __m256 right_val = _mm256_load_ps(array + right);
+
+    while (left + S < right) {
+
+    }
+
+    for (int i = start; i < end - 7; i += 8) {
+        __m256 val = _mm256_loadu_ps(array + i);
+    }
+    unsigned reminder = mod8(length);
 }
 
 } // namespace HYBRID_SORT
