@@ -239,11 +239,19 @@ __m256 compress256(__m256 src, unsigned int mask /* from movmskps */) {
     return _mm256_permutevar8x32_ps(src, shufmask);
 }
 
+#ifndef __AVX512__
+inline void _mm256_compresstoreu_ps(float *address, unsigned int mask,
+                                    __m256 vec_to_store) {
+    __m256 compressed = compress256(vec_to_store);
+    _mm256_storeu_ps(address, vec_to_store);
+}
+#endif
+
 /**
  * @brief This function performs simd partition for quick sort algorithm
  * @details The function is an avx2 implementation of an algorithm from the
- * paper: A Novel Hybrid Quicksort Algorithm Vectorized using AVX-512 on Intel
- * Skylake; Author: Berenger Bramas
+ * paper: A Novel Hybrid Quicksort Algorithm Vectorized using AVX-512 on
+ * Intel Skylake; Author: Berenger Bramas
  * @param array Pointer to the start of whole array
  * @param left First index to be sorted
  * @param right Last index to be sorted - which is also pivot
@@ -278,6 +286,7 @@ void simd_partition(float *array, unsigned left, unsigned right) {
             val = _mm256_loadu_ps(array + right);
         }
         __m256 mask = _mm256_cmp_ps(val, pivotvec, _CMP_LE_OQ);
+        unsigned mask_int = _mm256_movemask_ps(mask);
     }
     unsigned reminder = mod8(length);
 }
