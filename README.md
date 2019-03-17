@@ -1,4 +1,4 @@
-### My first OpenGl engine 
+### My mixed bag
 The repository contains all sorts of things - sorting algorithms, vectorized trigonometric functions, various shape meshes,...
 
 Build:
