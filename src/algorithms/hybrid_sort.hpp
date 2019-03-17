@@ -215,13 +215,12 @@ inline void hybrid_sort_8n(aligned_vector<float> &vec, int start, int end) {
 // AVX-512 on Intel Skylake
 ///////////////////////////////////////////////////////
 
-/** @brief Function compresses 256 vector based on mask.
+/** @brief Function compresses 256 vector based on a provided mask.
  * @detail more details on
  * https://stackoverflow.com/questions/36932240/avx2-what-is-the-most-efficient-way-to-pack-left-based-on-a-mask
  *
- *
  */
-__m256 compress256(__m256 src, unsigned int mask /* from movmskps */) {
+inline __m256 compress256(__m256 src, unsigned int mask /* from movmskps */) {
     uint64_t expanded_mask =
         _pdep_u64(mask, 0x0101010101010101); // unpack each bit to a byte
     expanded_mask *= 0xFF; // mask |= mask<<1 | mask<<2 | ... | mask<<7;
@@ -242,8 +241,8 @@ __m256 compress256(__m256 src, unsigned int mask /* from movmskps */) {
 #ifndef __AVX512__
 inline void _mm256_compresstoreu_ps(float *address, unsigned int mask,
                                     __m256 vec_to_store) {
-    __m256 compressed = compress256(vec_to_store);
-    _mm256_storeu_ps(address, vec_to_store);
+    __m256 compressed = compress256(vec_to_store, mask);
+    _mm256_storeu_ps(address, compressed);
 }
 #endif
 
@@ -287,8 +286,69 @@ void simd_partition(float *array, unsigned left, unsigned right) {
         }
         __m256 mask = _mm256_cmp_ps(val, pivotvec, _CMP_LE_OQ);
         unsigned mask_int = _mm256_movemask_ps(mask);
+        unsigned num_bits_set = _mm_popcnt_u32(mask_int);
+
+        _mm256_compresstoreu_ps(array + left_w, mask, val);
+        left_w += num_bits_set;
+        _mm256_compresstoreu_ps(array + right_w, ~mask, val);
+        right_w -= (S - num_bits_set);
     }
-    unsigned reminder = mod8(length);
+
+    {
+        unsigned remaining = right - left;
+        __m256 val = _mm256_loadu_ps(array + left);
+        left = right;
+        unsigned int mask = _mm256_cmp_ps(val, pivotvec, _CMP_LE_OQ);
+        unsigned int mask_low = mask & ˜(0xFF << remaining);
+        unsigned int mask_high = (˜mask)&˜(0xFF << remaining);
+        _mm256_compresstoreu_ps(array + left_w, mask_low, val);
+        left_w += _mm_popcnt_u32(mask_low);
+        right_w += _mm_popcnt_u32(mask_high);
+        _mm256_compresstoreu_ps(array + right_w, mask_high, val);
+    }
+
+    {
+        unsigned int mask = _mm256_cmp_ps(left_val, pivotvec, _CMP_LE_OQ);
+        _mm256_compresstoreu_ps(array + left_w, mask, left_val);
+        unsigned int count_low = _mm_popcnt_u32(mask);
+        left_w += count_low;
+        right_w -= (S - count_low);
+        _mm256_compresstoreu_ps(array + right_w, ~mask, left_val);
+    }
+    {
+        unsigned int mask = _mm256_cmp_ps(right_val, pivotvec, _CMP_LE_OQ);
+        _mm256_compresstoreu_ps(array + right_w, mask, left_val);
+        unsigned int count_low = _mm_popcnt_u32(mask);
+        left_w += count_low;
+        right_w -= (S - count_low);
+        _mm256_compresstoreu_ps(array + right_w, ~mask, left_val);
+    }
+    return left_w;
+}
+
+inline void simd_QS(aligned_vector<float> &vec, unsigned start, unsigned end) {
+    return simd_QS_helper(vec.data(), start, end);
+}
+
+inline void(float *array, unsigned start, unsigned end) {
+    int length = end - start + 1;
+    if (length > 8) {
+        unsigned partition_bound = simd_partition(array, start, left);
+        float temp = *(array + partition_bound);
+        *(array + partition_bound) = *(array + right);
+        *(array + right) = temp;
+    } else if (length == 8) {
+        __m256 reg = _mm256_loadu_ps(array + start);
+        BITONIC_SORT::bitonic_sort(reg);
+        _mm256_storeu_ps(array + start, reg);
+    } else {
+        __m256 reg;
+        int diff = end - start;
+        __m256i mask;
+        BITONIC_SORT::maskload(diff, array + start, mask, reg);
+        BITONIC_SORT::bitonic_sort(reg);
+        _mm256_maskstore_ps(array + start, mask, reg);
+    }
 }
 
 } // namespace HYBRID_SORT
