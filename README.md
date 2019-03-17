@@ -1,7 +1,13 @@
 ### My first OpenGl engine 
-This is my first try to create an opengl engine. Currently, it contains some simple drawing functions and simple geometric shapes like sphere, rectangle, circle, square,...
+The repository contains all sorts of things - sorting algorithms, vectorized trigonometric functions, various shape meshes,...
 
-Build instructions:
-- go to geometrical_objets/build
-- cmake ..
-- make
+Build:
+* create build directory
+* cd build && cmake ..
+* make
+  * make sort_benchamrks
+  * make runTests
+
+
+### Running benchmarks
+There is an unfinished script

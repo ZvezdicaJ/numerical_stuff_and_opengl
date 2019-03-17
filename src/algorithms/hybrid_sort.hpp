@@ -1,5 +1,6 @@
 #pragma once
-#include <bitonic_sort.hpp>
+#include "bitonic_sort.hpp"
+#include "auxiliary_functions.hpp"
 /* This file contains implementation of hybrid sort (mixture of quick sort and
  * bitonic sort algorithms).
  */
@@ -264,7 +265,19 @@ void simd_partition(float *array, unsigned left, unsigned right) {
     right -= 7;
     __m256 right_val = _mm256_load_ps(array + right);
 
-    while (left + S < right) {
+    while (left + S <= right) {
+        const int free_lef = left_left_w;
+        const int free_right = right_w - right;
+
+        _mm256 val;
+        if (free_left <= free_right) {
+            val = _mm256_loadu_ps(array + left);
+            left += S;
+        } else {
+            right -= S;
+            val = _mm256_loadu_ps(array + right);
+        }
+        __m256 mask = _mm256_cmp_ps(val, pivotvec, _CMP_LE_OQ);
     }
     unsigned reminder = mod8(length);
 }
