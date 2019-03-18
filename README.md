@@ -13,4 +13,4 @@ Build:
 There is an unfinished script in benchmarks directory called run_benchmarks.sh. For now all it does, is that it sets cpu frequency to 2000MHz, or at least it is supposed to. Before running the script one has to build sort_benchmarks. Benchmarks require you to install [google benchmark](https://github.com/google/benchmark) library.
 
 ### Running tests
-To run the tests make runTests. Test require you to install [googletest](https://github.com/google/googletest) library.
+To run the tests make runTests. Tests require you to install [googletest](https://github.com/google/googletest) library.
