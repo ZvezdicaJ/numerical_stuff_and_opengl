@@ -832,7 +832,7 @@ TEST(SORT, TEST_SIMD_QS_SCALAR_PART_FLOAT_SORT) {
 
 TEST(SORT, TEST_SIMD_QS_SIMD_PART_FLOAT_SORT) {
 
-    for (int size = 17; size <= 2000; size += 1) {
+    for (int size = 17; size <= 5000; size += 1) {
         aligned_vector<float> inp0;
         aligned_vector<float> inp1;
         inp0.reserve(size);

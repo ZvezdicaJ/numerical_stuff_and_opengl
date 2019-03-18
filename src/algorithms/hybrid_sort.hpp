@@ -302,12 +302,10 @@ inline unsigned simd_partition(float *array, unsigned left, unsigned right) {
     // std::cout << "left:  " << left << "  right:  " << right << std::endl;
     unsigned array_end = right;
     int length = right - left + 1;
-    // if (length < 16) {
-    //    return scalar_partition<float>(array, (int)left, (int)right);
-    // }
+
     static const unsigned S = 8;
+
     float pivot = array[right];
-    // std::cout << "pivot: " << pivot << std::endl;
     __m256 pivotvec = _mm256_set1_ps(pivot);
 
     __m256 left_val = _mm256_loadu_ps(array + left);
@@ -339,19 +337,7 @@ inline unsigned simd_partition(float *array, unsigned left, unsigned right) {
         __m256 mask_vec = _mm256_cmp_ps(val, pivotvec, _CMP_LE_OQ);
         unsigned mask = _mm256_movemask_ps(mask_vec);
         unsigned num_bits_set = _mm_popcnt_u32(mask);
-        /*
-        for (int i = 0; i < 17; i++) {
-            std::cout << array[i] << std::endl;
-            if (mod8(i + 1) == 0)
-                std::cout << "\n";
-        }
-          std::cout << "\n\n" << std::endl;
-        print_avx(val, "  val: ");
-        print_avx(pivotvec, "pivot: ");
-        print_avx(mask_vec, "mask_vec: ");
-        std::bitset<32> y(mask);
-        std::cout << "mask bits: " << y << '\n';
-        */
+
         if (0 < num_bits_set && num_bits_set < 8) {
             _mm256_compresstoreu_ps(array + left_w, mask, val);
             left_w += num_bits_set;
@@ -365,18 +351,8 @@ inline unsigned simd_partition(float *array, unsigned left, unsigned right) {
             right_w -= S;
             _mm256_storeu_ps(array + right_w, val);
         }
-        // std::cout << "\n\n\n" << std::endl;
-        // std::cout << "sorted vector:       correct_result:" << std::endl;
-        /*for (int i = 0; i < 17; i++) {
-            std::cout << array[i] << std::endl;
-            if (mod8(i + 1) == 0)
-                std::cout << "\n";
-                }*/
     }
-    // std::cout << "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\  "
-    //             "PROCESS REMAINING"
-    //          << std::endl;
-    // std::cout << "left-right: " << left - right << std::endl;
+
     if (left != right) {
         unsigned remaining = right - left;
 
@@ -389,20 +365,6 @@ inline unsigned simd_partition(float *array, unsigned left, unsigned right) {
         unsigned num_bits_low = _mm_popcnt_u32(mask_low);
         unsigned num_bits_high = _mm_popcnt_u32(mask_high);
 
-        //        std::cout << "remaining: " << remaining << "  mask_low: "
-        //        << mask_low
-        //         << " num_bits_set: " << num_bits_set << std::endl;
-        /*
-        std::cout << "remaining: " << remaining << std::endl;
-        print_avx(val, "  val: ");
-        print_avx(pivotvec, "pivot: ");
-        print_avx(mask_vec, "mask_vec: ");
-
-        std::bitset<32> y1(mask_low);
-        std::bitset<32> y2(mask_high);
-        std::cout << "mask_low bits: " << y1 << '\n';
-        std::cout << "mask_high bits: " << _mm_popcnt_u32(mask_high) << '\n';
-        */
         if (0 <= num_bits_low && num_bits_low < 8) {
             _mm256_compresstoreu_ps(array + left_w, mask_low, val);
             left_w += num_bits_low;
@@ -416,25 +378,13 @@ inline unsigned simd_partition(float *array, unsigned left, unsigned right) {
             right_w -= 8;
             _mm256_storeu_ps(array + right_w, val);
         }
-        // std::cout << "\n\n\n" << std::endl;
     }
-
-    // std::cout << "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"
-    //          << std::endl;
 
     {
         __m256 mask_vec = _mm256_cmp_ps(left_val, pivotvec, _CMP_LE_OQ);
         unsigned mask = _mm256_movemask_ps(mask_vec);
         unsigned num_bits_set = _mm_popcnt_u32(mask);
-        /*std::cout << "PROCESSING LEFT_VAL"
-                  << "  left_w: " << left_w << " right_w: " << right_w
-                  << std::endl;
-        print_avx(left_val, "  left_val: ");
-        print_avx(pivotvec, "pivot: ");
-        print_avx(mask_vec, "mask_vec: ");
-        std::bitset<32> y(mask);
-        std::cout << "mask bits: " << y << '\n';
-        */
+
         if (0 < num_bits_set && num_bits_set < 8) {
             _mm256_compresstoreu_ps(array + left_w, mask, left_val);
             left_w += num_bits_set;
@@ -448,25 +398,13 @@ inline unsigned simd_partition(float *array, unsigned left, unsigned right) {
             right_w -= S;
             _mm256_storeu_ps(array + right_w, left_val);
         }
-        /*
-        for (int i = 0; i < 17; i++) {
-            std::cout << array[i] << std::endl;
-            if (mod8(i + 1) == 0)
-                std::cout << "\n";
-                }*/
-        // std::cout << "\n\n\n" << std::endl;
     }
 
     {
-        /*std::cout << "PROCESSED RIGHT VALUE:"
-                  << "  left_w: " << left_w << " right_w: " << right_w
-                  << std::endl;
-        */
+
         __m256 mask_vec = _mm256_cmp_ps(right_val, pivotvec, _CMP_LE_OQ);
         unsigned mask = _mm256_movemask_ps(mask_vec);
         unsigned num_bits_set = _mm_popcnt_u32(mask);
-
-        // print_avx(mask_vec, "mask_vec: ");
 
         if (0 < num_bits_set && num_bits_set < 8) {
             _mm256_compresstoreu_ps(array + left_w, mask, right_val);
@@ -481,14 +419,6 @@ inline unsigned simd_partition(float *array, unsigned left, unsigned right) {
             right_w -= 8;
             _mm256_storeu_ps(array + right_w, right_val);
         }
-        /*
-        for (int i = 0; i < 17; i++) {
-            std::cout << array[i] << std::endl;
-            if (mod8(i + 1) == 0)
-                std::cout << "\n";
-        }
-        std::cout << "\n\n\n" << std::endl;
-        */
     }
     return left_w - 1;
 }
@@ -499,8 +429,7 @@ inline void simd_QS_helper(float *array, unsigned start, unsigned end) {
         return;
     if (length > 16) {
         unsigned partition_bound = simd_partition(array, start, end);
-        //std::cout << "partition_bound: " << partition_bound << std::endl;
-        // std::cout << "partition_bound: " << partition_bound << std::endl;
+
         simd_QS_helper(array, start, partition_bound - 1);
         simd_QS_helper(array, partition_bound + 1, end);
     } else if (length > 8) {
@@ -509,7 +438,7 @@ inline void simd_QS_helper(float *array, unsigned start, unsigned end) {
         __m256 reg = _mm256_loadu_ps(array + start);
         BITONIC_SORT::bitonic_sort(reg);
         _mm256_storeu_ps(array + start, reg);
-        // std::cout << "length=8 ran ok!" << std::endl;
+
     } else if (1 < length < 8) {
         __m256 reg;
         int diff = end - start;
@@ -517,7 +446,6 @@ inline void simd_QS_helper(float *array, unsigned start, unsigned end) {
         BITONIC_SORT::maskload(diff, array + start, mask, reg);
         BITONIC_SORT::bitonic_sort(reg);
         _mm256_maskstore_ps(array + start, mask, reg);
-        // std::cout << "length=" << length << " ran ok!" << std::endl;
     }
 }
 
