@@ -11,6 +11,7 @@ inline int mod8(int number) { return number & 0b00000111; }
 namespace BITONIC_SORT {
 
 static const int LOAD = 0xffffffff;
+static const int STORE = 0xffffffff;
 
 /**
  *@brief The function accepts a single __m256 vector and sorts it.
