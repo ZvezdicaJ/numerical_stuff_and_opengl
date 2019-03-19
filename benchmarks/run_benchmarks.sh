@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-filepath=$(dirname "$file")
+filepath=$(dirname "$0")
 #echo $filepath
 
 if [ "$1" == "-all" ] || [ "$1" == "" ] ; then

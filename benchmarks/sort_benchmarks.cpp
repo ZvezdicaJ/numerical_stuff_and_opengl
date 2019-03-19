@@ -51,7 +51,7 @@ static void bitonic_8n_float_sort_bench(benchmark::State &state) {
 }
 
 BENCHMARK(bitonic_8n_float_sort_bench)
-    ->RangeMultiplier(8)
+    ->RangeMultiplier(2)
     ->Range(8, 67108864)
     ->Complexity(benchmark::oN);
 ;
@@ -75,7 +75,7 @@ static void hybrid_8n_float_sort_bench(benchmark::State &state) {
 }
 
 BENCHMARK(hybrid_8n_float_sort_bench)
-    ->RangeMultiplier(8)
+    ->RangeMultiplier(2)
     ->Range(8, 67108864)
     ->Complexity(benchmark::oN);
 ;
@@ -139,6 +139,25 @@ static void bitonic_float_sort_ver2_bench(benchmark::State &state) {
 }
 
 BENCHMARK(bitonic_float_sort_ver2_bench)->Apply(CustomArguments);
+
+static void simd_QS_float_bench(benchmark::State &state) {
+
+    for (auto _ : state) {
+        state.PauseTiming();
+        aligned_vector<float> vec;
+        vec.reserve(state.range(0));
+        for (int i = 0; i < state.range(0); i++)
+            vec.push_back(random_float());
+        state.ResumeTiming();
+        // benchmark::DoNotOptimize(sort_2n_vector(vec.data(), 0, vec.size() -
+        // 1)); // DoNoOptimize will store the result to the memory
+        HYBRID_SORT::simd_QS(vec, 0, vec.size() - 1);
+    }
+    state.counters["Number to sort:"] = state.range(0);
+    state.SetComplexityN(state.range(0));
+}
+
+BENCHMARK(simd_QS_float_bench)->Apply(CustomArguments);
 
 static void std_float_sort_bench(benchmark::State &state) {
 
@@ -218,7 +237,6 @@ BENCHMARK(bitonic_4n_double_sort_bench)
     ->Range(8, 67108864)
     ->Complexity(benchmark::oN);
 ;
-
 
 static void bitonic_double_sort_bench(benchmark::State &state) {
 

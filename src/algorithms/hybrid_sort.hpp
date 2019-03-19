@@ -425,21 +425,42 @@ inline unsigned simd_partition(float *array, unsigned left, unsigned right) {
 
 inline void simd_QS_helper(float *array, unsigned start, unsigned end) {
     int length = end - start + 1;
-    if (length <= 1)
+    if (UNLIKELY(length <= 1))
         return;
-    if (length > 16) {
+    if (LIKELY(length > 16)) {
         unsigned partition_bound = simd_partition(array, start, end);
-
         simd_QS_helper(array, start, partition_bound - 1);
         simd_QS_helper(array, partition_bound + 1, end);
-    } else if (length > 8) {
-        quickSort(array, start, end);
-    } else if (length == 8) {
+    } else if (UNLIKELY(length == 16)) {
+        __m256 vec1 = _mm256_loadu_ps(array + start);
+        __m256 vec2 = _mm256_loadu_ps(array + start + 8);
+        BITONIC_SORT::bitonic_sort(vec1, vec2);
+        _mm256_storeu_ps(array + start, vec1);
+        _mm256_storeu_ps(array + start + 8, vec2);
+    } else if (LIKELY(8 < length)) {
+        __m256 vec1 = _mm256_loadu_ps(array + start);
+
+        int reminder = mod8(length);
+
+        // std::cout << "length: " << length << "reminder: " << reminder
+        //          << std::endl;
+
+        float *p = array + start + 8;
+        __m256 vec2;
+        __m256i mask;
+        BITONIC_SORT::maskload(reminder - 1, p, mask, vec2);
+        BITONIC_SORT::bitonic_sort(vec1, vec2);
+
+        _mm256_storeu_ps(array + start, vec1);
+        _mm256_maskstore_ps(array + start + 8, mask, vec2);
+
+        //        quickSort(array, start, end);
+    } else if (UNLIKELY(length == 8)) {
         __m256 reg = _mm256_loadu_ps(array + start);
         BITONIC_SORT::bitonic_sort(reg);
         _mm256_storeu_ps(array + start, reg);
 
-    } else if (1 < length < 8) {
+    } else if (1 < length && length < 8) {
         __m256 reg;
         int diff = end - start;
         __m256i mask;
