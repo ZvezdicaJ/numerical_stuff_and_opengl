@@ -184,6 +184,7 @@ inline void bitonic_sort(__m256 &reg0, __m256 &reg1) {
     }
     return;
 }
+
 /**
  * @brief The function accepts two already sorted  __m256 vectors and sorts
  * them.
@@ -210,62 +211,65 @@ inline void bitonic_merge(__m256 &reg0, __m256 &reg1) {
     {
         // tu narediš *----* *----* *----* *----*
         __m256 reversed_halves = _mm256_permute2f128_ps(reg0, reg0, 0b00000001);
-        __m256 max = _mm256_max_ps(reg0, reversed_halves);
-        __m256 min = _mm256_min_ps(reg0, reversed_halves);
-        // max mora biti pri 256
-        reg0 = _mm256_blend_ps(max, min, 0b00001111);
+        __m256 mask = _mm256_cmp_ps(reg0, reversed_halves, _CMP_LE_OQ);
+        mask = _mm256_castsi256_ps(_mm256_xor_si256(
+            _mm256_castps_si256(mask),
+            _mm256_set_epi32(0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
+                             0x00000000, 0x00000000, 0x00000000, 0x00000000)));
+        reg0 = _mm256_blendv_ps(reversed_halves, reg0, mask);
     }
     {
         // tu narediš *----* *----* *----* *----*
         __m256 reversed_halves = _mm256_permute2f128_ps(reg1, reg1, 0b00000001);
-        __m256 max = _mm256_max_ps(reg1, reversed_halves);
-        __m256 min = _mm256_min_ps(reg1, reversed_halves);
-        // max mora biti pri 256
-        reg1 = _mm256_blend_ps(max, min, 0b00001111);
+        __m256 mask = _mm256_cmp_ps(reg1, reversed_halves, _CMP_LE_OQ);
+        mask = _mm256_castsi256_ps(_mm256_xor_si256(
+            _mm256_castps_si256(mask),
+            _mm256_set_epi32(0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
+                             0x00000000, 0x00000000, 0x00000000, 0x00000000)));
+        reg1 = _mm256_blendv_ps(reversed_halves, reg1, mask);
     }
 
     {
         //  *----* *----*     *----* *----*
         __m256 shuffled_reg = _mm256_shuffle_ps(reg0, reg0, 0b01001110);
-        __m256 max = _mm256_max_ps(reg0, shuffled_reg);
-        __m256 min = _mm256_min_ps(reg0, shuffled_reg);
-        // max mora biti pri 256
-        // min is located at the start of register (at 0 - lower half)
-        reg0 = _mm256_blend_ps(max, min, 0b00110011);
+        __m256 mask = _mm256_cmp_ps(reg0, shuffled_reg, _CMP_LE_OQ);
+        mask = _mm256_castsi256_ps(_mm256_xor_si256(
+            _mm256_castps_si256(mask),
+            _mm256_set_epi32(0xffffffff, 0xffffffff, 0x00000000, 0x00000000,
+                             0xffffffff, 0xffffffff, 0x00000000, 0x00000000)));
+        reg0 = _mm256_blendv_ps(shuffled_reg, reg0, mask);
     }
     {
         // and finally repeat the first step: *--*  *--*  *--* *--*
         __m256 shuffled_reg = _mm256_shuffle_ps(reg0, reg0, 0b10110001);
-        __m256 max = _mm256_max_ps(reg0, shuffled_reg);
-        __m256 min = _mm256_min_ps(reg0, shuffled_reg);
-        //   dst[63:0] := src1[31:0]
-        //   dst[127:64] := src2[63:32]
-        //   dst[192:128] := src1[95:64]
-        //   dst[255:192] := src2[127:96]
-        // this will produce smallest number to in the [0:63] register
-        reg0 = _mm256_blend_ps(min, max, 0b10101010);
+
+        __m256 mask = _mm256_cmp_ps(reg0, shuffled_reg, _CMP_LE_OQ);
+        mask = _mm256_castsi256_ps(_mm256_xor_si256(
+            _mm256_castps_si256(mask),
+            _mm256_set_epi32(0xffffffff, 0x00000000, 0xffffffff, 0x00000000,
+                             0xffffffff, 0x00000000, 0xffffffff, 0x00000000)));
+        reg0 = _mm256_blendv_ps(shuffled_reg, reg0, mask);
     }
 
     {
         //  *----* *----*     *----* *----*
         __m256 shuffled_reg = _mm256_shuffle_ps(reg1, reg1, 0b01001110);
-        __m256 max = _mm256_max_ps(reg1, shuffled_reg);
-        __m256 min = _mm256_min_ps(reg1, shuffled_reg);
-        // max mora biti pri 256
-        // min is located at the start of register (at 0 - lower half)
-        reg1 = _mm256_blend_ps(max, min, 0b00110011);
+        __m256 mask = _mm256_cmp_ps(reg1, shuffled_reg, _CMP_LE_OQ);
+        mask = _mm256_castsi256_ps(_mm256_xor_si256(
+            _mm256_castps_si256(mask),
+            _mm256_set_epi32(0xffffffff, 0xffffffff, 0x00000000, 0x00000000,
+                             0xffffffff, 0xffffffff, 0x00000000, 0x00000000)));
+        reg1 = _mm256_blendv_ps(shuffled_reg, reg1, mask);
     }
     {
         // and finally repeat the first step: *--*  *--*  *--* *--*
         __m256 shuffled_reg = _mm256_shuffle_ps(reg1, reg1, 0b10110001);
-        __m256 max = _mm256_max_ps(reg1, shuffled_reg);
-        __m256 min = _mm256_min_ps(reg1, shuffled_reg);
-        //   dst[63:0] := src1[31:0]
-        //   dst[127:64] := src2[63:32]
-        //   dst[192:128] := src1[95:64]
-        //   dst[255:192] := src2[127:96]
-        // this will produce smallest number to in the [0:63] register
-        reg1 = _mm256_blend_ps(min, max, 0b10101010);
+        __m256 mask = _mm256_cmp_ps(reg1, shuffled_reg, _CMP_LE_OQ);
+        mask = _mm256_castsi256_ps(_mm256_xor_si256(
+            _mm256_castps_si256(mask),
+            _mm256_set_epi32(0xffffffff, 0x00000000, 0xffffffff, 0x00000000,
+                             0xffffffff, 0x00000000, 0xffffffff, 0x00000000)));
+        reg1 = _mm256_blendv_ps(shuffled_reg, reg1, mask);
     }
     return;
 }
