@@ -16,6 +16,10 @@ static const int STORE = 0xffffffff;
 //////////////////////////////////////////
 
 // A utility function to swap two elements
+/** @brief The function just swaps to values based on the pointers provided
+ * @param a pointer to the first element
+ * @param b pointer to the second element
+ */
 template <typename T>
 inline void swap(T *a, T *b) {
     T t = *a;
@@ -23,11 +27,16 @@ inline void swap(T *a, T *b) {
     *b = t;
 }
 
-/* This function takes last element as pivot, places
-   the pivot element at its correct position in sorted
-    array, and places all smaller (smaller than pivot)
-   to left of pivot and all greater elements to right
-   of pivot */
+/** @brief Partition function for scalar quick sort algorithm
+ * @details This function takes last element as pivot, places
+ * the pivot element at its correct position in sorted
+ * array, and places all smaller (smaller than pivot)
+ * to left of pivot and all greater elements to right
+ * of pivot.
+ * @param arr pointer to an array of floats
+ * @param low first element to be sorted
+ * @param high last element to be sorted
+ */
 template <typename T>
 T scalar_partition(T *arr, int low, int high) {
     // pivot is an element around which we partition the given array
@@ -58,12 +67,13 @@ T scalar_partition(T *arr, int low, int high) {
     return (i + 1);
 }
 
-/* The main function that implements QuickSort
- arr[] --> Array to be sorted,
-  low  --> Starting index,
-  high  --> Ending index */
+/** @brief The main function that implements scalar QuickSort
+ * @param arr pointer to an array to be sorted
+ * @param low  first index to be sorted
+ * @param high last index to be sorted
+ */
 template <typename T>
-inline void quickSort(T *arr, int low, int high) {
+inline void scalar_QS(T *arr, int low, int high) {
     if (low < high) {
         /* pi is partitioning index, arr[p] is now
            at right place */
@@ -71,8 +81,8 @@ inline void quickSort(T *arr, int low, int high) {
 
         // Separately sort elements before
         // partition and after partition
-        quickSort(arr, low, pi - 1);
-        quickSort(arr, pi + 1, high);
+        scalar_QS(arr, low, pi - 1);
+        scalar_QS(arr, pi + 1, high);
     }
 }
 //////////////////////////////////////////////////////////////////
@@ -104,9 +114,6 @@ inline void bitonic_merge_8n(float *array, int startA, int endA, int endB) {
     temp_vec.reserve(endB - startA + 8);
     float *p = temp_vec.data();
 
-    // std::cout << "startA: " << startA << "  endA: " << endA
-    //          << "  endB: " << endB << std::endl;
-
     __m256 reg1 = _mm256_load_ps(array + startA);
     __m256 reg2 = _mm256_load_ps(array + endA + 8);
     // below indices already account for above loads
@@ -128,17 +135,7 @@ inline void bitonic_merge_8n(float *array, int startA, int endA, int endB) {
             reg1 = _mm256_load_ps(array + indexB);
             indexB += 8;
         }
-        /* std::cout << "indexA: " << indexA << std::endl;
-        std::cout << "indexB: " << indexB << std::endl;
-        std::cout << "i     : " << i << std::endl;
-        print_avx(reg1, "reg1: ");
-        print_avx(reg2, "reg2: ");*/
         BITONIC_SORT::bitonic_merge(reg1, reg2);
-        /* std::cout << "result:" << std::endl;
-        print_avx(reg1, "reg1: ");
-        print_avx(reg2, "reg2: ");
-        std::cout << "\n\n\n" << std::endl;
-        */
         //_mm256_store_ps(array + i, reg1);
         _mm256_store_ps(p + i, reg1);
         i += 8;
@@ -218,10 +215,12 @@ inline void hybrid_sort_8n(aligned_vector<float> &vec, int start, int end) {
 // AVX-512 on Intel Skylake
 ///////////////////////////////////////////////////////
 
-/** @brief Function compresses 256 vector based on a provided mask.
+/** @brief Function compresses 256 vector towards the lower half (lower
+ * elements) based on a provided mask.
  * @detail more details on
  * https://stackoverflow.com/questions/36932240/avx2-what-is-the-most-efficient-way-to-pack-left-based-on-a-mask
- *
+ * @param src 256 bit register to be compressed
+ * @param mask  mask according to which the register is compressed
  */
 inline __m256 compress256(__m256 src, unsigned int mask /* from movmskps */) {
     uint64_t expanded_mask =
@@ -242,19 +241,20 @@ inline __m256 compress256(__m256 src, unsigned int mask /* from movmskps */) {
 }
 
 #ifndef __AVX512__
+/** @brief The function compresses and stores 256 bit register.
+ * @param p pointer to an array of floats
+ * @param mask_u32 32 bit mask according to which the register is compressed
+ * @param vec 256 bit register to compress
+ */
 inline void _mm256_compresstoreu_ps(float *p, unsigned int mask_u32,
                                     __m256 vec) {
 
-    //    print_avx(vec, "vec to compress: ");
     __m256 compressed = compress256(vec, mask_u32);
-    // print_avx(compressed, "compressed: ");
     unsigned count = _mm_popcnt_u32(mask_u32);
-    // std::cout << "count: " << count << std::endl;
 
     switch (count) {
     case 1: {
         __m256i mask = _mm256_set_epi32(0, 0, 0, 0, 0, 0, 0, STORE);
-        //  std::cout << "writing single value" << std::endl;
         _mm256_maskstore_ps(p, mask, compressed);
     } break;
     case 2: {
@@ -379,7 +379,6 @@ inline unsigned simd_partition(float *array, unsigned left, unsigned right) {
             _mm256_storeu_ps(array + right_w, val);
         }
     }
-
     {
         __m256 mask_vec = _mm256_cmp_ps(left_val, pivotvec, _CMP_LE_OQ);
         unsigned mask = _mm256_movemask_ps(mask_vec);
@@ -399,9 +398,7 @@ inline unsigned simd_partition(float *array, unsigned left, unsigned right) {
             _mm256_storeu_ps(array + right_w, left_val);
         }
     }
-
     {
-
         __m256 mask_vec = _mm256_cmp_ps(right_val, pivotvec, _CMP_LE_OQ);
         unsigned mask = _mm256_movemask_ps(mask_vec);
         unsigned num_bits_set = _mm_popcnt_u32(mask);
@@ -423,6 +420,15 @@ inline unsigned simd_partition(float *array, unsigned left, unsigned right) {
     return left_w - 1;
 }
 
+/**
+ * @brief Helper function for sorting vector.
+ * @details Sorting algorithm is based simd quick sort algorithm presented in
+ * HYBRID_SORT FROM PAPER: A Novel Hybrid Quicksort Algorithm Vectorized using
+ * AVX-512 on Intel Skylake
+ * @param array pointer to data to be sorted
+ * @param start index of the first element to be sorted
+ * @param end index of the last element to be sorted
+ */
 inline void simd_QS_helper(float *array, unsigned start, unsigned end) {
     int length = end - start + 1;
     if (UNLIKELY(length <= 1))
@@ -441,9 +447,6 @@ inline void simd_QS_helper(float *array, unsigned start, unsigned end) {
         __m256 vec1 = _mm256_loadu_ps(array + start);
 
         int reminder = mod8(length);
-
-        // std::cout << "length: " << length << "reminder: " << reminder
-        //          << std::endl;
 
         float *p = array + start + 8;
         __m256 vec2;
@@ -470,6 +473,15 @@ inline void simd_QS_helper(float *array, unsigned start, unsigned end) {
     }
 }
 
+/**
+ * @brief The function sorts aligned vector of floats.
+ * @details Sorting algorithm is based simd quick sort algorithm presented in
+ * HYBRID_SORT FROM PAPER: A Novel Hybrid Quicksort Algorithm Vectorized using
+ * AVX-512 on Intel Skylake
+ * @param vec vector to be sorted
+ * @param start index of the first element to be sorted
+ * @param end index of the last element to be sorted
+ */
 inline void simd_QS(aligned_vector<float> &vec, unsigned start, unsigned end) {
     simd_QS_helper(vec.data(), start, end);
 }

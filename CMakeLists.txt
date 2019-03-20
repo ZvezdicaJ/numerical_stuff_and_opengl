@@ -6,9 +6,9 @@ cmake_minimum_required(VERSION 3.2)
 #set(CMAKE_CXX_COMPILER "g++" CACHE STRING "C++ compiler" FORCE)
 
 # uncomment to set intel compiler
-set(CMAKE_CXX_COMPILER "/opt/intel/system_studio_2019/compilers_and_libraries/linux/bin/intel64/icc" CACHE STRING "C++ compiler" FORCE)
+#set(CMAKE_CXX_COMPILER "/opt/intel/system_studio_2019/compilers_and_libraries/linux/bin/intel64/icc" CACHE STRING "C++ compiler" FORCE)
 
-#set(CMAKE_CXX_COMPILER "g++-8")
+set(CMAKE_CXX_COMPILER "g++-8")
 #message(STATUS "compiler: ${CMAKE_CXX_COMPILER}")
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")

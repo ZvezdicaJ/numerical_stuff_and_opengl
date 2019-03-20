@@ -6,7 +6,9 @@
 #include "auxiliary_functions_test.hpp"
 #include "convex_hull_test.hpp"
 #include "shape_test.hpp"
-#include "sort_test.hpp"
+#include "bitonic_sort_tests.hpp"
+#include "improved_bitonic_sort_tests.hpp"
+#include "quick_sort_tests.hpp"
 
 int main(int argc, char **argv) {
     glfwInit();
