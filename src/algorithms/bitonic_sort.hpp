@@ -1623,7 +1623,7 @@ inline void sort_2n_vector(double *array, unsigned start, unsigned end) {
 }
 
 //////////////////////////////////////////////////////////////////
-// 8N DOUBLE ARRAY SORTING ALGORITHM --- the array must contain 8n elements
+// 4N DOUBLE ARRAY SORTING ALGORITHM --- the array must contain 8n elements
 
 /** @brief compared vectors from top and bottom of array and then gradually
  * compare inner vectors.

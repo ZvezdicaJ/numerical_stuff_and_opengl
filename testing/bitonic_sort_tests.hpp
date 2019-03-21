@@ -276,7 +276,7 @@ TEST(SORT, BITONIC_AVX_REG_SORT_FLOAT) {
             ASSERT_EQ(*(s1 + i), inp0[i]);
         }
     }
-    //exit(0);
+    // exit(0);
 }
 
 TEST(SORT, BITONIC_AVX_MERGE_FLOAT_TWO_VECTORS) {
@@ -552,16 +552,17 @@ TEST(SORT, TEST_2N_SORT_FLOAT_VER) {
     {
         aligned_vector<float> inp0;
         aligned_vector<float> inp1;
-        inp0.reserve(16);
-        for (int i = 0; i < 16; i++)
+        unsigned size = 16 * 16;
+        inp0.reserve(size);
+        for (int i = 0; i < size; i++)
             inp0.push_back(random_float());
 
         inp1 = inp0;
-        BITONIC_SORT::sort_2n_vector(inp1.data(), 0, 15);
+        BITONIC_SORT::sort_2n_vector(inp1.data(), 0, size - 1);
 
         std::sort(std::begin(inp0), std::end(inp0));
 
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < size; i++) {
             ASSERT_EQ(inp1[i], inp0[i]);
         }
     }
