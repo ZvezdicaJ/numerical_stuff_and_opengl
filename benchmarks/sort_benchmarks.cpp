@@ -7,8 +7,6 @@ std::uniform_real_distribution<double> double_dist(-100, 100);
 auto random_float = std::bind(float_dist, generator);
 auto random_double = std::bind(double_dist, generator);
 
-using namespace BITONIC_SORT;
-
 static void bitonic_2n_float_sort_bench(benchmark::State &state) {
 
     for (auto _ : state) {
@@ -112,16 +110,7 @@ static void bitonic_float_sort_bench(benchmark::State &state) {
 
 BENCHMARK(bitonic_float_sort_bench)->Apply(CustomArguments);
 
-/*
-BENCHMARK(bitonic_float_sort_bench)
-    ->RangeMultiplier(2)
-    ->Range(2, 1e8)
-    ->RangeMultiplier(3)
-    ->Range(3, 1e8)
-    ->Complexity(benchmark::oN);
-*/
-
-static void bitonic_float_sort_ver2_bench(benchmark::State &state) {
+static void improved_bitonic_float_sort_bench(benchmark::State &state) {
 
     for (auto _ : state) {
         state.PauseTiming();
@@ -132,13 +121,13 @@ static void bitonic_float_sort_ver2_bench(benchmark::State &state) {
         state.ResumeTiming();
         // benchmark::DoNotOptimize(sort_2n_vector(vec.data(), 0, vec.size() -
         // 1)); // DoNoOptimize will store the result to the memory
-        BITONIC_SORT::sort_vector_ver2(vec, 0, vec.size() - 1);
+        IMPROVED_BITONIC_SORT::sort_vector(vec, 0, vec.size() - 1);
     }
     state.counters["Number to sort:"] = state.range(0);
     state.SetComplexityN(state.range(0));
 }
 
-BENCHMARK(bitonic_float_sort_ver2_bench)->Apply(CustomArguments);
+BENCHMARK(improved_bitonic_float_sort_bench)->Apply(CustomArguments);
 
 static void simd_QS_float_bench(benchmark::State &state) {
 

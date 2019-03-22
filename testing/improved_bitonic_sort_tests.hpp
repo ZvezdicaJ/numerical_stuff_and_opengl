@@ -435,12 +435,11 @@ TEST(SORT, IMPROVED_BITONIC_AVX_SORT_REG_DOUBLE) {
     }
 }
 
-/*
-TEST(SORT, BITONIC_AVX_SORT_REG2_DOUBLE) {
+TEST(SORT, IMPROVED_BITONIC_AVX_SORT_REG2_DOUBLE) {
     {
         __m256d reg0 = _mm256_setr_pd(1, 2, 3, 4);
         __m256d reg1 = _mm256_setr_pd(5, 6, 7, 8);
-        BITONIC_SORT::bitonic_sort(reg0, reg1);
+        IMPROVED_BITONIC_SORT::bitonic_sort(reg0, reg1);
         double *s1 = (double *)&reg0;
         double *s2 = (double *)&reg1;
         double sol1[4] = {1, 2, 3, 4};
@@ -453,7 +452,7 @@ TEST(SORT, BITONIC_AVX_SORT_REG2_DOUBLE) {
     {
         __m256d reg0 = _mm256_setr_pd(-1, -2, 18, 29);
         __m256d reg1 = _mm256_setr_pd(500, -80, 2, -5);
-        BITONIC_SORT::bitonic_sort(reg0, reg1);
+        IMPROVED_BITONIC_SORT::bitonic_sort(reg0, reg1);
         double *s1 = (double *)&reg0;
         double *s2 = (double *)&reg1;
         double sol1[4] = {-80, -5, -2, -1};
@@ -475,7 +474,7 @@ TEST(SORT, BITONIC_AVX_SORT_REG2_DOUBLE) {
         inp0.insert(inp0.end(), inp1.begin(), inp1.end());
         std::sort(std::begin(inp0), std::end(inp0));
 
-        BITONIC_SORT::bitonic_sort(reg0, reg1);
+        IMPROVED_BITONIC_SORT::bitonic_sort(reg0, reg1);
         double *s1 = (double *)&reg0;
         double *s2 = (double *)&reg1;
         // std::cout << "inp: " << std::endl;
@@ -486,14 +485,14 @@ TEST(SORT, BITONIC_AVX_SORT_REG2_DOUBLE) {
     }
 }
 
-TEST(SORT, BITONIC_AVX_SORT_4REG_DOUBLE) {
+TEST(SORT, IMPROVED_BITONIC_AVX_SORT_4REG_DOUBLE) {
     {
         __m256d reg0 = _mm256_setr_pd(1, 2, 3, 4);
         __m256d reg1 = _mm256_setr_pd(5, 6, 7, 8);
         __m256d reg2 = _mm256_setr_pd(9, 10, 11, 12);
         __m256d reg3 = _mm256_setr_pd(13, 14, 15, 16);
 
-        BITONIC_SORT::bitonic_sort(reg0, reg1, reg2, reg3);
+        IMPROVED_BITONIC_SORT::bitonic_sort(reg0, reg1, reg2, reg3);
 
         double *s1 = (double *)&reg0;
         double *s2 = (double *)&reg1;
@@ -515,7 +514,7 @@ TEST(SORT, BITONIC_AVX_SORT_4REG_DOUBLE) {
         __m256d reg1 = _mm256_setr_pd(500, -80, 2, -5);
         __m256d reg2 = _mm256_setr_pd(-10, 22, 180, -2900);
         __m256d reg3 = _mm256_setr_pd(38, -120, 25, -17);
-        BITONIC_SORT::bitonic_sort(reg0, reg1, reg2, reg3);
+        IMPROVED_BITONIC_SORT::bitonic_sort(reg0, reg1, reg2, reg3);
 
         double *s1 = (double *)&reg0;
         double *s2 = (double *)&reg1;
@@ -552,7 +551,7 @@ TEST(SORT, BITONIC_AVX_SORT_4REG_DOUBLE) {
         inp0.insert(inp0.end(), inp3.begin(), inp3.end());
         std::sort(std::begin(inp0), std::end(inp0));
 
-        BITONIC_SORT::bitonic_sort(reg0, reg1, reg2, reg3);
+        IMPROVED_BITONIC_SORT::bitonic_sort(reg0, reg1, reg2, reg3);
         double *s1 = (double *)&reg0;
         double *s2 = (double *)&reg1;
         double *s3 = (double *)&reg2;
@@ -567,8 +566,7 @@ TEST(SORT, BITONIC_AVX_SORT_4REG_DOUBLE) {
     }
 }
 
-
-
+/*
 
 TEST(SORT, BITONIC_AVX_MERGE_4REG_FLOAT) {
     {

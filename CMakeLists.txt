@@ -14,13 +14,13 @@ set(CMAKE_CXX_COMPILER "g++-8")
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   # setting flags for gcc compiler
   # comment if you set intel compiler
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -ffast-math -Wno-sign-compare -Wno-template-friend -Wno-unused-variable -Wno-maybe-uninitialized -Wignored-attributes -fabi-version=4")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Ofast -march=native -Wno-sign-compare -Wno-template-friend -Wno-unused-variable -Wno-maybe-uninitialized -Wno-ignored-attributes -fabi-version=4")
   #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse -msse4.1 -mno-avx -mno-avx2 -mno-fma -Wall -Wnon-template-friend -Wno-unused-variable")
   #message(STATUS "CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
   #message(STATUS "COMPILER IS g++")
 else("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
   # setting flags for intel compiler 
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -ffast-math -msse -mavx -mavx2 -mfma -Wall -Wno-unused-variable")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Ofast -march=native -Wno-unused-variable")
 
 endif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 
