@@ -1781,7 +1781,7 @@ inline void sort_4n_vector(double *array, unsigned start, unsigned end) {
 }
 
 //////////////////////////////////////////////////////////////////
-// FLOAT ARRAY SORTING ALGORITHM FOR ARRAYS OF ARBITRARY LENGTH, the array must
+// DOUBLE ARRAY SORTING ALGORITHM FOR ARRAYS OF ARBITRARY LENGTH, the array must
 // contain 8n elements
 // float implementation
 

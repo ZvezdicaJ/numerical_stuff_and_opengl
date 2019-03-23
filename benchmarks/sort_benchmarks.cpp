@@ -28,7 +28,8 @@ BENCHMARK(bitonic_2n_float_sort_bench)
     ->RangeMultiplier(2)
     ->Range(8, 67108864)
     ->Complexity(benchmark::oN);
-;
+
+//////////////////////////////////////////////////////////////////////
 
 static void bitonic_8n_float_sort_bench(benchmark::State &state) {
 
@@ -54,6 +55,8 @@ BENCHMARK(bitonic_8n_float_sort_bench)
     ->Complexity(benchmark::oN);
 ;
 
+//////////////////////////////////////////////////////////////////////
+
 static void hybrid_8n_float_sort_bench(benchmark::State &state) {
 
     for (auto _ : state) {
@@ -77,6 +80,8 @@ BENCHMARK(hybrid_8n_float_sort_bench)
     ->Range(8, 67108864)
     ->Complexity(benchmark::oN);
 ;
+
+//////////////////////////////////////////////////////////////////////
 
 // for the following two benches select values manually
 static void CustomArguments(benchmark::internal::Benchmark *b) {
@@ -110,6 +115,8 @@ static void bitonic_float_sort_bench(benchmark::State &state) {
 
 BENCHMARK(bitonic_float_sort_bench)->Apply(CustomArguments);
 
+//////////////////////////////////////////////////////////////////////
+
 static void improved_bitonic_float_sort_bench(benchmark::State &state) {
 
     for (auto _ : state) {
@@ -129,6 +136,8 @@ static void improved_bitonic_float_sort_bench(benchmark::State &state) {
 
 BENCHMARK(improved_bitonic_float_sort_bench)->Apply(CustomArguments);
 
+//////////////////////////////////////////////////////////////////////
+
 static void simd_QS_float_bench(benchmark::State &state) {
 
     for (auto _ : state) {
@@ -147,6 +156,8 @@ static void simd_QS_float_bench(benchmark::State &state) {
 }
 
 BENCHMARK(simd_QS_float_bench)->Apply(CustomArguments);
+
+//////////////////////////////////////////////////////////////////////
 
 static void std_float_sort_bench(benchmark::State &state) {
 
@@ -203,6 +214,8 @@ BENCHMARK(bitonic_2n_double_sort_bench)
     ->Complexity(benchmark::oN);
 ;
 
+//////////////////////////////////////////////////////////////////////
+
 static void bitonic_4n_double_sort_bench(benchmark::State &state) {
 
     for (auto _ : state) {
@@ -227,6 +240,8 @@ BENCHMARK(bitonic_4n_double_sort_bench)
     ->Complexity(benchmark::oN);
 ;
 
+//////////////////////////////////////////////////////////////////////
+
 static void bitonic_double_sort_bench(benchmark::State &state) {
 
     for (auto _ : state) {
@@ -245,6 +260,8 @@ static void bitonic_double_sort_bench(benchmark::State &state) {
 }
 
 BENCHMARK(bitonic_double_sort_bench)->Apply(CustomArguments);
+
+//////////////////////////////////////////////////////////////////////
 
 /*
 BENCHMARK(bitonic_float_sort_bench)
@@ -282,5 +299,7 @@ BENCHMARK(std_float_sort_bench)
 */
 
 BENCHMARK(std_double_sort_bench)->Apply(CustomArguments);
+
+//////////////////////////////////////////////////////////////////////
 
 BENCHMARK_MAIN();

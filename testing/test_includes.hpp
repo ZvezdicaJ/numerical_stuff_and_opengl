@@ -45,6 +45,7 @@
 #include "bitonic_sort.hpp"
 #include "improved_bitonic_sort.hpp"
 #include "hybrid_sort.hpp"
+#include "bitonic_sort_key_value.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>

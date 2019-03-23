@@ -1,50 +1,57 @@
 #ifdef __AVX2__
 
-TEST(SORT, IMPROVED_BITONIC_AVX_REG_SORT_FLOAT) {
+TEST(SORT, BITONIC_AVX_REG_SORT_FLAOT_KEY_VALUE) {
     {
         __m256 reg = _mm256_setr_ps(0, 1, 2, 3, 4, 5, 6, 7);
-        IMPROVED_BITONIC_SORT::bitonic_sort(reg);
+        __m256i key = _mm256_setr_epi32(0, 1, 2, 3, 4, 5, 6, 7);
+        BITONIC_SORT_KEY_VALUE::bitonic_sort(reg, key);
         float *sol = (float *)&reg;
         float solution[8] = {0, 1, 2, 3, 4, 5, 6, 7};
-        for (int i = 0; i < 8; i++)
+        int *sol_key = (int *)&key;
+        int solution_key[8] = {0, 1, 2, 3, 4, 5, 6, 7};
+        for (int i = 0; i < 8; i++) {
             ASSERT_EQ(*(sol + i), solution[i]);
+            ASSERT_EQ(*(sol_key + i), solution_key[i]);
+        }
     }
+
     {
-        __m256 reg2 = _mm256_setr_ps(1, 5, 8, 3, 9, 8, 10, -2);
-        IMPROVED_BITONIC_SORT::bitonic_sort(reg2);
-        // print_avx(reg2, "reg2: ");
-        float *sol2 = (float *)&reg2;
-        float solution2[8] = {-2, 1, 3, 5, 8, 8, 9, 10};
-        for (int i = 0; i < 8; i++)
-            ASSERT_EQ(*(sol2 + i), solution2[i]);
-    }
-    {
-        __m256 reg3 = _mm256_setr_ps(100, 5, -8, 3, -9, 15, 0, -2);
-        IMPROVED_BITONIC_SORT::bitonic_sort(reg3);
-        // print_avx(reg2, "reg2: ");
-        float *sol3 = (float *)&reg3;
-        float solution3[8] = {-9, -8, -2, 0, 3, 5, 15, 100};
-        for (int i = 0; i < 8; i++)
-            ASSERT_EQ(*(sol3 + i), solution3[i]);
-    }
-    {
+        unsigned size = 8;
+        std::vector<std::pair<int, float>> pairs;
         std::vector<float> inp0({random_float(), random_float(), random_float(),
                                  random_float(), random_float(), random_float(),
                                  random_float(), random_float()});
+        pairs.reserve(size);
+        for (int i = 0; i < 8; i++)
+            pairs.push_back(std::pair<int, float>(i, inp0[i]));
 
-        __m256 reg0 = _mm256_loadu_ps(inp0.data());
+        __m256 reg = _mm256_loadu_ps(inp0.data());
+        __m256i key = _mm256_setr_epi32(0, 1, 2, 3, 4, 5, 6, 7);
 
-        std::sort(std::begin(inp0), std::end(inp0));
+        std::sort(
+            std::begin(pairs), std::end(pairs),
+            [](const std::pair<int, float> &a, const std::pair<int, float> &b) {
+                return (a.second) < (b.second);
+            });
 
-        IMPROVED_BITONIC_SORT::bitonic_sort(reg0);
-        float *s1 = (float *)&reg0;
-        // std::cout << "inp: " << std::endl;
+        BITONIC_SORT_KEY_VALUE::bitonic_sort(reg, key);
+
+        //        std::cout << pairs << std::endl;
+        /*
+    for (int i = 0; i < 8; i++) {
+        std::cout << *(sol_key + i) << " " << *(sol + i) << std::endl;
+        }*/
+        
+        float *sol = (float *)&reg;
+        int *sol_key = (int *)&key;
         for (int i = 0; i < 8; i++) {
-            ASSERT_EQ(*(s1 + i), inp0[i]);
+            ASSERT_EQ(pairs[i].first, sol_key[i]);
+            ASSERT_EQ(pairs[i].second, sol[i]);
         }
     }
 }
 
+/*
 TEST(SORT, IMPROVED_BITONIC_AVX_SORT_REG2_FLOAT) {
     {
         __m256 reg0 = _mm256_setr_ps(1, 2, 3, 4, 5, 6, 7, 8);
@@ -658,5 +665,5 @@ TEST(SORT, IMPROVED_TEST_SORT_DOUBLE_VECTOR_ALL_CASES) {
         }
     }
 }
-
+*/
 #endif
