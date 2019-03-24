@@ -122,6 +122,107 @@ TEST(SORT, BITONIC_AVX_SORT_REG2_FLOAT_KEY_VALUE) {
     }
 }
 
+TEST(SORT, BITONIC_AVX_SORT_REG4_FLOAT_KEY_VALUE) {
+    {
+        __m256 reg0 = _mm256_setr_ps(1, 2, 3, 4, 5, 6, 7, 8);
+        __m256 reg1 = _mm256_setr_ps(9, 10, 11, 12, 13, 14, 15, 16);
+        __m256 reg2 = _mm256_setr_ps(17, 18, 19, 20, 21, 22, 23, 24);
+        __m256 reg3 = _mm256_setr_ps(25, 26, 27, 28, 29, 30, 31, 32);
+
+        __m256i key0 = _mm256_setr_epi32(0, 1, 2, 3, 4, 5, 6, 7);
+        __m256i key1 = _mm256_setr_epi32(8, 9, 10, 11, 12, 13, 14, 15);
+        __m256i key2 = _mm256_setr_epi32(16, 17, 18, 19, 20, 21, 22, 23);
+        __m256i key3 = _mm256_setr_epi32(24, 25, 26, 27, 28, 29, 30, 31);
+
+        BITONIC_SORT_KEY_VALUE::bitonic_sort(reg0, reg1, reg2, reg3, key0, key1,
+                                             key2, key3);
+        float *s0 = (float *)&reg0;
+        float *s1 = (float *)&reg1;
+        float *s2 = (float *)&reg2;
+        float *s3 = (float *)&reg3;
+
+        int *s_key0 = (int *)&key0;
+        int *s_key1 = (int *)&key1;
+        int *s_key2 = (int *)&key2;
+        int *s_key3 = (int *)&key3;
+
+        float sol0[8] = {1, 2, 3, 4, 5, 6, 7, 8};
+        float sol1[8] = {9, 10, 11, 12, 13, 14, 15, 16};
+        float sol2[8] = {17, 18, 19, 20, 21, 22, 23, 24};
+        float sol3[8] = {25, 26, 27, 28, 29, 30, 31, 32};
+
+        int sol_key0[8] = {0, 1, 2, 3, 4, 5, 6, 7};
+        int sol_key1[8] = {8, 9, 10, 11, 12, 13, 14, 15};
+        int sol_key2[8] = {16, 17, 18, 19, 20, 21, 22, 23};
+        int sol_key3[8] = {24, 25, 26, 27, 28, 29, 30, 31};
+
+        for (int i = 0; i < 8; i++) {
+
+            ASSERT_EQ(*(s0 + i), sol0[i]);
+            ASSERT_EQ(*(s1 + i), sol1[i]);
+            ASSERT_EQ(*(s2 + i), sol2[i]);
+            ASSERT_EQ(*(s3 + i), sol3[i]);
+
+            ASSERT_EQ(*(s_key0 + i), sol_key0[i]);
+            ASSERT_EQ(*(s_key1 + i), sol_key1[i]);
+            ASSERT_EQ(*(s_key2 + i), sol_key2[i]);
+            ASSERT_EQ(*(s_key3 + i), sol_key3[i]);
+        }
+    }
+
+    {
+        unsigned size = 32;
+        std::vector<float> inp;
+        inp.reserve(size);
+        std::vector<std::pair<int, float>> pairs;
+        pairs.reserve(size);
+
+        for (int i = 0; i < size; i++) {
+            inp.push_back(random_float());
+            pairs.push_back(std::pair<int, float>(i, inp[i]));
+        }
+
+        __m256 reg0 = _mm256_loadu_ps(inp.data());
+        __m256 reg1 = _mm256_loadu_ps(inp.data() + 8);
+        __m256 reg2 = _mm256_loadu_ps(inp.data() + 16);
+        __m256 reg3 = _mm256_loadu_ps(inp.data() + 24);
+
+        __m256i key0 = _mm256_setr_epi32(0, 1, 2, 3, 4, 5, 6, 7);
+        __m256i key1 = _mm256_setr_epi32(8, 9, 10, 11, 12, 13, 14, 15);
+        __m256i key2 = _mm256_setr_epi32(16, 17, 18, 19, 20, 21, 22, 23);
+        __m256i key3 = _mm256_setr_epi32(24, 25, 26, 27, 28, 29, 30, 31);
+
+        std::sort(
+            std::begin(pairs), std::end(pairs),
+            [](const std::pair<int, float> &a, const std::pair<int, float> &b) {
+                return (a.second) < (b.second);
+            });
+
+        BITONIC_SORT_KEY_VALUE::bitonic_sort(reg0, reg1, reg2, reg3, key0, key1,
+                                             key2, key3);
+
+        float *s0 = (float *)&reg0;
+        float *s1 = (float *)&reg1;
+        float *s2 = (float *)&reg2;
+        float *s3 = (float *)&reg3;
+
+        int *s_key0 = (int *)&key0;
+        int *s_key1 = (int *)&key1;
+        int *s_key2 = (int *)&key2;
+        int *s_key3 = (int *)&key3;
+
+        for (int i = 0; i < 8; i++) {
+            // ASSERT_EQ(*(s_key0 + i), pairs[i].first);
+            // ASSERT_EQ(*(s_key1 + i), pairs[i + 8].first);
+
+            ASSERT_EQ(*(s0 + i), pairs[i].second);
+            ASSERT_EQ(*(s1 + i), pairs[i + 8].second);
+            ASSERT_EQ(*(s2 + i), pairs[i + 16].second);
+            ASSERT_EQ(*(s3 + i), pairs[i + 24].second);
+        }
+    }
+}
+
 /*
 TEST(SORT, IMPROVED_BITONIC_AVX_MERGE_FLOAT_TWO_VECTORS) {
     {
