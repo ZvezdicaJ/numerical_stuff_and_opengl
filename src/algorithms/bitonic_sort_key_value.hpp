@@ -77,48 +77,10 @@ void bitonic_sort(__m256 &reg, __m256i &key) {
         _mm256_set_epi32(0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
                          0x00000000, 0x00000000, 0x00000000, 0x00000000);
 
-    {
-        // prvi korak: *--*  *--*  *--* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg, reg, 0b10110001);
-        // print_avx(shuffled_reg, "shuffled: ");
-        __m256 mask = _mm256_cmp_ps(reg, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask1));
+    shuffle_and_compare(reg, key, mask1, 0b10110001);
+    shuffle_and_compare(reg, key, mask2, 0b00011011);
+    shuffle_and_compare(reg, key, mask1, 0b10110001);
 
-        __m256i shuffled_key = _mm256_shuffle_epi32(key, 0b10110001);
-        key = _mm256_blendv_epi32(shuffled_key, key, _mm256_castps_si256(mask));
-
-        reg = _mm256_blendv_ps(shuffled_reg, reg, mask);
-    }
-    {
-        // drugi korak *----* *--*     *----* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg, reg, 0b00011011);
-
-        //__m256 max = _mm256_max_ps(reg, shuffled_reg);
-        //__m256 min = _mm256_min_ps(reg, shuffled_reg);
-        __m256 mask = _mm256_cmp_ps(reg, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask2));
-
-        __m256i shuffled_key = _mm256_shuffle_epi32(key, 0b00011011);
-        key = _mm256_blendv_epi32(shuffled_key, key, _mm256_castps_si256(mask));
-
-        reg = _mm256_blendv_ps(shuffled_reg, reg, mask);
-        // max mora biti pri 256
-        // min is located at the start of register (at 0 - lower half)
-    }
-    {
-        // ponovimo prvi korak: *--*  *--*  *--* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg, reg, 0b10110001);
-        __m256 mask = _mm256_cmp_ps(reg, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask1));
-
-        __m256i shuffled_key = _mm256_shuffle_epi32(key, 0b10110001);
-        key = _mm256_blendv_epi32(shuffled_key, key, _mm256_castps_si256(mask));
-
-        reg = _mm256_blendv_ps(shuffled_reg, reg, mask);
-    }
     {
         // now we have to reverse register:
         // *--------* *------* *----* *--*
@@ -140,6 +102,8 @@ void bitonic_sort(__m256 &reg, __m256i &key) {
 
         reg = _mm256_blendv_ps(reversed, reg, mask);
     }
+
+    
     {
         //  *----* *----*     *----* *----*
         __m256 shuffled_reg = _mm256_shuffle_ps(reg, reg, 0b01001110);
@@ -238,59 +202,12 @@ inline void bitonic_sort(__m256 &reg0, __m256 &reg1, __m256i &key0,
         key1 = _mm256_blendv_epi32(reversed_key_halves, key1,
                                    _mm256_castps_si256(mask));
     }
+    shuffle_and_compare(reg0, key0, mask2, 0b01001110);
+    shuffle_and_compare(reg0, key0, mask1, 0b10110001);
 
-    {
-        //  *----* *----*     *----* *----*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg0, reg0, 0b01001110);
-        __m256 mask = _mm256_cmp_ps(reg0, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask2));
-        reg0 = _mm256_blendv_ps(shuffled_reg, reg0, mask);
-
-        __m256i shuffled_key = _mm256_shuffle_epi32(key0, 0b01001110);
-        key0 =
-            _mm256_blendv_epi32(shuffled_key, key0, _mm256_castps_si256(mask));
-    }
-
-    {
-        // and finally repeat the first step: *--*  *--*  *--* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg0, reg0, 0b10110001);
-
-        __m256 mask = _mm256_cmp_ps(reg0, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask1));
-        reg0 = _mm256_blendv_ps(shuffled_reg, reg0, mask);
-        __m256i shuffled_key = _mm256_shuffle_epi32(key0, 0b10110001);
-        key0 =
-            _mm256_blendv_epi32(shuffled_key, key0, _mm256_castps_si256(mask));
-    }
-
-    {
-        //  *----* *----*     *----* *----*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg1, reg1, 0b01001110);
-        __m256 mask = _mm256_cmp_ps(reg1, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask2));
-        reg1 = _mm256_blendv_ps(shuffled_reg, reg1, mask);
-
-        __m256i shuffled_key = _mm256_shuffle_epi32(key1, 0b01001110);
-        key1 =
-            _mm256_blendv_epi32(shuffled_key, key1, _mm256_castps_si256(mask));
-    }
+    shuffle_and_compare(reg1, key1, mask2, 0b01001110);
     shuffle_and_compare(reg1, key1, mask1, 0b10110001);
-    /*    {
-        // and finally repeat the first step: *--*  *--*  *--* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg1, reg1, 0b10110001);
 
-        __m256 mask = _mm256_cmp_ps(reg1, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask1));
-        reg1 = _mm256_blendv_ps(shuffled_reg, reg1, mask);
-        __m256i shuffled_key = _mm256_shuffle_epi32(key1, 0b10110001);
-        key1 =
-            _mm256_blendv_epi32(shuffled_key, key1,
-       _mm256_castps_si256(mask));
-            }*/
     return;
 }
 
