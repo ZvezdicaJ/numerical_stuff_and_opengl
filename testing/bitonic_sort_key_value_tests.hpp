@@ -212,8 +212,10 @@ TEST(SORT, BITONIC_AVX_SORT_REG4_FLOAT_KEY_VALUE) {
         int *s_key3 = (int *)&key3;
 
         for (int i = 0; i < 8; i++) {
-            // ASSERT_EQ(*(s_key0 + i), pairs[i].first);
-            // ASSERT_EQ(*(s_key1 + i), pairs[i + 8].first);
+            ASSERT_EQ(*(s_key0 + i), pairs[i].first);
+            ASSERT_EQ(*(s_key1 + i), pairs[i + 8].first);
+            ASSERT_EQ(*(s_key2 + i), pairs[i + 16].first);
+            ASSERT_EQ(*(s_key3 + i), pairs[i + 24].first);
 
             ASSERT_EQ(*(s0 + i), pairs[i].second);
             ASSERT_EQ(*(s1 + i), pairs[i + 8].second);
@@ -223,264 +225,79 @@ TEST(SORT, BITONIC_AVX_SORT_REG4_FLOAT_KEY_VALUE) {
     }
 }
 
-/*
-TEST(SORT, IMPROVED_BITONIC_AVX_MERGE_FLOAT_TWO_VECTORS) {
-    {
-        __m256 reg0 = _mm256_setr_ps(1, 2, 3, 4, 5, 6, 7, 8);
-        __m256 reg1 = _mm256_setr_ps(9, 10, 11, 12, 13, 14, 15, 16);
-        IMPROVED_BITONIC_SORT::bitonic_sort(reg0, reg1);
-        float *s1 = (float *)&reg0;
-        float *s2 = (float *)&reg1;
-        float sol1[8] = {1, 2, 3, 4, 5, 6, 7, 8};
-        float sol2[8] = {9, 10, 11, 12, 13, 14, 15, 16};
-        for (int i = 0; i < 8; i++) {
-            ASSERT_EQ(*(s1 + i), sol1[i]);
-            ASSERT_EQ(*(s2 + i), sol2[i]);
-        }
-    }
-    {
-        __m256 reg0 = _mm256_setr_ps(-1, -2, 18, 29, 48, 52, -50, -22);
-        __m256 reg1 = _mm256_setr_ps(500, -80, 2, -5, 100, 0, 1, 5);
-        IMPROVED_BITONIC_SORT::bitonic_sort(reg0, reg1);
-        float *s1 = (float *)&reg0;
-        float *s2 = (float *)&reg1;
-        float sol1[8] = {-80, -50, -22, -5, -2, -1, 0, 1};
-        float sol2[8] = {2, 5, 18, 29, 48, 52, 100, 500};
-        for (int i = 0; i < 8; i++) {
-            ASSERT_EQ(*(s1 + i), sol1[i]);
-            ASSERT_EQ(*(s2 + i), sol2[i]);
-        }
-    }
-    for (int k = 0; k < 10; k++) {
-        std::vector<float> inp0({random_float(), random_float(), random_float(),
-                                 random_float(), random_float(), random_float(),
-                                 random_float(), random_float()});
-        std::vector<float> inp1({random_float(), random_float(), random_float(),
-                                 random_float(), random_float(), random_float(),
-                                 random_float(), random_float()});
-
-        std::sort(std::begin(inp0), std::end(inp0));
-        std::sort(std::begin(inp1), std::end(inp1));
-
-        __m256 reg0 = _mm256_loadu_ps(inp0.data());
-        __m256 reg1 = _mm256_loadu_ps(inp1.data());
-
-        inp0.insert(inp0.end(), inp1.begin(), inp1.end());
-        std::sort(std::begin(inp0), std::end(inp0));
-
-        IMPROVED_BITONIC_SORT::bitonic_sort(reg0, reg1);
-        float *s1 = (float *)&reg0;
-        float *s2 = (float *)&reg1;
-        // std::cout << "inp: " << std::endl;
-        for (int i = 0; i < 8; i++) {
-            ASSERT_EQ(*(s1 + i), inp0[i]);
-            ASSERT_EQ(*(s2 + i), inp0[i + 8]);
-        }
-    }
-}
-
-TEST(SORT, IMPROVED_BITONIC_AVX_SORT_4REG_FLOAT) {
-    {
-        __m256 reg0 = _mm256_setr_ps(1, 2, 3, 4, 5, 6, 7, 8);
-        __m256 reg1 = _mm256_setr_ps(9, 10, 11, 12, 13, 14, 15, 16);
-        __m256 reg2 = _mm256_setr_ps(17, 18, 19, 20, 21, 22, 23, 24);
-        __m256 reg3 = _mm256_setr_ps(25, 26, 27, 28, 29, 30, 31, 32);
-
-        IMPROVED_BITONIC_SORT::bitonic_sort(reg0, reg1, reg2, reg3);
-
-        float *s1 = (float *)&reg0;
-        float *s2 = (float *)&reg1;
-        float *s3 = (float *)&reg2;
-        float *s4 = (float *)&reg3;
-        float sol1[8] = {1, 2, 3, 4, 5, 6, 7, 8};
-        float sol2[8] = {9, 10, 11, 12, 13, 14, 15, 16};
-        float sol3[8] = {17, 18, 19, 20, 21, 22, 23, 24};
-        float sol4[8] = {25, 26, 27, 28, 29, 30, 31, 32};
-        for (int i = 0; i < 8; i++) {
-            ASSERT_EQ(*(s1 + i), sol1[i]);
-            ASSERT_EQ(*(s2 + i), sol2[i]);
-            ASSERT_EQ(*(s3 + i), sol3[i]);
-            ASSERT_EQ(*(s4 + i), sol4[i]);
-        }
-    }
-    {
-        __m256 reg0 = _mm256_setr_ps(-1, -2, 18, 29, 50, 38, -220, -238);
-        __m256 reg1 = _mm256_setr_ps(500, -80, 2, -5, 12, 100, 29, 31);
-        __m256 reg2 = _mm256_setr_ps(-10, 22, 180, -2900, 35, 70, 79, -80);
-        __m256 reg3 = _mm256_setr_ps(38, -120, 25, -17, 12, 15, -220, -450);
-        IMPROVED_BITONIC_SORT::bitonic_sort(reg0, reg1, reg2, reg3);
-
-        float *s1 = (float *)&reg0;
-        float *s2 = (float *)&reg1;
-        float *s3 = (float *)&reg2;
-        float *s4 = (float *)&reg3;
-        std::vector<float> sol({-1,  -2,   18,  29,    50, 38,  -220, -238,
-                                500, -80,  2,   -5,    12, 100, 29,   31,
-                                -10, 22,   180, -2900, 35, 70,  79,   -80,
-                                38,  -120, 25,  -17,   12, 15,  -220, -450});
-        std::sort(sol.begin(), sol.end());
-        for (int i = 0; i < 8; i++) {
-            ASSERT_EQ(*(s1 + i), sol[i]);
-            ASSERT_EQ(*(s2 + i), sol[i + 8]);
-            ASSERT_EQ(*(s3 + i), sol[i + 16]);
-            ASSERT_EQ(*(s4 + i), sol[i + 24]);
-        }
-    }
+TEST(SORT, TEST_2N_BITONIC_SORT_KEY_VALUE_FLOAT_VER) {
 
     {
-        std::vector<float> inp0({random_float(), random_float(), random_float(),
-                                 random_float(), random_float(), random_float(),
-                                 random_float(), random_float()});
-        std::vector<float> inp1({random_float(), random_float(), random_float(),
-                                 random_float(), random_float(), random_float(),
-                                 random_float(), random_float()});
-        std::vector<float> inp2({random_float(), random_float(), random_float(),
-                                 random_float(), random_float(), random_float(),
-                                 random_float(), random_float()});
-        std::vector<float> inp3({random_float(), random_float(), random_float(),
-                                 random_float(), random_float(), random_float(),
-                                 random_float(), random_float()});
+        unsigned size = 8;
+        aligned_vector<float> inp;
+        aligned_vector<int> keys;
 
-        __m256 reg0 = _mm256_loadu_ps(inp0.data());
-        __m256 reg1 = _mm256_loadu_ps(inp1.data());
-        __m256 reg2 = _mm256_loadu_ps(inp2.data());
-        __m256 reg3 = _mm256_loadu_ps(inp3.data());
+        inp.reserve(size);
+        keys.reserve(size);
 
-        inp0.insert(inp0.end(), inp1.begin(), inp1.end());
-        inp0.insert(inp0.end(), inp2.begin(), inp2.end());
-        inp0.insert(inp0.end(), inp3.begin(), inp3.end());
-        std::sort(std::begin(inp0), std::end(inp0));
-
-        IMPROVED_BITONIC_SORT::bitonic_sort(reg0, reg1, reg2, reg3);
-        float *s1 = (float *)&reg0;
-        float *s2 = (float *)&reg1;
-        float *s3 = (float *)&reg2;
-        float *s4 = (float *)&reg3;
-        for (int i = 0; i < 8; i++) {
-            ASSERT_EQ(*(s1 + i), inp0[i]);
-            ASSERT_EQ(*(s2 + i), inp0[i + 8]);
-            ASSERT_EQ(*(s3 + i), inp0[i + 16]);
-            ASSERT_EQ(*(s4 + i), inp0[i + 24]);
-        }
-    }
-}
-
-TEST(SORT, IMPROVED_BITONIC_AVX_MERGE_4REG_FLOAT) {
-    {
-        __m256 reg0 = _mm256_setr_ps(1, 2, 3, 4, 5, 6, 7, 8);
-        __m256 reg1 = _mm256_setr_ps(9, 10, 11, 12, 13, 14, 15, 16);
-        __m256 reg2 = _mm256_setr_ps(17, 18, 19, 20, 21, 22, 23, 24);
-        __m256 reg3 = _mm256_setr_ps(25, 26, 27, 28, 29, 30, 31, 32);
-
-        IMPROVED_BITONIC_SORT::bitonic_merge(reg0, reg1, reg2, reg3);
-
-        float *s1 = (float *)&reg0;
-        float *s2 = (float *)&reg1;
-        float *s3 = (float *)&reg2;
-        float *s4 = (float *)&reg3;
-        float sol1[8] = {1, 2, 3, 4, 5, 6, 7, 8};
-        float sol2[8] = {9, 10, 11, 12, 13, 14, 15, 16};
-        float sol3[8] = {17, 18, 19, 20, 21, 22, 23, 24};
-        float sol4[8] = {25, 26, 27, 28, 29, 30, 31, 32};
-        for (int i = 0; i < 8; i++) {
-            ASSERT_EQ(*(s1 + i), sol1[i]);
-            ASSERT_EQ(*(s2 + i), sol2[i]);
-            ASSERT_EQ(*(s3 + i), sol3[i]);
-            ASSERT_EQ(*(s4 + i), sol4[i]);
-        }
-    }
-    for (int k = 0; k < 10; k++) {
-        std::vector<float> inp0(
-            {random_float(), random_float(), random_float(), random_float(),
-             random_float(), random_float(), random_float(), random_float(),
-             random_float(), random_float(), random_float(), random_float(),
-             random_float(), random_float(), random_float(), random_float()});
-        std::vector<float> inp1(
-            {random_float(), random_float(), random_float(), random_float(),
-             random_float(), random_float(), random_float(), random_float(),
-             random_float(), random_float(), random_float(), random_float(),
-             random_float(), random_float(), random_float(), random_float()});
-
-        std::sort(std::begin(inp0), std::end(inp0));
-        std::sort(std::begin(inp1), std::end(inp1));
-
-        __m256 reg0 = _mm256_loadu_ps(inp0.data());
-        __m256 reg1 = _mm256_loadu_ps(inp0.data() + 8);
-        __m256 reg2 = _mm256_loadu_ps(inp1.data());
-        __m256 reg3 = _mm256_loadu_ps(inp1.data() + 8);
-
-        inp0.insert(inp0.end(), inp1.begin(), inp1.end());
-        std::sort(std::begin(inp0), std::end(inp0));
-
-        IMPROVED_BITONIC_SORT::bitonic_merge(reg0, reg1, reg2, reg3);
-        float *s1 = (float *)&reg0;
-        float *s2 = (float *)&reg1;
-        float *s3 = (float *)&reg2;
-        float *s4 = (float *)&reg3;
-        for (int i = 0; i < 8; i++) {
-            ASSERT_EQ(*(s1 + i), inp0[i]);
-            ASSERT_EQ(*(s2 + i), inp0[i + 8]);
-            ASSERT_EQ(*(s3 + i), inp0[i + 16]);
-            ASSERT_EQ(*(s4 + i), inp0[i + 24]);
-        }
-    }
-}
-
-TEST(SORT, TEST_2N_IMPROVED_BITONIC_SORT_FLOAT_VER) {
-
-    {
-        aligned_vector<float> inp0(
-            {random_float(), random_float(), random_float(), random_float(),
-             random_float(), random_float(), random_float(), random_float()});
-        aligned_vector<float> inp1 = inp0;
-
-        IMPROVED_BITONIC_SORT::sort_2n_vector(inp0.data(), 0, 7);
-        std::sort(std::begin(inp1), std::end(inp1));
-
-        for (int i = 0; i < 7; i++) {
-            ASSERT_EQ(inp1[i], inp0[i]);
-        }
-    }
-
-    {
-        aligned_vector<float> inp0;
-        aligned_vector<float> inp1;
-        unsigned size = 16 * 16;
-        inp0.reserve(size);
-        for (int i = 0; i < size; i++)
-            inp0.push_back(random_float());
-
-        inp1 = inp0;
-        IMPROVED_BITONIC_SORT::sort_2n_vector(inp1.data(), 0, size - 1);
-
-        std::sort(std::begin(inp0), std::end(inp0));
+        std::vector<std::pair<int, float>> pairs;
+        pairs.reserve(size);
 
         for (int i = 0; i < size; i++) {
-            ASSERT_EQ(inp1[i], inp0[i]);
+            // inp.push_back(random_float());
+            inp.push_back(i);
+            keys.push_back(i);
+            //            pairs.push_back(std::pair<int, float>(i, inp[i]));
+            pairs.push_back(std::pair<int, float>(i, i));
+        }
+
+        BITONIC_SORT_KEY_VALUE::sort_2n_vector(inp.data(), keys.data(), 0,
+                                               size - 1);
+
+        std::sort(
+            std::begin(pairs), std::end(pairs),
+            [](const std::pair<int, float> &a, const std::pair<int, float> &b) {
+                return (a.second) < (b.second);
+            });
+
+        for (int i = 0; i < 7; i++) {
+            ASSERT_EQ(inp[i], pairs[i].second);
+            ASSERT_EQ(keys[i], pairs[i].first);
         }
     }
-
     {
-        unsigned size = 8192;
-        aligned_vector<float> inp0;
-        aligned_vector<float> inp1;
-        inp0.reserve(size);
-        for (unsigned i = 0; i < size; i++)
-            inp0.push_back(random_float());
+        unsigned size = 64;
+        aligned_vector<float> inp;
+        aligned_vector<int> keys;
 
-        inp1 = inp0;
+        inp.reserve(size);
+        keys.reserve(size);
 
-        IMPROVED_BITONIC_SORT::sort_2n_vector(inp1.data(), 0, size - 1);
+        std::vector<std::pair<int, float>> pairs;
+        pairs.reserve(size);
 
-        std::sort(std::begin(inp0), std::end(inp0));
+        for (int i = 0; i < size; i++) {
+            // inp.push_back(random_float());
+            inp.push_back(i);
+            keys.push_back(i);
+            //            pairs.push_back(std::pair<int, float>(i, inp[i]));
+            pairs.push_back(std::pair<int, float>(i, i));
+        }
 
-        for (unsigned i = 0; i < size; i++) {
-            ASSERT_EQ(inp1[i], inp0[i]);
+        BITONIC_SORT_KEY_VALUE::sort_2n_vector(inp.data(), keys.data(), 0,
+                                               size - 1);
+
+        std::sort(
+            std::begin(pairs), std::end(pairs),
+            [](const std::pair<int, float> &a, const std::pair<int, float> &b) {
+                return (a.second) < (b.second);
+            });
+
+        for (int i = 0; i < size; i++) {
+            ASSERT_EQ(inp[i], pairs[i].second);
+            ASSERT_EQ(keys[i], pairs[i].first);
         }
     }
 }
 
-TEST(SORT, TEST_IMPROVED_BITONIC_SORT_8N_FLOAT_VECTOR) {
+/*
+
+  TEST(SORT, TEST_IMPROVED_BITONIC_SORT_8N_FLOAT_VECTOR) {
     unsigned size = 4000;
     aligned_vector<float> inp0;
     aligned_vector<float> inp1;
