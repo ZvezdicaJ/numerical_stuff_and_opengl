@@ -331,7 +331,7 @@ TEST(SORT, TEST_8N_BITONIC_SORT_KEY_VALUE_FLOAT_VER) {
         }
     }
     {
-        unsigned size = 8*400;
+        unsigned size = 8 * 400;
         aligned_vector<float> inp;
         aligned_vector<int> keys;
 
@@ -351,6 +351,74 @@ TEST(SORT, TEST_8N_BITONIC_SORT_KEY_VALUE_FLOAT_VER) {
 
         BITONIC_SORT_KEY_VALUE::sort_8n_vector(inp.data(), keys.data(), 0,
                                                size - 1);
+
+        std::sort(
+            std::begin(pairs), std::end(pairs),
+            [](const std::pair<int, float> &a, const std::pair<int, float> &b) {
+                return (a.second) < (b.second);
+            });
+
+        for (int i = 0; i < size; i++) {
+            ASSERT_EQ(inp[i], pairs[i].second);
+            ASSERT_EQ(keys[i], pairs[i].first);
+        }
+    }
+}
+
+TEST(SORT, TEST_BITONIC_SORT_KEY_VALUE_FLOAT_ALL_CASES) {
+
+    {
+        unsigned size = 33;
+        aligned_vector<float> inp;
+        aligned_vector<int> keys;
+
+        inp.reserve(size);
+        keys.reserve(size);
+
+        std::vector<std::pair<int, float>> pairs;
+        pairs.reserve(size);
+
+        for (int i = 0; i < size; i++) {
+            // inp.push_back(random_float());
+            inp.push_back(i);
+            keys.push_back(i);
+            //            pairs.push_back(std::pair<int, float>(i, inp[i]));
+            pairs.push_back(std::pair<int, float>(i, i));
+        }
+
+        BITONIC_SORT_KEY_VALUE::sort_vector(inp, keys, 0, size - 1);
+
+        std::sort(
+            std::begin(pairs), std::end(pairs),
+            [](const std::pair<int, float> &a, const std::pair<int, float> &b) {
+                return (a.second) < (b.second);
+            });
+
+        for (int i = 0; i < size; i++) {
+            ASSERT_EQ(inp[i], pairs[i].second);
+            ASSERT_EQ(keys[i], pairs[i].first);
+        }
+    }
+    for (int size = 1; size < 3334; size++) {
+
+        aligned_vector<float> inp;
+        aligned_vector<int> keys;
+
+        inp.reserve(size);
+        keys.reserve(size);
+
+        std::vector<std::pair<int, float>> pairs;
+        pairs.reserve(size);
+
+        for (int i = 0; i < size; i++) {
+            // inp.push_back(random_float());
+            inp.push_back(i);
+            keys.push_back(i);
+            //            pairs.push_back(std::pair<int, float>(i, inp[i]));
+            pairs.push_back(std::pair<int, float>(i, i));
+        }
+
+        BITONIC_SORT_KEY_VALUE::sort_vector(inp, keys, 0, size - 1);
 
         std::sort(
             std::begin(pairs), std::end(pairs),

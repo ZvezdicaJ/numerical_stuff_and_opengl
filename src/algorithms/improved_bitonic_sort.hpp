@@ -1036,8 +1036,8 @@ inline void maskload(int diff, float *p2, __m256i &mask, __m256 &reg1) {
             _mm256_set1_ps(std::numeric_limits<float>::infinity());
         reg1 = _mm256_blend_ps(infinity, reg1, 0b01111111);
     } break;
-    default:
-        reg1 = _mm256_load_ps(p2);
+        //    default:
+        // reg1 = _mm256_load_ps(p2);
     };
 }
 
@@ -1108,9 +1108,10 @@ inline void lane_crossing_compare_all_cases(float *arr, unsigned start,
             return;
         __m256 reg;
         __m256i load_store_mask;
-        maskload(diff, arr + start, load_store_mask, reg);
-        // else
-        // g = _mm256_load_ps(arr + start);
+        if (diff < 7)
+            maskload(diff, arr + start, load_store_mask, reg);
+        else
+            reg = _mm256_load_ps(arr + start);
         {
             // here one compares:
             // 0-4, 1-5, 2-6, 3-7 -> reverse halves
