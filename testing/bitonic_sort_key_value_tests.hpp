@@ -433,6 +433,234 @@ TEST(SORT, TEST_BITONIC_SORT_KEY_VALUE_FLOAT_ALL_CASES) {
     }
 }
 
+/////////////////////////////////////////////////
+////////////////////////////////////////////////
+
+TEST(SORT, BITONIC_AVX_REG_SORT_DOUBLE_KEY_VALUE) {
+    {
+        __m256d reg = _mm256_setr_pd(0, 1, 2, 3);
+        __m256i key = _mm256_setr_epi64x(0, 1, 2, 3);
+        BITONIC_SORT_KEY_VALUE::bitonic_sort(reg, key);
+        double *sol = (double *)&reg;
+        double solution[4] = {0, 1, 2, 3};
+        long int *sol_key = (long *)&key;
+        long int solution_key[4] = {0, 1, 2, 3};
+
+        for (int i = 0; i < 4; i++) {
+            ASSERT_EQ(*(sol + i), solution[i]);
+            ASSERT_EQ(*(sol_key + i), solution_key[i]);
+        }
+    }
+
+    for (int j = 0; j < 10; j++) {
+        unsigned size = 4;
+        std::vector<std::pair<long int, double>> pairs;
+        std::vector<double> inp0({random_double(), random_double(),
+                                  random_double(), random_double()});
+        pairs.reserve(size);
+        for (int i = 0; i < size; i++)
+            pairs.push_back(std::pair<long int, double>(i, inp0[i]));
+
+        __m256d reg = _mm256_loadu_pd(inp0.data());
+        __m256i key = _mm256_setr_epi64x(0, 1, 2, 3);
+
+        std::sort(std::begin(pairs), std::end(pairs),
+                  [](const std::pair<long int, double> &a,
+                     const std::pair<long int, double> &b) {
+                      return (a.second) < (b.second);
+                  });
+
+        BITONIC_SORT_KEY_VALUE::bitonic_sort(reg, key);
+
+        double *sol = (double *)&reg;
+        long int *sol_key = (long int *)&key;
+        /*
+        for (int i = 0; i < 4; i++) {
+            std::cout << pairs[i] << "     " << *(sol_key + i) << " "
+                      << *(sol + i) << std::endl;
+                      }*/
+
+        for (long int i = 0; i < size; i++) {
+            ASSERT_EQ(pairs[i].first, sol_key[i]);
+            ASSERT_EQ(pairs[i].second, sol[i]);
+        }
+    }
+}
+
+TEST(SORT, BITONIC_AVX_SORT_REG2_DOUBLE_KEY_VALUE) {
+    {
+        __m256d reg0 = _mm256_setr_pd(0, 1, 2, 3);
+        __m256d reg1 = _mm256_setr_pd(4, 5, 6, 7);
+        __m256i key0 = _mm256_setr_epi64x(0, 1, 2, 3);
+        __m256i key1 = _mm256_setr_epi64x(4, 5, 6, 7);
+        BITONIC_SORT_KEY_VALUE::bitonic_sort(reg0, reg1, key0, key1);
+        double *s0 = (double *)&reg0;
+        double *s1 = (double *)&reg1;
+
+        long *s_key0 = (long *)&key0;
+        long *s_key1 = (long *)&key1;
+
+        double sol0[4] = {0, 1, 2, 3};
+        double sol1[4] = {4, 5, 6, 7};
+
+        long sol_key0[4] = {0, 1, 2, 3};
+        long sol_key1[4] = {4, 5, 6, 7};
+
+        for (int i = 0; i < 4; i++) {
+
+            ASSERT_EQ(*(s0 + i), sol0[i]);
+            ASSERT_EQ(*(s1 + i), sol1[i]);
+
+            ASSERT_EQ(*(s_key0 + i), sol_key0[i]);
+            ASSERT_EQ(*(s_key1 + i), sol_key1[i]);
+        }
+    }
+
+    for (int i = 0; i < 10; i++) {
+        unsigned size = 8;
+        std::vector<double> inp;
+        inp.reserve(size);
+        std::vector<std::pair<long, double>> pairs;
+        pairs.reserve(8);
+
+        for (long i = 0; i < size; i++) {
+            inp.push_back(random_double());
+            pairs.push_back(std::pair<long, double>(i, inp[i]));
+        }
+
+        __m256d reg0 = _mm256_loadu_pd(inp.data());
+        __m256d reg1 = _mm256_loadu_pd(inp.data() + 4);
+
+        __m256i key0 = _mm256_setr_epi64x(0, 1, 2, 3);
+        __m256i key1 = _mm256_setr_epi64x(4, 5, 6, 7);
+
+        std::sort(std::begin(pairs), std::end(pairs),
+                  [](const std::pair<long, double> &a,
+                     const std::pair<long, double> &b) {
+                      return (a.second) < (b.second);
+                  });
+
+        BITONIC_SORT_KEY_VALUE::bitonic_sort(reg0, reg1, key0, key1);
+
+        double *s0 = (double *)&reg0;
+        double *s1 = (double *)&reg1;
+
+        long *s_key0 = (long *)&key0;
+        long *s_key1 = (long *)&key1;
+
+        for (long i = 0; i < 4; i++) {
+            ASSERT_EQ(*(s_key0 + i), pairs[i].first);
+            ASSERT_EQ(*(s_key1 + i), pairs[i + 4].first);
+
+            ASSERT_EQ(*(s0 + i), pairs[i].second);
+            ASSERT_EQ(*(s1 + i), pairs[i + 4].second);
+        }
+    }
+}
+
+TEST(SORT, BITONIC_AVX_SORT_REG4_DOUBLE_KEY_VALUE) {
+    {
+        __m256d reg0 = _mm256_setr_pd(1, 2, 3, 4);
+        __m256d reg1 = _mm256_setr_pd(5, 6, 7, 8);
+        __m256d reg2 = _mm256_setr_pd(9, 10, 11, 12);
+        __m256d reg3 = _mm256_setr_pd(13, 14, 15, 16);
+
+        __m256i key0 = _mm256_setr_epi64x(0, 1, 2, 3);
+        __m256i key1 = _mm256_setr_epi64x(4, 5, 6, 7);
+        __m256i key2 = _mm256_setr_epi64x(8, 9, 10, 11);
+        __m256i key3 = _mm256_setr_epi64x(12, 13, 14, 15);
+
+        BITONIC_SORT_KEY_VALUE::bitonic_sort(reg0, reg1, reg2, reg3, key0, key1,
+                                             key2, key3);
+        double *s0 = (double *)&reg0;
+        double *s1 = (double *)&reg1;
+        double *s2 = (double *)&reg2;
+        double *s3 = (double *)&reg3;
+
+        long *s_key0 = (long *)&key0;
+        long *s_key1 = (long *)&key1;
+        long *s_key2 = (long *)&key2;
+        long *s_key3 = (long *)&key3;
+
+        double sol0[4] = {1, 2, 3, 4};
+        double sol1[4] = {5, 6, 7, 8};
+        double sol2[4] = {9, 10, 11, 12};
+        double sol3[4] = {13, 14, 15, 16};
+
+        long sol_key0[4] = {0, 1, 2, 3};
+        long sol_key1[4] = {4, 5, 6, 7};
+        long sol_key2[4] = {8, 9, 10, 11};
+        long sol_key3[4] = {12, 13, 14, 15};
+
+        for (int i = 0; i < 4; i++) {
+
+            ASSERT_EQ(*(s0 + i), sol0[i]);
+            ASSERT_EQ(*(s1 + i), sol1[i]);
+            ASSERT_EQ(*(s2 + i), sol2[i]);
+            ASSERT_EQ(*(s3 + i), sol3[i]);
+
+            ASSERT_EQ(*(s_key0 + i), sol_key0[i]);
+            ASSERT_EQ(*(s_key1 + i), sol_key1[i]);
+            ASSERT_EQ(*(s_key2 + i), sol_key2[i]);
+            ASSERT_EQ(*(s_key3 + i), sol_key3[i]);
+        }
+    }
+    /*
+    {
+        unsigned size = 32;
+        std::vector<double> inp;
+        inp.reserve(size);
+        std::vector<std::pair<long, double>> pairs;
+        pairs.reserve(size);
+
+        for (int i = 0; i < size; i++) {
+            inp.push_back(random_double());
+            pairs.push_back(std::pair<long, double>(i, inp[i]));
+        }
+
+        __m256d reg0 = _mm256_loadu_pd(inp.data());
+        __m256d reg1 = _mm256_loadu_pd(inp.data() + 4);
+        __m256d reg2 = _mm256_loadu_pd(inp.data() + 8);
+        __m256d reg3 = _mm256_loadu_pd(inp.data() + 12);
+
+        __m256i key0 = _mm256_setr_epi64x(0, 1, 2, 3);
+        __m256i key1 = _mm256_setr_epi64x(4, 5, 6, 7);
+        __m256i key2 = _mm256_setr_epi64x(8, 9, 10, 11);
+        __m256i key3 = _mm256_setr_epi64x(12, 13, 14, 15);
+
+        std::sort(std::begin(pairs), std::end(pairs),
+                  [](const std::pair<long, double> &a,
+                     const std::pair<long, double> &b) {
+                      return (a.second) < (b.second);
+                  });
+
+        BITONIC_SORT_KEY_VALUE::bitonic_sort(reg0, reg1, reg2, reg3, key0, key1,
+                                             key2, key3);
+
+        double *s0 = (double *)&reg0;
+        double *s1 = (double *)&reg1;
+        double *s2 = (double *)&reg2;
+        double *s3 = (double *)&reg3;
+
+        long *s_key0 = (long *)&key0;
+        long *s_key1 = (long *)&key1;
+        long *s_key2 = (long *)&key2;
+        long *s_key3 = (long *)&key3;
+
+        for (int i = 0; i < 8; i++) {
+            ASSERT_EQ(*(s_key0 + i), pairs[i].first);
+            ASSERT_EQ(*(s_key1 + i), pairs[i + 4].first);
+            ASSERT_EQ(*(s_key2 + i), pairs[i + 8].first);
+            ASSERT_EQ(*(s_key3 + i), pairs[i + 12].first);
+
+            ASSERT_EQ(*(s0 + i), pairs[i].second);
+            ASSERT_EQ(*(s1 + i), pairs[i + 4].second);
+            ASSERT_EQ(*(s2 + i), pairs[i + 8].second);
+            ASSERT_EQ(*(s3 + i), pairs[i + 12].second);
+        }
+        }*/
+}
+
 /*
 
   TEST(SORT, TEST_IMPROVED_BITONIC_SORT_8N_FLOAT_VECTOR) {

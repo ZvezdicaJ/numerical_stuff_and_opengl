@@ -19,7 +19,7 @@ static const int LOAD = 0xffffffff;
 static const int STORE = 0xffffffff;
 
 /**
- * @brief The function blends two __m256i vectors.
+ * @brief The function blends two __m256i vectors based on a provided mask.
  * @param a first vector to be blended
  * @param second vector to be blended
  * @param mask mask according to which to blend two vector. For more into check
@@ -33,11 +33,12 @@ _mm256_blendv_epi32(const __m256i &a, const __m256i &b, const __m256i &mask) {
 }
 
 /**
- * @brief The overload function with mask neing of __m256 type.
+ * @brief The overload of _mm256_blendv_epi32 function with mask being of __m256
+ * type.
  * @param a first vector to be blended
  * @param second vector to be blended
- * @param mask mask according to which to blend two vector. For more into check
- * Intel intrinsics guide - _mm256_blendv_ps function
+ * @param mask mask according to which to blend two vector. For more info check
+ * Intel intrinsics guide - _mm256_blendv_ps function.
  */
 inline __attribute__((always_inline)) __m256i
 _mm256_blendv_epi32(const __m256i &a, const __m256i &b, const __m256 &mask) {
@@ -45,10 +46,20 @@ _mm256_blendv_epi32(const __m256i &a, const __m256i &b, const __m256 &mask) {
         _mm256_blendv_ps(_mm256_castsi256_ps(a), _mm256_castsi256_ps(b), mask));
 }
 
+/**
+ * @brief shuffles a register according to uint8_t mask and compares shuffled
+ * register to the original one. The resulting permutation is then applied to
+ * the key.
+ * @param reg register to be shuffled and compared
+ * @param key key vector to be shuffled based on the result of comparison of
+ * shuffled float register to the original one.
+ * @param mask_epi32 helper mask to blend two vector. For more info
+ * check Intel intrinsics guide - _mm256_blendv_ps function.
+ * @param uint8_t mask according to which float register is shuffled.
+ */
 inline __attribute__((always_inline)) void
 shuffle_and_compare(__m256 &reg, __m256i &key, const __m256i &mask_epi32,
                     const uint8_t mask8) {
-    //  *----* *----*     *----* *----*
     __m256 shuffled_reg = _mm256_shuffle_ps(reg, reg, mask8);
     __m256 mask = _mm256_cmp_ps(reg, shuffled_reg, _CMP_LE_OQ);
     mask = _mm256_castsi256_ps(
@@ -60,12 +71,19 @@ shuffle_and_compare(__m256 &reg, __m256i &key, const __m256i &mask_epi32,
     reg = _mm256_blendv_ps(shuffled_reg, reg, mask);
 }
 
+/**
+ * @brief The function reverses a register according  and
+ * compares reversed register to the original one. The resulting permutation is
+ * then applied to the key.
+ * @param reg register to be shuffled and compared
+ * @param key key vector to be shuffled based on the result of comparison of
+ * shuffled float register to the original one.
+ * @param mask_epi32 helper mask to blend two vector. For more info
+ * check Intel intrinsics guide - _mm256_blendv_ps function.
+ */
 inline __attribute__((always_inline)) void
 reverse_and_compare(__m256 &reg, __m256i &key, const __m256i &mask_epi32) {
-    // now we have to reverse register:
-    // *--------* *------* *----* *--*
-    // the following line first reverses the two halves of register
-    // in the next step it reverses both halves
+
     __m256 reversed_halves = _mm256_permute2f128_ps(reg, reg, 0b00000001);
     __m256 reversed =
         _mm256_shuffle_ps(reversed_halves, reversed_halves, 0b00011011);
@@ -111,9 +129,18 @@ void bitonic_sort(__m256 &reg, __m256i &key) {
     shuffle_and_compare(reg, key, mask1, 0b10110001);
 }
 
+/**
+ * @brief The function reverses one of the input registers and compares the
+ * reversed register to the other supplied register. The resulting permutation
+ * is then applied to the key1 and key2 pair.
+ * @param reg0 register to be shuffled and compared to be reversed
+ * @param reg1 register bo be compared to register reg0
+ * @param key1 register of keys to be sorted
+ * @param key2 register of keys to be sorted
+ */
 inline __attribute__((always_inline)) void
 reverse_and_compare(__m256 &reg0, __m256 &reg1, __m256i &key0, __m256i &key1) {
-    // reverse one of registers register reg0
+
     __m256 reversed_halves = _mm256_permute2f128_ps(reg0, reg0, 0b00000001);
     __m256 reversed =
         _mm256_shuffle_ps(reversed_halves, reversed_halves, 0b00011011);
@@ -132,6 +159,16 @@ reverse_and_compare(__m256 &reg0, __m256 &reg1, __m256i &key0, __m256i &key1) {
     key1 = _mm256_blendv_epi32(key1, reversed_key, _mm256_castps_si256(mask));
 }
 
+/**
+ * @brief The function reverses the halves of the given register and compares it
+ * to itself. The resulting permutation is then applied to the key1 and key2
+ * pair.
+ * @param reg0 register whose halves are reversed and compared to the original
+ * register
+ * @param key0 register containing keys, which are shuffled using the same
+ * permutation as reg0
+ * @param mask_epi32 mask which is used to compare
+ */
 inline __attribute__((always_inline)) void
 reverse_halves_and_compare(__m256 &reg0, __m256i &key0,
                            const __m256i &mask_epi32) {
@@ -189,14 +226,19 @@ inline void bitonic_sort(__m256 &reg0, __m256 &reg1, __m256i &key0,
 }
 
 /**
- * @brief The function accepts four unsorted  __m256 vectors and sorts them.
+ * @brief The function accepts four unsorted  __m256 vectors and sorts them. It
+ * accepts also four __m256i registers containing keys, which are shuffled using
+ * the same permutations as float registers.
  * @param reg3 upper vector of numbers - at the end it contains larger values,
  * the largest value is in the upper half of register [255:192]
  * @param reg2
  * @param reg1
  * @param reg0 lower vector of numbers - at the end it contains smaller values.
  * The smallest value is in the lowest half of register - at [63:0]
- *
+ * @param key0
+ * @param key1
+ * @param key2
+ * @param key3
  */
 inline void bitonic_sort(__m256 &reg0, __m256 &reg1, __m256 &reg2, __m256 &reg3,
                          __m256i &key0, __m256i &key1, __m256i &key2,
@@ -288,8 +330,11 @@ inline void bitonic_sort(__m256 &reg0, __m256 &reg1, __m256 &reg2, __m256 &reg3,
 // 2^N FLOAT ARRAY SORTING ALGORITHM
 
 // float implementation
-/** @brief compared vectors from top and bottom of array and then gradually
- * compare inner vectors.
+/** @brief The function compares vectors from top and bottom of array and then
+ *gradually compare inner vectors.
+ *@details It shuffles the vector in such a way that smaller values are in the
+ *lower half of resulting vector. The keys are permuted using the same
+ *permutations as floats
  * @param arr pointer to the float array to be sorted
  * @param start index of the first element to be sorted
  * @param end index of the last element to be sorted
@@ -1007,6 +1052,259 @@ inline void sort_vector(aligned_vector<float> &array, aligned_vector<int> &keys,
             }
         }
     }
+}
+////////////////////////////////////////////////////////
+
+/**
+ * @brief The function blends two __m256i vectors based on a provided mask.
+ * @param a first vector to be blended
+ * @param second vector to be blended
+ * @param mask mask according to which to blend two vector. For more into check
+ * Intel intrinsics guide - _mm256_blendv_ps function
+ */
+inline __attribute__((always_inline)) __m256i
+_mm256_blendv_epi64(const __m256i &a, const __m256i &b, const __m256i &mask) {
+    return _mm256_castpd_si256(_mm256_blendv_pd(_mm256_castsi256_pd(a),
+                                                _mm256_castsi256_pd(b),
+                                                _mm256_castsi256_pd(mask)));
+}
+
+/**
+ * @brief The overload of _mm256_blendv_epi64 function with mask being of
+ * __m256d type.
+ * @param a first vector to be blended
+ * @param second vector to be blended
+ * @param mask mask according to which to blend two vector. For more info check
+ * Intel intrinsics guide - _mm256_blendv_ps function.
+ */
+inline __attribute__((always_inline)) __m256i
+_mm256_blendv_epi64(const __m256i &a, const __m256i &b, const __m256d &mask) {
+    return _mm256_castpd_si256(
+        _mm256_blendv_pd(_mm256_castsi256_pd(a), _mm256_castsi256_pd(b), mask));
+}
+
+/**
+ * @brief shuffles a register according to uint8_t mask and compares shuffled
+ * register to the original one. The resulting permutation is then applied to
+ * the key.
+ * @param reg register to be shuffled and compared
+ * @param key key vector to be shuffled based on the result of comparison of
+ * shuffled float register to the original one.
+ * @param mask_epi32 helper mask to blend two vector. For more info
+ * check Intel intrinsics guide - _mm256_blendv_ps function.
+ * @param uint8_t mask according to which float register is shuffled.
+ */
+inline __attribute__((always_inline)) void
+shuffle_and_compare(__m256d &reg, __m256i &key, const __m256i &mask_epi64,
+                    const uint8_t mask8) {
+
+    __m256d shuffled_reg = _mm256_shuffle_pd(reg, reg, mask8);
+
+    __m256i shuffled_key = _mm256_castpd_si256(_mm256_shuffle_pd(
+        _mm256_castsi256_pd(key), _mm256_castsi256_pd(key), mask8));
+
+    __m256d mask = _mm256_cmp_pd(reg, shuffled_reg, _CMP_LE_OQ);
+
+    mask = _mm256_castsi256_pd(
+        _mm256_xor_si256(_mm256_castpd_si256(mask), mask_epi64));
+
+    reg = _mm256_blendv_pd(shuffled_reg, reg, mask);
+    key = _mm256_blendv_epi64(shuffled_key, key, mask);
+}
+
+/**
+ * @brief shuffles a register according to uint8_t mask and compares shuffled
+ * register to the original one. The resulting permutation is then applied to
+ * the key.
+ * @param reg register to be shuffled and compared
+ * @param key key vector to be shuffled based on the result of comparison of
+ * shuffled float register to the original one.
+ * @param mask_epi32 helper mask to blend two vector. For more info
+ * check Intel intrinsics guide - _mm256_blendv_ps function.
+ * @param uint8_t mask according to which float register is shuffled.
+ */
+inline __attribute__((always_inline)) void
+permute_and_compare(__m256d &reg, __m256i &key, const __m256i &mask_epi64,
+                    const uint8_t mask8) {
+
+    __m256d permuted_reg = _mm256_permute4x64_pd(reg, mask8);
+
+    __m256i permuted_key = _mm256_castpd_si256(
+        _mm256_permute4x64_pd(_mm256_castsi256_pd(key), mask8));
+
+    __m256d mask = _mm256_cmp_pd(reg, permuted_reg, _CMP_LE_OQ);
+
+    mask = _mm256_castsi256_pd(
+        _mm256_xor_si256(_mm256_castpd_si256(mask), mask_epi64));
+
+    reg = _mm256_blendv_pd(permuted_reg, reg, mask);
+    key = _mm256_blendv_epi64(permuted_key, key, mask);
+}
+
+/**
+ * @brief The function reverses a register according  and
+ * compares reversed register to the original one. The resulting permutation is
+ * then applied to the key.
+ * @param reg register to be shuffled and compared
+ * @param key key vector to be shuffled based on the result of comparison of
+ * shuffled float register to the original one.
+ * @param mask_epi32 helper mask to blend two vector. For more info
+ * check Intel intrinsics guide - _mm256_blendv_ps function.
+ */
+inline __attribute__((always_inline)) void
+reverse_and_compare(__m256d &reg, __m256i &key, const __m256i &mask_epi64) {
+
+    __m256d reversed_reg = _mm256_permute4x64_pd(reg, 0b00011011);
+    __m256i reversed_key = _mm256_permute4x64_epi64(key, 0b00011011);
+
+    __m256d mask = _mm256_cmp_pd(reg, reversed_reg, _CMP_LE_OQ);
+
+    mask = _mm256_castsi256_pd(
+        _mm256_xor_si256(_mm256_castpd_si256(mask), mask_epi64));
+
+    reg = _mm256_blendv_pd(reversed_reg, reg, mask);
+    key = _mm256_blendv_epi64(reversed_key, key, mask);
+}
+
+/**
+ *@brief The function accepts a single __m256d vector and sorts
+ *it.
+ * @param reg register to be sorted
+ */
+inline void bitonic_sort(__m256d &reg, __m256i &key) {
+    __m256i mask1 = _mm256_set_epi64x(0xffffffffffffffff, 0x0000000000000000,
+                                      0xffffffffffffffff, 0x0000000000000000);
+
+    __m256i mask2 = _mm256_set_epi64x(0xffffffffffffffff, 0xffffffffffffffff,
+                                      0x0000000000000000, 0x0000000000000000);
+
+    shuffle_and_compare(reg, key, mask1, 0b0101);
+    reverse_and_compare(reg, key, mask2);
+    shuffle_and_compare(reg, key, mask1, 0b0101);
+}
+
+/**
+ * @brief The function reverses one of the input registers and compares the
+ * reversed register to the other supplied register. The resulting permutation
+ * is then applied to the key1 and key2 pair.
+ * @param reg0 register to be shuffled and compared to be reversed
+ * @param reg1 register bo be compared to register reg0
+ * @param key1 register of keys to be sorted
+ * @param key2 register of keys to be sorted
+ */
+inline __attribute__((always_inline)) void reverse_and_compare(__m256d &reg0,
+                                                               __m256d &reg1,
+                                                               __m256i &key0,
+                                                               __m256i &key1) {
+
+    __m256d reversed_reg = _mm256_permute4x64_pd(reg0, 0b00011011);
+    __m256i reversed_key = _mm256_permute4x64_epi64(key0, 0b00011011);
+
+    __m256d mask = _mm256_cmp_pd(reg1, reversed_reg, _CMP_LE_OQ);
+
+    reg0 = _mm256_blendv_pd(reversed_reg, reg1, mask);
+    reg1 = _mm256_blendv_pd(reg1, reversed_reg, mask);
+
+    key0 = _mm256_blendv_epi64(reversed_key, key1, _mm256_castpd_si256(mask));
+    key1 = _mm256_blendv_epi64(key1, reversed_key, _mm256_castpd_si256(mask));
+}
+
+/**
+ * @brief The function accepts two __m256d vectors and sorts them.
+ * @param reg1 upper vector of numbers - at the end it contains larger
+ * values, the largest value is in the upper half of register [255:192]
+ *
+ * @param reg0 lower vector of numbers - at the end it contains smaller
+ * values. The smallest value is in the lowest half of register - at
+ * [63:0]
+ */
+inline void bitonic_sort(__m256d &reg0, __m256d &reg1, __m256i &key0,
+                         __m256i &key1) {
+    bitonic_sort(reg1, key1); // sort first register
+    bitonic_sort(reg0, key0); // sort second register
+
+    __m256i mask1 = _mm256_set_epi64x(0xffffffffffffffff, 0xffffffffffffffff,
+                                      0x0000000000000000, 0x0000000000000000);
+
+    __m256i mask2 = _mm256_set_epi64x(0xffffffffffffffff, 0x0000000000000000,
+                                      0xffffffffffffffff, 0x0000000000000000);
+
+    reverse_and_compare(reg0, reg1, key0, key1);
+    permute_and_compare(reg1, key1, mask1, 0b01001110);
+    shuffle_and_compare(reg1, key1, mask2, 0b0101);
+
+    permute_and_compare(reg0, key0, mask1, 0b01001110);
+    shuffle_and_compare(reg0, key0, mask2, 0b0101);
+    return;
+}
+
+/**
+ * @brief The function reverses one of the input registers and compares the
+ * reversed register to the other supplied register. The resulting permutation
+ * is then applied to the key1 and key2 pair.
+ * @param reg0 register to be shuffled and compared to be reversed
+ * @param reg1 register bo be compared to register reg0
+ * @param key1 register of keys to be sorted
+ * @param key2 register of keys to be sorted
+ */
+inline __attribute__((always_inline)) void
+compare(__m256d &reg0, __m256d &reg1, __m256i &key0, __m256i &key1) {
+
+    __m256d mask = _mm256_cmp_pd(reg1, reg0, _CMP_LE_OQ);
+
+    reg0 = _mm256_blendv_pd(reg0, reg1, mask);
+    reg1 = _mm256_blendv_pd(reg1, reg0, mask);
+
+    key0 = _mm256_blendv_epi64(key0, key1, _mm256_castpd_si256(mask));
+    key1 = _mm256_blendv_epi64(key1, key0, _mm256_castpd_si256(mask));
+}
+
+/**
+ * @brief The function accepts two __m256d vectors and sorts them.
+ * @param reg1 upper vector of numbers - at the end it contains larger
+ * values, the largest value is in the upper half of register [255:192]
+ *
+ * @param reg0 lower vector of numbers - at the end it contains smaller
+ * values. The smallest value is in the lowest half of register - at
+ * [63:0]
+ *
+ */
+inline void bitonic_sort(__m256d &reg0, __m256d &reg1, __m256d &reg2,
+                         __m256d &reg3, __m256i &key0, __m256i &key1,
+                         __m256i &key2, __m256i &key3) {
+    bitonic_sort(reg0, key0); // sort first register
+    bitonic_sort(reg1, key1); // sort second register
+    bitonic_sort(reg2, key2); // sort third register
+    bitonic_sort(reg3, key3); // sort fourth register
+
+    bitonic_sort(reg0, reg1, key0, key1); // sort third register
+    bitonic_sort(reg2, reg3, key2, key3); // sort fourth register
+
+    reverse_and_compare(reg0, reg3, key0, key3);
+    reverse_and_compare(reg1, reg2, key1, key2);
+
+    compare(reg0, reg1, key0, key1);
+    compare(reg2, reg3, key2, key3);
+
+    __m256i mask_epi64 =
+        _mm256_set_epi64x(0xffffffffffffffff, 0xffffffffffffffff,
+                          0x0000000000000000, 0x0000000000000000);
+
+    permute_and_compare(reg0, key0, mask_epi64, 0b01001110);
+    permute_and_compare(reg1, key1, mask_epi64, 0b01001110);
+    permute_and_compare(reg2, key2, mask_epi64, 0b01001110);
+    permute_and_compare(reg3, key3, mask_epi64, 0b01001110);
+
+    mask_epi64 = _mm256_set_epi64x(0xffffffffffffffff, 0x0000000000000000,
+                                   0xffffffffffffffff, 0x0000000000000000);
+    // shuffle neighbour numbers
+
+    shuffle_and_compare(reg0, key0, mask_epi64, 0b0101);
+    shuffle_and_compare(reg1, key1, mask_epi64, 0b0101);
+    shuffle_and_compare(reg2, key2, mask_epi64, 0b0101);
+    shuffle_and_compare(reg3, key3, mask_epi64, 0b0101);
+
+    return;
 }
 
 } // namespace BITONIC_SORT_KEY_VALUE

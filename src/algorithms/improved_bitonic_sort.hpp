@@ -1271,7 +1271,7 @@ inline void sort_vector(aligned_vector<float> &array, unsigned start,
 
 /////////////////////////////////////////////////////////////////////////
 // double implementation
-
+ 
 #ifndef __BITONIC_SORT_DOUBLE__
 #define __BITONIC_SORT_DOUBLE__
 #endif
