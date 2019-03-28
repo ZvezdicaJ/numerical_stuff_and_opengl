@@ -14,114 +14,58 @@ namespace BITONIC_SORT {
 static const int LOAD = 0xffffffff;
 static const int STORE = 0xffffffff;
 
+inline __attribute__((always_inline)) void
+shuffle_and_compare(__m256 &reg, const uint8_t mask1, const uint8_t mask2) {
+    __m256 shuffled_reg = _mm256_shuffle_ps(reg, reg, mask1);
+    __m256 max = _mm256_max_ps(reg, shuffled_reg);
+    __m256 min = _mm256_min_ps(reg, shuffled_reg);
+    reg = _mm256_blend_ps(max, min, mask2);
+}
+
+inline __attribute__((always_inline)) void reverse_and_compare(__m256 &reg) {
+    __m256 reversed_halves = _mm256_permute2f128_ps(reg, reg, 0b00000001);
+    __m256 reversed =
+        _mm256_shuffle_ps(reversed_halves, reversed_halves, 0b00011011);
+    __m256 max = _mm256_max_ps(reg, reversed);
+    __m256 min = _mm256_min_ps(reg, reversed);
+    reg = _mm256_blend_ps(max, min, 0b00001111);
+}
+
 /**
  *@brief The function accepts a single __m256 vector and sorts it.
  * @param reg register to be sorted
  */
 void bitonic_sort(__m256 &reg) {
-    {
-        // prvi korak: *--*  *--*  *--* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg, reg, 0b10110001);
-        // print_avx(shuffled_reg, "shuffled: ");
-        __m256 mask = _mm256_cmp_ps(reg, shuffled_reg, _CMP_LE_OQ);
-
-        // min and max are part of old implementation both have 4 cycle latency
-        // we really need only a single comparison - and we can use mask to sort
-        // key too ... follows later
-        // __m256 max = _mm256_max_ps(reg, shuffled_reg);
-        // __m256 min = _mm256_min_ps(reg, shuffled_reg);
-
-        //   dst[63:0] := src1[31:0]
-        //   dst[127:64] := src2[63:32]
-        //   dst[192:128] := src1[95:64]
-        //   dst[255:192] := src2[127:96]
-        // this will produce smallest number to in the [0:63] register
-        /*print_avx(mask, "mask before xor: ");
-        float *p = (float *)&mask;
-        std::bitset<32> bitset1(*reinterpret_cast<unsigned long *>(p));
-        std::bitset<32> bitset2(*reinterpret_cast<unsigned long *>(p + 1));
-        std::cout << *p << ": " << bitset1 << '\n';
-        std::cout << *(p + 1) << ": " << bitset2 << '\n';
-        int m = 0xffffffff;
-        */
-        mask = _mm256_castsi256_ps(_mm256_xor_si256(
-            _mm256_castps_si256(mask),
-            _mm256_set_epi32(0xffffffff, 0x00000000, 0xffffffff, 0x00000000,
-                             0xffffffff, 0x00000000, 0xffffffff, 0x00000000)));
-        /* print_avx(mask, "mask after xor: ");
-        std::bitset<32> bitset3(*reinterpret_cast<unsigned long *>(p));
-        std::bitset<32> bitset4(*reinterpret_cast<unsigned long *>(p + 1));
-        std::cout << *p << ": " << bitset3 << '\n';
-        std::cout << *(p + 1) << ": " << bitset4 << "\n\n\n";
-        */
-
-        reg = _mm256_blendv_ps(shuffled_reg, reg, mask);
-        //   print_avx(reg, "reg: ");
-        // print_avx(_mm256_blend_ps(min, max, 0b10101010), "correct_result: ");
-        // old
-        // reg = _mm256_blend_ps(min, max, 0b10101010);
-    }
-    {
-        // drugi korak *----* *--*     *----* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg, reg, 0b00011011);
-
-        __m256 max = _mm256_max_ps(reg, shuffled_reg);
-        __m256 min = _mm256_min_ps(reg, shuffled_reg);
-
-        // max mora biti pri 256
-        // min is located at the start of register (at 0 - lower half)
-        reg = _mm256_blend_ps(max, min, 0b00110011);
-    }
-    {
-        // ponovimo prvi korak: *--*  *--*  *--* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg, reg, 0b10110001);
-        __m256 max = _mm256_max_ps(reg, shuffled_reg);
-        __m256 min = _mm256_min_ps(reg, shuffled_reg);
-        //   dst[63:0] := src1[63:0]
-        //   dst[127:64] := src2[63:0]
-        //   dst[192:128] := src1[192:128]
-        //   dst[255:192] := src2[192:128]
-        // this will produce smallest number to in the [0:63] register
-        reg = _mm256_blend_ps(min, max, 0b10101010);
-    }
-    {
-        // now we have to reverse register:
-        // *--------* *------* *----* *--*
-        // the following line first reverses the two halves of register
-        // in the next step it reverses both halves
-        __m256 reversed_halves = _mm256_permute2f128_ps(reg, reg, 0b00000001);
-        __m256 reversed =
-            _mm256_shuffle_ps(reversed_halves, reversed_halves, 0b00011011);
-        __m256 max = _mm256_max_ps(reg, reversed);
-        __m256 min = _mm256_min_ps(reg, reversed);
-        // first unpack 4 minimum and then 4 maximums
-        // 1 unpack an elements from min
-        // 1 unpack an element from max
-        reg = _mm256_blend_ps(max, min, 0b00001111);
-    }
-    {
-        //  *----* *----*     *----* *----*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg, reg, 0b01001110);
-        __m256 max = _mm256_max_ps(reg, shuffled_reg);
-        __m256 min = _mm256_min_ps(reg, shuffled_reg);
-        // max mora biti pri 256
-        // min is located at the start of register (at 0 - lower half)
-        reg = _mm256_blend_ps(max, min, 0b00110011);
-    }
-    {
-        // and finally repeat the first step: *--*  *--*  *--* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg, reg, 0b10110001);
-        __m256 max = _mm256_max_ps(reg, shuffled_reg);
-        __m256 min = _mm256_min_ps(reg, shuffled_reg);
-        //   dst[63:0] := src1[31:0]
-        //   dst[127:64] := src2[63:32]
-        //   dst[192:128] := src1[95:64]
-        //   dst[255:192] := src2[127:96]
-        // this will produce smallest number to in the [0:63] register
-        reg = _mm256_blend_ps(min, max, 0b10101010);
-    }
+    //    shuffle_and_compare(reg, 0b10110001, 0b10101010);
+    shuffle_and_compare(reg, 0b10110001, 0b01010101);
+    shuffle_and_compare(reg, 0b00011011, 0b00110011);
+    shuffle_and_compare(reg, 0b10110001, 0b01010101);
+    reverse_and_compare(reg);
+    shuffle_and_compare(reg, 0b01001110, 0b00110011);
+    shuffle_and_compare(reg, 0b10110001, 0b01010101);
 }
 #endif
+
+inline __attribute__((always_inline)) void reverse_and_compare(__m256 &reg0,
+                                                               __m256 &reg1) {
+    // reverse one of registers register reg0
+    __m256 reversed_halves = _mm256_permute2f128_ps(reg0, reg0, 0b00000001);
+    __m256 reversed =
+        _mm256_shuffle_ps(reversed_halves, reversed_halves, 0b00011011);
+    // register 2 vsebuje min vrednosti
+    reg0 = _mm256_min_ps(reg1, reversed);
+    // register 1 vsebuje max vrednosti
+    reg1 = _mm256_max_ps(reg1, reversed);
+}
+
+inline __attribute__((always_inline)) void
+reverse_halves_and_compare(__m256 &reg0) {
+    // tu narediš *----* *----* *----* *----*
+    __m256 reversed_halves = _mm256_permute2f128_ps(reg0, reg0, 0b00000001);
+    __m256 max = _mm256_max_ps(reg0, reversed_halves);
+    __m256 min = _mm256_min_ps(reg0, reversed_halves);
+    reg0 = _mm256_blend_ps(max, min, 0b00001111);
+}
 
 /**
  * @brief The function accepts two unsorted  __m256 vectors and sorts them.
@@ -136,77 +80,13 @@ void bitonic_sort(__m256 &reg) {
 inline void bitonic_sort(__m256 &reg0, __m256 &reg1) {
     bitonic_sort(reg1); // sort first register
     bitonic_sort(reg0); // sort second register
-    {
-        // reverse one of registers register reg0
-        __m256 reversed_halves = _mm256_permute2f128_ps(reg0, reg0, 0b00000001);
-        __m256 reversed =
-            _mm256_shuffle_ps(reversed_halves, reversed_halves, 0b00011011);
-
-        // register 2 vsebuje min vrednosti
-        reg0 = _mm256_min_ps(reg1, reversed);
-        // register 1 vsebuje max vrednosti
-        reg1 = _mm256_max_ps(reg1, reversed);
-    }
-    {
-        // tu narediš *----* *----* *----* *----*
-        __m256 reversed_halves = _mm256_permute2f128_ps(reg0, reg0, 0b00000001);
-        __m256 max = _mm256_max_ps(reg0, reversed_halves);
-        __m256 min = _mm256_min_ps(reg0, reversed_halves);
-        // max mora biti pri 256
-        reg0 = _mm256_blend_ps(max, min, 0b00001111);
-    }
-    {
-        // tu narediš *----* *----* *----* *----*
-        __m256 reversed_halves = _mm256_permute2f128_ps(reg1, reg1, 0b00000001);
-        __m256 max = _mm256_max_ps(reg1, reversed_halves);
-        __m256 min = _mm256_min_ps(reg1, reversed_halves);
-        // max mora biti pri 256
-        reg1 = _mm256_blend_ps(max, min, 0b00001111);
-    }
-
-    {
-        //  *----* *----*     *----* *----*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg0, reg0, 0b01001110);
-        __m256 max = _mm256_max_ps(reg0, shuffled_reg);
-        __m256 min = _mm256_min_ps(reg0, shuffled_reg);
-        // max mora biti pri 256
-        // min is located at the start of register (at 0 - lower half)
-        reg0 = _mm256_blend_ps(max, min, 0b00110011);
-    }
-    {
-        // and finally repeat the first step: *--*  *--*  *--* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg0, reg0, 0b10110001);
-        __m256 max = _mm256_max_ps(reg0, shuffled_reg);
-        __m256 min = _mm256_min_ps(reg0, shuffled_reg);
-        //   dst[63:0] := src1[31:0]
-        //   dst[127:64] := src2[63:32]
-        //   dst[192:128] := src1[95:64]
-        //   dst[255:192] := src2[127:96]
-        // this will produce smallest number to in the [0:63] register
-        reg0 = _mm256_blend_ps(min, max, 0b10101010);
-    }
-
-    {
-        //  *----* *----*     *----* *----*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg1, reg1, 0b01001110);
-        __m256 max = _mm256_max_ps(reg1, shuffled_reg);
-        __m256 min = _mm256_min_ps(reg1, shuffled_reg);
-        // max mora biti pri 256
-        // min is located at the start of register (at 0 - lower half)
-        reg1 = _mm256_blend_ps(max, min, 0b00110011);
-    }
-    {
-        // and finally repeat the first step: *--*  *--*  *--* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg1, reg1, 0b10110001);
-        __m256 max = _mm256_max_ps(reg1, shuffled_reg);
-        __m256 min = _mm256_min_ps(reg1, shuffled_reg);
-        //   dst[63:0] := src1[31:0]
-        //   dst[127:64] := src2[63:32]
-        //   dst[192:128] := src1[95:64]
-        //   dst[255:192] := src2[127:96]
-        // this will produce smallest number to in the [0:63] register
-        reg1 = _mm256_blend_ps(min, max, 0b10101010);
-    }
+    reverse_and_compare(reg0, reg1);
+    reverse_halves_and_compare(reg0);
+    reverse_halves_and_compare(reg1);
+    shuffle_and_compare(reg0, 0b01001110, 0b00110011);
+    shuffle_and_compare(reg0, 0b10110001, 0b01010101);
+    shuffle_and_compare(reg1, 0b01001110, 0b00110011);
+    shuffle_and_compare(reg1, 0b10110001, 0b01010101);
     return;
 }
 /**
@@ -263,11 +143,6 @@ inline void bitonic_merge(__m256 &reg0, __m256 &reg1) {
         __m256 shuffled_reg = _mm256_shuffle_ps(reg0, reg0, 0b10110001);
         __m256 max = _mm256_max_ps(reg0, shuffled_reg);
         __m256 min = _mm256_min_ps(reg0, shuffled_reg);
-        //   dst[63:0] := src1[31:0]
-        //   dst[127:64] := src2[63:32]
-        //   dst[192:128] := src1[95:64]
-        //   dst[255:192] := src2[127:96]
-        // this will produce smallest number to in the [0:63] register
         reg0 = _mm256_blend_ps(min, max, 0b10101010);
     }
 
@@ -285,11 +160,6 @@ inline void bitonic_merge(__m256 &reg0, __m256 &reg1) {
         __m256 shuffled_reg = _mm256_shuffle_ps(reg1, reg1, 0b10110001);
         __m256 max = _mm256_max_ps(reg1, shuffled_reg);
         __m256 min = _mm256_min_ps(reg1, shuffled_reg);
-        //   dst[63:0] := src1[31:0]
-        //   dst[127:64] := src2[63:32]
-        //   dst[192:128] := src1[95:64]
-        //   dst[255:192] := src2[127:96]
-        // this will produce smallest number to in the [0:63] register
         reg1 = _mm256_blend_ps(min, max, 0b10101010);
     }
     return;
@@ -773,10 +643,6 @@ inline void compare_full_length(float *arr, unsigned start, unsigned end,
     for (int i = half - 8; i >= 0; i -= 8) {
         if (end - 7 - i > last_index)
             break;
-        // std::cout << "start: " << start << std::endl;
-        // std::cout << "compare_full_length: " << start + i << "  " << end - 7
-        // - i
-        //          << std::endl;
         float *p1 = arr + start + i;
         float *p2 = arr + end - 7 - i;
 
@@ -794,8 +660,6 @@ inline void compare_full_length(float *arr, unsigned start, unsigned end,
                 _mm256_shuffle_ps(reversed_halves, reversed_halves, 0b00011011);
             _mm256_store_ps(p1, vec1);
             _mm256_store_ps(p2, vec2);
-            // print_avx(vec1, "vec1: ");
-            // print_avx(vec2, "vec2: ");
         }
     }
 }
@@ -855,8 +719,6 @@ inline void lane_crossing_compare(float *arr, unsigned start, unsigned end,
         if (start + length / 2 + i > last_index)
             break;
         {
-            // std::cout << "shuffling vecs: " << start + i << " "
-            //         << start + length / 2 + i << std::endl;
             float *p1 = p + i;
             float *p2 = p + length / 2 + i;
             __m256 reg0 = _mm256_load_ps(p1); // i-ti od začetka
@@ -866,9 +728,6 @@ inline void lane_crossing_compare(float *arr, unsigned start, unsigned end,
             // register 1 vsebuje max vrednosti
             reg1 = _mm256_max_ps(reg1, reg0);
             reg0 = min;
-            // print_avx(reg0, "reg0: ");
-            // print_avx(reg1, "reg1: ");
-            // std::cout << "\n";
             _mm256_store_ps(p1, reg0);
             _mm256_store_ps(p2, reg1);
         }
@@ -898,10 +757,6 @@ inline void sort_8n_vector(float *array, unsigned start, unsigned end) {
     assert((full_length >= 0 && (full_length % 8) == 0) &&
            "The array to be sorted is not a multiples of 8!");
 
-    //__m256d *arr = avx_vec.data();
-    // if (full_length < 8) {
-    //    std::sort(array, array + full_length);
-    // } else
     if (full_length == 8) {
         __m256 vec = _mm256_load_ps(array);
         bitonic_sort(vec);
@@ -930,7 +785,6 @@ inline void sort_8n_vector(float *array, unsigned start, unsigned end) {
             bitonic_sort(vec1);
             _mm256_store_ps(array + i, vec1);
         }
-
         // outer loop
         // len is number of floats in length to be compared
         // each step increases this length by factor of 2.
@@ -1001,8 +855,6 @@ inline void maskload(int diff, float *p2, __m256i &mask, __m256 &reg1) {
             _mm256_set1_ps(std::numeric_limits<float>::infinity());
         reg1 = _mm256_blend_ps(infinity, reg1, 0b01111111);
     } break;
-    default:
-        reg1 = _mm256_load_ps(p2);
     };
 }
 
@@ -1014,8 +866,7 @@ inline void maskload(int diff, float *p2, __m256i &mask, __m256 &reg1) {
  */
 inline void compare_full_length_all_cases(float *arr, unsigned start,
                                           unsigned end, unsigned last_index) {
-    // std::cout << "start: " << start << "end: " << end
-    //          << " last index: " << last_index << std::endl;
+
     unsigned length = end - start + 1;
     unsigned half = length / 2; // half je index prvega cez polovico
     for (int i = half - 8; i >= 0; i -= 8) {
@@ -1073,9 +924,10 @@ inline void lane_crossing_compare_all_cases(float *arr, unsigned start,
             return;
         __m256 reg;
         __m256i mask;
-        maskload(diff, arr + start, mask, reg);
-        // else
-        // g = _mm256_load_ps(arr + start);
+        if (UNLIKELY(diff < 7))
+            maskload(diff, arr + start, mask, reg);
+        else
+            reg = _mm256_load_ps(arr + start);
 
         {
             // here one compares:
@@ -1226,12 +1078,6 @@ inline void bitonic_sort(__m256d &reg) {
         __m256d shuffled_reg = _mm256_shuffle_pd(reg, reg, 0b0101);
         __m256d max = _mm256_max_pd(reg, shuffled_reg);
         __m256d min = _mm256_min_pd(reg, shuffled_reg);
-        //   dst[63:0] := src1[63:0]
-        //   dst[127:64] := src2[63:0]
-        //   dst[192:128] := src1[192:128]
-        //   dst[255:192] := src2[192:128]
-        // this will produce smallest number to in the [0:63]
-        // register
         reg = _mm256_unpacklo_pd(min, max);
     }
     {
@@ -1246,12 +1092,6 @@ inline void bitonic_sort(__m256d &reg) {
         __m256d shuffled_reg = _mm256_shuffle_pd(reg, reg, 0b0101);
         __m256d max = _mm256_max_pd(reg, shuffled_reg);
         __m256d min = _mm256_min_pd(reg, shuffled_reg);
-        //   dst[63:0] := src1[63:0]
-        //   dst[127:64] := src2[63:0]
-        //   dst[192:128] := src1[192:128]
-        //   dst[255:192] := src2[192:128]
-        // this will produce smallest number to in the [0:63]
-        // register
         reg = _mm256_unpacklo_pd(min, max);
     }
 }
@@ -1269,9 +1109,7 @@ inline void bitonic_sort(__m256d &reg) {
 inline void bitonic_sort(__m256d &reg0, __m256d &reg1) {
     bitonic_sort(reg1); // sort first register
     bitonic_sort(reg0); // sort second register
-    // print_avx(reg0, "reg0: ");
-    // print_avx(reg1, "reg1: ");
-    // std::cout << std::endl;
+
     {
         // reverse one of registers register reg0
         __m256d reverse2 = _mm256_permute4x64_pd(reg0, _MM_SHUFFLE(0, 1, 2, 3));
@@ -1282,9 +1120,7 @@ inline void bitonic_sort(__m256d &reg0, __m256d &reg1) {
         // print_avx(max, "max: ");
         // print_avx(min, "min: ");
     }
-    // print_avx(reg0, "reg0: ");
-    // print_avx(reg1, "reg1: ");
-    // std::cout << std::endl;
+
     {
         // tu narediš *----* *----*
         __m256d shuffled_reg1 = _mm256_permute4x64_pd(reg1, 0b01001110);
@@ -1293,23 +1129,14 @@ inline void bitonic_sort(__m256d &reg0, __m256d &reg1) {
         // max mora biti pri 256
         reg1 = _mm256_blend_pd(max, min, 0b0011);
     }
-    // print_avx(reg0, "reg0: ");
-    // print_avx(reg1, "reg1: ");
-    // std::cout << std::endl;
+
     {
         __m256d shuffled_reg1 = _mm256_shuffle_pd(reg1, reg1, 0b0101);
         __m256d max = _mm256_max_pd(reg1, shuffled_reg1);
         __m256d min = _mm256_min_pd(reg1, shuffled_reg1);
-        //   dst[63:0] := src1[63:0]
-        //   dst[127:64] := src2[63:0]
-        //   dst[192:128] := src1[192:128]
-        //   dst[255:192] := src2[192:128]
-        // this will produce smallest number to in the [0:63] register
         reg1 = _mm256_unpacklo_pd(min, max);
     }
-    // print_avx(reg0, "reg0: ");
-    // print_avx(reg1, "reg1: ");
-    // std::cout << std::endl;
+
     {
         // tu narediš *----* *----*
         __m256d shuffled_reg0 = _mm256_permute4x64_pd(reg0, 0b01001110);
@@ -1318,23 +1145,13 @@ inline void bitonic_sort(__m256d &reg0, __m256d &reg1) {
         // max mora biti pri 256
         reg0 = _mm256_blend_pd(max, min, 0b0011);
     }
-    // print_avx(reg0, "reg0: ");
-    // print_avx(reg1, "reg1: ");
-    // std::cout << std::endl;
+
     {
         __m256d shuffled_reg0 = _mm256_shuffle_pd(reg0, reg0, 0b0101);
         __m256d max = _mm256_max_pd(reg0, shuffled_reg0);
         __m256d min = _mm256_min_pd(reg0, shuffled_reg0);
-        //   dst[63:0] := src1[63:0]
-        //   dst[127:64] := src2[63:0]
-        //   dst[192:128] := src1[192:128]
-        //   dst[255:192] := src2[192:128]
-        // this will place smallest number to the [0:63] register
         reg0 = _mm256_unpacklo_pd(min, max);
     }
-    // print_avx(reg0, "reg0: ");
-    // print_avx(reg1, "reg1: ");
-    // std::cout << std::endl;
     return;
 }
 
@@ -1363,8 +1180,6 @@ inline void bitonic_sort(__m256d &reg0, __m256d &reg1, __m256d &reg2,
         reg0 = _mm256_min_pd(reg3, reverse);
         // register 1 vsebuje max vrednosti
         reg3 = _mm256_max_pd(reg3, reverse);
-        // print_avx(max, "max: ");
-        // print_avx(min, "min: ");
     }
     {
         // reverse one of registers register reg0
@@ -1373,8 +1188,6 @@ inline void bitonic_sort(__m256d &reg0, __m256d &reg1, __m256d &reg2,
         reg1 = _mm256_min_pd(reg2, reverse);
         // register 1 vsebuje max vrednosti
         reg2 = _mm256_max_pd(reg2, reverse);
-        // print_avx(max, "max: ");
-        // print_avx(min, "min: ");
     }
     {
         __m256d min = _mm256_min_pd(reg3, reg1);
@@ -1398,10 +1211,7 @@ inline void bitonic_sort(__m256d &reg0, __m256d &reg1, __m256d &reg2,
         reg2 = min;
         reg3 = max;
     }
-    /*    print_avx(reg0, "reg0");
-    print_avx(reg1, "reg1");
-    print_avx(reg2, "reg2");
-    print_avx(reg3, "reg3");*/
+
     { // shuffling between 128bit lanes
         __m256d shuffled_reg = _mm256_permute4x64_pd(reg0, 0b01001110);
         __m256d max = _mm256_max_pd(reg0, shuffled_reg);
@@ -1478,9 +1288,7 @@ inline void compare_full_length(double *arr, unsigned start, unsigned end) {
     for (unsigned i = 0; i < half; i += 4) {
         double *p1 = arr + start + i;
         double *p2 = arr + end - 3 - i;
-        // std::cout << "start + i: " << start + i << std::endl;
-        // std::cout << "end - 3 - i: " << end - 3 - i << std::endl;
-        // std::cout << "\n\n";
+
         __m256d vec1 = _mm256_load_pd(p1);
         __m256d vec2 = _mm256_load_pd(p2);
         // reverse one of registers register reg0
@@ -1506,12 +1314,6 @@ inline void lane_crossing_compare(double *arr, unsigned start, unsigned end,
                                   unsigned depth) {
 
     unsigned length = end - start + 1;
-    // std::cout << "start: " << start << std::endl;
-    // std::cout << "end: " << end << std::endl;
-    // std::cout << "start: " << start << std::endl;
-    // std::cout << "end: " << end << std::endl;
-    // std::cout << "depth " << depth << std::endl;
-    // std::cout << "new end: " << (start + end) / 2 << std::endl;
     if (length == 4) {
         __m256d reg = _mm256_load_pd(arr + start);
         // this is the ending case do single vector permutations
@@ -1540,9 +1342,7 @@ inline void lane_crossing_compare(double *arr, unsigned start, unsigned end,
         {
             double *p1 = p + i;
             double *p2 = p + length / 2 + i;
-            // std::cout << "i: " << i << std::endl;
-            // std::cout << "length/2 + i: " << length / 2 + i <<
-            // std::endl;
+
             __m256d reg0 = _mm256_load_pd(p1); // i-ti od začetka
             __m256d reg1 = _mm256_load_pd(p2); // ta je prvi čez polovico
             // register 2 vsebuje min vrednosti
@@ -1671,7 +1471,6 @@ inline void lane_crossing_compare(double *arr, unsigned start, unsigned end,
                                   unsigned last_index, unsigned depth) {
 
     if (start > last_index) {
-        // std::cout << "aborted start index: " << start << std::endl;
         return;
     }
     unsigned length = end - start + 1;
