@@ -1271,7 +1271,7 @@ inline void sort_vector(aligned_vector<float> &array, unsigned start,
 
 /////////////////////////////////////////////////////////////////////////
 // double implementation
- 
+
 #ifndef __BITONIC_SORT_DOUBLE__
 #define __BITONIC_SORT_DOUBLE__
 #endif
@@ -1288,14 +1288,6 @@ inline void bitonic_sort(__m256d &reg) {
             _mm256_castpd_si256(mask),
             _mm256_set_epi64x(0xffffffffffffffff, 0x0000000000000000,
                               0xffffffffffffffff, 0x0000000000000000)));
-        // ___m256d max = _mm256_max_pd(reg, shuffled_reg);
-        // __m256d min = _mm256_min_pd(reg, shuffled_reg);
-        //   dst[63:0] := src1[63:0]
-        //   dst[127:64] := src2[63:0]
-        //   dst[192:128] := src1[192:128]
-        //   dst[255:192] := src2[192:128]
-        // this will produce smallest number to in the [0:63]
-        // register
         reg = _mm256_blendv_pd(shuffled_reg, reg, mask);
     }
     {

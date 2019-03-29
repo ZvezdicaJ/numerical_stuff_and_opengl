@@ -265,9 +265,7 @@ inline void lane_crossing_compare(float *arr, unsigned start, unsigned end,
         reverse_halves_and_compare(reg);
         shuffle_and_compare(reg, 0b01001110, 0b00110011);
         shuffle_and_compare(reg, 0b10110001, 0b01010101);
-
         _mm256_store_ps(arr + start, reg);
-
         return;
     }
     float *p = arr + start;
@@ -752,32 +750,49 @@ inline void sort_vector(aligned_vector<float> &array, unsigned start,
 #ifndef __BITONIC_SORT_DOUBLE__
 #define __BITONIC_SORT_DOUBLE__
 #endif
+
+inline __attribute__((always_inline)) void
+shuffle_and_compare(__m256d &reg, const uint8_t mask) {
+    __m256d shuffled_reg = _mm256_shuffle_pd(reg, reg, mask);
+    __m256d max = _mm256_max_pd(reg, shuffled_reg);
+    __m256d min = _mm256_min_pd(reg, shuffled_reg);
+    reg = _mm256_unpacklo_pd(min, max);
+}
+
+inline __attribute__((always_inline)) void reverse_and_compare(__m256d &reg) {
+    __m256d reversed_reg = _mm256_permute4x64_pd(reg, 0b00011011);
+    __m256d max = _mm256_max_pd(reg, reversed_reg);
+    __m256d min = _mm256_min_pd(reg, reversed_reg);
+    // max mora biti pri 256
+    reg = _mm256_blend_pd(max, min, 0b0011);
+}
+
+inline __attribute__((always_inline)) void reverse_and_compare(__m256d &reg0,
+                                                               __m256d &reg1) {
+    __m256d reverse0 = _mm256_permute4x64_pd(reg0, 0b00011011);
+    // register 2 vsebuje min vrednosti
+    reg0 = _mm256_min_pd(reg1, reverse0);
+    // register 1 vsebuje max vrednosti
+    reg1 = _mm256_max_pd(reg1, reverse0);
+}
+
+inline __attribute__((always_inline)) void
+permute_and_compare(__m256d &reg, const uint8_t mask) {
+    __m256d shuffled_reg = _mm256_permute4x64_pd(reg, mask);
+    __m256d max = _mm256_max_pd(reg, shuffled_reg);
+    __m256d min = _mm256_min_pd(reg, shuffled_reg);
+    reg = _mm256_blend_pd(max, min, 0b0011);
+}
+
 /**
  *@brief The function accepts a single __m256d vector and sorts
  *it.
  * @param reg register to be sorted
  */
 inline void bitonic_sort(__m256d &reg) {
-    {
-        __m256d shuffled_reg = _mm256_shuffle_pd(reg, reg, 0b0101);
-        __m256d max = _mm256_max_pd(reg, shuffled_reg);
-        __m256d min = _mm256_min_pd(reg, shuffled_reg);
-        reg = _mm256_unpacklo_pd(min, max);
-    }
-    {
-        __m256d shuffled_reg =
-            _mm256_permute4x64_pd(reg, _MM_SHUFFLE(0, 1, 2, 3));
-        __m256d max = _mm256_max_pd(reg, shuffled_reg);
-        __m256d min = _mm256_min_pd(reg, shuffled_reg);
-        // max mora biti pri 256
-        reg = _mm256_blend_pd(max, min, 0b0011);
-    }
-    {
-        __m256d shuffled_reg = _mm256_shuffle_pd(reg, reg, 0b0101);
-        __m256d max = _mm256_max_pd(reg, shuffled_reg);
-        __m256d min = _mm256_min_pd(reg, shuffled_reg);
-        reg = _mm256_unpacklo_pd(min, max);
-    }
+    shuffle_and_compare(reg, 0b0101);
+    reverse_and_compare(reg);
+    shuffle_and_compare(reg, 0b0101);
 }
 
 /**
@@ -793,49 +808,11 @@ inline void bitonic_sort(__m256d &reg) {
 inline void bitonic_sort(__m256d &reg0, __m256d &reg1) {
     bitonic_sort(reg1); // sort first register
     bitonic_sort(reg0); // sort second register
-
-    {
-        // reverse one of registers register reg0
-        __m256d reverse2 = _mm256_permute4x64_pd(reg0, _MM_SHUFFLE(0, 1, 2, 3));
-        // register 2 vsebuje min vrednosti
-        reg0 = _mm256_min_pd(reg1, reverse2);
-        // register 1 vsebuje max vrednosti
-        reg1 = _mm256_max_pd(reg1, reverse2);
-        // print_avx(max, "max: ");
-        // print_avx(min, "min: ");
-    }
-
-    {
-        // tu narediš *----* *----*
-        __m256d shuffled_reg1 = _mm256_permute4x64_pd(reg1, 0b01001110);
-        __m256d max = _mm256_max_pd(reg1, shuffled_reg1);
-        __m256d min = _mm256_min_pd(reg1, shuffled_reg1);
-        // max mora biti pri 256
-        reg1 = _mm256_blend_pd(max, min, 0b0011);
-    }
-
-    {
-        __m256d shuffled_reg1 = _mm256_shuffle_pd(reg1, reg1, 0b0101);
-        __m256d max = _mm256_max_pd(reg1, shuffled_reg1);
-        __m256d min = _mm256_min_pd(reg1, shuffled_reg1);
-        reg1 = _mm256_unpacklo_pd(min, max);
-    }
-
-    {
-        // tu narediš *----* *----*
-        __m256d shuffled_reg0 = _mm256_permute4x64_pd(reg0, 0b01001110);
-        __m256d max = _mm256_max_pd(reg0, shuffled_reg0);
-        __m256d min = _mm256_min_pd(reg0, shuffled_reg0);
-        // max mora biti pri 256
-        reg0 = _mm256_blend_pd(max, min, 0b0011);
-    }
-
-    {
-        __m256d shuffled_reg0 = _mm256_shuffle_pd(reg0, reg0, 0b0101);
-        __m256d max = _mm256_max_pd(reg0, shuffled_reg0);
-        __m256d min = _mm256_min_pd(reg0, shuffled_reg0);
-        reg0 = _mm256_unpacklo_pd(min, max);
-    }
+    reverse_and_compare(reg0, reg1);
+    permute_and_compare(reg1, 0b01001110);
+    shuffle_and_compare(reg1, 0b0101);
+    permute_and_compare(reg0, 0b01001110);
+    shuffle_and_compare(reg0, 0b0101);
     return;
 }
 
@@ -857,22 +834,9 @@ inline void bitonic_sort(__m256d &reg0, __m256d &reg1, __m256d &reg2,
     bitonic_sort(reg3);       // sort fourth register
     bitonic_sort(reg0, reg1); // sort third register
     bitonic_sort(reg2, reg3); // sort fourth register
-    {
-        // reverse one of registers register reg0
-        __m256d reverse = _mm256_permute4x64_pd(reg0, _MM_SHUFFLE(0, 1, 2, 3));
-        // register 2 vsebuje min vrednosti
-        reg0 = _mm256_min_pd(reg3, reverse);
-        // register 1 vsebuje max vrednosti
-        reg3 = _mm256_max_pd(reg3, reverse);
-    }
-    {
-        // reverse one of registers register reg0
-        __m256d reverse = _mm256_permute4x64_pd(reg1, _MM_SHUFFLE(0, 1, 2, 3));
-        // register 2 vsebuje min vrednosti
-        reg1 = _mm256_min_pd(reg2, reverse);
-        // register 1 vsebuje max vrednosti
-        reg2 = _mm256_max_pd(reg2, reverse);
-    }
+    reverse_and_compare(reg0, reg3);
+    reverse_and_compare(reg1, reg2);
+
     {
         __m256d min = _mm256_min_pd(reg3, reg1);
         __m256d max = _mm256_max_pd(reg3, reg1);
@@ -895,65 +859,16 @@ inline void bitonic_sort(__m256d &reg0, __m256d &reg1, __m256d &reg2,
         reg2 = min;
         reg3 = max;
     }
+    permute_and_compare(reg0, 0b01001110);
+    permute_and_compare(reg1, 0b01001110);
+    permute_and_compare(reg2, 0b01001110);
+    permute_and_compare(reg3, 0b01001110);
 
-    { // shuffling between 128bit lanes
-        __m256d shuffled_reg = _mm256_permute4x64_pd(reg0, 0b01001110);
-        __m256d max = _mm256_max_pd(reg0, shuffled_reg);
-        __m256d min = _mm256_min_pd(reg0, shuffled_reg);
-        // max mora biti pri 256
-        reg0 = _mm256_blend_pd(max, min, 0b0011);
-    }
-    { // shuffling between 128bit lanes
-        __m256d shuffled_reg = _mm256_permute4x64_pd(reg1, 0b01001110);
-        __m256d max = _mm256_max_pd(reg1, shuffled_reg);
-        __m256d min = _mm256_min_pd(reg1, shuffled_reg);
-        // max mora biti pri 256
-        reg1 = _mm256_blend_pd(max, min, 0b0011);
-    }
-    { // shuffling between 128bit lanes
-        __m256d shuffled_reg = _mm256_permute4x64_pd(reg2, 0b01001110);
-        __m256d max = _mm256_max_pd(reg2, shuffled_reg);
-        __m256d min = _mm256_min_pd(reg2, shuffled_reg);
-        // max mora biti pri 256
-        reg2 = _mm256_blend_pd(max, min, 0b0011);
-    }
-    { // shuffling between 128bit lanes
-        __m256d shuffled_reg = _mm256_permute4x64_pd(reg3, 0b01001110);
-        __m256d max = _mm256_max_pd(reg3, shuffled_reg);
-        __m256d min = _mm256_min_pd(reg3, shuffled_reg);
-        // max mora biti pri 256
-        reg3 = _mm256_blend_pd(max, min, 0b0011);
-    }
-    // shuffle neighbour numbers
-    {
-        __m256d shuffled_reg1 = _mm256_shuffle_pd(reg1, reg1, 0b0101);
-        __m256d max = _mm256_max_pd(reg1, shuffled_reg1);
-        __m256d min = _mm256_min_pd(reg1, shuffled_reg1);
-        // this will produce smallest number to in the [0:63] register
-        reg1 = _mm256_unpacklo_pd(min, max);
-    }
-    {
-        __m256d shuffled_reg = _mm256_shuffle_pd(reg2, reg2, 0b0101);
-        __m256d max = _mm256_max_pd(reg2, shuffled_reg);
-        __m256d min = _mm256_min_pd(reg2, shuffled_reg);
-        // this will produce smallest number to in the [0:63] register
-        reg2 = _mm256_unpacklo_pd(min, max);
-    }
-    {
-        __m256d shuffled_reg = _mm256_shuffle_pd(reg3, reg3, 0b0101);
-        __m256d max = _mm256_max_pd(reg3, shuffled_reg);
-        __m256d min = _mm256_min_pd(reg3, shuffled_reg);
-        // this will produce smallest number to in the [0:63] register
-        reg3 = _mm256_unpacklo_pd(min, max);
-    }
+    shuffle_and_compare(reg0, 0b0101);
+    shuffle_and_compare(reg1, 0b0101);
+    shuffle_and_compare(reg2, 0b0101);
+    shuffle_and_compare(reg3, 0b0101);
 
-    {
-        __m256d shuffled_reg0 = _mm256_shuffle_pd(reg0, reg0, 0b0101);
-        __m256d max = _mm256_max_pd(reg0, shuffled_reg0);
-        __m256d min = _mm256_min_pd(reg0, shuffled_reg0);
-        // this will place smallest number to the [0:63] register
-        reg0 = _mm256_unpacklo_pd(min, max);
-    }
     return;
 }
 
@@ -972,16 +887,9 @@ inline void compare_full_length(double *arr, unsigned start, unsigned end) {
     for (unsigned i = 0; i < half; i += 4) {
         double *p1 = arr + start + i;
         double *p2 = arr + end - 3 - i;
-
         __m256d vec1 = _mm256_load_pd(p1);
         __m256d vec2 = _mm256_load_pd(p2);
-        // reverse one of registers register reg0
-        __m256d reverse = _mm256_permute4x64_pd(vec1, _MM_SHUFFLE(0, 1, 2, 3));
-        // register 2 vsebuje min vrednosti
-        vec1 = _mm256_min_pd(vec2, reverse);
-        // register 1 vsebuje max vrednosti
-        vec2 = _mm256_max_pd(vec2, reverse);
-        // vec1 = _mm256_permute4x64_pd(vec1, _MM_SHUFFLE(0, 1, 2, 3));
+        reverse_and_compare(vec1, vec2);
         _mm256_store_pd(p1, vec1);
         _mm256_store_pd(p2, vec2);
     }
@@ -1000,25 +908,9 @@ inline void lane_crossing_compare(double *arr, unsigned start, unsigned end,
     unsigned length = end - start + 1;
     if (length == 4) {
         __m256d reg = _mm256_load_pd(arr + start);
-        // this is the ending case do single vector permutations
-        { // shuffling between 128bit lanes of 256bit register
-          // (3,2,1,0)->(1,0,3,2) one compares 0 and 2 ,  1 and 3
-            __m256d shuffled_reg = _mm256_permute4x64_pd(reg, 0b01001110);
-            __m256d max = _mm256_max_pd(reg, shuffled_reg);
-            __m256d min = _mm256_min_pd(reg, shuffled_reg);
-            reg = _mm256_blend_pd(max, min, 0b0011);
-        }
-        // shuffle neighbour numbers
-        { // shuffle inside 128 lanes
-            // from (3,2,1,0) produce (2,3,0,1)
-            __m256d shuffled_reg = _mm256_shuffle_pd(reg, reg, 0b0101);
-            __m256d max = _mm256_max_pd(reg, shuffled_reg);
-            __m256d min = _mm256_min_pd(reg, shuffled_reg);
-            // this will produce smallest number to in the [0:63]
-            // register
-            reg = _mm256_unpacklo_pd(min, max);
-            _mm256_store_pd(arr + start, reg);
-        }
+        permute_and_compare(reg, 0b01001110);
+        shuffle_and_compare(reg, 0b0101);
+        _mm256_store_pd(arr + start, reg);
         return;
     }
     double *p = arr + start;
@@ -1130,11 +1022,10 @@ inline void compare_full_length(double *arr, unsigned start, unsigned end,
             __m256d vec1 = _mm256_load_pd(p1);
             __m256d vec2 = _mm256_load_pd(p2);
             // reverse one of registers register reg0
-            __m256d reverse =
-                _mm256_permute4x64_pd(vec1, _MM_SHUFFLE(0, 1, 2, 3));
+            __m256d reverse = _mm256_permute4x64_pd(vec1, 0b00011011);
             // register 2 vsebuje min vrednosti
             vec1 = _mm256_min_pd(vec2, reverse);
-            vec1 = _mm256_permute4x64_pd(vec1, _MM_SHUFFLE(0, 1, 2, 3));
+            vec1 = _mm256_permute4x64_pd(vec1, 0b00011011);
             // register 1 vsebuje max vrednosti
             vec2 = _mm256_max_pd(vec2, reverse);
             _mm256_store_pd(p1, vec1);
@@ -1161,24 +1052,11 @@ inline void lane_crossing_compare(double *arr, unsigned start, unsigned end,
     if (length == 4) {
         // this is the ending case do single vector permutations
         __m256d reg = _mm256_load_pd(arr + start);
-        // this is the ending case do single vector permutations
-        { // shuffling between 128bit lanes of 256bit register
-          // (3,2,1,0)->(1,0,3,2) one compares 0 and 2 ,  1 and 3
-            __m256d shuffled_reg = _mm256_permute4x64_pd(reg, 0b01001110);
-            __m256d max = _mm256_max_pd(reg, shuffled_reg);
-            __m256d min = _mm256_min_pd(reg, shuffled_reg);
-            reg = _mm256_blend_pd(max, min, 0b0011);
-        }
-        { // shuffle inside 128 lanes
-            // from (3,2,1,0) produce (2,3,0,1)
-            __m256d shuffled_reg = _mm256_shuffle_pd(reg, reg, 0b0101);
-            __m256d max = _mm256_max_pd(reg, shuffled_reg);
-            __m256d min = _mm256_min_pd(reg, shuffled_reg);
-            // this will produce smallest number to in the [0:63]
-            // register
-            reg = _mm256_unpacklo_pd(min, max);
-            _mm256_store_pd(arr + start, reg);
-        }
+
+        permute_and_compare(reg, 0b01001110);
+        shuffle_and_compare(reg, 0b0101);
+        _mm256_store_pd(arr + start, reg);
+
         return;
     }
     double *p = arr + start;
@@ -1323,13 +1201,8 @@ inline void compare_full_length_all_cases(double *arr, unsigned start,
             vec2 = _mm256_load_pd(p2);
 
         __m256d vec1 = _mm256_load_pd(p1);
-        // reverse one of registers register reg0
-        __m256d reverse = _mm256_permute4x64_pd(vec1, _MM_SHUFFLE(0, 1, 2, 3));
-        // register 2 vsebuje min vrednosti
-        vec1 = _mm256_min_pd(vec2, reverse);
-        vec1 = _mm256_permute4x64_pd(vec1, _MM_SHUFFLE(0, 1, 2, 3));
-        // register 1 vsebuje max vrednosti
-        vec2 = _mm256_max_pd(vec2, reverse);
+        reverse_and_compare(vec1, vec2);
+        vec1 = _mm256_permute4x64_pd(vec1, 0b00011011);
         _mm256_store_pd(p1, vec1);
         if (diff <= 2)
             _mm256_maskstore_pd(p2, mask, vec2);
@@ -1362,27 +1235,13 @@ inline void lane_crossing_compare_all_cases(double *arr, unsigned start,
             maskload(diff, arr + start, mask, reg);
         else
             reg = _mm256_load_pd(arr + start);
-        // else
-        { // shuffling between 128bit lanes of 256bit register
-          // (3,2,1,0)->(1,0,3,2) one compares 0 and 2 ,  1 and 3
-            __m256d shuffled_reg = _mm256_permute4x64_pd(reg, 0b01001110);
-            __m256d max = _mm256_max_pd(reg, shuffled_reg);
-            __m256d min = _mm256_min_pd(reg, shuffled_reg);
-            reg = _mm256_blend_pd(max, min, 0b0011);
-        }
-        { // shuffle inside 128 lanes
-            // from (3,2,1,0) produce (2,3,0,1)
-            __m256d shuffled_reg = _mm256_shuffle_pd(reg, reg, 0b0101);
-            __m256d max = _mm256_max_pd(reg, shuffled_reg);
-            __m256d min = _mm256_min_pd(reg, shuffled_reg);
-            // this will produce smallest number to in the [0:63]
-            // register
-            reg = _mm256_unpacklo_pd(min, max);
-            if (diff < 3)
-                _mm256_maskstore_pd(arr + start, mask, reg);
-            else
-                _mm256_store_pd(arr + start, reg);
-        }
+        permute_and_compare(reg, 0b01001110);
+        shuffle_and_compare(reg, 0b0101);
+        if (UNLIKELY(diff < 3))
+            _mm256_maskstore_pd(arr + start, mask, reg);
+        else
+            _mm256_store_pd(arr + start, reg);
+
         return;
     }
 
