@@ -7,7 +7,7 @@
 #include "convex_hull_test.hpp"
 #include "shape_test.hpp"
 #include "bitonic_sort_tests.hpp"
-#include "improved_bitonic_sort_tests.hpp"
+#include "modified_bitonic_sort_tests.hpp"
 #include "quick_sort_tests.hpp"
 #include "bitonic_sort_key_value_tests.hpp"
 

@@ -2,13 +2,58 @@
 #ifdef __AVX2__
 #include <bitset>
 
-#ifndef __IMPROVED_BITONIC_SORT_FLOAT__
-#define __IMPROVED_BITONIC_SORT_FLOAT__
+#ifndef __MODIFIED_BITONIC_SORT_FLOAT__
+#define __MODIFIED_BITONIC_SORT_FLOAT__
 
-namespace IMPROVED_BITONIC_SORT {
+namespace MODIFIED_BITONIC_SORT {
 
 static const int LOAD = 0xffffffff;
 static const int STORE = 0xffffffff;
+
+/**
+ * @brief shuffles a register according to uint8_t mask and compares shuffled
+ * register to the original one. The resulting permutation is then applied to
+ * the key.
+ * @param reg register to be shuffled and compared
+ * @param key key vector to be shuffled based on the result of comparison of
+ * shuffled float register to the original one.
+ * @param mask_epi32 helper mask to blend two vector. For more info
+ * check Intel intrinsics guide - _mm256_blendv_ps function.
+ * @param uint8_t mask according to which float register is shuffled.
+ */
+inline __attribute__((always_inline)) void
+shuffle_and_compare(__m256 &reg, const __m256i &mask_epi32,
+                    const uint8_t mask8) {
+    __m256 shuffled_reg = _mm256_shuffle_ps(reg, reg, mask8);
+    __m256 mask = _mm256_cmp_ps(reg, shuffled_reg, _CMP_LE_OQ);
+    mask = _mm256_castsi256_ps(
+        _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
+
+    reg = _mm256_blendv_ps(shuffled_reg, reg, mask);
+}
+
+/**
+ * @brief The function reverses a register according  and
+ * compares reversed register to the original one. The resulting permutation is
+ * then applied to the key.
+ * @param reg register to be shuffled and compared
+ * @param key key vector to be shuffled based on the result of comparison of
+ * shuffled float register to the original one.
+ * @param mask_epi32 helper mask to blend two vector. For more info
+ * check Intel intrinsics guide - _mm256_blendv_ps function.
+ */
+inline __attribute__((always_inline)) void
+reverse_and_compare(__m256 &reg, const __m256i &mask_epi32) {
+
+    __m256 reversed_halves = _mm256_permute2f128_ps(reg, reg, 0b00000001);
+    __m256 reversed =
+        _mm256_shuffle_ps(reversed_halves, reversed_halves, 0b00011011);
+    __m256 mask = _mm256_cmp_ps(reg, reversed, _CMP_LE_OQ);
+    mask = _mm256_castsi256_ps(
+        _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
+
+    reg = _mm256_blendv_ps(reversed, reg, mask);
+}
 
 /**
  *@brief The function accepts a single __m256 vector and sorts it.
@@ -27,72 +72,55 @@ void bitonic_sort(__m256 &reg) {
         _mm256_set_epi32(0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
                          0x00000000, 0x00000000, 0x00000000, 0x00000000);
 
-    {
-        // prvi korak: *--*  *--*  *--* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg, reg, 0b10110001);
-        // print_avx(shuffled_reg, "shuffled: ");
-        __m256 mask = _mm256_cmp_ps(reg, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask1));
-        /* print_avx(mask, "mask after xor: ");
-        std::bitset<32> bitset3(*reinterpret_cast<unsigned long *>(p));
-        std::bitset<32> bitset4(*reinterpret_cast<unsigned long *>(p + 1));
-        std::cout << *p << ": " << bitset3 << '\n';
-        std::cout << *(p + 1) << ": " << bitset4 << "\n\n\n";
-        */
+    shuffle_and_compare(reg, mask1, 0b10110001);
+    shuffle_and_compare(reg, mask2, 0b00011011);
+    shuffle_and_compare(reg, mask1, 0b10110001);
 
-        reg = _mm256_blendv_ps(shuffled_reg, reg, mask);
-    }
-    {
-        // drugi korak *----* *--*     *----* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg, reg, 0b00011011);
+    reverse_and_compare(reg, mask3);
+    shuffle_and_compare(reg, mask2, 0b01001110);
+    shuffle_and_compare(reg, mask1, 0b10110001);
+}
 
-        //__m256 max = _mm256_max_ps(reg, shuffled_reg);
-        //__m256 min = _mm256_min_ps(reg, shuffled_reg);
-        __m256 mask = _mm256_cmp_ps(reg, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask2));
-        reg = _mm256_blendv_ps(shuffled_reg, reg, mask);
-        // max mora biti pri 256
-        // min is located at the start of register (at 0 - lower half)
-    }
-    {
-        // ponovimo prvi korak: *--*  *--*  *--* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg, reg, 0b10110001);
-        __m256 mask = _mm256_cmp_ps(reg, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask1));
-        reg = _mm256_blendv_ps(shuffled_reg, reg, mask);
-    }
-    {
-        // now we have to reverse register:
-        // *--------* *------* *----* *--*
-        // the following line first reverses the two halves of register
-        // in the next step it reverses both halves
-        __m256 reversed_halves = _mm256_permute2f128_ps(reg, reg, 0b00000001);
-        __m256 reversed =
-            _mm256_shuffle_ps(reversed_halves, reversed_halves, 0b00011011);
-        __m256 mask = _mm256_cmp_ps(reg, reversed, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask3));
-        reg = _mm256_blendv_ps(reversed, reg, mask);
-    }
-    {
-        //  *----* *----*     *----* *----*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg, reg, 0b01001110);
-        __m256 mask = _mm256_cmp_ps(reg, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask2));
-        reg = _mm256_blendv_ps(shuffled_reg, reg, mask);
-    }
-    {
-        // and finally repeat the first step: *--*  *--*  *--* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg, reg, 0b10110001);
-        __m256 mask = _mm256_cmp_ps(reg, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask1));
-        reg = _mm256_blendv_ps(shuffled_reg, reg, mask);
-    }
+/**
+ * @brief The function reverses one of the input registers and compares the
+ * reversed register to the other supplied register. The resulting permutation
+ * is then applied to the key1 and key2 pair.
+ * @param reg0 register to be shuffled and compared to be reversed
+ * @param reg1 register bo be compared to register reg0
+ * @param key1 register of keys to be sorted
+ * @param key2 register of keys to be sorted
+ */
+inline __attribute__((always_inline)) void reverse_and_compare(__m256 &reg0,
+                                                               __m256 &reg1) {
+
+    __m256 reversed_halves = _mm256_permute2f128_ps(reg0, reg0, 0b00000001);
+    __m256 reversed =
+        _mm256_shuffle_ps(reversed_halves, reversed_halves, 0b00011011);
+
+    __m256 mask = _mm256_cmp_ps(reg1, reversed, _CMP_LE_OQ);
+
+    reg0 = _mm256_blendv_ps(reversed, reg1, mask);
+    reg1 = _mm256_blendv_ps(reg1, reversed, mask);
+}
+
+/**
+ * @brief The function reverses the halves of the given register and compares it
+ * to itself. The resulting permutation is then applied to the key1 and key2
+ * pair.
+ * @param reg0 register whose halves are reversed and compared to the original
+ * register
+ * @param key0 register containing keys, which are shuffled using the same
+ * permutation as reg0
+ * @param mask_epi32 mask which is used to compare
+ */
+inline __attribute__((always_inline)) void
+reverse_halves_and_compare(__m256 &reg0, const __m256i &mask_epi32) {
+    //
+    __m256 reversed_halves = _mm256_permute2f128_ps(reg0, reg0, 0b00000001);
+    __m256 mask = _mm256_cmp_ps(reg0, reversed_halves, _CMP_LE_OQ);
+    mask = _mm256_castsi256_ps(
+        _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
+    reg0 = _mm256_blendv_ps(reversed_halves, reg0, mask);
 }
 
 /**
@@ -106,6 +134,7 @@ void bitonic_sort(__m256 &reg) {
  */
 
 inline void bitonic_sort(__m256 &reg0, __m256 &reg1) {
+
     bitonic_sort(reg1); // sort first register
     bitonic_sort(reg0); // sort second register
 
@@ -120,68 +149,16 @@ inline void bitonic_sort(__m256 &reg0, __m256 &reg1) {
         _mm256_set_epi32(0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
                          0x00000000, 0x00000000, 0x00000000, 0x00000000);
 
-    {
-        // reverse one of registers register reg0
-        __m256 reversed_halves = _mm256_permute2f128_ps(reg0, reg0, 0b00000001);
-        __m256 reversed =
-            _mm256_shuffle_ps(reversed_halves, reversed_halves, 0b00011011);
+    reverse_and_compare(reg0, reg1);
+    reverse_halves_and_compare(reg0, mask3);
+    reverse_halves_and_compare(reg1, mask3);
 
-        // register 2 vsebuje min vrednosti
-        reg0 = _mm256_min_ps(reg1, reversed);
-        // register 1 vsebuje max vrednosti
-        reg1 = _mm256_max_ps(reg1, reversed);
-    }
-    {
-        // tu narediš *----* *----* *----* *----*
-        __m256 reversed_halves = _mm256_permute2f128_ps(reg0, reg0, 0b00000001);
-        __m256 mask = _mm256_cmp_ps(reg0, reversed_halves, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask3));
-        reg0 = _mm256_blendv_ps(reversed_halves, reg0, mask);
-    }
-    {
-        // tu narediš *----* *----* *----* *----*
-        __m256 reversed_halves = _mm256_permute2f128_ps(reg1, reg1, 0b00000001);
-        __m256 mask = _mm256_cmp_ps(reg1, reversed_halves, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask3));
-        reg1 = _mm256_blendv_ps(reversed_halves, reg1, mask);
-    }
+    shuffle_and_compare(reg0, mask2, 0b01001110);
+    shuffle_and_compare(reg0, mask1, 0b10110001);
 
-    {
-        //  *----* *----*     *----* *----*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg0, reg0, 0b01001110);
-        __m256 mask = _mm256_cmp_ps(reg0, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask2));
-        reg0 = _mm256_blendv_ps(shuffled_reg, reg0, mask);
-    }
-    {
-        // and finally repeat the first step: *--*  *--*  *--* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg0, reg0, 0b10110001);
+    shuffle_and_compare(reg1, mask2, 0b01001110);
+    shuffle_and_compare(reg1, mask1, 0b10110001);
 
-        __m256 mask = _mm256_cmp_ps(reg0, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask1));
-        reg0 = _mm256_blendv_ps(shuffled_reg, reg0, mask);
-    }
-
-    {
-        //  *----* *----*     *----* *----*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg1, reg1, 0b01001110);
-        __m256 mask = _mm256_cmp_ps(reg1, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask2));
-        reg1 = _mm256_blendv_ps(shuffled_reg, reg1, mask);
-    }
-    {
-        // and finally repeat the first step: *--*  *--*  *--* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg1, reg1, 0b10110001);
-        __m256 mask = _mm256_cmp_ps(reg1, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask1));
-        reg1 = _mm256_blendv_ps(shuffled_reg, reg1, mask);
-    }
     return;
 }
 
@@ -208,79 +185,42 @@ inline void bitonic_merge(__m256 &reg0, __m256 &reg1) {
         _mm256_set_epi32(0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
                          0x00000000, 0x00000000, 0x00000000, 0x00000000);
 
-    {
-        // reverse one of registers register reg0
-        __m256 reversed_halves = _mm256_permute2f128_ps(reg0, reg0, 0b00000001);
-        __m256 reversed =
-            _mm256_shuffle_ps(reversed_halves, reversed_halves, 0b00011011);
+    reverse_and_compare(reg0, reg1);
+    reverse_halves_and_compare(reg0, mask3);
+    reverse_halves_and_compare(reg1, mask3);
 
-        // register 2 vsebuje min vrednosti
-        reg0 = _mm256_min_ps(reg1, reversed);
-        // register 1 vsebuje max vrednosti
-        reg1 = _mm256_max_ps(reg1, reversed);
-    }
-    {
-        // tu narediš *----* *----* *----* *----*
-        __m256 reversed_halves = _mm256_permute2f128_ps(reg0, reg0, 0b00000001);
-        __m256 mask = _mm256_cmp_ps(reg0, reversed_halves, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask3));
-        reg0 = _mm256_blendv_ps(reversed_halves, reg0, mask);
-    }
-    {
-        // tu narediš *----* *----* *----* *----*
-        __m256 reversed_halves = _mm256_permute2f128_ps(reg1, reg1, 0b00000001);
-        __m256 mask = _mm256_cmp_ps(reg1, reversed_halves, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask3));
-        reg1 = _mm256_blendv_ps(reversed_halves, reg1, mask);
-    }
+    shuffle_and_compare(reg0, mask2, 0b01001110);
+    shuffle_and_compare(reg0, mask1, 0b10110001);
 
-    {
-        //  *----* *----*     *----* *----*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg0, reg0, 0b01001110);
-        __m256 mask = _mm256_cmp_ps(reg0, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask2));
-        reg0 = _mm256_blendv_ps(shuffled_reg, reg0, mask);
-    }
-    {
-        // and finally repeat the first step: *--*  *--*  *--* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg0, reg0, 0b10110001);
-
-        __m256 mask = _mm256_cmp_ps(reg0, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask1));
-        reg0 = _mm256_blendv_ps(shuffled_reg, reg0, mask);
-    }
-
-    {
-        //  *----* *----*     *----* *----*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg1, reg1, 0b01001110);
-        __m256 mask = _mm256_cmp_ps(reg1, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask2));
-        reg1 = _mm256_blendv_ps(shuffled_reg, reg1, mask);
-    }
-    {
-        // and finally repeat the first step: *--*  *--*  *--* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg1, reg1, 0b10110001);
-        __m256 mask = _mm256_cmp_ps(reg1, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask1));
-        reg1 = _mm256_blendv_ps(shuffled_reg, reg1, mask);
-    }
+    shuffle_and_compare(reg1, mask2, 0b01001110);
+    shuffle_and_compare(reg1, mask1, 0b10110001);
     return;
 }
 
 /**
+ * @brief The function reverses one of the input registers and compares the
+ * reversed register to the other supplied register. The resulting permutation
+ * is then applied to the key1 and key2 pair.
+ * @param reg0 register to be shuffled and compared to be reversed
+ * @param reg1 register bo be compared to register reg0
+ * @param key1 register of keys to be sorted
+ * @param key2 register of keys to be sorted
+ */
+inline __attribute__((always_inline)) void compare(__m256 &reg0, __m256 &reg1) {
+    __m256 mask = _mm256_cmp_ps(reg0, reg1, _CMP_LE_OQ);
+    __m256 tmp = _mm256_blendv_ps(reg1, reg0, mask);
+    reg1 = _mm256_blendv_ps(reg0, reg1, mask);
+    reg0 = tmp;
+}
+
+/**
  * @brief The function accepts four unsorted  __m256 vectors and sorts them.
- * @param reg3 upper vector of numbers - at the end it contains larger values,
- * the largest value is in the upper half of register [255:192]
+ * @param reg3 upper vector of numbers - at the end it contains larger
+ * values, the largest value is in the upper half of register [255:192]
  * @param reg2
  * @param reg1
- * @param reg0 lower vector of numbers - at the end it contains smaller values.
- * The smallest value is in the lowest half of register - at [63:0]
+ * @param reg0 lower vector of numbers - at the end it contains smaller
+ * values. The smallest value is in the lowest half of register - at [63:0]
  *
  */
 inline void bitonic_sort(__m256 &reg0, __m256 &reg1, __m256 &reg2,
@@ -296,300 +236,87 @@ inline void bitonic_sort(__m256 &reg0, __m256 &reg1, __m256 &reg2,
     bitonic_sort(reg2, reg3);
 
     // sort full width
-    { // reverse lover half and compare to upper half
-        __m256 reversed_halves0 =
-            _mm256_permute2f128_ps(reg0, reg0, 0b00000001);
-        __m256 reversed0 =
-            _mm256_shuffle_ps(reversed_halves0, reversed_halves0, 0b00011011);
-        reg0 = _mm256_min_ps(reversed0, reg3);
-        reg3 = _mm256_max_ps(reversed0, reg3);
+    // reverse lover half and compare to upper half
+    reverse_and_compare(reg0, reg3);
+    reverse_and_compare(reg1, reg2);
 
-        __m256 reversed_halves1 =
-            _mm256_permute2f128_ps(reg1, reg1, 0b00000001);
-        __m256 reversed1 =
-            _mm256_shuffle_ps(reversed_halves1, reversed_halves1, 0b00011011);
-        reg1 = _mm256_min_ps(reversed1, reg2);
-        reg2 = _mm256_max_ps(reversed1, reg2);
-    }
-    {
-        __m256 max = _mm256_max_ps(reg1, reg3);
-        __m256 min = _mm256_min_ps(reg1, reg3);
-        reg1 = min;
-        reg3 = max;
-        max = _mm256_max_ps(reg2, reg0);
-        min = _mm256_min_ps(reg2, reg0);
-        reg2 = max;
-        reg0 = min;
-    }
-    {
-        __m256 max = _mm256_max_ps(reg0, reg1);
-        __m256 min = _mm256_min_ps(reg0, reg1);
-        reg0 = min;
-        reg1 = max;
-        max = _mm256_max_ps(reg2, reg3);
-        min = _mm256_min_ps(reg2, reg3);
-        reg2 = min;
-        reg3 = max;
-    }
+    compare(reg1, reg3);
+    compare(reg0, reg2);
+
+    compare(reg0, reg1);
+    compare(reg2, reg3);
+
     __m256i mask_epi32 =
         _mm256_set_epi32(0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
                          0x00000000, 0x00000000, 0x00000000, 0x00000000);
-    { // mix across avx lanes
-        __m256 shuffled_reg = _mm256_permute2f128_ps(reg0, reg0, 0b00000001);
-        __m256 mask = _mm256_cmp_ps(reg0, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-        reg0 = _mm256_blendv_ps(shuffled_reg, reg0, mask);
-    }
-    { // mix across avx lanes
-        __m256 shuffled_reg = _mm256_permute2f128_ps(reg1, reg1, 0b00000001);
-        __m256 mask = _mm256_cmp_ps(reg1, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-        reg1 = _mm256_blendv_ps(shuffled_reg, reg1, mask);
-    }
-    { // mix across avx lanes
-        __m256 shuffled_reg = _mm256_permute2f128_ps(reg2, reg2, 0b00000001);
-        __m256 mask = _mm256_cmp_ps(reg2, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-        reg2 = _mm256_blendv_ps(shuffled_reg, reg2, mask);
-    }
-    { // mix across avx lanes
-        __m256 shuffled_reg = _mm256_permute2f128_ps(reg3, reg3, 0b00000001);
-        __m256 mask = _mm256_cmp_ps(reg3, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-        reg3 = _mm256_blendv_ps(shuffled_reg, reg3, mask);
-    }
+
+    reverse_halves_and_compare(reg0, mask_epi32);
+    reverse_halves_and_compare(reg1, mask_epi32);
+    reverse_halves_and_compare(reg2, mask_epi32);
+    reverse_halves_and_compare(reg3, mask_epi32);
 
     // mix inside avx lanes each register separately, but jump single value
     mask_epi32 =
         _mm256_set_epi32(0xffffffff, 0xffffffff, 0x00000000, 0x00000000,
                          0xffffffff, 0xffffffff, 0x00000000, 0x00000000);
-    {
-        // register 0:  *----* *----*     *----* *----*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg0, reg0, 0b01001110);
-        __m256 mask = _mm256_cmp_ps(reg0, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-        reg0 = _mm256_blendv_ps(shuffled_reg, reg0, mask);
-    }
-
-    {
-        //  *----* *----*     *----* *----*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg1, reg1, 0b01001110);
-        __m256 mask = _mm256_cmp_ps(reg1, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-        reg1 = _mm256_blendv_ps(shuffled_reg, reg1, mask);
-    }
-    {
-        //  *----* *----*     *----* *----*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg2, reg2, 0b01001110);
-        __m256 mask = _mm256_cmp_ps(reg2, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-        reg2 = _mm256_blendv_ps(shuffled_reg, reg2, mask);
-    }
-    {
-        //  *----* *----*     *----* *----*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg3, reg3, 0b01001110);
-        __m256 mask = _mm256_cmp_ps(reg3, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-        reg3 = _mm256_blendv_ps(shuffled_reg, reg3, mask);
-    }
+    shuffle_and_compare(reg0, mask_epi32, 0b01001110);
+    shuffle_and_compare(reg1, mask_epi32, 0b01001110);
+    shuffle_and_compare(reg2, mask_epi32, 0b01001110);
+    shuffle_and_compare(reg3, mask_epi32, 0b01001110);
 
     mask_epi32 =
         _mm256_set_epi32(0xffffffff, 0x00000000, 0xffffffff, 0x00000000,
                          0xffffffff, 0x00000000, 0xffffffff, 0x00000000);
-    {
-        // and finally repeat the first step: *--*  *--*  *--* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg0, reg0, 0b10110001);
-        __m256 mask = _mm256_cmp_ps(reg0, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-        reg0 = _mm256_blendv_ps(shuffled_reg, reg0, mask);
-    }
-    {
-        // and finally repeat the first step: *--*  *--*  *--* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg1, reg1, 0b10110001);
-        __m256 mask = _mm256_cmp_ps(reg1, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-        reg1 = _mm256_blendv_ps(shuffled_reg, reg1, mask);
-    }
-    {
-        // and finally repeat the first step: *--*  *--*  *--* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg2, reg2, 0b10110001);
-        __m256 mask = _mm256_cmp_ps(reg2, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-        reg2 = _mm256_blendv_ps(shuffled_reg, reg2, mask);
-    }
-    {
-        // and finally repeat the first step: *--*  *--*  *--* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg3, reg3, 0b10110001);
-        __m256 mask = _mm256_cmp_ps(reg3, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-        reg3 = _mm256_blendv_ps(shuffled_reg, reg3, mask);
-    }
+
+    shuffle_and_compare(reg0, mask_epi32, 0b10110001);
+    shuffle_and_compare(reg1, mask_epi32, 0b10110001);
+    shuffle_and_compare(reg2, mask_epi32, 0b10110001);
+    shuffle_and_compare(reg3, mask_epi32, 0b10110001);
 }
 
 /**
  * @brief The function accepts four sorted  __m256 vectors and merges them.
- * @param reg3 upper vector of numbers - at the end it contains larger values,
- * the largest value is in the upper half of register [255:192]
+ * @param reg3 upper vector of numbers - at the end it contains larger
+ * values, the largest value is in the upper half of register [255:192]
  * @param reg2
  * @param reg1
- * @param reg0 lower vector of numbers - at the end it contains smaller values.
- * The smallest value is in the lowest half of register - at [63:0]
+ * @param reg0 lower vector of numbers - at the end it contains smaller
+ * values. The smallest value is in the lowest half of register - at [63:0]
  *
  */
 inline void bitonic_merge(__m256 &reg0, __m256 &reg1, __m256 &reg2,
                           __m256 &reg3) {
-    { // reverse lover half and compare to upper half
-        __m256 reversed_halves0 =
-            _mm256_permute2f128_ps(reg0, reg0, 0b00000001);
-        __m256 reversed0 =
-            _mm256_shuffle_ps(reversed_halves0, reversed_halves0, 0b00011011);
-        reg0 = _mm256_min_ps(reversed0, reg3);
-        reg3 = _mm256_max_ps(reversed0, reg3);
+    reverse_and_compare(reg0, reg3);
+    reverse_and_compare(reg1, reg2);
+    compare(reg1, reg3);
+    compare(reg0, reg2);
+    compare(reg0, reg1);
+    compare(reg2, reg3);
 
-        __m256 reversed_halves1 =
-            _mm256_permute2f128_ps(reg1, reg1, 0b00000001);
-        __m256 reversed1 =
-            _mm256_shuffle_ps(reversed_halves1, reversed_halves1, 0b00011011);
-        reg1 = _mm256_min_ps(reversed1, reg2);
-        reg2 = _mm256_max_ps(reversed1, reg2);
-    }
-    {
-        __m256 max = _mm256_max_ps(reg1, reg3);
-        __m256 min = _mm256_min_ps(reg1, reg3);
-        reg1 = min;
-        reg3 = max;
-        max = _mm256_max_ps(reg2, reg0);
-        min = _mm256_min_ps(reg2, reg0);
-        reg2 = max;
-        reg0 = min;
-    }
-    {
-        __m256 max = _mm256_max_ps(reg0, reg1);
-        __m256 min = _mm256_min_ps(reg0, reg1);
-        reg0 = min;
-        reg1 = max;
-        max = _mm256_max_ps(reg2, reg3);
-        min = _mm256_min_ps(reg2, reg3);
-        reg2 = min;
-        reg3 = max;
-    }
     __m256i mask_epi32 =
         _mm256_set_epi32(0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
                          0x00000000, 0x00000000, 0x00000000, 0x00000000);
-    { // mix across avx lanes
-        __m256 shuffled_reg = _mm256_permute2f128_ps(reg0, reg0, 0b00000001);
-        __m256 mask = _mm256_cmp_ps(reg0, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-        reg0 = _mm256_blendv_ps(shuffled_reg, reg0, mask);
-    }
-    { // mix across avx lanes
-        __m256 shuffled_reg = _mm256_permute2f128_ps(reg1, reg1, 0b00000001);
-        __m256 mask = _mm256_cmp_ps(reg1, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-        reg1 = _mm256_blendv_ps(shuffled_reg, reg1, mask);
-    }
-    { // mix across avx lanes
-        __m256 shuffled_reg = _mm256_permute2f128_ps(reg2, reg2, 0b00000001);
-        __m256 mask = _mm256_cmp_ps(reg2, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-        reg2 = _mm256_blendv_ps(shuffled_reg, reg2, mask);
-    }
-    { // mix across avx lanes
-        __m256 shuffled_reg = _mm256_permute2f128_ps(reg3, reg3, 0b00000001);
-        __m256 mask = _mm256_cmp_ps(reg3, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-        reg3 = _mm256_blendv_ps(shuffled_reg, reg3, mask);
-    }
+    reverse_halves_and_compare(reg0, mask_epi32);
+    reverse_halves_and_compare(reg1, mask_epi32);
+    reverse_halves_and_compare(reg2, mask_epi32);
+    reverse_halves_and_compare(reg3, mask_epi32);
 
     // mix inside avx lanes each register separately, but jump single value
     mask_epi32 =
         _mm256_set_epi32(0xffffffff, 0xffffffff, 0x00000000, 0x00000000,
                          0xffffffff, 0xffffffff, 0x00000000, 0x00000000);
-    {
-        // register 0:  *----* *----*     *----* *----*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg0, reg0, 0b01001110);
-        __m256 mask = _mm256_cmp_ps(reg0, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-        reg0 = _mm256_blendv_ps(shuffled_reg, reg0, mask);
-    }
-
-    {
-        //  *----* *----*     *----* *----*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg1, reg1, 0b01001110);
-        __m256 mask = _mm256_cmp_ps(reg1, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-        reg1 = _mm256_blendv_ps(shuffled_reg, reg1, mask);
-    }
-    {
-        //  *----* *----*     *----* *----*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg2, reg2, 0b01001110);
-        __m256 mask = _mm256_cmp_ps(reg2, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-        reg2 = _mm256_blendv_ps(shuffled_reg, reg2, mask);
-    }
-    {
-        //  *----* *----*     *----* *----*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg3, reg3, 0b01001110);
-        __m256 mask = _mm256_cmp_ps(reg3, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-        reg3 = _mm256_blendv_ps(shuffled_reg, reg3, mask);
-    }
+    shuffle_and_compare(reg0, mask_epi32, 0b01001110);
+    shuffle_and_compare(reg1, mask_epi32, 0b01001110);
+    shuffle_and_compare(reg2, mask_epi32, 0b01001110);
+    shuffle_and_compare(reg3, mask_epi32, 0b01001110);
 
     mask_epi32 =
         _mm256_set_epi32(0xffffffff, 0x00000000, 0xffffffff, 0x00000000,
                          0xffffffff, 0x00000000, 0xffffffff, 0x00000000);
-    {
-        // and finally repeat the first step: *--*  *--*  *--* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg0, reg0, 0b10110001);
-        __m256 mask = _mm256_cmp_ps(reg0, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-        reg0 = _mm256_blendv_ps(shuffled_reg, reg0, mask);
-    }
-    {
-        // and finally repeat the first step: *--*  *--*  *--* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg1, reg1, 0b10110001);
-        __m256 mask = _mm256_cmp_ps(reg1, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-        reg1 = _mm256_blendv_ps(shuffled_reg, reg1, mask);
-    }
-    {
-        // and finally repeat the first step: *--*  *--*  *--* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg2, reg2, 0b10110001);
-        __m256 mask = _mm256_cmp_ps(reg2, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-        reg2 = _mm256_blendv_ps(shuffled_reg, reg2, mask);
-    }
-    {
-        // and finally repeat the first step: *--*  *--*  *--* *--*
-        __m256 shuffled_reg = _mm256_shuffle_ps(reg3, reg3, 0b10110001);
-        __m256 mask = _mm256_cmp_ps(reg3, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_ps(
-            _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-        reg3 = _mm256_blendv_ps(shuffled_reg, reg3, mask);
-    }
+    shuffle_and_compare(reg0, mask_epi32, 0b10110001);
+    shuffle_and_compare(reg1, mask_epi32, 0b10110001);
+    shuffle_and_compare(reg2, mask_epi32, 0b10110001);
+    shuffle_and_compare(reg3, mask_epi32, 0b10110001);
 }
 
 //////////////////////////////////////////////////////////////////
@@ -636,55 +363,23 @@ inline void lane_crossing_compare(float *arr, unsigned start, unsigned end,
     unsigned length = end - start + 1;
     if (length == 8) {
         __m256 reg = _mm256_load_ps(arr + start);
-        // this is the ending case do single vector permutations
-        {
-            // here one compares:
-            // 0-4, 1-5, 2-6, 3-7 -> reverse halves
-            __m256 reversed_halves =
-                _mm256_permute2f128_ps(reg, reg, 0b00000001);
-            __m256 mask = _mm256_cmp_ps(reg, reversed_halves, _CMP_LE_OQ);
 
-            __m256i mask_epi32 = _mm256_set_epi32(
-                0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0x00000000,
-                0x00000000, 0x00000000, 0x00000000);
+        __m256i mask_epi32 =
+            _mm256_set_epi32(0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
+                             0x00000000, 0x00000000, 0x00000000, 0x00000000);
+        reverse_halves_and_compare(reg, mask_epi32);
 
-            mask = _mm256_castsi256_ps(
-                _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
+        mask_epi32 =
+            _mm256_set_epi32(0xffffffff, 0xffffffff, 0x00000000, 0x00000000,
+                             0xffffffff, 0xffffffff, 0x00000000, 0x00000000);
+        shuffle_and_compare(reg, mask_epi32, 0b01001110);
 
-            reg = _mm256_blendv_ps(reversed_halves, reg, mask);
-        }
-        {
-            //  here one compares:
-            // 0-2, 1-3, 4-6, 5-7 -> you have to mix elements inside halves
-            __m256 shuffled_reg = _mm256_shuffle_ps(reg, reg, 0b01001110);
+        mask_epi32 =
+            _mm256_set_epi32(0xffffffff, 0x00000000, 0xffffffff, 0x00000000,
+                             0xffffffff, 0x00000000, 0xffffffff, 0x00000000);
+        shuffle_and_compare(reg, mask_epi32, 0b10110001);
+        _mm256_store_ps(arr + start, reg);
 
-            __m256 mask = _mm256_cmp_ps(reg, shuffled_reg, _CMP_LE_OQ);
-
-            __m256i mask_epi32 = _mm256_set_epi32(
-                0xffffffff, 0xffffffff, 0x00000000, 0x00000000, 0xffffffff,
-                0xffffffff, 0x00000000, 0x00000000);
-
-            mask = _mm256_castsi256_ps(
-                _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-
-            reg = _mm256_blendv_ps(shuffled_reg, reg, mask);
-        }
-        {
-            // and finally repeat the first step: *--*  *--*  *--* *--*
-            __m256 shuffled_reg = _mm256_shuffle_ps(reg, reg, 0b10110001);
-            __m256 mask = _mm256_cmp_ps(reg, shuffled_reg, _CMP_LE_OQ);
-
-            __m256i mask_epi32 = _mm256_set_epi32(
-                0xffffffff, 0x00000000, 0xffffffff, 0x00000000, 0xffffffff,
-                0x00000000, 0xffffffff, 0x00000000);
-
-            mask = _mm256_castsi256_ps(
-                _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-
-            reg = _mm256_blendv_ps(shuffled_reg, reg, mask);
-
-            _mm256_store_ps(arr + start, reg);
-        }
         return;
     }
     float *p = arr + start;
@@ -705,7 +400,7 @@ inline void lane_crossing_compare(float *arr, unsigned start, unsigned end,
     }
     lane_crossing_compare(arr, start, (start + end) / 2, depth + 1);
     lane_crossing_compare(arr, (start + end) / 2 + 1, end, depth + 1);
-};
+}; // namespace MODIFIED_BITONIC_SORT
 
 /**
  * @brief The function sorts an array with 8*n elements
@@ -713,7 +408,8 @@ inline void lane_crossing_compare(float *arr, unsigned start, unsigned end,
  * @param start index of the first number to be sorted
  * @param end index of the last number to be sorted
  * @details end-start+1 should be 8*N. If it's not
- * then add additional elements - like infinity, so that it will be large enough
+ * then add additional elements - like infinity, so that it will be large
+ * enough
  */
 inline void sort_2n_vector(float *array, unsigned start, unsigned end) {
 
@@ -779,7 +475,8 @@ inline void sort_2n_vector(float *array, unsigned start, unsigned end) {
  * @param arr pointer to the float array to be sorted
  * @param start index of the first element to be sorted
  * @param end index of the last element to be sorted
- * @param last_index last index of array to be sorted, maximum is array size - 1
+ * @param last_index last index of array to be sorted, maximum is array size
+ * - 1
  */
 inline void compare_full_length(float *arr, unsigned start, unsigned end,
                                 unsigned last_index) {
@@ -789,7 +486,8 @@ inline void compare_full_length(float *arr, unsigned start, unsigned end,
         if (end - 7 - i > last_index)
             break;
         // std::cout << "start: " << start << std::endl;
-        // std::cout << "compare_full_length: " << start + i << "  " << end - 7
+        // std::cout << "compare_full_length: " << start + i << "  " << end
+        // - 7
         // - i
         //          << std::endl;
         float *p1 = arr + start + i;
@@ -798,13 +496,10 @@ inline void compare_full_length(float *arr, unsigned start, unsigned end,
         { // reverse lover half and compare to upper half
             __m256 vec1 = _mm256_load_ps(p1);
             __m256 vec2 = _mm256_load_ps(p2);
+            reverse_and_compare(vec1, vec2);
+
             __m256 reversed_halves =
                 _mm256_permute2f128_ps(vec1, vec1, 0b00000001);
-            __m256 reversed =
-                _mm256_shuffle_ps(reversed_halves, reversed_halves, 0b00011011);
-            vec1 = _mm256_min_ps(reversed, vec2);
-            vec2 = _mm256_max_ps(reversed, vec2);
-            reversed_halves = _mm256_permute2f128_ps(vec1, vec1, 0b00000001);
             vec1 =
                 _mm256_shuffle_ps(reversed_halves, reversed_halves, 0b00011011);
             _mm256_store_ps(p1, vec1);
@@ -820,7 +515,8 @@ inline void compare_full_length(float *arr, unsigned start, unsigned end,
  * @param arr pointer to the array to be sorted
  * @param start index of the first element to be sorted
  * @param end index of the last element to be sorted
- * @param last_index last index of array to be sorted, maximum is array size - 1
+ * @param last_index last index of array to be sorted, maximum is array size
+ * - 1
  * @param depth a parameter to follow the depth of recursion
  */
 inline void lane_crossing_compare(float *arr, unsigned start, unsigned end,
@@ -834,54 +530,22 @@ inline void lane_crossing_compare(float *arr, unsigned start, unsigned end,
     if (length == 8) {
         __m256 reg = _mm256_load_ps(arr + start);
         // this is the ending case do single vector permutations
-        {
-            // here one compares:
-            // 0-4, 1-5, 2-6, 3-7 -> reverse halves
-            __m256 reversed_halves =
-                _mm256_permute2f128_ps(reg, reg, 0b00000001);
-            __m256 mask = _mm256_cmp_ps(reg, reversed_halves, _CMP_LE_OQ);
+        __m256i mask_epi32 =
+            _mm256_set_epi32(0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
+                             0x00000000, 0x00000000, 0x00000000, 0x00000000);
+        reverse_halves_and_compare(reg, mask_epi32);
 
-            __m256i mask_epi32 = _mm256_set_epi32(
-                0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0x00000000,
-                0x00000000, 0x00000000, 0x00000000);
+        mask_epi32 =
+            _mm256_set_epi32(0xffffffff, 0xffffffff, 0x00000000, 0x00000000,
+                             0xffffffff, 0xffffffff, 0x00000000, 0x00000000);
+        shuffle_and_compare(reg, mask_epi32, 0b01001110);
 
-            mask = _mm256_castsi256_ps(
-                _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
+        mask_epi32 =
+            _mm256_set_epi32(0xffffffff, 0x00000000, 0xffffffff, 0x00000000,
+                             0xffffffff, 0x00000000, 0xffffffff, 0x00000000);
+        shuffle_and_compare(reg, mask_epi32, 0b10110001);
+        _mm256_store_ps(arr + start, reg);
 
-            reg = _mm256_blendv_ps(reversed_halves, reg, mask);
-        }
-        {
-            //  here one compares:
-            // 0-2, 1-3, 4-6, 5-7 -> you have to mix elements inside halves
-            __m256 shuffled_reg = _mm256_shuffle_ps(reg, reg, 0b01001110);
-
-            __m256 mask = _mm256_cmp_ps(reg, shuffled_reg, _CMP_LE_OQ);
-
-            __m256i mask_epi32 = _mm256_set_epi32(
-                0xffffffff, 0xffffffff, 0x00000000, 0x00000000, 0xffffffff,
-                0xffffffff, 0x00000000, 0x00000000);
-
-            mask = _mm256_castsi256_ps(
-                _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-
-            reg = _mm256_blendv_ps(shuffled_reg, reg, mask);
-        }
-        {
-            // and finally repeat the first step: *--*  *--*  *--* *--*
-            __m256 shuffled_reg = _mm256_shuffle_ps(reg, reg, 0b10110001);
-            __m256 mask = _mm256_cmp_ps(reg, shuffled_reg, _CMP_LE_OQ);
-
-            __m256i mask_epi32 = _mm256_set_epi32(
-                0xffffffff, 0x00000000, 0xffffffff, 0x00000000, 0xffffffff,
-                0x00000000, 0xffffffff, 0x00000000);
-
-            mask = _mm256_castsi256_ps(
-                _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-
-            reg = _mm256_blendv_ps(shuffled_reg, reg, mask);
-
-            _mm256_store_ps(arr + start, reg);
-        }
         return;
     }
     float *p = arr + start;
@@ -911,7 +575,7 @@ inline void lane_crossing_compare(float *arr, unsigned start, unsigned end,
     lane_crossing_compare(arr, start, (start + end) / 2, last_index, depth + 1);
     lane_crossing_compare(arr, (start + end) / 2 + 1, end, last_index,
                           depth + 1);
-};
+}; // namespace MODIFIED_BITONIC_SORT
 
 /**
  * @brief The function sorts an array with 2^n elements
@@ -981,9 +645,8 @@ inline void sort_8n_vector(float *array, unsigned start, unsigned end) {
 }
 
 //////////////////////////////////////////////////////////////////
-// FLOAT ARRAY SORTING ALGORITHM FOR ARRAYS OF ARBITRARY LENGTH, the array must
-// contain 8n elements
-// float implementation
+// FLOAT ARRAY SORTING ALGORITHM FOR ARRAYS OF ARBITRARY LENGTH, the array
+// must contain 8n elements float implementation
 
 inline void maskload(int diff, float *p2, __m256i &mask, __m256 &reg1) {
     switch (diff) {
@@ -1070,13 +733,9 @@ inline void compare_full_length_all_cases(float *arr, unsigned start,
             vec2 = _mm256_load_ps(p2);
         { // reverse lover half and compare to upper half
             __m256 vec1 = _mm256_load_ps(p1);
+            reverse_and_compare(vec1, vec2);
             __m256 reversed_halves =
                 _mm256_permute2f128_ps(vec1, vec1, 0b00000001);
-            __m256 reversed =
-                _mm256_shuffle_ps(reversed_halves, reversed_halves, 0b00011011);
-            vec1 = _mm256_min_ps(reversed, vec2);
-            vec2 = _mm256_max_ps(reversed, vec2);
-            reversed_halves = _mm256_permute2f128_ps(vec1, vec1, 0b00000001);
             vec1 =
                 _mm256_shuffle_ps(reversed_halves, reversed_halves, 0b00011011);
             _mm256_store_ps(p1, vec1);
@@ -1112,56 +771,25 @@ inline void lane_crossing_compare_all_cases(float *arr, unsigned start,
             maskload(diff, arr + start, load_store_mask, reg);
         else
             reg = _mm256_load_ps(arr + start);
-        {
-            // here one compares:
-            // 0-4, 1-5, 2-6, 3-7 -> reverse halves
-            __m256 reversed_halves =
-                _mm256_permute2f128_ps(reg, reg, 0b00000001);
-            __m256 mask = _mm256_cmp_ps(reg, reversed_halves, _CMP_LE_OQ);
+        __m256i mask_epi32 =
+            _mm256_set_epi32(0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
+                             0x00000000, 0x00000000, 0x00000000, 0x00000000);
+        reverse_halves_and_compare(reg, mask_epi32);
 
-            __m256i mask_epi32 = _mm256_set_epi32(
-                0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0x00000000,
-                0x00000000, 0x00000000, 0x00000000);
-            mask = _mm256_castsi256_ps(
-                _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-            reg = _mm256_blendv_ps(reversed_halves, reg, mask);
-        }
-        {
-            //  here one compares:
-            // 0-2, 1-3, 4-6, 5-7 -> you have to mix elements inside halves
-            __m256 shuffled_reg = _mm256_shuffle_ps(reg, reg, 0b01001110);
+        mask_epi32 =
+            _mm256_set_epi32(0xffffffff, 0xffffffff, 0x00000000, 0x00000000,
+                             0xffffffff, 0xffffffff, 0x00000000, 0x00000000);
+        shuffle_and_compare(reg, mask_epi32, 0b01001110);
 
-            __m256 mask = _mm256_cmp_ps(reg, shuffled_reg, _CMP_LE_OQ);
+        mask_epi32 =
+            _mm256_set_epi32(0xffffffff, 0x00000000, 0xffffffff, 0x00000000,
+                             0xffffffff, 0x00000000, 0xffffffff, 0x00000000);
+        shuffle_and_compare(reg, mask_epi32, 0b10110001);
+        if (diff < 7)
+            _mm256_maskstore_ps(arr + start, load_store_mask, reg);
 
-            __m256i mask_epi32 = _mm256_set_epi32(
-                0xffffffff, 0xffffffff, 0x00000000, 0x00000000, 0xffffffff,
-                0xffffffff, 0x00000000, 0x00000000);
-
-            mask = _mm256_castsi256_ps(
-                _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-
-            reg = _mm256_blendv_ps(shuffled_reg, reg, mask);
-        }
-        {
-            // and finally repeat the first step: *--*  *--*  *--* *--*
-            __m256 shuffled_reg = _mm256_shuffle_ps(reg, reg, 0b10110001);
-            __m256 mask = _mm256_cmp_ps(reg, shuffled_reg, _CMP_LE_OQ);
-
-            __m256i mask_epi32 = _mm256_set_epi32(
-                0xffffffff, 0x00000000, 0xffffffff, 0x00000000, 0xffffffff,
-                0x00000000, 0xffffffff, 0x00000000);
-
-            mask = _mm256_castsi256_ps(
-                _mm256_xor_si256(_mm256_castps_si256(mask), mask_epi32));
-
-            reg = _mm256_blendv_ps(shuffled_reg, reg, mask);
-
-            if (diff < 7)
-                _mm256_maskstore_ps(arr + start, load_store_mask, reg);
-
-            else
-                _mm256_store_ps(arr + start, reg);
-        }
+        else
+            _mm256_store_ps(arr + start, reg);
 
         return;
     }
@@ -1275,40 +903,53 @@ inline void sort_vector(aligned_vector<float> &array, unsigned start,
 #ifndef __BITONIC_SORT_DOUBLE__
 #define __BITONIC_SORT_DOUBLE__
 #endif
+
+inline __attribute__((always_inline)) void
+shuffle_and_compare(__m256d &reg, const __m256i &mask_epi32,
+                    const uint8_t mask8) {
+    __m256d shuffled_reg = _mm256_shuffle_pd(reg, reg, mask8);
+    __m256d mask = _mm256_cmp_pd(reg, shuffled_reg, _CMP_LE_OQ);
+    mask = _mm256_castsi256_pd(
+        _mm256_xor_si256(_mm256_castpd_si256(mask), mask_epi32));
+    reg = _mm256_blendv_pd(shuffled_reg, reg, mask);
+}
+
+inline __attribute__((always_inline)) void
+permute_and_compare(__m256d &reg, const __m256i &mask_epi32,
+                    const uint8_t mask8) {
+    __m256d shuffled_reg = _mm256_permute4x64_pd(reg, mask8);
+    __m256d mask = _mm256_cmp_pd(reg, shuffled_reg, _CMP_LE_OQ);
+    mask = _mm256_castsi256_pd(_mm256_xor_si256(
+        _mm256_castpd_si256(mask),
+        _mm256_set_epi64x(0xffffffffffffffff, 0xffffffffffffffff,
+                          0x0000000000000000, 0x0000000000000000)));
+    reg = _mm256_blendv_pd(shuffled_reg, reg, mask);
+}
+
 /**
  *@brief The function accepts a single __m256d vector and sorts
  *it.
  * @param reg register to be sorted
  */
 inline void bitonic_sort(__m256d &reg) {
-    {
-        __m256d shuffled_reg = _mm256_shuffle_pd(reg, reg, 0b0101);
-        __m256d mask = _mm256_cmp_pd(reg, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_pd(_mm256_xor_si256(
-            _mm256_castpd_si256(mask),
-            _mm256_set_epi64x(0xffffffffffffffff, 0x0000000000000000,
-                              0xffffffffffffffff, 0x0000000000000000)));
-        reg = _mm256_blendv_pd(shuffled_reg, reg, mask);
-    }
-    {
-        __m256d shuffled_reg =
-            _mm256_permute4x64_pd(reg, _MM_SHUFFLE(0, 1, 2, 3));
-        __m256d mask = _mm256_cmp_pd(reg, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_pd(_mm256_xor_si256(
-            _mm256_castpd_si256(mask),
-            _mm256_set_epi64x(0xffffffffffffffff, 0xffffffffffffffff,
-                              0x0000000000000000, 0x0000000000000000)));
-        reg = _mm256_blendv_pd(shuffled_reg, reg, mask);
-    }
-    {
-        __m256d shuffled_reg = _mm256_shuffle_pd(reg, reg, 0b0101);
-        __m256d mask = _mm256_cmp_pd(reg, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_pd(_mm256_xor_si256(
-            _mm256_castpd_si256(mask),
-            _mm256_set_epi64x(0xffffffffffffffff, 0x0000000000000000,
-                              0xffffffffffffffff, 0x0000000000000000)));
-        reg = _mm256_blendv_pd(shuffled_reg, reg, mask);
-    }
+    __m256i mask1 = _mm256_set_epi64x(0xffffffffffffffff, 0x0000000000000000,
+                                      0xffffffffffffffff, 0x0000000000000000);
+    shuffle_and_compare(reg, mask1, 0b0101);
+
+    __m256i mask2 = _mm256_set_epi64x(0xffffffffffffffff, 0xffffffffffffffff,
+                                      0x0000000000000000, 0x0000000000000000);
+    permute_and_compare(reg, mask2, 0b00011011);
+    shuffle_and_compare(reg, mask1, 0b0101);
+}
+
+inline __attribute__((always_inline)) void reverse_and_compare(__m256d &reg0,
+                                                               __m256d &reg1) {
+    // reverse one of registers register reg0
+    __m256d reversed = _mm256_permute4x64_pd(reg0, 0b00011011);
+    // register 2 vsebuje min vrednosti
+    reg0 = _mm256_min_pd(reg1, reversed);
+    // register 1 vsebuje max vrednosti
+    reg1 = _mm256_max_pd(reg1, reversed);
 }
 
 /**
@@ -1324,72 +965,20 @@ inline void bitonic_sort(__m256d &reg) {
 inline void bitonic_sort(__m256d &reg0, __m256d &reg1) {
     bitonic_sort(reg1); // sort first register
     bitonic_sort(reg0); // sort second register
-    // print_avx(reg0, "reg0: ");
-    // print_avx(reg1, "reg1: ");
-    // std::cout << std::endl;
-    {
-        // reverse one of registers register reg0
-        __m256d reverse2 = _mm256_permute4x64_pd(reg0, _MM_SHUFFLE(0, 1, 2, 3));
-        // register 2 vsebuje min vrednosti
-        reg0 = _mm256_min_pd(reg1, reverse2);
-        // register 1 vsebuje max vrednosti
-        reg1 = _mm256_max_pd(reg1, reverse2);
-        // print_avx(max, "max: ");
-        // print_avx(min, "min: ");
-    }
-    // print_avx(reg0, "reg0: ");
-    // print_avx(reg1, "reg1: ");
-    // std::cout << std::endl;
-    {
-        // tu narediš *----* *----*
-        __m256d shuffled_reg1 = _mm256_permute4x64_pd(reg1, 0b01001110);
-        __m256d mask = _mm256_cmp_pd(reg1, shuffled_reg1, _CMP_LE_OQ);
-        mask = _mm256_castsi256_pd(_mm256_xor_si256(
-            _mm256_castpd_si256(mask),
-            _mm256_set_epi64x(0xffffffffffffffff, 0xffffffffffffffff,
-                              0x0000000000000000, 0x0000000000000000)));
-        reg1 = _mm256_blendv_pd(shuffled_reg1, reg1, mask);
-    }
-    // print_avx(reg0, "reg0: ");
-    // print_avx(reg1, "reg1: ");
-    // std::cout << std::endl;
-    {
-        __m256d shuffled_reg1 = _mm256_shuffle_pd(reg1, reg1, 0b0101);
-        __m256d mask = _mm256_cmp_pd(reg1, shuffled_reg1, _CMP_LE_OQ);
-        mask = _mm256_castsi256_pd(_mm256_xor_si256(
-            _mm256_castpd_si256(mask),
-            _mm256_set_epi64x(0xffffffffffffffff, 0x0000000000000000,
-                              0xffffffffffffffff, 0x0000000000000000)));
-        reg1 = _mm256_blendv_pd(shuffled_reg1, reg1, mask);
-    }
-    // print_avx(reg0, "reg0: ");
-    // print_avx(reg1, "reg1: ");
-    // std::cout << std::endl;
-    {
-        // tu narediš *----* *----*
-        __m256d shuffled_reg0 = _mm256_permute4x64_pd(reg0, 0b01001110);
-        __m256d mask = _mm256_cmp_pd(reg0, shuffled_reg0, _CMP_LE_OQ);
-        mask = _mm256_castsi256_pd(_mm256_xor_si256(
-            _mm256_castpd_si256(mask),
-            _mm256_set_epi64x(0xffffffffffffffff, 0xffffffffffffffff,
-                              0x0000000000000000, 0x0000000000000000)));
-        reg0 = _mm256_blendv_pd(shuffled_reg0, reg0, mask);
-    }
-    // print_avx(reg0, "reg0: ");
-    // print_avx(reg1, "reg1: ");
-    // std::cout << std::endl;
-    {
-        __m256d shuffled_reg0 = _mm256_shuffle_pd(reg0, reg0, 0b0101);
-        __m256d mask = _mm256_cmp_pd(reg0, shuffled_reg0, _CMP_LE_OQ);
-        mask = _mm256_castsi256_pd(_mm256_xor_si256(
-            _mm256_castpd_si256(mask),
-            _mm256_set_epi64x(0xffffffffffffffff, 0x0000000000000000,
-                              0xffffffffffffffff, 0x0000000000000000)));
-        reg0 = _mm256_blendv_pd(shuffled_reg0, reg0, mask);
-    }
-    // print_avx(reg0, "reg0: ");
-    // print_avx(reg1, "reg1: ");
-    // std::cout << std::endl;
+
+    reverse_and_compare(reg0, reg1);
+
+    __m256i mask1 = _mm256_set_epi64x(0xffffffffffffffff, 0xffffffffffffffff,
+                                      0x0000000000000000, 0x0000000000000000);
+    permute_and_compare(reg1, mask1, 0b01001110);
+
+    __m256i mask2 = _mm256_set_epi64x(0xffffffffffffffff, 0x0000000000000000,
+                                      0xffffffffffffffff, 0x0000000000000000);
+    shuffle_and_compare(reg1, mask2, 0b0101);
+
+    permute_and_compare(reg0, mask1, 0b01001110);
+    shuffle_and_compare(reg0, mask2, 0b0101);
+
     return;
 }
 
@@ -1411,26 +1000,9 @@ inline void bitonic_sort(__m256d &reg0, __m256d &reg1, __m256d &reg2,
     bitonic_sort(reg3);       // sort fourth register
     bitonic_sort(reg0, reg1); // sort third register
     bitonic_sort(reg2, reg3); // sort fourth register
-    {
-        // reverse one of registers register reg0
-        __m256d reverse = _mm256_permute4x64_pd(reg0, _MM_SHUFFLE(0, 1, 2, 3));
-        // register 2 vsebuje min vrednosti
-        reg0 = _mm256_min_pd(reg3, reverse);
-        // register 1 vsebuje max vrednosti
-        reg3 = _mm256_max_pd(reg3, reverse);
-        // print_avx(max, "max: ");
-        // print_avx(min, "min: ");
-    }
-    {
-        // reverse one of registers register reg0
-        __m256d reverse = _mm256_permute4x64_pd(reg1, _MM_SHUFFLE(0, 1, 2, 3));
-        // register 2 vsebuje min vrednosti
-        reg1 = _mm256_min_pd(reg2, reverse);
-        // register 1 vsebuje max vrednosti
-        reg2 = _mm256_max_pd(reg2, reverse);
-        // print_avx(max, "max: ");
-        // print_avx(min, "min: ");
-    }
+    reverse_and_compare(reg0, reg3);
+    reverse_and_compare(reg1, reg2);
+
     {
         __m256d min = _mm256_min_pd(reg3, reg1);
         __m256d max = _mm256_max_pd(reg3, reg1);
@@ -1453,75 +1025,22 @@ inline void bitonic_sort(__m256d &reg0, __m256d &reg1, __m256d &reg2,
         reg2 = min;
         reg3 = max;
     }
-    /*    print_avx(reg0, "reg0");
-    print_avx(reg1, "reg1");
-    print_avx(reg2, "reg2");
-    print_avx(reg3, "reg3");*/
     __m256i mask_epi64 =
         _mm256_set_epi64x(0xffffffffffffffff, 0xffffffffffffffff,
                           0x0000000000000000, 0x0000000000000000);
-
-    { // shuffling between 128bit lanes
-        __m256d shuffled_reg = _mm256_permute4x64_pd(reg0, 0b01001110);
-        __m256d mask = _mm256_cmp_pd(reg0, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_pd(
-            _mm256_xor_si256(_mm256_castpd_si256(mask), mask_epi64));
-        reg0 = _mm256_blendv_pd(shuffled_reg, reg0, mask);
-    }
-    { // shuffling between 128bit lanes
-        __m256d shuffled_reg = _mm256_permute4x64_pd(reg1, 0b01001110);
-        __m256d mask = _mm256_cmp_pd(reg1, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_pd(
-            _mm256_xor_si256(_mm256_castpd_si256(mask), mask_epi64));
-        reg1 = _mm256_blendv_pd(shuffled_reg, reg1, mask);
-    }
-    { // shuffling between 128bit lanes
-        __m256d shuffled_reg = _mm256_permute4x64_pd(reg2, 0b01001110);
-        __m256d mask = _mm256_cmp_pd(reg2, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_pd(
-            _mm256_xor_si256(_mm256_castpd_si256(mask), mask_epi64));
-        reg2 = _mm256_blendv_pd(shuffled_reg, reg2, mask);
-    }
-    { // shuffling between 128bit lanes
-        __m256d shuffled_reg = _mm256_permute4x64_pd(reg3, 0b01001110);
-        __m256d mask = _mm256_cmp_pd(reg3, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_pd(
-            _mm256_xor_si256(_mm256_castpd_si256(mask), mask_epi64));
-        reg3 = _mm256_blendv_pd(shuffled_reg, reg3, mask);
-    }
+    permute_and_compare(reg0, mask_epi64, 0b01001110);
+    permute_and_compare(reg1, mask_epi64, 0b01001110);
+    permute_and_compare(reg2, mask_epi64, 0b01001110);
+    permute_and_compare(reg3, mask_epi64, 0b01001110);
 
     mask_epi64 = _mm256_set_epi64x(0xffffffffffffffff, 0x0000000000000000,
                                    0xffffffffffffffff, 0x0000000000000000);
-    // shuffle neighbour numbers
-    {
-        __m256d shuffled_reg = _mm256_shuffle_pd(reg1, reg1, 0b0101);
-        __m256d mask = _mm256_cmp_pd(reg1, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_pd(
-            _mm256_xor_si256(_mm256_castpd_si256(mask), mask_epi64));
-        reg1 = _mm256_blendv_pd(shuffled_reg, reg1, mask);
-    }
-    {
-        __m256d shuffled_reg = _mm256_shuffle_pd(reg2, reg2, 0b0101);
-        __m256d mask = _mm256_cmp_pd(reg2, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_pd(
-            _mm256_xor_si256(_mm256_castpd_si256(mask), mask_epi64));
-        reg2 = _mm256_blendv_pd(shuffled_reg, reg2, mask);
-    }
-    {
-        __m256d shuffled_reg = _mm256_shuffle_pd(reg3, reg3, 0b0101);
-        __m256d mask = _mm256_cmp_pd(reg3, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_pd(
-            _mm256_xor_si256(_mm256_castpd_si256(mask), mask_epi64));
-        reg3 = _mm256_blendv_pd(shuffled_reg, reg3, mask);
-    }
 
-    {
-        __m256d shuffled_reg = _mm256_shuffle_pd(reg0, reg0, 0b0101);
-        __m256d mask = _mm256_cmp_pd(reg0, shuffled_reg, _CMP_LE_OQ);
-        mask = _mm256_castsi256_pd(
-            _mm256_xor_si256(_mm256_castpd_si256(mask), mask_epi64));
-        reg0 = _mm256_blendv_pd(shuffled_reg, reg0, mask);
-    }
+    shuffle_and_compare(reg0, mask_epi64, 0b0101);
+    shuffle_and_compare(reg1, mask_epi64, 0b0101);
+    shuffle_and_compare(reg2, mask_epi64, 0b0101);
+    shuffle_and_compare(reg3, mask_epi64, 0b0101);
+
     return;
 }
 
@@ -1571,28 +1090,16 @@ inline void lane_crossing_compare(double *arr, unsigned start, unsigned end,
     if (length == 4) {
         __m256d reg = _mm256_load_pd(arr + start);
         // this is the ending case do single vector permutations
-        { // shuffling between 128bit lanes of 256bit register
-          // (3,2,1,0)->(1,0,3,2) one compares 0 and 2 ,  1 and 3
-            __m256d shuffled_reg = _mm256_permute4x64_pd(reg, 0b01001110);
-            __m256d mask = _mm256_cmp_pd(reg, shuffled_reg, _CMP_LE_OQ);
-            mask = _mm256_castsi256_pd(_mm256_xor_si256(
-                _mm256_castpd_si256(mask),
-                _mm256_set_epi64x(0xffffffffffffffff, 0xffffffffffffffff,
-                                  0x0000000000000000, 0x0000000000000000)));
-            reg = _mm256_blendv_pd(shuffled_reg, reg, mask);
-        }
-        // shuffle neighbour numbers
-        { // shuffle inside 128 lanes
-            // from (3,2,1,0) produce (2,3,0,1)
-            __m256d shuffled_reg = _mm256_shuffle_pd(reg, reg, 0b0101);
-            __m256d mask = _mm256_cmp_pd(reg, shuffled_reg, _CMP_LE_OQ);
-            mask = _mm256_castsi256_pd(_mm256_xor_si256(
-                _mm256_castpd_si256(mask),
-                _mm256_set_epi64x(0xffffffffffffffff, 0x0000000000000000,
-                                  0xffffffffffffffff, 0x0000000000000000)));
-            reg = _mm256_blendv_pd(shuffled_reg, reg, mask);
-            _mm256_store_pd(arr + start, reg);
-        }
+        __m256i mask =
+            _mm256_set_epi64x(0xffffffffffffffff, 0xffffffffffffffff,
+                              0x0000000000000000, 0x0000000000000000);
+        permute_and_compare(reg, mask, 0b01001110);
+
+        mask = _mm256_set_epi64x(0xffffffffffffffff, 0x0000000000000000,
+                                 0xffffffffffffffff, 0x0000000000000000);
+        shuffle_and_compare(reg, mask, 0b0101);
+        _mm256_store_pd(arr + start, reg);
+
         return;
     }
     double *p = arr + start;
@@ -1743,29 +1250,15 @@ inline void lane_crossing_compare(double *arr, unsigned start, unsigned end,
         // this is the ending case do single vector permutations
         __m256d reg = _mm256_load_pd(arr + start);
         // this is the ending case do single vector permutations
+        __m256i mask =
+            _mm256_set_epi64x(0xffffffffffffffff, 0xffffffffffffffff,
+                              0x0000000000000000, 0x0000000000000000);
+        permute_and_compare(reg, mask, 0b01001110);
 
-        { // shuffling between 128bit lanes of 256bit register
-            // (3,2,1,0)->(1,0,3,2) one compares 0 and 2 ,  1 and 3
-            __m256d shuffled_reg = _mm256_permute4x64_pd(reg, 0b01001110);
-            __m256d mask = _mm256_cmp_pd(reg, shuffled_reg, _CMP_LE_OQ);
-            mask = _mm256_castsi256_pd(_mm256_xor_si256(
-                _mm256_castpd_si256(mask),
-                _mm256_set_epi64x(0xffffffffffffffff, 0xffffffffffffffff,
-                                  0x0000000000000000, 0x0000000000000000)));
-            reg = _mm256_blendv_pd(shuffled_reg, reg, mask);
-        }
-        // shuffle neighbour numbers
-        { // shuffle inside 128 lanes
-            // from (3,2,1,0) produce (2,3,0,1)
-            __m256d shuffled_reg = _mm256_shuffle_pd(reg, reg, 0b0101);
-            __m256d mask = _mm256_cmp_pd(reg, shuffled_reg, _CMP_LE_OQ);
-            mask = _mm256_castsi256_pd(_mm256_xor_si256(
-                _mm256_castpd_si256(mask),
-                _mm256_set_epi64x(0xffffffffffffffff, 0x0000000000000000,
-                                  0xffffffffffffffff, 0x0000000000000000)));
-            reg = _mm256_blendv_pd(shuffled_reg, reg, mask);
-            _mm256_store_pd(arr + start, reg);
-        }
+        mask = _mm256_set_epi64x(0xffffffffffffffff, 0x0000000000000000,
+                                 0xffffffffffffffff, 0x0000000000000000);
+        shuffle_and_compare(reg, mask, 0b0101);
+        _mm256_store_pd(arr + start, reg);
 
         return;
     }
@@ -1851,9 +1344,8 @@ inline void sort_4n_vector(double *array, unsigned start, unsigned end) {
 }
 
 //////////////////////////////////////////////////////////////////
-// DOUBLE ARRAY SORTING ALGORITHM FOR ARRAYS OF ARBITRARY LENGTH, the array must
-// contain 8n elements
-// float implementation
+// DOUBLE ARRAY SORTING ALGORITHM FOR ARRAYS OF ARBITRARY LENGTH, the array
+// must contain 8n elements float implementation
 
 inline void maskload(int diff, double *p2, __m256i &mask, __m256d &reg1) {
     switch (diff) {
@@ -1950,32 +1442,19 @@ inline void lane_crossing_compare_all_cases(double *arr, unsigned start,
         else
             reg = _mm256_load_pd(arr + start);
         // else
-        { // shuffling between 128bit lanes of 256bit register
-            // (3,2,1,0)->(1,0,3,2) one compares 0 and 2 ,  1 and 3
-            __m256d shuffled_reg = _mm256_permute4x64_pd(reg, 0b01001110);
-            __m256d mask = _mm256_cmp_pd(reg, shuffled_reg, _CMP_LE_OQ);
-            mask = _mm256_castsi256_pd(_mm256_xor_si256(
-                _mm256_castpd_si256(mask),
-                _mm256_set_epi64x(0xffffffffffffffff, 0xffffffffffffffff,
-                                  0x0000000000000000, 0x0000000000000000)));
-            reg = _mm256_blendv_pd(shuffled_reg, reg, mask);
-        }
-        // shuffle neighbour numbers
-        { // shuffle inside 128 lanes
-            // from (3,2,1,0) produce (2,3,0,1)
-            __m256d shuffled_reg = _mm256_shuffle_pd(reg, reg, 0b0101);
-            __m256d mask = _mm256_cmp_pd(reg, shuffled_reg, _CMP_LE_OQ);
-            mask = _mm256_castsi256_pd(_mm256_xor_si256(
-                _mm256_castpd_si256(mask),
-                _mm256_set_epi64x(0xffffffffffffffff, 0x0000000000000000,
-                                  0xffffffffffffffff, 0x0000000000000000)));
-            reg = _mm256_blendv_pd(shuffled_reg, reg, mask);
+        __m256i mask =
+            _mm256_set_epi64x(0xffffffffffffffff, 0xffffffffffffffff,
+                              0x0000000000000000, 0x0000000000000000);
+        permute_and_compare(reg, mask, 0b01001110);
 
-            if (diff < 3)
-                _mm256_maskstore_pd(arr + start, load_store_mask, reg);
-            else
-                _mm256_store_pd(arr + start, reg);
-        }
+        mask = _mm256_set_epi64x(0xffffffffffffffff, 0x0000000000000000,
+                                 0xffffffffffffffff, 0x0000000000000000);
+        shuffle_and_compare(reg, mask, 0b0101);
+        if (diff < 3)
+            _mm256_maskstore_pd(arr + start, load_store_mask, reg);
+        else
+            _mm256_store_pd(arr + start, reg);
+
         return;
     }
 
@@ -2075,5 +1554,5 @@ inline void sort_vector(aligned_vector<double> &array, unsigned start,
     }
 }
 
-} // namespace IMPROVED_BITONIC_SORT
+} // namespace MODIFIED_BITONIC_SORT
 #endif

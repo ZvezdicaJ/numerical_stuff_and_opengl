@@ -67,6 +67,15 @@ reverse_halves_and_compare(__m256 &reg0) {
     reg0 = _mm256_blend_ps(max, min, 0b00001111);
 }
 
+inline __attribute__((always_inline)) void compare(__m256 &reg0, __m256 &reg1) {
+    {
+        __m256 max = _mm256_max_ps(reg0, reg1);
+        __m256 min = _mm256_min_ps(reg0, reg1);
+        reg0 = min;
+        reg1 = max;
+    }
+}
+
 /**
  * @brief The function accepts two unsorted  __m256 vectors and sorts them.
  * @param reg1 upper vector of numbers - at the end it contains larger values,
@@ -136,26 +145,11 @@ inline void bitonic_sort(__m256 &reg0, __m256 &reg1, __m256 &reg2,
     reverse_and_compare(reg0, reg3);
     reverse_and_compare(reg1, reg2);
     // sort full width
-    {
-        __m256 max = _mm256_max_ps(reg1, reg3);
-        __m256 min = _mm256_min_ps(reg1, reg3);
-        reg1 = min;
-        reg3 = max;
-        max = _mm256_max_ps(reg2, reg0);
-        min = _mm256_min_ps(reg2, reg0);
-        reg2 = max;
-        reg0 = min;
-    }
-    {
-        __m256 max = _mm256_max_ps(reg0, reg1);
-        __m256 min = _mm256_min_ps(reg0, reg1);
-        reg0 = min;
-        reg1 = max;
-        max = _mm256_max_ps(reg2, reg3);
-        min = _mm256_min_ps(reg2, reg3);
-        reg2 = min;
-        reg3 = max;
-    }
+    compare(reg1, reg3);
+    compare(reg0, reg2);
+    compare(reg0, reg1);
+    compare(reg2, reg3);
+
     reverse_halves_and_compare(reg0);
     reverse_halves_and_compare(reg1);
     reverse_halves_and_compare(reg2);
@@ -187,26 +181,12 @@ inline void bitonic_merge(__m256 &reg0, __m256 &reg1, __m256 &reg2,
     reverse_and_compare(reg0, reg3);
     reverse_and_compare(reg1, reg2);
     // sort full width
-    {
-        __m256 max = _mm256_max_ps(reg1, reg3);
-        __m256 min = _mm256_min_ps(reg1, reg3);
-        reg1 = min;
-        reg3 = max;
-        max = _mm256_max_ps(reg2, reg0);
-        min = _mm256_min_ps(reg2, reg0);
-        reg2 = max;
-        reg0 = min;
-    }
-    {
-        __m256 max = _mm256_max_ps(reg0, reg1);
-        __m256 min = _mm256_min_ps(reg0, reg1);
-        reg0 = min;
-        reg1 = max;
-        max = _mm256_max_ps(reg2, reg3);
-        min = _mm256_min_ps(reg2, reg3);
-        reg2 = min;
-        reg3 = max;
-    }
+    compare(reg1, reg3);
+    compare(reg0, reg2);
+
+    compare(reg0, reg1);
+    compare(reg2, reg3);
+
     reverse_halves_and_compare(reg0);
     reverse_halves_and_compare(reg1);
     reverse_halves_and_compare(reg2);
@@ -784,6 +764,14 @@ permute_and_compare(__m256d &reg, const uint8_t mask) {
     reg = _mm256_blend_pd(max, min, 0b0011);
 }
 
+inline __attribute__((always_inline)) void compare(__m256d &reg0,
+                                                   __m256d &reg1) {
+    __m256d min = _mm256_min_pd(reg0, reg1);
+    __m256d max = _mm256_max_pd(reg0, reg1);
+    reg0 = min;
+    reg1 = max;
+}
+
 /**
  *@brief The function accepts a single __m256d vector and sorts
  *it.
@@ -837,28 +825,12 @@ inline void bitonic_sort(__m256d &reg0, __m256d &reg1, __m256d &reg2,
     reverse_and_compare(reg0, reg3);
     reverse_and_compare(reg1, reg2);
 
-    {
-        __m256d min = _mm256_min_pd(reg3, reg1);
-        __m256d max = _mm256_max_pd(reg3, reg1);
-        reg1 = min;
-        reg3 = max;
+    compare(reg1, reg3);
+    compare(reg0, reg2);
 
-        min = _mm256_min_pd(reg2, reg0);
-        max = _mm256_max_pd(reg2, reg0);
-        reg0 = min;
-        reg2 = max;
-    }
-    {
-        __m256d min = _mm256_min_pd(reg0, reg1);
-        __m256d max = _mm256_max_pd(reg0, reg1);
-        reg0 = min;
-        reg1 = max;
+    compare(reg0, reg1);
+    compare(reg2, reg3);
 
-        min = _mm256_min_pd(reg2, reg3);
-        max = _mm256_max_pd(reg2, reg3);
-        reg2 = min;
-        reg3 = max;
-    }
     permute_and_compare(reg0, 0b01001110);
     permute_and_compare(reg1, 0b01001110);
     permute_and_compare(reg2, 0b01001110);
