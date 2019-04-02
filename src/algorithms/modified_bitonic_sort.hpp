@@ -998,8 +998,10 @@ inline void bitonic_sort(__m256d &reg0, __m256d &reg1, __m256d &reg2,
     bitonic_sort(reg1);       // sort second register
     bitonic_sort(reg2);       // sort third register
     bitonic_sort(reg3);       // sort fourth register
+
     bitonic_sort(reg0, reg1); // sort third register
     bitonic_sort(reg2, reg3); // sort fourth register
+
     reverse_and_compare(reg0, reg3);
     reverse_and_compare(reg1, reg2);
 
@@ -1028,6 +1030,7 @@ inline void bitonic_sort(__m256d &reg0, __m256d &reg1, __m256d &reg2,
     __m256i mask_epi64 =
         _mm256_set_epi64x(0xffffffffffffffff, 0xffffffffffffffff,
                           0x0000000000000000, 0x0000000000000000);
+
     permute_and_compare(reg0, mask_epi64, 0b01001110);
     permute_and_compare(reg1, mask_epi64, 0b01001110);
     permute_and_compare(reg2, mask_epi64, 0b01001110);
@@ -1190,7 +1193,7 @@ inline void sort_2n_vector(double *array, unsigned start, unsigned end) {
 }
 
 //////////////////////////////////////////////////////////////////
-// 8N DOUBLE ARRAY SORTING ALGORITHM --- the array must contain 8n
+// 4N DOUBLE ARRAY SORTING ALGORITHM --- the array must contain 8n
 // elements
 
 /** @brief compared vectors from top and bottom of array and then

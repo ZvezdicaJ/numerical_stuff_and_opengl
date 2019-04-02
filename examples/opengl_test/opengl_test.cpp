@@ -65,7 +65,7 @@ int main() {
         glfwPollEvents(); // check if any events happend (mouse press, key
                           // press)
                           // display(shapes2);
-        draw(board1, shader1, {0.5, 0.5, 0.5}, {0, 0, 0}, {1, 1, 1}, 0,
+        draw(board1, shader1, {0.5, 0.5, 0.5}, {0, 0, 0}, {1, 1, 1}, fi,
              {0.5, 0.5, 0.5, 0.5});
         //draw_2d_object(star1, shader1, {0.5, 0.5, 0.5}, {0, 0, 0}, {1, 1, 1}, fi,
         //   {0.5, 0.5, 0.5, 0.5});

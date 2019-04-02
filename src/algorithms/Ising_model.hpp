@@ -6,7 +6,7 @@
 
 /**
  * @class spin_dir
- * @brief This enum contains two possible spin directions in in Ising model
+ * @brief This enum contains two possible spin directions in the Ising model
  */
 enum spin_dir : int { UP = 1, DOWN = -1 };
 
@@ -264,8 +264,6 @@ class IsingModel {
                 }
                 energy += dE;
             }
-
-            // printf("   magnetizacija=%f    ", magnetiz);
 
             if (k == 1 || k == size - 2 || l == 1 || l == size - 2) {
 

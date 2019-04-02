@@ -605,15 +605,15 @@ TEST(SORT, BITONIC_AVX_SORT_REG4_DOUBLE_KEY_VALUE) {
             ASSERT_EQ(*(s_key3 + i), sol_key3[i]);
         }
     }
-    /*
-    {
-        unsigned size = 32;
+
+    for (int i = 0; i < 1; i++) {
+        unsigned size = 16;
         std::vector<double> inp;
         inp.reserve(size);
         std::vector<std::pair<long, double>> pairs;
-        pairs.reserve(size);
+        pairs.reserve(8);
 
-        for (int i = 0; i < size; i++) {
+        for (long i = 0; i < size; i++) {
             inp.push_back(random_double());
             pairs.push_back(std::pair<long, double>(i, inp[i]));
         }
@@ -647,7 +647,7 @@ TEST(SORT, BITONIC_AVX_SORT_REG4_DOUBLE_KEY_VALUE) {
         long *s_key2 = (long *)&key2;
         long *s_key3 = (long *)&key3;
 
-        for (int i = 0; i < 8; i++) {
+        for (long i = 0; i < 4; i++) {
             ASSERT_EQ(*(s_key0 + i), pairs[i].first);
             ASSERT_EQ(*(s_key1 + i), pairs[i + 4].first);
             ASSERT_EQ(*(s_key2 + i), pairs[i + 8].first);
@@ -658,8 +658,204 @@ TEST(SORT, BITONIC_AVX_SORT_REG4_DOUBLE_KEY_VALUE) {
             ASSERT_EQ(*(s2 + i), pairs[i + 8].second);
             ASSERT_EQ(*(s3 + i), pairs[i + 12].second);
         }
-        }*/
+    }
 }
+
+TEST(SORT, TEST_2N_BITONIC_SORT_KEY_VALUE_DOUBLE_VER) {
+
+    {
+        unsigned size = 8;
+        aligned_vector<double> inp;
+        aligned_vector<long long> keys;
+
+        inp.reserve(size);
+        keys.reserve(size);
+
+        std::vector<std::pair<long long, double>> pairs;
+        pairs.reserve(size);
+
+        for (long long i = 0; i < size; i++) {
+            // inp.push_back(random_float());
+            inp.push_back(i);
+            keys.push_back(i);
+            //            pairs.push_back(std::pair<int, float>(i, inp[i]));
+            pairs.push_back(std::pair<long long, double>(i, i));
+        }
+
+        BITONIC_SORT_KEY_VALUE::sort_2n_vector(inp.data(), keys.data(), 0,
+                                               size - 1);
+
+        std::sort(std::begin(pairs), std::end(pairs),
+                  [](const std::pair<long long, double> &a,
+                     const std::pair<long long, double> &b) {
+                      return (a.second) < (b.second);
+                  });
+
+        for (int i = 0; i < 7; i++) {
+            ASSERT_EQ(inp[i], pairs[i].second);
+            ASSERT_EQ(keys[i], pairs[i].first);
+        }
+    }
+    {
+        unsigned size = 64;
+        aligned_vector<double> inp;
+        aligned_vector<long long> keys;
+
+        inp.reserve(size);
+        keys.reserve(size);
+
+        std::vector<std::pair<long long, double>> pairs;
+        pairs.reserve(size);
+
+        for (long long i = 0; i < size; i++) {
+            // inp.push_back(random_float());
+            inp.push_back(random_double());
+            keys.push_back(i);
+            //            pairs.push_back(std::pair<int, float>(i, inp[i]));
+            pairs.push_back(std::pair<long long, double>(i, inp[i]));
+        }
+
+        BITONIC_SORT_KEY_VALUE::sort_2n_vector(inp.data(), keys.data(), 0,
+                                               size - 1);
+
+        std::sort(std::begin(pairs), std::end(pairs),
+                  [](const std::pair<long long, double> &a,
+                     const std::pair<long long, double> &b) {
+                      return (a.second) < (b.second);
+                  });
+
+        for (long long i = 0; i < size; i++) {
+            ASSERT_EQ(inp[i], pairs[i].second);
+            ASSERT_EQ(keys[i], pairs[i].first);
+        }
+    }
+}
+
+TEST(SORT, TEST_8N_BITONIC_SORT_KEY_VALUE_DOUBLE_VER) {
+
+    {
+        unsigned size = 4;
+        aligned_vector<double> inp;
+        aligned_vector<long long> keys;
+
+        inp.reserve(size);
+        keys.reserve(size);
+
+        std::vector<std::pair<long long, double>> pairs;
+        pairs.reserve(size);
+
+        for (long long i = 0; i < size; i++) {
+            // inp.push_back(random_float());
+            inp.push_back(i);
+            keys.push_back(i);
+            //            pairs.push_back(std::pair<int, float>(i, inp[i]));
+            pairs.push_back(std::pair<long long, double>(i, i));
+        }
+
+        BITONIC_SORT_KEY_VALUE::sort_4n_vector(inp.data(), keys.data(), 0,
+                                               size - 1);
+
+        std::sort(std::begin(pairs), std::end(pairs),
+                  [](const std::pair<long long, double> &a,
+                     const std::pair<long long, double> &b) {
+                      return (a.second) < (b.second);
+                  });
+
+        for (int i = 0; i < size; i++) {
+            ASSERT_EQ(inp[i], pairs[i].second);
+            ASSERT_EQ(keys[i], pairs[i].first);
+        }
+    }
+    {
+        unsigned size = 384;
+        aligned_vector<double> inp;
+        aligned_vector<long long> keys;
+
+        inp.reserve(size);
+        keys.reserve(size);
+
+        std::vector<std::pair<long long, double>> pairs;
+        pairs.reserve(size);
+
+        for (long long i = 0; i < size; i++) {
+            // inp.push_back(random_float());
+            inp.push_back(random_double());
+            keys.push_back(i);
+            //            pairs.push_back(std::pair<int, float>(i, inp[i]));
+            pairs.push_back(std::pair<long long, double>(i, inp[i]));
+        }
+
+        BITONIC_SORT_KEY_VALUE::sort_4n_vector(inp.data(), keys.data(), 0,
+                                               size - 1);
+
+        std::sort(std::begin(pairs), std::end(pairs),
+                  [](const std::pair<long long, double> &a,
+                     const std::pair<long long, double> &b) {
+                      return (a.second) < (b.second);
+                  });
+
+        for (long long i = 0; i < size; i++) {
+            ASSERT_EQ(inp[i], pairs[i].second);
+            ASSERT_EQ(keys[i], pairs[i].first);
+        }
+    }
+}
+
+/*
+{
+    unsigned size = 32;
+    std::vector<double> inp;
+    inp.reserve(size);
+    std::vector<std::pair<long long, double>> pairs;
+    pairs.reserve(size);
+
+    for (int i = 0; i < size; i++) {
+        inp.push_back(random_double());
+        pairs.push_back(std::pair<long long, double>(i, inp[i]));
+    }
+
+    __m256d reg0 = _mm256_loadu_pd(inp.data());
+    __m256d reg1 = _mm256_loadu_pd(inp.data() + 4);
+    __m256d reg2 = _mm256_loadu_pd(inp.data() + 8);
+    __m256d reg3 = _mm256_loadu_pd(inp.data() + 12);
+
+    __m256i key0 = _mm256_setr_epi64x(0, 1, 2, 3);
+    __m256i key1 = _mm256_setr_epi64x(4, 5, 6, 7);
+    __m256i key2 = _mm256_setr_epi64x(8, 9, 10, 11);
+    __m256i key3 = _mm256_setr_epi64x(12, 13, 14, 15);
+
+    std::sort(std::begin(pairs), std::end(pairs),
+              [](const std::pair<long long, double> &a,
+                 const std::pair<long long, double> &b) {
+                  return (a.second) < (b.second);
+              });
+
+    BITONIC_SORT_KEY_VALUE::bitonic_sort(reg0, reg1, reg2, reg3, key0, key1,
+                                         key2, key3);
+
+    double *s0 = (double *)&reg0;
+    double *s1 = (double *)&reg1;
+    double *s2 = (double *)&reg2;
+    double *s3 = (double *)&reg3;
+
+    long long *s_key0 = (long long *)&key0;
+    long long *s_key1 = (long long *)&key1;
+    long long *s_key2 = (long long *)&key2;
+    long long *s_key3 = (long long *)&key3;
+
+    for (int i = 0; i < 8; i++) {
+        ASSERT_EQ(*(s_key0 + i), pairs[i].first);
+        ASSERT_EQ(*(s_key1 + i), pairs[i + 4].first);
+        ASSERT_EQ(*(s_key2 + i), pairs[i + 8].first);
+        ASSERT_EQ(*(s_key3 + i), pairs[i + 12].first);
+
+        ASSERT_EQ(*(s0 + i), pairs[i].second);
+        ASSERT_EQ(*(s1 + i), pairs[i + 4].second);
+        ASSERT_EQ(*(s2 + i), pairs[i + 8].second);
+        ASSERT_EQ(*(s3 + i), pairs[i + 12].second);
+    }
+    }
+    }*/
 
 /*
 
