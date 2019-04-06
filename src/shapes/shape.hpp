@@ -15,7 +15,7 @@ class Shape {
                   "float, double, long double!");
 
   protected:
-    unsigned vertex_size = 0;
+    unsigned vertex_size = 2;
     aligned_vector<T> vertexes; /**< Vector holding all vertexes; 2,3 or 4
             consequtive numbers form a  vertex */
     char draw_type; /**< this can either be 'E' or 'V', depending on wheather to
@@ -97,6 +97,9 @@ class Shape {
 
     /**
      *@brief Generate random colors for each vertex.
+     * @details The function checks the size of vertexes and for each vertex
+     * generates (random_real(), random_real(), random_real(), random_real())
+     * tuple
      */
     void generate_random_colors() {
         int size = 4 * vertexes.size() / vertex_size;
@@ -108,10 +111,12 @@ class Shape {
 
         for (int i = 0; i < size; i++) {
             vertex_colors.emplace_back(random_real());
+            //vertex_colors.emplace_back(0.5);
         }
         glBindBuffer(GL_ARRAY_BUFFER, CBO);
         glBufferData(GL_ARRAY_BUFFER, sizeof(float) * (vertex_colors.size()),
                      &(vertex_colors[0]), GL_STATIC_DRAW);
+        this->colors_loaded = true;
     }
 
     // friends
@@ -158,6 +163,12 @@ class Shape2D : public Shape<T> {
         Shape2D<T> &shape, Shader<RENDER_TYPE::UNIFORM_COLOR> &shader_object,
         std::array<float, 3> scale, std::array<float, 3> position,
         std::array<float, 3> rotation_axis, float angle, glm::vec4);
+
+    friend void
+    draw_2d_object<T>(Shape2D<T> &shape,
+                      Shader<RENDER_TYPE::CUSTOM_COLOR> &shader_object,
+                      std::array<float, 3> scale, std::array<float, 3> position,
+                      std::array<float, 3> rotation_axis, float angle);
 };
 
 /**

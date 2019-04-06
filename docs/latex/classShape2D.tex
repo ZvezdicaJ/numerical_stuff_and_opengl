@@ -7,33 +7,44 @@
 
 
 
-{\ttfamily \#include \char`\"{}shape.\+hpp\char`\"{}}
+{\ttfamily \#include \char`\"{}drawing\+\_\+functions.\+hpp\char`\"{}}
 
 Inheritance diagram for Shape2D$<$ T $>$\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[height=3.000000cm]{classShape2D}
+\includegraphics[height=2.688000cm]{classShape2D}
 \end{center}
 \end{figure}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$ T $>$ \mbox{\hyperlink{classShape2D_af67c7aed6e58b5aa0e3518a3ad1de75b}{get\+\_\+filling\+\_\+vertexes}} ()
+\mbox{\hyperlink{type__definitions_8hpp_a087efd587d66b881646ef378f1919c90}{aligned\+\_\+vector}}$<$ T $>$ \mbox{\hyperlink{classShape2D_af67c7aed6e58b5aa0e3518a3ad1de75b}{get\+\_\+filling\+\_\+vertexes}} ()
 \end{DoxyCompactItemize}
 \subsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \mbox{\hyperlink{classShape2D_a210e702aa5918b88f25fb6b63a911fc8}{generate\+\_\+filling\+\_\+vbo}} ()
+virtual \mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classShape2D_a917c3277ca262ec557930c8cc837c204}{generate\+\_\+filling\+\_\+vbo}} ()
 \item 
-{\footnotesize template$<$$>$ }\\void \mbox{\hyperlink{classShape2D_a328d401b8f1962078e904d4b1003d7a5}{generate\+\_\+filling\+\_\+vbo}} ()
+{\footnotesize template$<$$>$ }\\\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classShape2D_a328d401b8f1962078e904d4b1003d7a5}{generate\+\_\+filling\+\_\+vbo}} ()
 \begin{DoxyCompactList}\small\item\em Generates vertexes which fill the interior of 2D shapes. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
 unsigned \mbox{\hyperlink{classShape2D_a220cf4cf96da8bd43627ffffd00a0718}{F\+I\+L\+L\+I\+N\+G\+\_\+\+V\+BO}}
 \item 
-\mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$ T $>$ \mbox{\hyperlink{classShape2D_ae3e216c9d8422b47f46bff9259bd17be}{filling\+\_\+vertexes}}
+unsigned \mbox{\hyperlink{classShape2D_affa1082cd6e91cce5af4cb10c1b3435f}{F\+I\+L\+L\+I\+N\+G\+\_\+\+E\+BO}}
+\item 
+char \mbox{\hyperlink{classShape2D_ab24ceddaa0114eda3ae699f8fb3503ca}{filling\+\_\+draw\+\_\+type}}
+\item 
+\mbox{\hyperlink{type__definitions_8hpp_a087efd587d66b881646ef378f1919c90}{aligned\+\_\+vector}}$<$ T $>$ \mbox{\hyperlink{classShape2D_ae3e216c9d8422b47f46bff9259bd17be}{filling\+\_\+vertexes}}
+\item 
+\mbox{\hyperlink{type__definitions_8hpp_a087efd587d66b881646ef378f1919c90}{aligned\+\_\+vector}}$<$ int $>$ \mbox{\hyperlink{classShape2D_a28d0d6018cb6b73637050d9f3fb1f006}{filling\+\_\+elements}}
 \end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classShape2D_a75ed525e537ded17d42e3adad87bd701}{draw\+\_\+2d\+\_\+object}} (\mbox{\hyperlink{classShape2D}{Shape2D}}$<$ T $>$ \&shape, \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&shader\+\_\+object, std\+::array$<$ float, 3 $>$ scale, std\+::array$<$ float, 3 $>$ position, std\+::array$<$ float, 3 $>$ rotation\+\_\+axis, float angle, glm\+::vec4)
+\begin{DoxyCompactList}\small\item\em draw 2d shape filling of uniform color. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -45,19 +56,19 @@ class Shape2\+D$<$ T $>$}
 It inherits from \mbox{\hyperlink{classShape}{Shape}} class. Template parameter can either be float of double. It is meant to contain functions common to all 2D shapes. 
 
 \subsection{Member Function Documentation}
-\mbox{\Hypertarget{classShape2D_a210e702aa5918b88f25fb6b63a911fc8}\label{classShape2D_a210e702aa5918b88f25fb6b63a911fc8}} 
+\mbox{\Hypertarget{classShape2D_a917c3277ca262ec557930c8cc837c204}\label{classShape2D_a917c3277ca262ec557930c8cc837c204}} 
 \index{Shape2D@{Shape2D}!generate\+\_\+filling\+\_\+vbo@{generate\+\_\+filling\+\_\+vbo}}
 \index{generate\+\_\+filling\+\_\+vbo@{generate\+\_\+filling\+\_\+vbo}!Shape2D@{Shape2D}}
 \subsubsection{\texorpdfstring{generate\+\_\+filling\+\_\+vbo()}{generate\_filling\_vbo()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily template$<$typename T $>$ \\
-void \mbox{\hyperlink{classShape2D}{Shape2D}}$<$ T $>$\+::generate\+\_\+filling\+\_\+vbo (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+virtual \mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classShape2D}{Shape2D}}$<$ T $>$\+::generate\+\_\+filling\+\_\+vbo (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
 
 \mbox{\Hypertarget{classShape2D_a328d401b8f1962078e904d4b1003d7a5}\label{classShape2D_a328d401b8f1962078e904d4b1003d7a5}} 
 \index{Shape2D@{Shape2D}!generate\+\_\+filling\+\_\+vbo@{generate\+\_\+filling\+\_\+vbo}}
 \index{generate\+\_\+filling\+\_\+vbo@{generate\+\_\+filling\+\_\+vbo}!Shape2D@{Shape2D}}
 \subsubsection{\texorpdfstring{generate\+\_\+filling\+\_\+vbo()}{generate\_filling\_vbo()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$$>$ \\
-void \mbox{\hyperlink{classShape2D}{Shape2D}}$<$ float $>$\+::generate\+\_\+filling\+\_\+vbo (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classShape2D}{Shape2D}}$<$ float $>$\+::generate\+\_\+filling\+\_\+vbo (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
 
 
 
@@ -67,28 +78,81 @@ Generates vertexes which fill the interior of 2D shapes.
 \index{Shape2D@{Shape2D}!get\+\_\+filling\+\_\+vertexes@{get\+\_\+filling\+\_\+vertexes}}
 \index{get\+\_\+filling\+\_\+vertexes@{get\+\_\+filling\+\_\+vertexes}!Shape2D@{Shape2D}}
 \subsubsection{\texorpdfstring{get\+\_\+filling\+\_\+vertexes()}{get\_filling\_vertexes()}}
-{\footnotesize\ttfamily template$<$typename T $>$ \\
-\mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$T$>$ \mbox{\hyperlink{classShape2D}{Shape2D}}$<$ T $>$\+::get\+\_\+filling\+\_\+vertexes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+\mbox{\hyperlink{type__definitions_8hpp_a087efd587d66b881646ef378f1919c90}{aligned\+\_\+vector}}$<$T$>$ \mbox{\hyperlink{classShape2D}{Shape2D}}$<$ T $>$\+::get\+\_\+filling\+\_\+vertexes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classShape2D_a75ed525e537ded17d42e3adad87bd701}\label{classShape2D_a75ed525e537ded17d42e3adad87bd701}} 
+\index{Shape2D@{Shape2D}!draw\+\_\+2d\+\_\+object@{draw\+\_\+2d\+\_\+object}}
+\index{draw\+\_\+2d\+\_\+object@{draw\+\_\+2d\+\_\+object}!Shape2D@{Shape2D}}
+\subsubsection{\texorpdfstring{draw\+\_\+2d\+\_\+object}{draw\_2d\_object}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} draw\+\_\+2d\+\_\+object (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShape2D}{Shape2D}}$<$ T $>$ \&}]{shape,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&}]{shader\+\_\+object,  }\item[{std\+::array$<$ float, 3 $>$}]{scale = {\ttfamily \{0.5,~0.5,~0.5\}},  }\item[{std\+::array$<$ float, 3 $>$}]{position = {\ttfamily \{0,~0,~1\}},  }\item[{std\+::array$<$ float, 3 $>$}]{rotation\+\_\+axis = {\ttfamily \{0,~0,~1\}},  }\item[{float}]{angle = {\ttfamily 0},  }\item[{glm\+::vec4}]{color = {\ttfamily \{0.5,~0.5,~0.5,~0.5\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+draw 2d shape filling of uniform color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em shape} & An object of type class \mbox{\hyperlink{classShape}{Shape}} to be drawn \\
+\hline
+{\em shader\+\_\+object} & Object of type class Shader$<$\+R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+O\+R$>$, which contains correct shader. \\
+\hline
+{\em scale} & sscales object in x,y and z directions. \\
+\hline
+{\em position} & translate center of the object to coordinates specified by this vector. \\
+\hline
+{\em rotation\+\_\+axis} & axis around which object should be rotated. \\
+\hline
+{\em angle} & Angle specifying how much to rotate the object. \\
+\hline
+{\em color} & color of the shape -\/ the same for all vertexes \\
+\hline
+\end{DoxyParams}
 
 
 \subsection{Member Data Documentation}
-\mbox{\Hypertarget{classShape2D_a220cf4cf96da8bd43627ffffd00a0718}\label{classShape2D_a220cf4cf96da8bd43627ffffd00a0718}} 
+\mbox{\Hypertarget{classShape2D_ab24ceddaa0114eda3ae699f8fb3503ca}\label{classShape2D_ab24ceddaa0114eda3ae699f8fb3503ca}} 
+\index{Shape2D@{Shape2D}!filling\+\_\+draw\+\_\+type@{filling\+\_\+draw\+\_\+type}}
+\index{filling\+\_\+draw\+\_\+type@{filling\+\_\+draw\+\_\+type}!Shape2D@{Shape2D}}
+\subsubsection{\texorpdfstring{filling\+\_\+draw\+\_\+type}{filling\_draw\_type}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+char \mbox{\hyperlink{classShape2D}{Shape2D}}$<$ T $>$\+::filling\+\_\+draw\+\_\+type\hspace{0.3cm}{\ttfamily [protected]}}
+
+tells whether to render element buffer -\/ \textquotesingle{}E\textquotesingle{} of array buffer -\/ \textquotesingle{}V\textquotesingle{} \mbox{\Hypertarget{classShape2D_affa1082cd6e91cce5af4cb10c1b3435f}\label{classShape2D_affa1082cd6e91cce5af4cb10c1b3435f}} 
+\index{Shape2D@{Shape2D}!F\+I\+L\+L\+I\+N\+G\+\_\+\+E\+BO@{F\+I\+L\+L\+I\+N\+G\+\_\+\+E\+BO}}
+\index{F\+I\+L\+L\+I\+N\+G\+\_\+\+E\+BO@{F\+I\+L\+L\+I\+N\+G\+\_\+\+E\+BO}!Shape2D@{Shape2D}}
+\subsubsection{\texorpdfstring{F\+I\+L\+L\+I\+N\+G\+\_\+\+E\+BO}{FILLING\_EBO}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+unsigned \mbox{\hyperlink{classShape2D}{Shape2D}}$<$ T $>$\+::F\+I\+L\+L\+I\+N\+G\+\_\+\+E\+BO\hspace{0.3cm}{\ttfamily [protected]}}
+
+2D shapes consist of lines, this buffer contains elements to fill 2D shapes. \mbox{\Hypertarget{classShape2D_a28d0d6018cb6b73637050d9f3fb1f006}\label{classShape2D_a28d0d6018cb6b73637050d9f3fb1f006}} 
+\index{Shape2D@{Shape2D}!filling\+\_\+elements@{filling\+\_\+elements}}
+\index{filling\+\_\+elements@{filling\+\_\+elements}!Shape2D@{Shape2D}}
+\subsubsection{\texorpdfstring{filling\+\_\+elements}{filling\_elements}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+\mbox{\hyperlink{type__definitions_8hpp_a087efd587d66b881646ef378f1919c90}{aligned\+\_\+vector}}$<$int$>$ \mbox{\hyperlink{classShape2D}{Shape2D}}$<$ T $>$\+::filling\+\_\+elements\hspace{0.3cm}{\ttfamily [protected]}}
+
+vertexes for interior of 2D shapes. \mbox{\Hypertarget{classShape2D_a220cf4cf96da8bd43627ffffd00a0718}\label{classShape2D_a220cf4cf96da8bd43627ffffd00a0718}} 
 \index{Shape2D@{Shape2D}!F\+I\+L\+L\+I\+N\+G\+\_\+\+V\+BO@{F\+I\+L\+L\+I\+N\+G\+\_\+\+V\+BO}}
 \index{F\+I\+L\+L\+I\+N\+G\+\_\+\+V\+BO@{F\+I\+L\+L\+I\+N\+G\+\_\+\+V\+BO}!Shape2D@{Shape2D}}
 \subsubsection{\texorpdfstring{F\+I\+L\+L\+I\+N\+G\+\_\+\+V\+BO}{FILLING\_VBO}}
-{\footnotesize\ttfamily template$<$typename T $>$ \\
+{\footnotesize\ttfamily template$<$typename T$>$ \\
 unsigned \mbox{\hyperlink{classShape2D}{Shape2D}}$<$ T $>$\+::F\+I\+L\+L\+I\+N\+G\+\_\+\+V\+BO\hspace{0.3cm}{\ttfamily [protected]}}
 
-2D shapes consist of line, this buffer is meant to fill 2D shapes. \mbox{\Hypertarget{classShape2D_ae3e216c9d8422b47f46bff9259bd17be}\label{classShape2D_ae3e216c9d8422b47f46bff9259bd17be}} 
+2D shapes consist of lines, this buffer is meant to fill 2D shapes. \mbox{\Hypertarget{classShape2D_ae3e216c9d8422b47f46bff9259bd17be}\label{classShape2D_ae3e216c9d8422b47f46bff9259bd17be}} 
 \index{Shape2D@{Shape2D}!filling\+\_\+vertexes@{filling\+\_\+vertexes}}
 \index{filling\+\_\+vertexes@{filling\+\_\+vertexes}!Shape2D@{Shape2D}}
 \subsubsection{\texorpdfstring{filling\+\_\+vertexes}{filling\_vertexes}}
-{\footnotesize\ttfamily template$<$typename T $>$ \\
-\mbox{\hyperlink{type__definitions_8hpp_accb98a876f193a416d9c8a02fe22d526}{aligned\+\_\+vector}}$<$T$>$ \mbox{\hyperlink{classShape2D}{Shape2D}}$<$ T $>$\+::filling\+\_\+vertexes\hspace{0.3cm}{\ttfamily [protected]}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+\mbox{\hyperlink{type__definitions_8hpp_a087efd587d66b881646ef378f1919c90}{aligned\+\_\+vector}}$<$T$>$ \mbox{\hyperlink{classShape2D}{Shape2D}}$<$ T $>$\+::filling\+\_\+vertexes\hspace{0.3cm}{\ttfamily [protected]}}
 
 vertexes for interior of 2D shapes. 
 
-The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-src/\mbox{\hyperlink{shape_8hpp}{shape.\+hpp}}\end{DoxyCompactItemize}
+src/display\+\_\+and\+\_\+drawing\+\_\+functions/\mbox{\hyperlink{drawing__functions_8hpp}{drawing\+\_\+functions.\+hpp}}\item 
+src/shapes/\mbox{\hyperlink{shape_8hpp}{shape.\+hpp}}\end{DoxyCompactItemize}

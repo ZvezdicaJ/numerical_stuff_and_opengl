@@ -1,0 +1,197 @@
+\hypertarget{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4}{}\section{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+PE\+:\+:C\+U\+S\+T\+OM $>$ Class Template Reference}
+\label{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4}\index{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}}
+
+
+{\ttfamily \#include \char`\"{}shader\+\_\+class.\+hpp\char`\"{}}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_a8238c3e1a3a96e7ed2b1777a340d7947}{Shader}} (const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} \&vertex\+\_\+source\+\_\+, const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} \&geometry\+\_\+source\+\_\+, const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} \&fragment\+\_\+source\+\_\+)
+\item 
+\mbox{\hyperlink{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_a4fea53201befd8962702645fe8f2526e}{Shader}} (\mbox{\hyperlink{classShader}{Shader}} \&\&)=delete
+\item 
+\mbox{\hyperlink{classShader}{Shader}} \& \mbox{\hyperlink{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_a717f92caab16604933920257707046b6}{operator=}} (\mbox{\hyperlink{classShader}{Shader}} \&\&)=delete
+\item 
+\mbox{\hyperlink{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_af1fbc8b0cb20d1af7905e2d896f0fb79}{Shader}} (const \mbox{\hyperlink{classShader}{Shader}} \&)=delete
+\item 
+\mbox{\hyperlink{classShader}{Shader}} \& \mbox{\hyperlink{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_a44af437f5ea044824ba7937ee07d1da7}{operator=}} (const \mbox{\hyperlink{classShader}{Shader}} \&)=delete
+\item 
+unsigned \mbox{\hyperlink{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_adf4d1f7a937d11102268dfb8fc7f2f9e}{get\+\_\+shader\+\_\+program}} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_aede40b234ac1e38be9d0f9f2a60a26ab}{compile\+\_\+shaders}} ()
+\begin{DoxyCompactList}\small\item\em Constructor compiles shaders and tests them. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_afca4ecec5bed3cf6a9f219ce52e5343e}{check\+\_\+vertex\+\_\+shader}} (const unsigned shader\+\_\+)
+\begin{DoxyCompactList}\small\item\em check if vertex shader has been successfully compiled \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_a8ba4a9ccbbf73e471434981a62b15d41}{check\+\_\+fragment\+\_\+shader}} (const unsigned shader\+\_\+)
+\begin{DoxyCompactList}\small\item\em check if fragment shader has been successfully compiled \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_aca3ba4448a05303b92667e88e18f5cfb}{check\+\_\+geometry\+\_\+shader}} (const unsigned shader\+\_\+)
+\begin{DoxyCompactList}\small\item\em check if fragment shader has been successfully compiled \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_af59ced307a40764c2fa1acef66e074b3}{check\+\_\+shader\+\_\+program}} (const unsigned shader\+Program)
+\begin{DoxyCompactList}\small\item\em check if shader program has been successfully linked \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+unsigned \mbox{\hyperlink{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_a5baec51d258afd0d116d82cace52eace}{shader\+\_\+program}}
+\item 
+bool \mbox{\hyperlink{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_a80cb5fdd63c57881cdf2b2dbb18e215e}{shaders\+\_\+compiled}} = false
+\item 
+const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} \mbox{\hyperlink{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_ac6dfb0d85b637f3949777f047b1c010c}{vertex\+\_\+source}}
+\item 
+const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} \mbox{\hyperlink{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_ac3319ff19c5af25e7d099fd2511066ea}{fragment\+\_\+source}}
+\item 
+const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} \mbox{\hyperlink{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_acc41906788319945fc40ea589997112b}{geometry\+\_\+source}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_a8238c3e1a3a96e7ed2b1777a340d7947}\label{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_a8238c3e1a3a96e7ed2b1777a340d7947}} 
+\index{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}!Shader@{Shader}}
+\index{Shader@{Shader}!Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}}
+\subsubsection{\texorpdfstring{Shader()}{Shader()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60a72baef04098f035e8a320b03ad197818}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+OM}} $>$\+::\mbox{\hyperlink{classShader}{Shader}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} \&}]{vertex\+\_\+source\+\_\+,  }\item[{const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} \&}]{geometry\+\_\+source\+\_\+,  }\item[{const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} \&}]{fragment\+\_\+source\+\_\+ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_a4fea53201befd8962702645fe8f2526e}\label{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_a4fea53201befd8962702645fe8f2526e}} 
+\index{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}!Shader@{Shader}}
+\index{Shader@{Shader}!Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}}
+\subsubsection{\texorpdfstring{Shader()}{Shader()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60a72baef04098f035e8a320b03ad197818}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+OM}} $>$\+::\mbox{\hyperlink{classShader}{Shader}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60a72baef04098f035e8a320b03ad197818}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+OM}} $>$ \&\&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\mbox{\Hypertarget{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_af1fbc8b0cb20d1af7905e2d896f0fb79}\label{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_af1fbc8b0cb20d1af7905e2d896f0fb79}} 
+\index{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}!Shader@{Shader}}
+\index{Shader@{Shader}!Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}}
+\subsubsection{\texorpdfstring{Shader()}{Shader()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60a72baef04098f035e8a320b03ad197818}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+OM}} $>$\+::\mbox{\hyperlink{classShader}{Shader}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60a72baef04098f035e8a320b03ad197818}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+OM}} $>$ \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_a8ba4a9ccbbf73e471434981a62b15d41}\label{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_a8ba4a9ccbbf73e471434981a62b15d41}} 
+\index{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}!check\+\_\+fragment\+\_\+shader@{check\+\_\+fragment\+\_\+shader}}
+\index{check\+\_\+fragment\+\_\+shader@{check\+\_\+fragment\+\_\+shader}!Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}}
+\subsubsection{\texorpdfstring{check\+\_\+fragment\+\_\+shader()}{check\_fragment\_shader()}}
+{\footnotesize\ttfamily bool \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60a72baef04098f035e8a320b03ad197818}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+OM}} $>$\+::check\+\_\+fragment\+\_\+shader (\begin{DoxyParamCaption}\item[{const unsigned}]{shader\+\_\+ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+check if fragment shader has been successfully compiled 
+
+
+\begin{DoxyParams}{Parameters}
+{\em shader\+\_\+} & an unsigned integer referring to fragment shader \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_aca3ba4448a05303b92667e88e18f5cfb}\label{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_aca3ba4448a05303b92667e88e18f5cfb}} 
+\index{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}!check\+\_\+geometry\+\_\+shader@{check\+\_\+geometry\+\_\+shader}}
+\index{check\+\_\+geometry\+\_\+shader@{check\+\_\+geometry\+\_\+shader}!Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}}
+\subsubsection{\texorpdfstring{check\+\_\+geometry\+\_\+shader()}{check\_geometry\_shader()}}
+{\footnotesize\ttfamily bool \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60a72baef04098f035e8a320b03ad197818}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+OM}} $>$\+::check\+\_\+geometry\+\_\+shader (\begin{DoxyParamCaption}\item[{const unsigned}]{shader\+\_\+ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+check if fragment shader has been successfully compiled 
+
+
+\begin{DoxyParams}{Parameters}
+{\em shader\+\_\+} & an unsigned integer referring to fragment shader \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_af59ced307a40764c2fa1acef66e074b3}\label{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_af59ced307a40764c2fa1acef66e074b3}} 
+\index{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}!check\+\_\+shader\+\_\+program@{check\+\_\+shader\+\_\+program}}
+\index{check\+\_\+shader\+\_\+program@{check\+\_\+shader\+\_\+program}!Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}}
+\subsubsection{\texorpdfstring{check\+\_\+shader\+\_\+program()}{check\_shader\_program()}}
+{\footnotesize\ttfamily bool \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60a72baef04098f035e8a320b03ad197818}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+OM}} $>$\+::check\+\_\+shader\+\_\+program (\begin{DoxyParamCaption}\item[{const unsigned}]{shader\+Program }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+check if shader program has been successfully linked 
+
+
+\begin{DoxyParams}{Parameters}
+{\em shader\+Program} & an unsigned integer referring to shader program \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_afca4ecec5bed3cf6a9f219ce52e5343e}\label{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_afca4ecec5bed3cf6a9f219ce52e5343e}} 
+\index{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}!check\+\_\+vertex\+\_\+shader@{check\+\_\+vertex\+\_\+shader}}
+\index{check\+\_\+vertex\+\_\+shader@{check\+\_\+vertex\+\_\+shader}!Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}}
+\subsubsection{\texorpdfstring{check\+\_\+vertex\+\_\+shader()}{check\_vertex\_shader()}}
+{\footnotesize\ttfamily bool \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60a72baef04098f035e8a320b03ad197818}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+OM}} $>$\+::check\+\_\+vertex\+\_\+shader (\begin{DoxyParamCaption}\item[{const unsigned}]{shader\+\_\+ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+check if vertex shader has been successfully compiled 
+
+
+\begin{DoxyParams}{Parameters}
+{\em shader\+\_\+} & an unsigned integer referring to vertex shader \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_aede40b234ac1e38be9d0f9f2a60a26ab}\label{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_aede40b234ac1e38be9d0f9f2a60a26ab}} 
+\index{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}!compile\+\_\+shaders@{compile\+\_\+shaders}}
+\index{compile\+\_\+shaders@{compile\+\_\+shaders}!Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}}
+\subsubsection{\texorpdfstring{compile\+\_\+shaders()}{compile\_shaders()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60a72baef04098f035e8a320b03ad197818}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+OM}} $>$\+::compile\+\_\+shaders (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+Constructor compiles shaders and tests them. 
+
+\mbox{\Hypertarget{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_adf4d1f7a937d11102268dfb8fc7f2f9e}\label{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_adf4d1f7a937d11102268dfb8fc7f2f9e}} 
+\index{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}!get\+\_\+shader\+\_\+program@{get\+\_\+shader\+\_\+program}}
+\index{get\+\_\+shader\+\_\+program@{get\+\_\+shader\+\_\+program}!Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}}
+\subsubsection{\texorpdfstring{get\+\_\+shader\+\_\+program()}{get\_shader\_program()}}
+{\footnotesize\ttfamily unsigned \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60a72baef04098f035e8a320b03ad197818}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+OM}} $>$\+::get\+\_\+shader\+\_\+program (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_a717f92caab16604933920257707046b6}\label{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_a717f92caab16604933920257707046b6}} 
+\index{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classShader}{Shader}}\& \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60a72baef04098f035e8a320b03ad197818}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+OM}} $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60a72baef04098f035e8a320b03ad197818}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+OM}} $>$ \&\&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\mbox{\Hypertarget{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_a44af437f5ea044824ba7937ee07d1da7}\label{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_a44af437f5ea044824ba7937ee07d1da7}} 
+\index{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classShader}{Shader}}\& \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60a72baef04098f035e8a320b03ad197818}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+OM}} $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60a72baef04098f035e8a320b03ad197818}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+OM}} $>$ \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_ac3319ff19c5af25e7d099fd2511066ea}\label{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_ac3319ff19c5af25e7d099fd2511066ea}} 
+\index{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}!fragment\+\_\+source@{fragment\+\_\+source}}
+\index{fragment\+\_\+source@{fragment\+\_\+source}!Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}}
+\subsubsection{\texorpdfstring{fragment\+\_\+source}{fragment\_source}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60a72baef04098f035e8a320b03ad197818}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+OM}} $>$\+::fragment\+\_\+source\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_acc41906788319945fc40ea589997112b}\label{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_acc41906788319945fc40ea589997112b}} 
+\index{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}!geometry\+\_\+source@{geometry\+\_\+source}}
+\index{geometry\+\_\+source@{geometry\+\_\+source}!Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}}
+\subsubsection{\texorpdfstring{geometry\+\_\+source}{geometry\_source}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60a72baef04098f035e8a320b03ad197818}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+OM}} $>$\+::geometry\+\_\+source\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_a5baec51d258afd0d116d82cace52eace}\label{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_a5baec51d258afd0d116d82cace52eace}} 
+\index{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}!shader\+\_\+program@{shader\+\_\+program}}
+\index{shader\+\_\+program@{shader\+\_\+program}!Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}}
+\subsubsection{\texorpdfstring{shader\+\_\+program}{shader\_program}}
+{\footnotesize\ttfamily unsigned \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60a72baef04098f035e8a320b03ad197818}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+OM}} $>$\+::shader\+\_\+program\hspace{0.3cm}{\ttfamily [protected]}}
+
+shader program array depending on which vertex size is chosen \mbox{\Hypertarget{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_a80cb5fdd63c57881cdf2b2dbb18e215e}\label{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_a80cb5fdd63c57881cdf2b2dbb18e215e}} 
+\index{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}!shaders\+\_\+compiled@{shaders\+\_\+compiled}}
+\index{shaders\+\_\+compiled@{shaders\+\_\+compiled}!Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}}
+\subsubsection{\texorpdfstring{shaders\+\_\+compiled}{shaders\_compiled}}
+{\footnotesize\ttfamily bool \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60a72baef04098f035e8a320b03ad197818}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+OM}} $>$\+::shaders\+\_\+compiled = false\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_ac6dfb0d85b637f3949777f047b1c010c}\label{classShader_3_01RENDER__TYPE_1_1CUSTOM_01_4_ac6dfb0d85b637f3949777f047b1c010c}} 
+\index{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}!vertex\+\_\+source@{vertex\+\_\+source}}
+\index{vertex\+\_\+source@{vertex\+\_\+source}!Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$@{Shader$<$ R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M $>$}}
+\subsubsection{\texorpdfstring{vertex\+\_\+source}{vertex\_source}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60a72baef04098f035e8a320b03ad197818}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+OM}} $>$\+::vertex\+\_\+source\hspace{0.3cm}{\ttfamily [protected]}}
+
+true/false depending on whether the shaders were successfully compiled 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/shaders/\mbox{\hyperlink{shader__class_8hpp}{shader\+\_\+class.\+hpp}}\end{DoxyCompactItemize}

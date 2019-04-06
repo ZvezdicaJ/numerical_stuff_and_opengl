@@ -3,14 +3,14 @@
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-static const std\+::array$<$ std\+::string, 3 $>$ \mbox{\hyperlink{namespaceshaders_a800ae51b672756c1d98fe5ef773f2b3d}{uniform\+\_\+vertex\+\_\+shaders}} (\{ R\char`\"{}(
+static const std\+::array$<$ \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}}, 3 $>$ \mbox{\hyperlink{namespaceshaders_a800ae51b672756c1d98fe5ef773f2b3d}{uniform\+\_\+vertex\+\_\+shaders}} (\{ R\char`\"{}(
 \#version 450 core
 
-layout (location = 0) in vec2 a\+Pos;
+layout (\mbox{\hyperlink{glad_8h_a6f0165ed903f22b8bb600c3e0b628e73}{location}} = 0) in vec2 a\+Pos;
 
 uniform mat4 transform;
 
-void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()
 \{
 gl\+\_\+\+Point\+Size=30.\+0f;
 
@@ -48,16 +48,29 @@ gl\+\_\+\+Position = transform$\ast$a\+Pos;
 \}
 )\char`\"{} \})
 \item 
-static const std\+::array$<$ std\+::string, 3 $>$ \mbox{\hyperlink{namespaceshaders_ab9d754beb253e36c2805513fdf473da8}{custom\+\_\+vertex\+\_\+shaders}} (\{ R\char`\"{}(
+static const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} \mbox{\hyperlink{namespaceshaders_a08247b475f67d2c839a8d1fe5124b569}{uniform\+\_\+fragment\+\_\+shader}} (R\char`\"{}(
 \#version 450 core
-layout (location = 0) in vec2 a\+Pos;
-layout (location = 1) in vec4 Custom\+Color;
 
-layout (location = 0) out vec4 Color;
+out vec4 Frag\+Color;
+
+uniform vec4 \mbox{\hyperlink{glad_8h_a69995a929d818b8b467d4593c24d98bc}{color}};
+
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()
+\{
+Frag\+Color = \mbox{\hyperlink{glad_8h_a69995a929d818b8b467d4593c24d98bc}{color}}; //vec4(1.\+0f, 0.\+5f, 0.\+2f, 1.\+0f);
+\}
+)\char`\"{})
+\item 
+static const std\+::array$<$ \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}}, 3 $>$ \mbox{\hyperlink{namespaceshaders_af0c4e80907c12bdbec8be7e450017f42}{custom\+\_\+vertex\+\_\+shaders}} (\{ R\char`\"{}(
+\#version 450 core
+layout (\mbox{\hyperlink{glad_8h_a6f0165ed903f22b8bb600c3e0b628e73}{location}} = 0) in vec2 a\+Pos;
+layout (\mbox{\hyperlink{glad_8h_a6f0165ed903f22b8bb600c3e0b628e73}{location}} = 1) in vec4 Custom\+Color;
+
+layout (\mbox{\hyperlink{glad_8h_a6f0165ed903f22b8bb600c3e0b628e73}{location}} = 0) out vec4 Color;
 
 uniform mat4 transform;
 
-void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()
 \{
 gl\+\_\+\+Point\+Size=30.\+0f;
 
@@ -77,7 +90,6 @@ uniform mat4 transform;
 void main()
 \{
 gl\+\_\+\+Point\+Size=10.\+0f;
-
 gl\+\_\+\+Position = transform$\ast$vec4(a\+Pos,1.\+0f);
 \+Color = Custom\+Color;
 \}
@@ -103,33 +115,37 @@ gl\+\_\+\+Position = transform$\ast$a\+Pos;
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-static const G\+Lchar $\ast$ \mbox{\hyperlink{namespaceshaders_adb630ad693498e928fa4fec5657b7fbd}{uniform\+\_\+fragment\+\_\+shader}}
-\item 
-static const G\+Lchar $\ast$ \mbox{\hyperlink{namespaceshaders_a53aefc57e61e6526c0469b6790903754}{custom\+\_\+fragment\+\_\+shader}}
+static const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} \mbox{\hyperlink{namespaceshaders_acea5f97c6eee2604b26ca2c01a42018b}{custom\+\_\+fragment\+\_\+shader}}
 \end{DoxyCompactItemize}
 
 
 \subsection{Function Documentation}
-\mbox{\Hypertarget{namespaceshaders_ab9d754beb253e36c2805513fdf473da8}\label{namespaceshaders_ab9d754beb253e36c2805513fdf473da8}} 
+\mbox{\Hypertarget{namespaceshaders_af0c4e80907c12bdbec8be7e450017f42}\label{namespaceshaders_af0c4e80907c12bdbec8be7e450017f42}} 
 \index{shaders@{shaders}!custom\+\_\+vertex\+\_\+shaders@{custom\+\_\+vertex\+\_\+shaders}}
 \index{custom\+\_\+vertex\+\_\+shaders@{custom\+\_\+vertex\+\_\+shaders}!shaders@{shaders}}
 \subsubsection{\texorpdfstring{custom\+\_\+vertex\+\_\+shaders()}{custom\_vertex\_shaders()}}
-{\footnotesize\ttfamily static const std\+::array$<$std\+::string, 3$>$ shaders\+::custom\+\_\+vertex\+\_\+shaders (\begin{DoxyParamCaption}\item[{\{ R\char`\"{}(\#version 450 corelayout (location = 0) in vec2 a\+Pos;layout (location = 1) in vec4 Custom\+Color;layout (location = 0) out vec4 Color;uniform mat4 transform;void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()\{gl\+\_\+\+Point\+Size=30.\+0f;gl\+\_\+\+Position = transform$\ast$vec4(a\+Pos, 0.\+0f, 1.\+0f);\+Color = Custom\+Color;\})\char`\"{}, R\char`\"{}(\#version 450 corelayout (location = 0) in vec3 a\+Pos;layout (location = 1) in vec4 Custom\+Color;layout (location = 0) out vec4 Color;uniform mat4 transform;void main()\{gl\+\_\+\+Point\+Size=10.\+0f;gl\+\_\+\+Position = transform$\ast$vec4(a\+Pos,1.\+0f);\+Color = Custom\+Color;\})\char`\"{}, R\char`\"{}(\#version 450 corelayout (location = 0) in vec4 a\+Pos;layout (location = 1) in vec4 Custom\+Color;layout (location = 0) out vec4 Color;uniform mat4 transform;void main()\{gl\+\_\+\+Point\+Size=10.\+0f;gl\+\_\+\+Position = transform$\ast$a\+Pos;\+Color = Custom\+Color;\})\char`\"{}\}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily static const std\+::array$<$\mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}}, 3$>$ shaders\+::custom\+\_\+vertex\+\_\+shaders (\begin{DoxyParamCaption}\item[{\{ R\char`\"{}(\#version 450 corelayout (\mbox{\hyperlink{glad_8h_a6f0165ed903f22b8bb600c3e0b628e73}{location}} = 0) in vec2 a\+Pos;layout (\mbox{\hyperlink{glad_8h_a6f0165ed903f22b8bb600c3e0b628e73}{location}} = 1) in vec4 Custom\+Color;layout (\mbox{\hyperlink{glad_8h_a6f0165ed903f22b8bb600c3e0b628e73}{location}} = 0) out vec4 Color;uniform mat4 transform;\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()\{gl\+\_\+\+Point\+Size=30.\+0f;gl\+\_\+\+Position = transform$\ast$vec4(a\+Pos, 0.\+0f, 1.\+0f);\+Color = Custom\+Color;\})\char`\"{}, R\char`\"{}(\#version 450 corelayout (location = 0) in vec3 a\+Pos;layout (location = 1) in vec4 Custom\+Color;layout (location = 0) out vec4 Color;uniform mat4 transform;void main()\{gl\+\_\+\+Point\+Size=10.\+0f;gl\+\_\+\+Position = transform$\ast$vec4(a\+Pos,1.\+0f);\+Color = Custom\+Color;\})\char`\"{}, R\char`\"{}(\#version 450 corelayout (location = 0) in vec4 a\+Pos;layout (location = 1) in vec4 Custom\+Color;layout (location = 0) out vec4 Color;uniform mat4 transform;void main()\{gl\+\_\+\+Point\+Size=10.\+0f;gl\+\_\+\+Position = transform$\ast$a\+Pos;\+Color = Custom\+Color;\})\char`\"{}\}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{namespaceshaders_a08247b475f67d2c839a8d1fe5124b569}\label{namespaceshaders_a08247b475f67d2c839a8d1fe5124b569}} 
+\index{shaders@{shaders}!uniform\+\_\+fragment\+\_\+shader@{uniform\+\_\+fragment\+\_\+shader}}
+\index{uniform\+\_\+fragment\+\_\+shader@{uniform\+\_\+fragment\+\_\+shader}!shaders@{shaders}}
+\subsubsection{\texorpdfstring{uniform\+\_\+fragment\+\_\+shader()}{uniform\_fragment\_shader()}}
+{\footnotesize\ttfamily static const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} shaders\+::uniform\+\_\+fragment\+\_\+shader (\begin{DoxyParamCaption}\item[{R\char`\"{}(\#version 450 coreout vec4 Frag\+Color;uniform vec4 \mbox{\hyperlink{glad_8h_a69995a929d818b8b467d4593c24d98bc}{color}};\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()\{Frag\+Color = \mbox{\hyperlink{glad_8h_a69995a929d818b8b467d4593c24d98bc}{color}}; //vec4(1.\+0f, 0.\+5f, 0.\+2f, 1.\+0f);\})\char`\"{}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 \mbox{\Hypertarget{namespaceshaders_a800ae51b672756c1d98fe5ef773f2b3d}\label{namespaceshaders_a800ae51b672756c1d98fe5ef773f2b3d}} 
 \index{shaders@{shaders}!uniform\+\_\+vertex\+\_\+shaders@{uniform\+\_\+vertex\+\_\+shaders}}
 \index{uniform\+\_\+vertex\+\_\+shaders@{uniform\+\_\+vertex\+\_\+shaders}!shaders@{shaders}}
 \subsubsection{\texorpdfstring{uniform\+\_\+vertex\+\_\+shaders()}{uniform\_vertex\_shaders()}}
-{\footnotesize\ttfamily static const std\+::array$<$std\+::string, 3$>$ shaders\+::uniform\+\_\+vertex\+\_\+shaders (\begin{DoxyParamCaption}\item[{\{ R\char`\"{}(\#version 450 corelayout (location = 0) in vec2 a\+Pos;uniform mat4 transform;void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()\{gl\+\_\+\+Point\+Size=30.\+0f;gl\+\_\+\+Position = transform$\ast$vec4(a\+Pos,0.\+0f,1.\+0f);\})\char`\"{}, R\char`\"{}(\#version 450 corelayout (location = 0) in vec3 a\+Pos;uniform mat4 transform;void main()\{gl\+\_\+\+Point\+Size=30.\+0f;gl\+\_\+\+Position = transform$\ast$vec4(a\+Pos,1.\+0f);\})\char`\"{}, R\char`\"{}(\#version 450 corelayout (location = 0) in vec4 a\+Pos;uniform mat4 transform;void main()\{gl\+\_\+\+Point\+Size=10.\+0f;gl\+\_\+\+Position = transform$\ast$a\+Pos;\})\char`\"{} \}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily static const std\+::array$<$\mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}}, 3$>$ shaders\+::uniform\+\_\+vertex\+\_\+shaders (\begin{DoxyParamCaption}\item[{\{ R\char`\"{}(\#version 450 corelayout (\mbox{\hyperlink{glad_8h_a6f0165ed903f22b8bb600c3e0b628e73}{location}} = 0) in vec2 a\+Pos;uniform mat4 transform;\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()\{gl\+\_\+\+Point\+Size=30.\+0f;gl\+\_\+\+Position = transform$\ast$vec4(a\+Pos,0.\+0f,1.\+0f);\})\char`\"{}, R\char`\"{}(\#version 450 corelayout (location = 0) in vec3 a\+Pos;uniform mat4 transform;void main()\{gl\+\_\+\+Point\+Size=30.\+0f;gl\+\_\+\+Position = transform$\ast$vec4(a\+Pos,1.\+0f);\})\char`\"{}, R\char`\"{}(\#version 450 corelayout (location = 0) in vec4 a\+Pos;uniform mat4 transform;void main()\{gl\+\_\+\+Point\+Size=10.\+0f;gl\+\_\+\+Position = transform$\ast$a\+Pos;\})\char`\"{} \}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
 \subsection{Variable Documentation}
-\mbox{\Hypertarget{namespaceshaders_a53aefc57e61e6526c0469b6790903754}\label{namespaceshaders_a53aefc57e61e6526c0469b6790903754}} 
+\mbox{\Hypertarget{namespaceshaders_acea5f97c6eee2604b26ca2c01a42018b}\label{namespaceshaders_acea5f97c6eee2604b26ca2c01a42018b}} 
 \index{shaders@{shaders}!custom\+\_\+fragment\+\_\+shader@{custom\+\_\+fragment\+\_\+shader}}
 \index{custom\+\_\+fragment\+\_\+shader@{custom\+\_\+fragment\+\_\+shader}!shaders@{shaders}}
 \subsubsection{\texorpdfstring{custom\+\_\+fragment\+\_\+shader}{custom\_fragment\_shader}}
-{\footnotesize\ttfamily const G\+Lchar$\ast$ shaders\+::custom\+\_\+fragment\+\_\+shader\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} shaders\+::custom\+\_\+fragment\+\_\+shader\hspace{0.3cm}{\ttfamily [static]}}
 
 {\bfseries Initial value\+:}
 \begin{DoxyCode}
@@ -143,27 +159,6 @@ static const G\+Lchar $\ast$ \mbox{\hyperlink{namespaceshaders_a53aefc57e61e6526
 \textcolor{stringliteral}{void main()}
 \textcolor{stringliteral}{\{}
 \textcolor{stringliteral}{FragColor = Color1;}
-\textcolor{stringliteral}{\}}
-\textcolor{stringliteral}{)"}
-\end{DoxyCode}
-\mbox{\Hypertarget{namespaceshaders_adb630ad693498e928fa4fec5657b7fbd}\label{namespaceshaders_adb630ad693498e928fa4fec5657b7fbd}} 
-\index{shaders@{shaders}!uniform\+\_\+fragment\+\_\+shader@{uniform\+\_\+fragment\+\_\+shader}}
-\index{uniform\+\_\+fragment\+\_\+shader@{uniform\+\_\+fragment\+\_\+shader}!shaders@{shaders}}
-\subsubsection{\texorpdfstring{uniform\+\_\+fragment\+\_\+shader}{uniform\_fragment\_shader}}
-{\footnotesize\ttfamily const G\+Lchar$\ast$ shaders\+::uniform\+\_\+fragment\+\_\+shader\hspace{0.3cm}{\ttfamily [static]}}
-
-{\bfseries Initial value\+:}
-\begin{DoxyCode}
-= R\textcolor{stringliteral}{"(}
-\textcolor{stringliteral}{#version 450 core}
-\textcolor{stringliteral}{}
-\textcolor{stringliteral}{out vec4 FragColor;}
-\textcolor{stringliteral}{}
-\textcolor{stringliteral}{uniform vec4 color;}
-\textcolor{stringliteral}{}
-\textcolor{stringliteral}{void main()}
-\textcolor{stringliteral}{\{}
-\textcolor{stringliteral}{FragColor = color; //vec4(1.0f, 0.5f, 0.2f, 1.0f);}
 \textcolor{stringliteral}{\}}
 \textcolor{stringliteral}{)"}
 \end{DoxyCode}

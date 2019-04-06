@@ -1,0 +1,173 @@
+\hypertarget{ising__shader_8hpp}{}\section{examples/ising/ising\+\_\+shader.hpp File Reference}
+\label{ising__shader_8hpp}\index{examples/ising/ising\+\_\+shader.\+hpp@{examples/ising/ising\+\_\+shader.\+hpp}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} \mbox{\hyperlink{ising__shader_8hpp_ae0f87644c6cd3728cb046dae7892bc4f}{ising\+\_\+frame\+\_\+vertex\+\_\+shaders}} (\{ R\char`\"{}(
+\#version 450 core
+layout (\mbox{\hyperlink{glad_8h_a6f0165ed903f22b8bb600c3e0b628e73}{location}} = 0) in vec2 a\+Pos;
+
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()
+\{
+gl\+\_\+\+Point\+Size=30.\+0f;
+
+gl\+\_\+\+Position = vec4(a\+Pos, 0.\+0f, 1.\+0f);
+
+
+\}
+)\char`\"{}\})
+\item 
+static const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} \mbox{\hyperlink{ising__shader_8hpp_a2654c61db213e913239f85359c784e75}{ising\+\_\+frame\+\_\+geometry\+\_\+shader}} (\{ R\char`\"{}(
+\#version 450 core
+layout (\mbox{\hyperlink{glad_8h_ac2d75f84419bfa76ad2557d1f8b770bc}{points}}) in;
+layout (line\+\_\+strip, max\+\_\+vertices = 5) out;
+
+uniform float square\+\_\+size;
+uniform mat4 transform;
+
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}() \{
+
+gl\+\_\+\+Position = gl\+\_\+in\mbox{[}0\mbox{]}.gl\+\_\+\+Position + vec4(-\/square\+\_\+size$\ast$0.\+5, -\/square\+\_\+size$\ast$0.\+5, 0.\+0, 1.\+0f);
+\+Emit\+Vertex();
+
+gl\+\_\+\+Position = gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4( -\/square\+\_\+size$\ast$0.\+5, square\+\_\+size$\ast$0.\+5, 0.\+0, 1.\+0f);
+\+Emit\+Vertex();
+
+gl\+\_\+\+Position = gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4( square\+\_\+size$\ast$0.\+5, square\+\_\+size$\ast$0.\+5, 0.\+0, 1.\+0f);
+\+Emit\+Vertex();
+
+gl\+\_\+\+Position = gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4( square\+\_\+size$\ast$0.\+5, -\/square\+\_\+size$\ast$0.\+5, 0.\+0, 1.\+0f);
+\+Emit\+Vertex();
+
+gl\+\_\+\+Position = gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4(-\/square\+\_\+size$\ast$0.\+5, -\/square\+\_\+size$\ast$0.\+5, 0.\+0, 1.\+0f);
+\+Emit\+Vertex();
+
+\+End\+Primitive();
+
+\}
+)\char`\"{}\})
+\item 
+static const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} \mbox{\hyperlink{ising__shader_8hpp_ad60abce986cff0eb5e709f16e47e45cd}{ising\+\_\+frame\+\_\+fragment\+\_\+shader}} (\{R\char`\"{}(
+\#version 450 core
+
+out vec4 Frag\+Color;
+
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()
+\{
+  Frag\+Color = vec4(1, 1, 1, 1);
+\}
+)\char`\"{}\})
+\item 
+static const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} \mbox{\hyperlink{ising__shader_8hpp_a1989b621ae52914c95e1eae49377b51d}{ising\+\_\+vertex\+\_\+shaders}} (\{ R\char`\"{}(
+\#version 450 core
+layout (\mbox{\hyperlink{glad_8h_a6f0165ed903f22b8bb600c3e0b628e73}{location}} = 0) in vec2 a\+Pos;
+layout (\mbox{\hyperlink{glad_8h_a6f0165ed903f22b8bb600c3e0b628e73}{location}} = 1) in int spin\+\_\+dir\+\_\+in;
+
+layout (\mbox{\hyperlink{glad_8h_a6f0165ed903f22b8bb600c3e0b628e73}{location}} = 0) out int spin\+\_\+dir\+\_\+out;
+
+
+
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()
+\{
+gl\+\_\+\+Point\+Size=30.\+0f;
+
+gl\+\_\+\+Position = vec4(a\+Pos, 0.\+0f, 1.\+0f);
+
+spin\+\_\+dir\+\_\+out=spin\+\_\+dir\+\_\+in;
+
+
+\}
+)\char`\"{}\})
+\item 
+static const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} \mbox{\hyperlink{ising__shader_8hpp_a3cee0f17d15a9d3886a4912940576ace}{ising\+\_\+geometry\+\_\+shader}} (\{ R\char`\"{}(
+\#version 450 core
+layout (\mbox{\hyperlink{glad_8h_ac2d75f84419bfa76ad2557d1f8b770bc}{points}}) in;
+layout (line\+\_\+strip, max\+\_\+vertices = 5) out;
+
+uniform F\+L\+\_\+\+F\+L\+O\+AT square\+\_\+size
+uniform mat4 transform;
+
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}() \{
+
+gl\+\_\+\+Position = gl\+\_\+in\mbox{[}0\mbox{]}.gl\+\_\+\+Position + vec4(-\/square\+\_\+size/2, -\/square\+\_\+size/2, 0.\+0, 1.\+0f);
+\+Emit\+Vertex();
+
+gl\+\_\+\+Position = gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4( -\/square\+\_\+size/2, square\+\_\+size/2, 0.\+0, 1.\+0f);
+\+Emit\+Vertex();
+
+
+gl\+\_\+\+Position = gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4( square\+\_\+size/2, square\+\_\+size/2, 0.\+0, 1.\+0f);
+\+Emit\+Vertex();
+
+gl\+\_\+\+Position = gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4( square\+\_\+size/2, -\/square\+\_\+size/2, 0.\+0, 1.\+0f);
+\+Emit\+Vertex();
+
+gl\+\_\+\+Position = gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4(-\/square\+\_\+size/2, -\/square\+\_\+size/2, 0.\+0, 1.\+0f);
+\+Emit\+Vertex();
+
+
+\+End\+Primitive();
+\}
+)\char`\"{}\})
+\item 
+static const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} \mbox{\hyperlink{ising__shader_8hpp_acf6f8deed265e1fabf01002a8d306b9b}{ising\+\_\+fragment\+\_\+shader}} (\{ R\char`\"{}(
+\#version 450 core
+
+layout (\mbox{\hyperlink{glad_8h_a6f0165ed903f22b8bb600c3e0b628e73}{location}} = 0) in  int spin\+\_\+dir\+\_\+in;
+
+out vec4 Frag\+Color;
+
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()
+\{
+
+if(spin\+\_\+dir\+\_\+in == -\/1)
+\{
+    Frag\+Color = vec4(1, 1, 1, 1);
+\}
+else
+\{
+   Frag\+Color = vec4(0, 0, 0, 0);
+\}
+
+\}
+)\char`\"{}\})
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{ising__shader_8hpp_acf6f8deed265e1fabf01002a8d306b9b}\label{ising__shader_8hpp_acf6f8deed265e1fabf01002a8d306b9b}} 
+\index{ising\+\_\+shader.\+hpp@{ising\+\_\+shader.\+hpp}!ising\+\_\+fragment\+\_\+shader@{ising\+\_\+fragment\+\_\+shader}}
+\index{ising\+\_\+fragment\+\_\+shader@{ising\+\_\+fragment\+\_\+shader}!ising\+\_\+shader.\+hpp@{ising\+\_\+shader.\+hpp}}
+\subsubsection{\texorpdfstring{ising\+\_\+fragment\+\_\+shader()}{ising\_fragment\_shader()}}
+{\footnotesize\ttfamily static const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} ising\+\_\+fragment\+\_\+shader (\begin{DoxyParamCaption}\item[{\{ R\char`\"{}(\#version 450 corelayout (\mbox{\hyperlink{glad_8h_a6f0165ed903f22b8bb600c3e0b628e73}{location}} = 0) in  int spin\+\_\+dir\+\_\+in;out vec4 Frag\+Color;\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()\{if(spin\+\_\+dir\+\_\+in == -\/1)\{    Frag\+Color = vec4(1, 1, 1, 1);\}else\{   Frag\+Color = vec4(0, 0, 0, 0);\}\})\char`\"{}\}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{ising__shader_8hpp_ad60abce986cff0eb5e709f16e47e45cd}\label{ising__shader_8hpp_ad60abce986cff0eb5e709f16e47e45cd}} 
+\index{ising\+\_\+shader.\+hpp@{ising\+\_\+shader.\+hpp}!ising\+\_\+frame\+\_\+fragment\+\_\+shader@{ising\+\_\+frame\+\_\+fragment\+\_\+shader}}
+\index{ising\+\_\+frame\+\_\+fragment\+\_\+shader@{ising\+\_\+frame\+\_\+fragment\+\_\+shader}!ising\+\_\+shader.\+hpp@{ising\+\_\+shader.\+hpp}}
+\subsubsection{\texorpdfstring{ising\+\_\+frame\+\_\+fragment\+\_\+shader()}{ising\_frame\_fragment\_shader()}}
+{\footnotesize\ttfamily static const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} ising\+\_\+frame\+\_\+fragment\+\_\+shader (\begin{DoxyParamCaption}\item[{\{R\char`\"{}(\#version 450 coreout vec4 Frag\+Color;\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()\{  Frag\+Color = vec4(1, 1, 1, 1);\})\char`\"{}\}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{ising__shader_8hpp_a2654c61db213e913239f85359c784e75}\label{ising__shader_8hpp_a2654c61db213e913239f85359c784e75}} 
+\index{ising\+\_\+shader.\+hpp@{ising\+\_\+shader.\+hpp}!ising\+\_\+frame\+\_\+geometry\+\_\+shader@{ising\+\_\+frame\+\_\+geometry\+\_\+shader}}
+\index{ising\+\_\+frame\+\_\+geometry\+\_\+shader@{ising\+\_\+frame\+\_\+geometry\+\_\+shader}!ising\+\_\+shader.\+hpp@{ising\+\_\+shader.\+hpp}}
+\subsubsection{\texorpdfstring{ising\+\_\+frame\+\_\+geometry\+\_\+shader()}{ising\_frame\_geometry\_shader()}}
+{\footnotesize\ttfamily static const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} ising\+\_\+frame\+\_\+geometry\+\_\+shader (\begin{DoxyParamCaption}\item[{\{ R\char`\"{}(\#version 450 corelayout (\mbox{\hyperlink{glad_8h_ac2d75f84419bfa76ad2557d1f8b770bc}{points}}) in;layout (line\+\_\+strip, max\+\_\+vertices = 5) out;uniform float square\+\_\+size;uniform mat4 transform;\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}() \{gl\+\_\+\+Position = gl\+\_\+in\mbox{[}0\mbox{]}.gl\+\_\+\+Position + vec4(-\/square\+\_\+size$\ast$0.\+5, -\/square\+\_\+size$\ast$0.\+5, 0.\+0, 1.\+0f);\+Emit\+Vertex();gl\+\_\+\+Position = gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4( -\/square\+\_\+size$\ast$0.\+5, square\+\_\+size$\ast$0.\+5, 0.\+0, 1.\+0f);\+Emit\+Vertex();gl\+\_\+\+Position = gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4( square\+\_\+size$\ast$0.\+5, square\+\_\+size$\ast$0.\+5, 0.\+0, 1.\+0f);\+Emit\+Vertex();gl\+\_\+\+Position = gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4( square\+\_\+size$\ast$0.\+5, -\/square\+\_\+size$\ast$0.\+5, 0.\+0, 1.\+0f);\+Emit\+Vertex();gl\+\_\+\+Position = gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4(-\/square\+\_\+size$\ast$0.\+5, -\/square\+\_\+size$\ast$0.\+5, 0.\+0, 1.\+0f);\+Emit\+Vertex();\+End\+Primitive();\})\char`\"{}\}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{ising__shader_8hpp_ae0f87644c6cd3728cb046dae7892bc4f}\label{ising__shader_8hpp_ae0f87644c6cd3728cb046dae7892bc4f}} 
+\index{ising\+\_\+shader.\+hpp@{ising\+\_\+shader.\+hpp}!ising\+\_\+frame\+\_\+vertex\+\_\+shaders@{ising\+\_\+frame\+\_\+vertex\+\_\+shaders}}
+\index{ising\+\_\+frame\+\_\+vertex\+\_\+shaders@{ising\+\_\+frame\+\_\+vertex\+\_\+shaders}!ising\+\_\+shader.\+hpp@{ising\+\_\+shader.\+hpp}}
+\subsubsection{\texorpdfstring{ising\+\_\+frame\+\_\+vertex\+\_\+shaders()}{ising\_frame\_vertex\_shaders()}}
+{\footnotesize\ttfamily static const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} ising\+\_\+frame\+\_\+vertex\+\_\+shaders (\begin{DoxyParamCaption}\item[{\{ R\char`\"{}(\#version 450 corelayout (\mbox{\hyperlink{glad_8h_a6f0165ed903f22b8bb600c3e0b628e73}{location}} = 0) in vec2 a\+Pos;\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()\{gl\+\_\+\+Point\+Size=30.\+0f;gl\+\_\+\+Position = vec4(a\+Pos, 0.\+0f, 1.\+0f);\})\char`\"{}\}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{ising__shader_8hpp_a3cee0f17d15a9d3886a4912940576ace}\label{ising__shader_8hpp_a3cee0f17d15a9d3886a4912940576ace}} 
+\index{ising\+\_\+shader.\+hpp@{ising\+\_\+shader.\+hpp}!ising\+\_\+geometry\+\_\+shader@{ising\+\_\+geometry\+\_\+shader}}
+\index{ising\+\_\+geometry\+\_\+shader@{ising\+\_\+geometry\+\_\+shader}!ising\+\_\+shader.\+hpp@{ising\+\_\+shader.\+hpp}}
+\subsubsection{\texorpdfstring{ising\+\_\+geometry\+\_\+shader()}{ising\_geometry\_shader()}}
+{\footnotesize\ttfamily static const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} ising\+\_\+geometry\+\_\+shader (\begin{DoxyParamCaption}\item[{\{ R\char`\"{}(\#version 450 corelayout (\mbox{\hyperlink{glad_8h_ac2d75f84419bfa76ad2557d1f8b770bc}{points}}) in;layout (line\+\_\+strip, max\+\_\+vertices = 5) out;uniform F\+L\+\_\+\+F\+L\+O\+AT square\+\_\+sizeuniform mat4 transform;\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}() \{gl\+\_\+\+Position = gl\+\_\+in\mbox{[}0\mbox{]}.gl\+\_\+\+Position + vec4(-\/square\+\_\+size/2, -\/square\+\_\+size/2, 0.\+0, 1.\+0f);\+Emit\+Vertex();gl\+\_\+\+Position = gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4( -\/square\+\_\+size/2, square\+\_\+size/2, 0.\+0, 1.\+0f);\+Emit\+Vertex();gl\+\_\+\+Position = gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4( square\+\_\+size/2, square\+\_\+size/2, 0.\+0, 1.\+0f);\+Emit\+Vertex();gl\+\_\+\+Position = gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4( square\+\_\+size/2, -\/square\+\_\+size/2, 0.\+0, 1.\+0f);\+Emit\+Vertex();gl\+\_\+\+Position = gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4(-\/square\+\_\+size/2, -\/square\+\_\+size/2, 0.\+0, 1.\+0f);\+Emit\+Vertex();\+End\+Primitive();\})\char`\"{}\}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{ising__shader_8hpp_a1989b621ae52914c95e1eae49377b51d}\label{ising__shader_8hpp_a1989b621ae52914c95e1eae49377b51d}} 
+\index{ising\+\_\+shader.\+hpp@{ising\+\_\+shader.\+hpp}!ising\+\_\+vertex\+\_\+shaders@{ising\+\_\+vertex\+\_\+shaders}}
+\index{ising\+\_\+vertex\+\_\+shaders@{ising\+\_\+vertex\+\_\+shaders}!ising\+\_\+shader.\+hpp@{ising\+\_\+shader.\+hpp}}
+\subsubsection{\texorpdfstring{ising\+\_\+vertex\+\_\+shaders()}{ising\_vertex\_shaders()}}
+{\footnotesize\ttfamily static const \mbox{\hyperlink{glad_8h_ac83513893df92266f79a515488701770}{std\+::string}} ising\+\_\+vertex\+\_\+shaders (\begin{DoxyParamCaption}\item[{\{ R\char`\"{}(\#version 450 corelayout (\mbox{\hyperlink{glad_8h_a6f0165ed903f22b8bb600c3e0b628e73}{location}} = 0) in vec2 a\+Pos;layout (\mbox{\hyperlink{glad_8h_a6f0165ed903f22b8bb600c3e0b628e73}{location}} = 1) in int spin\+\_\+dir\+\_\+in;layout (\mbox{\hyperlink{glad_8h_a6f0165ed903f22b8bb600c3e0b628e73}{location}} = 0) out int spin\+\_\+dir\+\_\+out;\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()\{gl\+\_\+\+Point\+Size=30.\+0f;gl\+\_\+\+Position = vec4(a\+Pos, 0.\+0f, 1.\+0f);spin\+\_\+dir\+\_\+out=spin\+\_\+dir\+\_\+in;\})\char`\"{}\}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+

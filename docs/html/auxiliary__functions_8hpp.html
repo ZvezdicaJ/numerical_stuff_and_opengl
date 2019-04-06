@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.14"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Geometrical objects: src/auxiliary_functions.hpp File Reference</title>
+<title>Geometrical objects: src/algorithms/auxiliary_functions.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,7 +61,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_e6df591b0639d4c4807ef64d058833e2.html">algorithms</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -69,7 +69,8 @@ $(function() {
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">auxiliary_functions.hpp File Reference</div>  </div>
 </div><!--header-->
@@ -157,50 +158,51 @@ Macros</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a04cc1b733a2f4d205f13f7a59facba64"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
-<tr class="memitem:a04cc1b733a2f4d205f13f7a59facba64"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#a04cc1b733a2f4d205f13f7a59facba64">hash_combine</a> (std::size_t &amp;seed, const T &amp;v)</td></tr>
+<tr class="memitem:a04cc1b733a2f4d205f13f7a59facba64"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="glad_8h.html#a950fc91edb4504f62f1c577bf4727c29">void</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#a04cc1b733a2f4d205f13f7a59facba64">hash_combine</a> (std::size_t &amp;seed, const T &amp;<a class="el" href="glad_8h.html#a30522dbcc3e66083fcf2bf64d1fad76a">v</a>)</td></tr>
 <tr class="separator:a04cc1b733a2f4d205f13f7a59facba64"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a40fb7870d45199fe59a4db693749f966"><td class="memItemLeft" align="right" valign="top">__m128&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#a40fb7870d45199fe59a4db693749f966">load_vertex</a> (float *value)</td></tr>
+<tr class="memitem:a40fb7870d45199fe59a4db693749f966"><td class="memItemLeft" align="right" valign="top">__m128&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#a40fb7870d45199fe59a4db693749f966">load_vertex</a> (float *<a class="el" href="glad_8h.html#a00c583381eee9c272e088ff2da20162d">value</a>)</td></tr>
+<tr class="memdesc:a40fb7870d45199fe59a4db693749f966"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function loads 3 floats to an sse vector -&gt; x:[32:0], y:[32:64], z:[64:96].  <a href="#a40fb7870d45199fe59a4db693749f966">More...</a><br /></td></tr>
 <tr class="separator:a40fb7870d45199fe59a4db693749f966"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0f5a192faed0940d0608eb9c97523aa"><td class="memItemLeft" align="right" valign="top">__m128&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#ab0f5a192faed0940d0608eb9c97523aa">load_vertex2</a> (float *value)</td></tr>
+<tr class="memitem:ab0f5a192faed0940d0608eb9c97523aa"><td class="memItemLeft" align="right" valign="top">__m128&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#ab0f5a192faed0940d0608eb9c97523aa">load_vertex2</a> (float *<a class="el" href="glad_8h.html#a00c583381eee9c272e088ff2da20162d">value</a>)</td></tr>
 <tr class="separator:ab0f5a192faed0940d0608eb9c97523aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0207b589afc88ba8d29f51d0ce576cb3"><td class="memItemLeft" align="right" valign="top">__m128&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#a0207b589afc88ba8d29f51d0ce576cb3">cross_product_old</a> (__m128 a, __m128 b)</td></tr>
-<tr class="memdesc:a0207b589afc88ba8d29f51d0ce576cb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates cross product of two __m128 vectors (floats): a x b.  <a href="#a0207b589afc88ba8d29f51d0ce576cb3">More...</a><br /></td></tr>
+<tr class="memitem:a0207b589afc88ba8d29f51d0ce576cb3"><td class="memItemLeft" align="right" valign="top">__m128&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#a0207b589afc88ba8d29f51d0ce576cb3">cross_product_old</a> (__m128 <a class="el" href="glad_8h.html#ac8729153468b5dcf13f971b21d84d4e5">a</a>, __m128 <a class="el" href="glad_8h.html#a6eba317e3cf44d6d26c04a5a8f197dcb">b</a>)</td></tr>
+<tr class="memdesc:a0207b589afc88ba8d29f51d0ce576cb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Old version: Calculates cross product of two __m128 vectors (floats): a x b.  <a href="#a0207b589afc88ba8d29f51d0ce576cb3">More...</a><br /></td></tr>
 <tr class="separator:a0207b589afc88ba8d29f51d0ce576cb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14fd50e50074c652da4fe34311bb46fd"><td class="memItemLeft" align="right" valign="top">__m128&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#a14fd50e50074c652da4fe34311bb46fd">cross_product</a> (__m128 a, __m128 b)</td></tr>
+<tr class="memitem:a14fd50e50074c652da4fe34311bb46fd"><td class="memItemLeft" align="right" valign="top">__m128&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#a14fd50e50074c652da4fe34311bb46fd">cross_product</a> (__m128 <a class="el" href="glad_8h.html#ac8729153468b5dcf13f971b21d84d4e5">a</a>, __m128 <a class="el" href="glad_8h.html#a6eba317e3cf44d6d26c04a5a8f197dcb">b</a>)</td></tr>
+<tr class="memdesc:a14fd50e50074c652da4fe34311bb46fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates cross product of two __m128 vectors (floats): a x b.  <a href="#a14fd50e50074c652da4fe34311bb46fd">More...</a><br /></td></tr>
 <tr class="separator:a14fd50e50074c652da4fe34311bb46fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14fe8d7be898021ac36297536f0e42e6"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#a14fe8d7be898021ac36297536f0e42e6">CalcDotProduct</a> (__m128 <a class="el" href="glad_8h.html#a78d5aac12144d7f8f26224e085394fbb">x</a>, __m128 <a class="el" href="glad_8h.html#a5e247fc24ceb70d83f6ad59149b8910a">y</a>)</td></tr>
+<tr class="memdesc:a14fe8d7be898021ac36297536f0e42e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates scalar product of two __m128 vectors (floats): a x b.  <a href="#a14fe8d7be898021ac36297536f0e42e6">More...</a><br /></td></tr>
+<tr class="separator:a14fe8d7be898021ac36297536f0e42e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca897d81c2bc86dbf6c9100fc6a13f23"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#aca897d81c2bc86dbf6c9100fc6a13f23">CalcDotProduct</a> (float vec1[3], float vec2[3])</td></tr>
 <tr class="memdesc:aca897d81c2bc86dbf6c9100fc6a13f23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates cross product of two float vectors: a x b.  <a href="#aca897d81c2bc86dbf6c9100fc6a13f23">More...</a><br /></td></tr>
 <tr class="separator:aca897d81c2bc86dbf6c9100fc6a13f23"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af8a321f4f96496363eee1ca32b2afb8b"><td class="memItemLeft" align="right" valign="top">__m128i&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#af8a321f4f96496363eee1ca32b2afb8b">sse_factorial</a> (int n)</td></tr>
+<tr class="memitem:af8a321f4f96496363eee1ca32b2afb8b"><td class="memItemLeft" align="right" valign="top">__m128i&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#af8a321f4f96496363eee1ca32b2afb8b">sse_factorial</a> (int <a class="el" href="glad_8h.html#a0788d3762d0c3c76e4c094d8078b4c27">n</a>)</td></tr>
 <tr class="memdesc:af8a321f4f96496363eee1ca32b2afb8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates factorial of integer and returns vector containing the result - this is slow and useless - do not use.  <a href="#af8a321f4f96496363eee1ca32b2afb8b">More...</a><br /></td></tr>
 <tr class="separator:af8a321f4f96496363eee1ca32b2afb8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5951a99d0212bea2c9fb92a2a0439c44"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#a5951a99d0212bea2c9fb92a2a0439c44">scalar_factorial</a> (int n)</td></tr>
+<tr class="memitem:a5951a99d0212bea2c9fb92a2a0439c44"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#a5951a99d0212bea2c9fb92a2a0439c44">scalar_factorial</a> (int <a class="el" href="glad_8h.html#a0788d3762d0c3c76e4c094d8078b4c27">n</a>)</td></tr>
 <tr class="memdesc:a5951a99d0212bea2c9fb92a2a0439c44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates factorial of the parameter.  <a href="#a5951a99d0212bea2c9fb92a2a0439c44">More...</a><br /></td></tr>
 <tr class="separator:a5951a99d0212bea2c9fb92a2a0439c44"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a816432e281588deee6316480dd32acea"><td class="memItemLeft" align="right" valign="top">__m128&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#a816432e281588deee6316480dd32acea">chebyshev</a> (int n, __m128 x_vec)</td></tr>
-<tr class="memdesc:a816432e281588deee6316480dd32acea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates Chebyshev polynomials.  <a href="#a816432e281588deee6316480dd32acea">More...</a><br /></td></tr>
+<tr class="memitem:a816432e281588deee6316480dd32acea"><td class="memItemLeft" align="right" valign="top">__m128&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#a816432e281588deee6316480dd32acea">chebyshev</a> (int <a class="el" href="glad_8h.html#a0788d3762d0c3c76e4c094d8078b4c27">n</a>, __m128 x_vec)</td></tr>
+<tr class="memdesc:a816432e281588deee6316480dd32acea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates single precision Chebyshev polynomials.  <a href="#a816432e281588deee6316480dd32acea">More...</a><br /></td></tr>
 <tr class="separator:a816432e281588deee6316480dd32acea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97aa85c33137a6ee418f26998eafdfc2"><td class="memItemLeft" align="right" valign="top">__m128&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#a97aa85c33137a6ee418f26998eafdfc2">chebyshev_next</a> (__m128 &amp;cn, __m128 &amp;cn_1, __m128 &amp;x_vec)</td></tr>
 <tr class="memdesc:a97aa85c33137a6ee418f26998eafdfc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given previous two chebyshev polynomials and vector of x values, the function calculates next chebyshev polynomial.  <a href="#a97aa85c33137a6ee418f26998eafdfc2">More...</a><br /></td></tr>
 <tr class="separator:a97aa85c33137a6ee418f26998eafdfc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98d2c4a34900207c58ef82a02b46c05a"><td class="memItemLeft" align="right" valign="top">__m128&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#a98d2c4a34900207c58ef82a02b46c05a">cos</a> (__m128 x_vec_)</td></tr>
-<tr class="memdesc:a98d2c4a34900207c58ef82a02b46c05a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given previous two chebyshev polynomials and vector of x values, the function calculates next chebyshev polynomial.  <a href="#a98d2c4a34900207c58ef82a02b46c05a">More...</a><br /></td></tr>
-<tr class="separator:a98d2c4a34900207c58ef82a02b46c05a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3328236e15864e503ff73fc4f3920f5a"><td class="memItemLeft" align="right" valign="top">__m128&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#a3328236e15864e503ff73fc4f3920f5a">sin</a> (__m128 x_vec_)</td></tr>
-<tr class="memdesc:a3328236e15864e503ff73fc4f3920f5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">calculates single precision sin.  <a href="#a3328236e15864e503ff73fc4f3920f5a">More...</a><br /></td></tr>
-<tr class="separator:a3328236e15864e503ff73fc4f3920f5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2f6e0931526e2e5533cb388422b76db"><td class="memItemLeft" align="right" valign="top">__m256d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#ae2f6e0931526e2e5533cb388422b76db">sin</a> (__m256d x_vec_)</td></tr>
-<tr class="memdesc:ae2f6e0931526e2e5533cb388422b76db"><td class="mdescLeft">&#160;</td><td class="mdescRight">calculates double precision sin.  <a href="#ae2f6e0931526e2e5533cb388422b76db">More...</a><br /></td></tr>
-<tr class="separator:ae2f6e0931526e2e5533cb388422b76db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58f28b8e4e0e39b744a712c2da76cc6f"><td class="memItemLeft" align="right" valign="top">__m128&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#a58f28b8e4e0e39b744a712c2da76cc6f">legendre_next</a> (__m128 Pn, __m128 Pnm1, __m128 x_vec, int n)</td></tr>
-<tr class="memdesc:a58f28b8e4e0e39b744a712c2da76cc6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">given two consequtive Legendre polynomials, this code calculates next Legendre polynomial  <a href="#a58f28b8e4e0e39b744a712c2da76cc6f">More...</a><br /></td></tr>
-<tr class="separator:a58f28b8e4e0e39b744a712c2da76cc6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa46b6793153f447f2dc180906aac7c67"><td class="memItemLeft" align="right" valign="top">__m128&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#aa46b6793153f447f2dc180906aac7c67">tan</a> (__m128 x)</td></tr>
-<tr class="memdesc:aa46b6793153f447f2dc180906aac7c67"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classThis.html">This</a> function calculates tangens of sse vector.  <a href="#aa46b6793153f447f2dc180906aac7c67">More...</a><br /></td></tr>
-<tr class="separator:aa46b6793153f447f2dc180906aac7c67"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb4fa093130a7b67578b3075af30d02b"><td class="memItemLeft" align="right" valign="top">__m128&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#abb4fa093130a7b67578b3075af30d02b">arctan</a> (__m128 x)</td></tr>
+<tr class="memitem:abb4fa093130a7b67578b3075af30d02b"><td class="memItemLeft" align="right" valign="top">__m128&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#abb4fa093130a7b67578b3075af30d02b">arctan</a> (__m128 <a class="el" href="glad_8h.html#a78d5aac12144d7f8f26224e085394fbb">x</a>)</td></tr>
 <tr class="memdesc:abb4fa093130a7b67578b3075af30d02b"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classThis.html">This</a> function calculates arcus tangens of sse vector.  <a href="#abb4fa093130a7b67578b3075af30d02b">More...</a><br /></td></tr>
 <tr class="separator:abb4fa093130a7b67578b3075af30d02b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b87dd281f54db2e98e69cace5d28643"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::pair&lt; int, int &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#a1b87dd281f54db2e98e69cace5d28643">find_products</a> (int num)</td></tr>
+<tr class="memdesc:a1b87dd281f54db2e98e69cace5d28643"><td class="mdescLeft">&#160;</td><td class="mdescRight">The function finds all integer pairs whose multiplication yield the supplied integer.  <a href="#a1b87dd281f54db2e98e69cace5d28643">More...</a><br /></td></tr>
+<tr class="separator:a1b87dd281f54db2e98e69cace5d28643"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb7d4d2c1aa53eae7cc3851c45e144a7"><td class="memItemLeft" align="right" valign="top">std::pair&lt; int, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="auxiliary__functions_8hpp.html#abb7d4d2c1aa53eae7cc3851c45e144a7">closest_pair</a> (std::vector&lt; std::pair&lt; int, int &gt;&gt; pairs)</td></tr>
+<tr class="memdesc:abb7d4d2c1aa53eae7cc3851c45e144a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The function return closest pair of numbers in a vector of pairs.  <a href="#abb7d4d2c1aa53eae7cc3851c45e144a7">More...</a><br /></td></tr>
+<tr class="separator:abb7d4d2c1aa53eae7cc3851c45e144a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a0dc59575a8304dc28c74f9641fefdeee"><td class="memItemLeft" align="right" valign="top">struct std::hash&lt; pair&lt; S, T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestd.html#a0dc59575a8304dc28c74f9641fefdeee">std::draw_frame</a></td></tr>
+<tr class="separator:a0dc59575a8304dc28c74f9641fefdeee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a9dac2ea83695373391286f7f38cf3741"></a>
@@ -681,8 +683,53 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a14fe8d7be898021ac36297536f0e42e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14fe8d7be898021ac36297536f0e42e6">&#9670;&nbsp;</a></span>CalcDotProduct() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float CalcDotProduct </td>
+          <td>(</td>
+          <td class="paramtype">__m128&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">__m128&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Calculates scalar product of two __m128 vectors (floats): a x b. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>__m128 vector </td></tr>
+    <tr><td class="paramname">b</td><td>__m128 vector </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="aca897d81c2bc86dbf6c9100fc6a13f23"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca897d81c2bc86dbf6c9100fc6a13f23">&#9670;&nbsp;</a></span>CalcDotProduct()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aca897d81c2bc86dbf6c9100fc6a13f23">&#9670;&nbsp;</a></span>CalcDotProduct() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -760,7 +807,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Calculates Chebyshev polynomials. </p>
+<p>Calculates single precision Chebyshev polynomials. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">n</td><td>number of Chebyshev polynomial to calculate </td></tr>
@@ -823,8 +870,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a98d2c4a34900207c58ef82a02b46c05a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a98d2c4a34900207c58ef82a02b46c05a">&#9670;&nbsp;</a></span>cos()</h2>
+<a id="abb7d4d2c1aa53eae7cc3851c45e144a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb7d4d2c1aa53eae7cc3851c45e144a7">&#9670;&nbsp;</a></span>closest_pair()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -833,10 +880,10 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__m128 cos </td>
+          <td class="memname">std::pair&lt;int, int&gt; closest_pair </td>
           <td>(</td>
-          <td class="paramtype">__m128&#160;</td>
-          <td class="paramname"><em>x_vec_</em></td><td>)</td>
+          <td class="paramtype">std::vector&lt; std::pair&lt; int, int &gt;&gt;&#160;</td>
+          <td class="paramname"><em>pairs</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -847,12 +894,10 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Given previous two chebyshev polynomials and vector of x values, the function calculates next chebyshev polynomial. </p>
+<p>The function return closest pair of numbers in a vector of pairs. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">n</td><td>-th Chebyshev polynomial evaluated in points of x vector </td></tr>
-    <tr><td class="paramname">n-1</td><td>-th Chebyshev polynomial evaluated in points of x vector </td></tr>
-    <tr><td class="paramname">x_vec</td><td>vector of x values in which the polynomial is calculated </td></tr>
+    <tr><td class="paramname">Vector</td><td>of pairs among which to find closest pair </td></tr>
   </table>
   </dd>
 </dl>
@@ -893,6 +938,15 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Calculates cross product of two __m128 vectors (floats): a x b. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>__m128 vector </td></tr>
+    <tr><td class="paramname">b</td><td>__m128 vector </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a0207b589afc88ba8d29f51d0ce576cb3"></a>
@@ -929,11 +983,45 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Calculates cross product of two __m128 vectors (floats): a x b. </p>
+<p>Old version: Calculates cross product of two __m128 vectors (floats): a x b. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">a</td><td>__m128 vector </td></tr>
     <tr><td class="paramname">b</td><td>__m128 vector </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a1b87dd281f54db2e98e69cace5d28643"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b87dd281f54db2e98e69cace5d28643">&#9670;&nbsp;</a></span>find_products()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::pair&lt;int, int&gt; &gt; find_products </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>num</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The function finds all integer pairs whose multiplication yield the supplied integer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">number</td><td>to be factorized </td></tr>
   </table>
   </dd>
 </dl>
@@ -952,7 +1040,7 @@ template&lt;class T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void hash_combine </td>
+          <td class="memname"><a class="el" href="glad_8h.html#a950fc91edb4504f62f1c577bf4727c29">void</a> hash_combine </td>
           <td>(</td>
           <td class="paramtype">std::size_t &amp;&#160;</td>
           <td class="paramname"><em>seed</em>, </td>
@@ -975,62 +1063,6 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<a id="a58f28b8e4e0e39b744a712c2da76cc6f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a58f28b8e4e0e39b744a712c2da76cc6f">&#9670;&nbsp;</a></span>legendre_next()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__m128 legendre_next </td>
-          <td>(</td>
-          <td class="paramtype">__m128&#160;</td>
-          <td class="paramname"><em>Pn</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">__m128&#160;</td>
-          <td class="paramname"><em>Pnm1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">__m128&#160;</td>
-          <td class="paramname"><em>x_vec</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>n</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>given two consequtive Legendre polynomials, this code calculates next Legendre polynomial </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">x_vec</td><td>vector of x values for which the next polynomial is calculated calculated </td></tr>
-  </table>
-  </dd>
-</dl>
 
 </div>
 </div>
@@ -1057,7 +1089,9 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Function loads 3 floats to a sse vector, the last value is set to 0. </p><dl class="params"><dt>Parameters</dt><dd>
+
+<p>Function loads 3 floats to an sse vector -&gt; x:[32:0], y:[32:64], z:[64:96]. </p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">value</td><td>float pointer pointing to first element </td></tr>
   </table>
@@ -1090,7 +1124,7 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Function loads 3 floats to a sse vector, the last value is set to 0. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Function loads 3 floats to an sse vector -&gt; x:[32:0], y:[32:64], z:[64:96] </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">value</td><td>float pointer pointing to first element </td></tr>
   </table>
@@ -1134,74 +1168,6 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a id="a3328236e15864e503ff73fc4f3920f5a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3328236e15864e503ff73fc4f3920f5a">&#9670;&nbsp;</a></span>sin() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__m128 sin </td>
-          <td>(</td>
-          <td class="paramtype">__m128&#160;</td>
-          <td class="paramname"><em>x_vec_</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>calculates single precision sin. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">x_vec</td><td>vector of x values for which the sin is calculated calculated </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="ae2f6e0931526e2e5533cb388422b76db"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae2f6e0931526e2e5533cb388422b76db">&#9670;&nbsp;</a></span>sin() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__m256d sin </td>
-          <td>(</td>
-          <td class="paramtype">__m256d&#160;</td>
-          <td class="paramname"><em>x_vec_</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>calculates double precision sin. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">x_vec</td><td>vector of x values for which the sin is calculated </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a id="af8a321f4f96496363eee1ca32b2afb8b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af8a321f4f96496363eee1ca32b2afb8b">&#9670;&nbsp;</a></span>sse_factorial()</h2>
 
@@ -1233,35 +1199,6 @@ template&lt;class T &gt; </div>
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<a id="aa46b6793153f447f2dc180906aac7c67"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa46b6793153f447f2dc180906aac7c67">&#9670;&nbsp;</a></span>tan()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__m128 tan </td>
-          <td>(</td>
-          <td class="paramtype">__m128&#160;</td>
-          <td class="paramname"><em>x</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p><a class="el" href="classThis.html">This</a> function calculates tangens of sse vector. </p>
-<p>For detailed documentation on formula used check pdf files discussing trigonometric functions. <a class="el" href="classThis.html">This</a> is float version and uses sse instructions. </p>
 
 </div>
 </div>

@@ -1,0 +1,359 @@
+\hypertarget{classIsingModel}{}\section{Ising\+Model$<$ T $>$ Class Template Reference}
+\label{classIsingModel}\index{Ising\+Model$<$ T $>$@{Ising\+Model$<$ T $>$}}
+
+
+Ising model containing two possible spin flipping methods -\/ metropolis and wolff.  
+
+
+
+
+{\ttfamily \#include \char`\"{}Ising\+\_\+model.\+hpp\char`\"{}}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classIsingModel_a3c9a903d3ddada5ce514ba66f99b0282}{Ising\+Model}} (unsigned size\+\_\+=50, T temperature\+\_\+=2)
+\begin{DoxyCompactList}\small\item\em Basic constructor for \mbox{\hyperlink{classIsingModel}{Ising\+Model}} class. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classIsingModel_a349a13b847fb221eec7043fc53649640}{calc\+\_\+magnetization}} ()
+\begin{DoxyCompactList}\small\item\em calculate magnetization -\/ difference between spins up and spins down \end{DoxyCompactList}\item 
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classIsingModel_abbd5b7935830eca268b7eacc94478649}{set\+\_\+temperature}} (T temperature\+\_\+)
+\begin{DoxyCompactList}\small\item\em sets the temperature \end{DoxyCompactList}\item 
+unsigned \mbox{\hyperlink{classIsingModel_afd731e5858b03deb1c8a11ee8a6b8834}{get\+\_\+cluster\+\_\+size}} ()
+\begin{DoxyCompactList}\small\item\em Get the size of the cluster in the last Wolff step. \end{DoxyCompactList}\item 
+T \mbox{\hyperlink{classIsingModel_a37a7c509999f21f1bd4f54a12009f3cf}{get\+\_\+energy}} ()
+\begin{DoxyCompactList}\small\item\em Get current energy. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classIsingModel_a58c9ebc61c0b2238fd52b62df8ce4853}{get\+\_\+magnetization}} ()
+\begin{DoxyCompactList}\small\item\em get current magnetization. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classIsingModel_ab76a4eee808eaa1979ff6707498e9908}{flip\+\_\+cluster}} ()
+\begin{DoxyCompactList}\small\item\em The function flips the cluster using Wolff algorithm. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classIsingModel_ac16bfdd5bb4012162bedd90034962f58}{set\+\_\+all\+\_\+spins\+\_\+up}} ()
+\begin{DoxyCompactList}\small\item\em set all spins up. \end{DoxyCompactList}\item 
+T \mbox{\hyperlink{classIsingModel_a0a387ccae720604f4de13d5b0762ac62}{calc\+\_\+energy}} ()
+\begin{DoxyCompactList}\small\item\em The function calculates energy of the spin array. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classIsingModel_a195316f577d71297e9634fa6fdeacc44}{metropolis\+\_\+steps}} (unsigned spin\+\_\+flips)
+\begin{DoxyCompactList}\small\item\em Makes a metropolis step. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classIsingModel_abe2a720ca3ed7dde191e36fbf33561b3}{enforce\+\_\+boundary\+\_\+conditions}} ()
+\begin{DoxyCompactList}\small\item\em enforce periodic boundary conditions \end{DoxyCompactList}\item 
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classIsingModel_a6ab9293015326da93fb6e3e20d24edf8}{set\+\_\+random\+\_\+spin\+\_\+directions}} ()
+\begin{DoxyCompactList}\small\item\em set random spin directions \end{DoxyCompactList}\item 
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classIsingModel_a37758a1a4a2536d16f1bb8166e13f7b6}{wolff\+\_\+cluster\+\_\+step}} (\mbox{\hyperlink{classspin__dir}{spin\+\_\+dir}} spin, unsigned k, unsigned l)
+\begin{DoxyCompactList}\small\item\em Make a Wolff algorithm step. \mbox{\hyperlink{classThis}{This}} is a helper for \mbox{\hyperlink{classIsingModel_ab76a4eee808eaa1979ff6707498e9908}{flip\+\_\+cluster()}} function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+unsigned \mbox{\hyperlink{classIsingModel_aec6fc4774dda94fd23c6e29d0820b63a}{size}}
+\item 
+T \mbox{\hyperlink{classIsingModel_af0c6d48208741fe5a378e29b7fac0da1}{J}} = 1
+\item 
+T \mbox{\hyperlink{classIsingModel_a19e1a223476c953a9964532c7f0eb6dd}{H}} = 0
+\item 
+T \mbox{\hyperlink{classIsingModel_af19ba376c01404c094c214939eafd7a5}{tc}} = 2.\+269185
+\item 
+T \mbox{\hyperlink{classIsingModel_a756faa94432cc7e10d21e52a03156569}{temperature}}
+\item 
+\mbox{\hyperlink{classspin__dir}{spin\+\_\+dir}} $\ast$ \mbox{\hyperlink{classIsingModel_a82425f60fa2dd07995c2a53f8a850cf5}{spin\+\_\+array}}
+\item 
+unsigned \mbox{\hyperlink{classIsingModel_a67a282de0cc889e423cde222a3453d38}{cluster\+\_\+size}} = 0
+\item 
+int \mbox{\hyperlink{classIsingModel_a20c8183929e5e2a395cb962501122e65}{magnetization}} = 0
+\item 
+T \mbox{\hyperlink{classIsingModel_abd38e1a93e1e7bab7788f00d0b9fddb9}{energy}} = 0
+\item 
+unsigned \mbox{\hyperlink{classIsingModel_a434e854082ad794811b6e11e2bc50eaf}{samples}} = 0
+\item 
+std\+::random\+\_\+device \mbox{\hyperlink{classIsingModel_a602475ebc23d97e2ba162ba1db352386}{rd}}
+\item 
+std\+::mt19937 \mbox{\hyperlink{classIsingModel_a3250275d0897da9f7929b43286e9b44b}{rng}}
+\item 
+std\+::uniform\+\_\+int\+\_\+distribution$<$ int $>$ \mbox{\hyperlink{classIsingModel_a5f412d0560c599a350d0c266125427c9}{random\+\_\+int}}
+\item 
+std\+::uniform\+\_\+real\+\_\+distribution$<$ T $>$ \mbox{\hyperlink{classIsingModel_a01dcb867d89771158b7f71a518ded0f2}{random\+\_\+real}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class Ising\+Model$<$ T $>$}
+
+Ising model containing two possible spin flipping methods -\/ metropolis and wolff. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classIsingModel_a3c9a903d3ddada5ce514ba66f99b0282}\label{classIsingModel_a3c9a903d3ddada5ce514ba66f99b0282}} 
+\index{Ising\+Model@{Ising\+Model}!Ising\+Model@{Ising\+Model}}
+\index{Ising\+Model@{Ising\+Model}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{Ising\+Model()}{IsingModel()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::\mbox{\hyperlink{classIsingModel}{Ising\+Model}} (\begin{DoxyParamCaption}\item[{unsigned}]{size\+\_\+ = {\ttfamily 50},  }\item[{T}]{temperature\+\_\+ = {\ttfamily 2} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Basic constructor for \mbox{\hyperlink{classIsingModel}{Ising\+Model}} class. 
+
+By default it sets the temperature to 2 and size of spin array to 50. It also initializes random generator, sets random spin directions and enforces periodic boundary conditions for the start of calculation 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classIsingModel_a0a387ccae720604f4de13d5b0762ac62}\label{classIsingModel_a0a387ccae720604f4de13d5b0762ac62}} 
+\index{Ising\+Model@{Ising\+Model}!calc\+\_\+energy@{calc\+\_\+energy}}
+\index{calc\+\_\+energy@{calc\+\_\+energy}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{calc\+\_\+energy()}{calc\_energy()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::calc\+\_\+energy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The function calculates energy of the spin array. 
+
+\mbox{\Hypertarget{classIsingModel_a349a13b847fb221eec7043fc53649640}\label{classIsingModel_a349a13b847fb221eec7043fc53649640}} 
+\index{Ising\+Model@{Ising\+Model}!calc\+\_\+magnetization@{calc\+\_\+magnetization}}
+\index{calc\+\_\+magnetization@{calc\+\_\+magnetization}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{calc\+\_\+magnetization()}{calc\_magnetization()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::calc\+\_\+magnetization (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+calculate magnetization -\/ difference between spins up and spins down 
+
+\mbox{\Hypertarget{classIsingModel_abe2a720ca3ed7dde191e36fbf33561b3}\label{classIsingModel_abe2a720ca3ed7dde191e36fbf33561b3}} 
+\index{Ising\+Model@{Ising\+Model}!enforce\+\_\+boundary\+\_\+conditions@{enforce\+\_\+boundary\+\_\+conditions}}
+\index{enforce\+\_\+boundary\+\_\+conditions@{enforce\+\_\+boundary\+\_\+conditions}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{enforce\+\_\+boundary\+\_\+conditions()}{enforce\_boundary\_conditions()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::enforce\+\_\+boundary\+\_\+conditions (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+enforce periodic boundary conditions 
+
+\mbox{\Hypertarget{classIsingModel_ab76a4eee808eaa1979ff6707498e9908}\label{classIsingModel_ab76a4eee808eaa1979ff6707498e9908}} 
+\index{Ising\+Model@{Ising\+Model}!flip\+\_\+cluster@{flip\+\_\+cluster}}
+\index{flip\+\_\+cluster@{flip\+\_\+cluster}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{flip\+\_\+cluster()}{flip\_cluster()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::flip\+\_\+cluster (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The function flips the cluster using Wolff algorithm. 
+
+It calls the \mbox{\hyperlink{classIsingModel_a37758a1a4a2536d16f1bb8166e13f7b6}{wolff\+\_\+cluster\+\_\+step()}} function. \mbox{\Hypertarget{classIsingModel_afd731e5858b03deb1c8a11ee8a6b8834}\label{classIsingModel_afd731e5858b03deb1c8a11ee8a6b8834}} 
+\index{Ising\+Model@{Ising\+Model}!get\+\_\+cluster\+\_\+size@{get\+\_\+cluster\+\_\+size}}
+\index{get\+\_\+cluster\+\_\+size@{get\+\_\+cluster\+\_\+size}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{get\+\_\+cluster\+\_\+size()}{get\_cluster\_size()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+unsigned \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::get\+\_\+cluster\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the size of the cluster in the last Wolff step. 
+
+\mbox{\Hypertarget{classIsingModel_a37a7c509999f21f1bd4f54a12009f3cf}\label{classIsingModel_a37a7c509999f21f1bd4f54a12009f3cf}} 
+\index{Ising\+Model@{Ising\+Model}!get\+\_\+energy@{get\+\_\+energy}}
+\index{get\+\_\+energy@{get\+\_\+energy}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{get\+\_\+energy()}{get\_energy()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::get\+\_\+energy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get current energy. 
+
+\mbox{\Hypertarget{classIsingModel_a58c9ebc61c0b2238fd52b62df8ce4853}\label{classIsingModel_a58c9ebc61c0b2238fd52b62df8ce4853}} 
+\index{Ising\+Model@{Ising\+Model}!get\+\_\+magnetization@{get\+\_\+magnetization}}
+\index{get\+\_\+magnetization@{get\+\_\+magnetization}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{get\+\_\+magnetization()}{get\_magnetization()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::get\+\_\+magnetization (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+get current magnetization. 
+
+\mbox{\Hypertarget{classIsingModel_a195316f577d71297e9634fa6fdeacc44}\label{classIsingModel_a195316f577d71297e9634fa6fdeacc44}} 
+\index{Ising\+Model@{Ising\+Model}!metropolis\+\_\+steps@{metropolis\+\_\+steps}}
+\index{metropolis\+\_\+steps@{metropolis\+\_\+steps}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{metropolis\+\_\+steps()}{metropolis\_steps()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::metropolis\+\_\+steps (\begin{DoxyParamCaption}\item[{unsigned}]{spin\+\_\+flips }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Makes a metropolis step. 
+
+a random spin is chosen and flipped with the probability exp(-\/d\+E/T) 
+\begin{DoxyParams}{Parameters}
+{\em spin\+\_\+flips} & number of metropolis spin flips to make \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classIsingModel_ac16bfdd5bb4012162bedd90034962f58}\label{classIsingModel_ac16bfdd5bb4012162bedd90034962f58}} 
+\index{Ising\+Model@{Ising\+Model}!set\+\_\+all\+\_\+spins\+\_\+up@{set\+\_\+all\+\_\+spins\+\_\+up}}
+\index{set\+\_\+all\+\_\+spins\+\_\+up@{set\+\_\+all\+\_\+spins\+\_\+up}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{set\+\_\+all\+\_\+spins\+\_\+up()}{set\_all\_spins\_up()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::set\+\_\+all\+\_\+spins\+\_\+up (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+set all spins up. 
+
+\mbox{\Hypertarget{classIsingModel_a6ab9293015326da93fb6e3e20d24edf8}\label{classIsingModel_a6ab9293015326da93fb6e3e20d24edf8}} 
+\index{Ising\+Model@{Ising\+Model}!set\+\_\+random\+\_\+spin\+\_\+directions@{set\+\_\+random\+\_\+spin\+\_\+directions}}
+\index{set\+\_\+random\+\_\+spin\+\_\+directions@{set\+\_\+random\+\_\+spin\+\_\+directions}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{set\+\_\+random\+\_\+spin\+\_\+directions()}{set\_random\_spin\_directions()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::set\+\_\+random\+\_\+spin\+\_\+directions (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+set random spin directions 
+
+\mbox{\Hypertarget{classIsingModel_abbd5b7935830eca268b7eacc94478649}\label{classIsingModel_abbd5b7935830eca268b7eacc94478649}} 
+\index{Ising\+Model@{Ising\+Model}!set\+\_\+temperature@{set\+\_\+temperature}}
+\index{set\+\_\+temperature@{set\+\_\+temperature}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{set\+\_\+temperature()}{set\_temperature()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::set\+\_\+temperature (\begin{DoxyParamCaption}\item[{T}]{temperature\+\_\+ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+sets the temperature 
+
+\mbox{\Hypertarget{classIsingModel_a37758a1a4a2536d16f1bb8166e13f7b6}\label{classIsingModel_a37758a1a4a2536d16f1bb8166e13f7b6}} 
+\index{Ising\+Model@{Ising\+Model}!wolff\+\_\+cluster\+\_\+step@{wolff\+\_\+cluster\+\_\+step}}
+\index{wolff\+\_\+cluster\+\_\+step@{wolff\+\_\+cluster\+\_\+step}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{wolff\+\_\+cluster\+\_\+step()}{wolff\_cluster\_step()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::wolff\+\_\+cluster\+\_\+step (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classspin__dir}{spin\+\_\+dir}}}]{spin,  }\item[{unsigned}]{k,  }\item[{unsigned}]{l }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Make a Wolff algorithm step. \mbox{\hyperlink{classThis}{This}} is a helper for \mbox{\hyperlink{classIsingModel_ab76a4eee808eaa1979ff6707498e9908}{flip\+\_\+cluster()}} function. 
+
+Choose a random spin and flip it. Then check it\textquotesingle{}s neighbours. If they have the same spin turn them with the probability of exp$^\wedge$(-\/2\+J/T). 
+\begin{DoxyParams}{Parameters}
+{\em spin} & Direction of the chosen spin \\
+\hline
+{\em k} & index indicating position in spin array \\
+\hline
+{\em l} & index indicating position in spin array \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classIsingModel_a67a282de0cc889e423cde222a3453d38}\label{classIsingModel_a67a282de0cc889e423cde222a3453d38}} 
+\index{Ising\+Model@{Ising\+Model}!cluster\+\_\+size@{cluster\+\_\+size}}
+\index{cluster\+\_\+size@{cluster\+\_\+size}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{cluster\+\_\+size}{cluster\_size}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+unsigned \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::cluster\+\_\+size = 0\hspace{0.3cm}{\ttfamily [private]}}
+
+variable monitoring size of wolff cluster \mbox{\Hypertarget{classIsingModel_abd38e1a93e1e7bab7788f00d0b9fddb9}\label{classIsingModel_abd38e1a93e1e7bab7788f00d0b9fddb9}} 
+\index{Ising\+Model@{Ising\+Model}!energy@{energy}}
+\index{energy@{energy}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{energy}{energy}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::energy = 0\hspace{0.3cm}{\ttfamily [private]}}
+
+energy of spin array \mbox{\Hypertarget{classIsingModel_a19e1a223476c953a9964532c7f0eb6dd}\label{classIsingModel_a19e1a223476c953a9964532c7f0eb6dd}} 
+\index{Ising\+Model@{Ising\+Model}!H@{H}}
+\index{H@{H}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{H}{H}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::H = 0\hspace{0.3cm}{\ttfamily [private]}}
+
+external field strength \mbox{\Hypertarget{classIsingModel_af0c6d48208741fe5a378e29b7fac0da1}\label{classIsingModel_af0c6d48208741fe5a378e29b7fac0da1}} 
+\index{Ising\+Model@{Ising\+Model}!J@{J}}
+\index{J@{J}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{J}{J}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::J = 1\hspace{0.3cm}{\ttfamily [private]}}
+
+coupling constant between spins \mbox{\Hypertarget{classIsingModel_a20c8183929e5e2a395cb962501122e65}\label{classIsingModel_a20c8183929e5e2a395cb962501122e65}} 
+\index{Ising\+Model@{Ising\+Model}!magnetization@{magnetization}}
+\index{magnetization@{magnetization}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{magnetization}{magnetization}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::magnetization = 0\hspace{0.3cm}{\ttfamily [private]}}
+
+magnetization of spin array \mbox{\Hypertarget{classIsingModel_a5f412d0560c599a350d0c266125427c9}\label{classIsingModel_a5f412d0560c599a350d0c266125427c9}} 
+\index{Ising\+Model@{Ising\+Model}!random\+\_\+int@{random\+\_\+int}}
+\index{random\+\_\+int@{random\+\_\+int}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{random\+\_\+int}{random\_int}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::uniform\+\_\+int\+\_\+distribution$<$int$>$ \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::random\+\_\+int\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classIsingModel_a01dcb867d89771158b7f71a518ded0f2}\label{classIsingModel_a01dcb867d89771158b7f71a518ded0f2}} 
+\index{Ising\+Model@{Ising\+Model}!random\+\_\+real@{random\+\_\+real}}
+\index{random\+\_\+real@{random\+\_\+real}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{random\+\_\+real}{random\_real}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::uniform\+\_\+real\+\_\+distribution$<$T$>$ \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::random\+\_\+real\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classIsingModel_a602475ebc23d97e2ba162ba1db352386}\label{classIsingModel_a602475ebc23d97e2ba162ba1db352386}} 
+\index{Ising\+Model@{Ising\+Model}!rd@{rd}}
+\index{rd@{rd}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{rd}{rd}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::random\+\_\+device \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::rd\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classIsingModel_a3250275d0897da9f7929b43286e9b44b}\label{classIsingModel_a3250275d0897da9f7929b43286e9b44b}} 
+\index{Ising\+Model@{Ising\+Model}!rng@{rng}}
+\index{rng@{rng}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{rng}{rng}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::mt19937 \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::rng\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classIsingModel_a434e854082ad794811b6e11e2bc50eaf}\label{classIsingModel_a434e854082ad794811b6e11e2bc50eaf}} 
+\index{Ising\+Model@{Ising\+Model}!samples@{samples}}
+\index{samples@{samples}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{samples}{samples}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+unsigned \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::\mbox{\hyperlink{glad_8h_aba70cd077c2c52c15358c231c6d293aa}{samples}} = 0\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classIsingModel_aec6fc4774dda94fd23c6e29d0820b63a}\label{classIsingModel_aec6fc4774dda94fd23c6e29d0820b63a}} 
+\index{Ising\+Model@{Ising\+Model}!size@{size}}
+\index{size@{size}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{size}{size}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+unsigned \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::\mbox{\hyperlink{glad_8h_adead0e00f1033fff2918e18853add2b1}{size}}\hspace{0.3cm}{\ttfamily [private]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+=
+        302
+\end{DoxyCode}
+size of spin array, spin array is always square size$\ast$size \mbox{\Hypertarget{classIsingModel_a82425f60fa2dd07995c2a53f8a850cf5}\label{classIsingModel_a82425f60fa2dd07995c2a53f8a850cf5}} 
+\index{Ising\+Model@{Ising\+Model}!spin\+\_\+array@{spin\+\_\+array}}
+\index{spin\+\_\+array@{spin\+\_\+array}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{spin\+\_\+array}{spin\_array}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{classspin__dir}{spin\+\_\+dir}}$\ast$ \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::\mbox{\hyperlink{classspin__array}{spin\+\_\+array}}\hspace{0.3cm}{\ttfamily [private]}}
+
+pointer to spin array \mbox{\Hypertarget{classIsingModel_af19ba376c01404c094c214939eafd7a5}\label{classIsingModel_af19ba376c01404c094c214939eafd7a5}} 
+\index{Ising\+Model@{Ising\+Model}!tc@{tc}}
+\index{tc@{tc}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{tc}{tc}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::tc = 2.\+269185\hspace{0.3cm}{\ttfamily [private]}}
+
+critical temperature of Ising model \mbox{\Hypertarget{classIsingModel_a756faa94432cc7e10d21e52a03156569}\label{classIsingModel_a756faa94432cc7e10d21e52a03156569}} 
+\index{Ising\+Model@{Ising\+Model}!temperature@{temperature}}
+\index{temperature@{temperature}!Ising\+Model@{Ising\+Model}}
+\subsubsection{\texorpdfstring{temperature}{temperature}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ T $>$\+::temperature\hspace{0.3cm}{\ttfamily [private]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+=
+        2
+\end{DoxyCode}
+real temperature of spin array, default value is 2. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/algorithms/\mbox{\hyperlink{Ising__model_8hpp}{Ising\+\_\+model.\+hpp}}\end{DoxyCompactItemize}

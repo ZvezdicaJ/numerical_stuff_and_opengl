@@ -26,18 +26,13 @@ class IsingModel {
         302; /**<size of spin array, spin array is always square size*size */
     T J = 1; /**< coupling constant between spins*/
     T H = 0; /**< external field strength */
-    T tc = 2.269185;           /**< critical temperature of Ising model */
-    T temperature = 2;         /**< real temperature of spin array */
+    T tc = 2.269185; /**< critical temperature of Ising model */
+    T temperature =
+        2; /**< real temperature of spin array, default value is 2. */
     spin_dir *spin_array;      /**< pointer to spin array */
     unsigned cluster_size = 0; /**< variable monitoring size of wolff cluster*/
     int magnetization = 0;     /**< magnetization of spin array */
-    int magnetization2 = 0;    /**< square of magnetization of spin array */
     T energy = 0;              /**< energy of spin array  */
-    T energy2 = 0;             /**< square of energy of spin array  */
-    int average_magnetization = 0;
-    int average_magnetization2 = 0;
-    T average_energy = 0;
-    T average_energy2 = 0;
     unsigned samples = 0;
 
     // std::default_random_engine generator;
@@ -79,8 +74,8 @@ class IsingModel {
                 }
             }
         }
-        // std::cout << "random spin up: " << spin_up << std::endl;
-        // std::cout << "random spin down: " << spin_down << std::endl;
+        energy = calc_energy();
+        magnetization = calc_magnetization();
     }
 
     /**
@@ -93,10 +88,24 @@ class IsingModel {
      *@param l index indicating position in spin array
      */
     void wolff_cluster_step(spin_dir spin, unsigned k, unsigned l) {
+        spin_dir *p = spin_array;
+        T dE =
+            2 * J * (T)(*(p + k * size + l)) *
+                (T)((*(p + (k - 1) * size + l)) + (*(p + (k + 1) * size + l)) +
+                    (*(p + k * size + l + 1)) + (*(p + k * size + l - 1))) +
+            2 * H * (T)(*(p + k * size + l));
 
         *(spin_array + k * size + l) =
             (spin_dir)(-*(spin_array + k * size + l));
+        // energy += dE;
         cluster_size += 1;
+
+        if ((*(p + k * size + l)) == UP) {
+            magnetization += 2;
+
+        } else {
+            magnetization -= 2;
+        };
 
         if (k != size - 2 && *(spin_array + (k + 1) * size + l) == spin &&
             std::exp(-2 * J / temperature) < random_real(rng)) {
@@ -158,6 +167,14 @@ class IsingModel {
      */
     unsigned get_cluster_size() { return cluster_size; }
 
+    /** @brief Get current energy.
+     */
+    T get_energy() { return energy; }
+
+    /** @brief get current magnetization.
+     */
+    int get_magnetization() { return magnetization; }
+
     /** @brief The function flips the cluster using Wolff algorithm.
      * @details It calls the wolff_cluster_step() function.
      */
@@ -169,6 +186,26 @@ class IsingModel {
         // std::cout << "(k, l) = " << k << " " << l << std::endl;
         spin_dir spin = *(spin_array + k + size + l);
         wolff_cluster_step(spin, k, l);
+        enforce_boundary_conditions();
+
+        energy = calc_energy();
+        magnetization = calc_magnetization();
+    }
+
+    /**
+     * @brief set all spins up.
+     */
+    void set_all_spins_up() {
+        int spin_up = 0;
+
+        for (unsigned i = 0; i < size; i++) {
+            for (unsigned j = 0; j < size; j++) {
+                *(spin_array + i * size + j) = UP;
+            }
+        }
+        enforce_boundary_conditions();
+        energy = calc_energy();
+        magnetization = calc_magnetization();
     }
 
     /**@brief The function calculates energy of the spin array.
@@ -185,23 +222,6 @@ class IsingModel {
         }
         energy = w / 2.0;
         return energy;
-    }
-
-    /** @brief The function calculates various properties of spin array.
-     *  @details calls of this function are counted, to calculate average
-     * magnetization. If you change the temperature, you should reset average
-     * magnetization.
-     */
-    void calculate_properties() {
-        magnetization = (T)calc_magnetization();
-        magnetization2 = magnetization * magnetization;
-        energy = calc_energy() - H * (T)magnetization;
-        energy2 = energy * energy;
-        average_magnetization += magnetization;
-        average_magnetization2 += magnetization2;
-        average_energy += energy;
-        average_energy2 += energy2;
-        samples++;
     }
 
     /**@brief Makes a metropolis step.
@@ -225,8 +245,6 @@ class IsingModel {
                         (*(p + k * size + l + 1)) + (*(p + k * size + l - 1))) +
                 2 * H * (T)(*(p + k * size + l));
 
-            // printf("\n %d   dE = %.30f sosedi: %d %d %d %d   ",h[k][l],dE,
-            // h[k-1][l],h[k+1][l],h[k][l-1],h[k][l+1]    );
             if (dE == 0.0) {
                 (*(p + k * size + l)) = (spin_dir)(-(*(p + k * size + l)));
                 if ((*(p + k * size + l)) == 1)
@@ -246,25 +264,20 @@ class IsingModel {
                     // printf("spin se zmanjsa!!    ");
                 };
                 energy += dE;
-                // printf("   magnetizacija=%f    ", magnetiz);
             }
-            // printf("\n%f   %f   %f",dE ,E0, energija(&h[0][0]));
 
             if (dE > 0 && pow(2.71828182845904523536, -dE / temperature) >
                               random_real(rng)) {
-                // printf("   vzbuditev    ");
                 if ((*(p + k * size + l)) == DOWN) {
                     (*(p + k * size + l)) = UP;
                     magnetization += 2;
-                    // printf("\spin se poveca!!\n");
                 } else {
                     (*(p + k * size + l)) = DOWN;
                     magnetization -= 2;
-                    // printf("\nspin se zmanjsa!!\n");
                 }
                 energy += dE;
             }
-
+            // enforcing boundary conditions
             if (k == 1 || k == size - 2 || l == 1 || l == size - 2) {
 
                 for (unsigned j = 0; j < size; j++) {

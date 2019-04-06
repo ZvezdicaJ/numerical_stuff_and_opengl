@@ -71,14 +71,14 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a800ae51b672756c1d98fe5ef773f2b3d"><td class="memItemLeft" align="right" valign="top">static const std::array&lt; std::string, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceshaders.html#a800ae51b672756c1d98fe5ef773f2b3d">uniform_vertex_shaders</a> ({ R&quot;(
+<tr class="memitem:a800ae51b672756c1d98fe5ef773f2b3d"><td class="memItemLeft" align="right" valign="top">static const std::array&lt; <a class="el" href="glad_8h.html#ac83513893df92266f79a515488701770">std::string</a>, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceshaders.html#a800ae51b672756c1d98fe5ef773f2b3d">uniform_vertex_shaders</a> ({ R&quot;(
 #version 450 core
 
-layout (location = 0) in vec2 aPos;
+layout (<a class="el" href="glad_8h.html#a6f0165ed903f22b8bb600c3e0b628e73">location</a> = 0) in vec2 aPos;
 
 uniform mat4 transform;
 
-void <a class="el" href="gtest__tests_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>()
+<a class="el" href="glad_8h.html#a950fc91edb4504f62f1c577bf4727c29">void</a> <a class="el" href="gtest__tests_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>()
 {
 gl_PointSize=30.0f;
 
@@ -116,16 +116,29 @@ gl_Position = transform*aPos;
 }
 )&quot; })</td></tr>
 <tr class="separator:a800ae51b672756c1d98fe5ef773f2b3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9d754beb253e36c2805513fdf473da8"><td class="memItemLeft" align="right" valign="top">static const std::array&lt; std::string, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceshaders.html#ab9d754beb253e36c2805513fdf473da8">custom_vertex_shaders</a> ({ R&quot;(
+<tr class="memitem:a08247b475f67d2c839a8d1fe5124b569"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="glad_8h.html#ac83513893df92266f79a515488701770">std::string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceshaders.html#a08247b475f67d2c839a8d1fe5124b569">uniform_fragment_shader</a> (R&quot;(
 #version 450 core
-layout (location = 0) in vec2 aPos;
-layout (location = 1) in vec4 CustomColor;
 
-layout (location = 0) out vec4 Color;
+out vec4 FragColor;
+
+uniform vec4 <a class="el" href="glad_8h.html#a69995a929d818b8b467d4593c24d98bc">color</a>;
+
+<a class="el" href="glad_8h.html#a950fc91edb4504f62f1c577bf4727c29">void</a> <a class="el" href="gtest__tests_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>()
+{
+FragColor = <a class="el" href="glad_8h.html#a69995a929d818b8b467d4593c24d98bc">color</a>; //vec4(1.0f, 0.5f, 0.2f, 1.0f);
+}
+)&quot;)</td></tr>
+<tr class="separator:a08247b475f67d2c839a8d1fe5124b569"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0c4e80907c12bdbec8be7e450017f42"><td class="memItemLeft" align="right" valign="top">static const std::array&lt; <a class="el" href="glad_8h.html#ac83513893df92266f79a515488701770">std::string</a>, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceshaders.html#af0c4e80907c12bdbec8be7e450017f42">custom_vertex_shaders</a> ({ R&quot;(
+#version 450 core
+layout (<a class="el" href="glad_8h.html#a6f0165ed903f22b8bb600c3e0b628e73">location</a> = 0) in vec2 aPos;
+layout (<a class="el" href="glad_8h.html#a6f0165ed903f22b8bb600c3e0b628e73">location</a> = 1) in vec4 CustomColor;
+
+layout (<a class="el" href="glad_8h.html#a6f0165ed903f22b8bb600c3e0b628e73">location</a> = 0) out vec4 Color;
 
 uniform mat4 transform;
 
-void <a class="el" href="gtest__tests_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>()
+<a class="el" href="glad_8h.html#a950fc91edb4504f62f1c577bf4727c29">void</a> <a class="el" href="gtest__tests_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>()
 {
 gl_PointSize=30.0f;
 
@@ -145,7 +158,6 @@ uniform mat4 transform;
 void main()
 {
 gl_PointSize=10.0f;
-
 gl_Position = transform*vec4(aPos,1.0f);
 Color = CustomColor;
 }
@@ -167,18 +179,16 @@ Color = CustomColor;
 
 }
 )&quot;})</td></tr>
-<tr class="separator:ab9d754beb253e36c2805513fdf473da8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:af0c4e80907c12bdbec8be7e450017f42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:adb630ad693498e928fa4fec5657b7fbd"><td class="memItemLeft" align="right" valign="top">static const GLchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceshaders.html#adb630ad693498e928fa4fec5657b7fbd">uniform_fragment_shader</a></td></tr>
-<tr class="separator:adb630ad693498e928fa4fec5657b7fbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a53aefc57e61e6526c0469b6790903754"><td class="memItemLeft" align="right" valign="top">static const GLchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceshaders.html#a53aefc57e61e6526c0469b6790903754">custom_fragment_shader</a></td></tr>
-<tr class="separator:a53aefc57e61e6526c0469b6790903754"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acea5f97c6eee2604b26ca2c01a42018b"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="glad_8h.html#ac83513893df92266f79a515488701770">std::string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceshaders.html#acea5f97c6eee2604b26ca2c01a42018b">custom_fragment_shader</a></td></tr>
+<tr class="separator:acea5f97c6eee2604b26ca2c01a42018b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ab9d754beb253e36c2805513fdf473da8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9d754beb253e36c2805513fdf473da8">&#9670;&nbsp;</a></span>custom_vertex_shaders()</h2>
+<a id="af0c4e80907c12bdbec8be7e450017f42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0c4e80907c12bdbec8be7e450017f42">&#9670;&nbsp;</a></span>custom_vertex_shaders()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -187,9 +197,35 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static const std::array&lt;std::string, 3&gt; shaders::custom_vertex_shaders </td>
+          <td class="memname">static const std::array&lt;<a class="el" href="glad_8h.html#ac83513893df92266f79a515488701770">std::string</a>, 3&gt; shaders::custom_vertex_shaders </td>
           <td>(</td>
-          <td class="paramtype">{ R&quot;(#version 450 corelayout (location = 0) in vec2 aPos;layout (location = 1) in vec4 CustomColor;layout (location = 0) out vec4 Color;uniform mat4 transform;void <a class="el" href="gtest__tests_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(){gl_PointSize=30.0f;gl_Position = transform*vec4(aPos, 0.0f, 1.0f);Color = CustomColor;})&quot;, R&quot;(#version 450 corelayout (location = 0) in vec3 aPos;layout (location = 1) in vec4 CustomColor;layout (location = 0) out vec4 Color;uniform mat4 transform;void main(){gl_PointSize=10.0f;gl_Position = transform*vec4(aPos,1.0f);Color = CustomColor;})&quot;, R&quot;(#version 450 corelayout (location = 0) in vec4 aPos;layout (location = 1) in vec4 CustomColor;layout (location = 0) out vec4 Color;uniform mat4 transform;void main(){gl_PointSize=10.0f;gl_Position = transform*aPos;Color = CustomColor;})&quot;}&#160;</td>
+          <td class="paramtype">{ R&quot;(#version 450 corelayout (<a class="el" href="glad_8h.html#a6f0165ed903f22b8bb600c3e0b628e73">location</a> = 0) in vec2 aPos;layout (<a class="el" href="glad_8h.html#a6f0165ed903f22b8bb600c3e0b628e73">location</a> = 1) in vec4 CustomColor;layout (<a class="el" href="glad_8h.html#a6f0165ed903f22b8bb600c3e0b628e73">location</a> = 0) out vec4 Color;uniform mat4 transform;<a class="el" href="glad_8h.html#a950fc91edb4504f62f1c577bf4727c29">void</a> <a class="el" href="gtest__tests_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(){gl_PointSize=30.0f;gl_Position = transform*vec4(aPos, 0.0f, 1.0f);Color = CustomColor;})&quot;, R&quot;(#version 450 corelayout (location = 0) in vec3 aPos;layout (location = 1) in vec4 CustomColor;layout (location = 0) out vec4 Color;uniform mat4 transform;void main(){gl_PointSize=10.0f;gl_Position = transform*vec4(aPos,1.0f);Color = CustomColor;})&quot;, R&quot;(#version 450 corelayout (location = 0) in vec4 aPos;layout (location = 1) in vec4 CustomColor;layout (location = 0) out vec4 Color;uniform mat4 transform;void main(){gl_PointSize=10.0f;gl_Position = transform*aPos;Color = CustomColor;})&quot;}&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a08247b475f67d2c839a8d1fe5124b569"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08247b475f67d2c839a8d1fe5124b569">&#9670;&nbsp;</a></span>uniform_fragment_shader()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const <a class="el" href="glad_8h.html#ac83513893df92266f79a515488701770">std::string</a> shaders::uniform_fragment_shader </td>
+          <td>(</td>
+          <td class="paramtype">R&quot;(#version 450 coreout vec4 FragColor;uniform vec4 <a class="el" href="glad_8h.html#a69995a929d818b8b467d4593c24d98bc">color</a>;<a class="el" href="glad_8h.html#a950fc91edb4504f62f1c577bf4727c29">void</a> <a class="el" href="gtest__tests_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(){FragColor = <a class="el" href="glad_8h.html#a69995a929d818b8b467d4593c24d98bc">color</a>; //vec4(1.0f, 0.5f, 0.2f, 1.0f);})&quot;&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
@@ -213,9 +249,9 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static const std::array&lt;std::string, 3&gt; shaders::uniform_vertex_shaders </td>
+          <td class="memname">static const std::array&lt;<a class="el" href="glad_8h.html#ac83513893df92266f79a515488701770">std::string</a>, 3&gt; shaders::uniform_vertex_shaders </td>
           <td>(</td>
-          <td class="paramtype">{ R&quot;(#version 450 corelayout (location = 0) in vec2 aPos;uniform mat4 transform;void <a class="el" href="gtest__tests_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(){gl_PointSize=30.0f;gl_Position = transform*vec4(aPos,0.0f,1.0f);})&quot;, R&quot;(#version 450 corelayout (location = 0) in vec3 aPos;uniform mat4 transform;void main(){gl_PointSize=30.0f;gl_Position = transform*vec4(aPos,1.0f);})&quot;, R&quot;(#version 450 corelayout (location = 0) in vec4 aPos;uniform mat4 transform;void main(){gl_PointSize=10.0f;gl_Position = transform*aPos;})&quot; }&#160;</td>
+          <td class="paramtype">{ R&quot;(#version 450 corelayout (<a class="el" href="glad_8h.html#a6f0165ed903f22b8bb600c3e0b628e73">location</a> = 0) in vec2 aPos;uniform mat4 transform;<a class="el" href="glad_8h.html#a950fc91edb4504f62f1c577bf4727c29">void</a> <a class="el" href="gtest__tests_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(){gl_PointSize=30.0f;gl_Position = transform*vec4(aPos,0.0f,1.0f);})&quot;, R&quot;(#version 450 corelayout (location = 0) in vec3 aPos;uniform mat4 transform;void main(){gl_PointSize=30.0f;gl_Position = transform*vec4(aPos,1.0f);})&quot;, R&quot;(#version 450 corelayout (location = 0) in vec4 aPos;uniform mat4 transform;void main(){gl_PointSize=10.0f;gl_Position = transform*aPos;})&quot; }&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
@@ -230,8 +266,8 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="a53aefc57e61e6526c0469b6790903754"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a53aefc57e61e6526c0469b6790903754">&#9670;&nbsp;</a></span>custom_fragment_shader</h2>
+<a id="acea5f97c6eee2604b26ca2c01a42018b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acea5f97c6eee2604b26ca2c01a42018b">&#9670;&nbsp;</a></span>custom_fragment_shader</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -240,7 +276,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const GLchar* shaders::custom_fragment_shader</td>
+          <td class="memname">const <a class="el" href="glad_8h.html#ac83513893df92266f79a515488701770">std::string</a> shaders::custom_fragment_shader</td>
         </tr>
       </table>
   </td>
@@ -250,28 +286,6 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= R<span class="stringliteral">&quot;(</span></div><div class="line"><span class="stringliteral">#version 450 core</span></div><div class="line"><span class="stringliteral"></span></div><div class="line"><span class="stringliteral">layout (location = 0) in  vec4 Color1;</span></div><div class="line"><span class="stringliteral"></span></div><div class="line"><span class="stringliteral">out vec4 FragColor;</span></div><div class="line"><span class="stringliteral"></span></div><div class="line"><span class="stringliteral">void main()</span></div><div class="line"><span class="stringliteral">{</span></div><div class="line"><span class="stringliteral">FragColor = Color1;</span></div><div class="line"><span class="stringliteral">}</span></div><div class="line"><span class="stringliteral">)&quot;</span></div></div><!-- fragment -->
-</div>
-</div>
-<a id="adb630ad693498e928fa4fec5657b7fbd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adb630ad693498e928fa4fec5657b7fbd">&#9670;&nbsp;</a></span>uniform_fragment_shader</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const GLchar* shaders::uniform_fragment_shader</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= R<span class="stringliteral">&quot;(</span></div><div class="line"><span class="stringliteral">#version 450 core</span></div><div class="line"><span class="stringliteral"></span></div><div class="line"><span class="stringliteral">out vec4 FragColor;</span></div><div class="line"><span class="stringliteral"></span></div><div class="line"><span class="stringliteral">uniform vec4 color;</span></div><div class="line"><span class="stringliteral"></span></div><div class="line"><span class="stringliteral">void main()</span></div><div class="line"><span class="stringliteral">{</span></div><div class="line"><span class="stringliteral">FragColor = color; //vec4(1.0f, 0.5f, 0.2f, 1.0f);</span></div><div class="line"><span class="stringliteral">}</span></div><div class="line"><span class="stringliteral">)&quot;</span></div></div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->

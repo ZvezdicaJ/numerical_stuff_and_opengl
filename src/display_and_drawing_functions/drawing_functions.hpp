@@ -31,14 +31,6 @@ void draw(Shape<T> &shape, Shader<RENDER_TYPE::UNIFORM_COLOR> &shader_object,
         shader_object.get_shader_program(shape.vertex_size - 2);
     glUseProgram(shaderProgram);
 
-    // std::vector<T> vert = shape.get_vertexes();
-    // print_vertexes(vert, vert.size() / 2, 2);
-    // std::cout << "vertex_size: " << shape.vertex_size << std::endl;
-    // std::cout << "shader version: " << shape.vertex_size - 2 << std::endl;
-    // std::cout << "draw buffers:\nVBO: " << shape.VBO << "\nVAO: " <<
-    // shape.VAO
-    //          << std::endl;
-
     glm::mat4 trans = glm::mat4(1.0);
     trans =
         glm::translate(trans, glm::vec3(position[0], position[1], position[2]));
@@ -251,7 +243,7 @@ void draw_wireframe(Shape<T> &shape,
 }
 
 /**
- * @brief draw 2d shape filling  of uniform color.
+ * @brief draw 2d shape filling of uniform color.
  * @param shape An object of type class Shape to be
  * drawn
  * @param shader_object Object of type class Shader<RENDER_TYPE::UNIFORM_COLOR>,
@@ -270,13 +262,7 @@ void draw_2d_object(Shape2D<T> &shape,
                     std::array<float, 3> position = {0, 0, 1},
                     std::array<float, 3> rotation_axis = {0, 0, 1},
                     float angle = 0, glm::vec4 color = {0.5, 0.5, 0.5, 0.5}) {
-    // if (shape_.vertex_size == 2) {
-    // std::cout << "draw_2d_object can display only 2d shapes";
-    //    return;
-    // }
-    // Shape2D<T> shape = std::static_cast<Shape2D<T>>(shape_);
-    //    assert(shape.vertex_size == 2 && "draw_polygon is made only for 2d
-    //    shapes");
+
     unsigned shaderProgram =
         shader_object.get_shader_program(shape.vertex_size - 2);
     glUseProgram(shaderProgram);
@@ -296,7 +282,6 @@ void draw_2d_object(Shape2D<T> &shape,
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
     unsigned int triangle_color = glGetUniformLocation(shaderProgram, "color");
-    color = glm::vec4(0.8f, 0.6f, 0.2f, 0.5f);
     glUniform4fv(triangle_color, 1, glm::value_ptr(color));
 
     GLenum type;
@@ -304,6 +289,26 @@ void draw_2d_object(Shape2D<T> &shape,
         type = GL_DOUBLE;
     else
         type = GL_FLOAT;
+
+    static int ind = 0;
+    if (ind == 0) {
+        std::cout << "number of vertexes: "
+                  << shape.vertexes.size() / shape.vertex_size << std::endl;
+
+        for (int i = 0; i < shape.filling_elements.size(); i += 3) {
+            std::cout << shape.filling_elements[i] << "  "
+                      << shape.filling_elements[i + 1] << "  "
+                      << shape.filling_elements[i + 2] << "     " << std::endl;
+        }
+        std::cout << std::endl;
+        for (int j = 0; j < shape.vertexes.size(); j += 2) {
+            std::cout << "(" << shape.vertexes[j] << " "
+                      << shape.vertexes[j + 1] << ")   " << std::endl;
+        }
+        std::cout << "number of elements to draw: "
+                  << shape.filling_elements.size() << std::endl;
+        ind = 1;
+    }
 
     if (shape.filling_draw_type == 'V') {
 
@@ -315,13 +320,15 @@ void draw_2d_object(Shape2D<T> &shape,
 
         glDrawArrays(GL_TRIANGLES, 0,
                      shape.filling_vertexes.size() / shape.vertex_size);
+
     } else if (shape.filling_draw_type == 'E') {
 
-        glBindBuffer(GL_ARRAY_BUFFER, shape.FILLING_VBO);
+        glBindBuffer(GL_ARRAY_BUFFER, shape.VBO);
         glBindVertexArray(shape.VAO);
         glVertexAttribPointer(0, shape.vertex_size, type, GL_TRUE,
                               shape.vertex_size * sizeof(T), (void *)0);
         glEnableVertexAttribArray(0);
+
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shape.FILLING_EBO);
 
         glDrawElements(GL_TRIANGLES, shape.filling_elements.size(),
@@ -353,6 +360,7 @@ void draw_2d_object(Shape2D<T> &shape,
 
     assert(shape.colors_loaded == true &&
            "to draw 2d shape with custom colors, you have to load colors");
+
     // if (shape_.vertex_size == 2) {
     // std::cout << "draw_2d_object can display only 2d shapes";
     //    return;
@@ -360,6 +368,7 @@ void draw_2d_object(Shape2D<T> &shape,
     // Shape2D<T> shape = std::static_cast<Shape2D<T>>(shape_);
     //    assert(shape.vertex_size == 2 && "draw_polygon is made only for 2d
     //    shapes");
+
     unsigned shaderProgram =
         shader_object.get_shader_program(shape.vertex_size - 2);
     glUseProgram(shaderProgram);
@@ -372,8 +381,6 @@ void draw_2d_object(Shape2D<T> &shape,
         glm::vec3(rotation_axis[0], rotation_axis[1], rotation_axis[2]));
     trans = glm::scale(trans, glm::vec3(scale[0], scale[1], scale[2]));
 
-    // std::cout << glm::to_string(trans) << std::endl;
-
     unsigned int transformLoc =
         glGetUniformLocation(shaderProgram, "transform");
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
@@ -383,27 +390,43 @@ void draw_2d_object(Shape2D<T> &shape,
         type = GL_DOUBLE;
     else
         type = GL_FLOAT;
-    glBindBuffer(GL_ARRAY_BUFFER, shape.FILLING_VBO);
-    glBindVertexArray(shape.VAO);
-    glVertexAttribPointer(0, shape.vertex_size, type, GL_TRUE,
-                          shape.vertex_size * sizeof(T), (void *)0);
-    glEnableVertexAttribArray(0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, shape.CBO);
-    glBindVertexArray(shape.VAO);
-    glVertexAttribPointer(1, 4, type, GL_TRUE, 4 * sizeof(float), (void *)0);
-    glEnableVertexAttribArray(1);
 
     if (shape.filling_draw_type == 'V') {
+        // if draw_type=='V' bind filling vertex buffer object
+        glBindBuffer(GL_ARRAY_BUFFER, shape.FILLING_VBO);
+        glBindVertexArray(shape.VAO);
+        glVertexAttribPointer(0, shape.vertex_size, type, GL_TRUE,
+                              shape.vertex_size * sizeof(T), (void *)0);
+        glEnableVertexAttribArray(0);
+
+        // then enable colors
+        glBindBuffer(GL_ARRAY_BUFFER, shape.CBO);
+        glBindVertexArray(shape.VAO);
+        glVertexAttribPointer(1, 4, type, GL_TRUE, 4 * sizeof(float),
+                              (void *)0);
+        glEnableVertexAttribArray(1);
 
         glDrawArrays(GL_TRIANGLES, 0,
                      shape.filling_vertexes.size() / shape.vertex_size);
 
     } else if (shape.filling_draw_type == 'E') {
 
+        glBindBuffer(GL_ARRAY_BUFFER, shape.VBO);
+        glBindVertexArray(shape.VAO);
+        glVertexAttribPointer(0, shape.vertex_size, type, GL_TRUE,
+                              shape.vertex_size * sizeof(T), (void *)0);
+        glEnableVertexAttribArray(0);
+
+        // enable colors
+        glBindBuffer(GL_ARRAY_BUFFER, shape.CBO);
+        glBindVertexArray(shape.VAO);
+        glVertexAttribPointer(1, 4, type, GL_TRUE, 4 * sizeof(float),
+                              (void *)0);
+        glEnableVertexAttribArray(1);
+
+        // if draw_type=='V' bind filling element buffer
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shape.FILLING_EBO);
         glDrawElements(GL_TRIANGLES, shape.filling_elements.size(),
                        GL_UNSIGNED_INT, 0);
     }
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // render as filled triangles
 }

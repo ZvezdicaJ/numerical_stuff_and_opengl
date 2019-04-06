@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.14"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Geometrical objects: src/shaders.hpp File Reference</title>
+<title>Geometrical objects: src/shaders/shaders.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,7 +61,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_0a4b4be470ccb3aa51643a03ee90aa9a.html">shaders</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -73,7 +73,9 @@ $(function() {
 <div class="title">shaders.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-
+<div class="textblock"><code>#include &lt;array&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+</div>
 <p><a href="shaders_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
@@ -83,14 +85,14 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a800ae51b672756c1d98fe5ef773f2b3d"><td class="memItemLeft" align="right" valign="top">static const std::array&lt; std::string, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceshaders.html#a800ae51b672756c1d98fe5ef773f2b3d">shaders::uniform_vertex_shaders</a> ({ R&quot;(
+<tr class="memitem:a800ae51b672756c1d98fe5ef773f2b3d"><td class="memItemLeft" align="right" valign="top">static const std::array&lt; <a class="el" href="glad_8h.html#ac83513893df92266f79a515488701770">std::string</a>, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceshaders.html#a800ae51b672756c1d98fe5ef773f2b3d">shaders::uniform_vertex_shaders</a> ({ R&quot;(
 #version 450 core
 
-layout (location = 0) in vec2 aPos;
+layout (<a class="el" href="glad_8h.html#a6f0165ed903f22b8bb600c3e0b628e73">location</a> = 0) in vec2 aPos;
 
 uniform mat4 transform;
 
-void <a class="el" href="gtest__tests_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>()
+<a class="el" href="glad_8h.html#a950fc91edb4504f62f1c577bf4727c29">void</a> <a class="el" href="gtest__tests_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>()
 {
 gl_PointSize=30.0f;
 
@@ -128,16 +130,29 @@ gl_Position = transform*aPos;
 }
 )&quot; })</td></tr>
 <tr class="separator:a800ae51b672756c1d98fe5ef773f2b3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9d754beb253e36c2805513fdf473da8"><td class="memItemLeft" align="right" valign="top">static const std::array&lt; std::string, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceshaders.html#ab9d754beb253e36c2805513fdf473da8">shaders::custom_vertex_shaders</a> ({ R&quot;(
+<tr class="memitem:a08247b475f67d2c839a8d1fe5124b569"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="glad_8h.html#ac83513893df92266f79a515488701770">std::string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceshaders.html#a08247b475f67d2c839a8d1fe5124b569">shaders::uniform_fragment_shader</a> (R&quot;(
 #version 450 core
-layout (location = 0) in vec2 aPos;
-layout (location = 1) in vec4 CustomColor;
 
-layout (location = 0) out vec4 Color;
+out vec4 FragColor;
+
+uniform vec4 <a class="el" href="glad_8h.html#a69995a929d818b8b467d4593c24d98bc">color</a>;
+
+<a class="el" href="glad_8h.html#a950fc91edb4504f62f1c577bf4727c29">void</a> <a class="el" href="gtest__tests_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>()
+{
+FragColor = <a class="el" href="glad_8h.html#a69995a929d818b8b467d4593c24d98bc">color</a>; //vec4(1.0f, 0.5f, 0.2f, 1.0f);
+}
+)&quot;)</td></tr>
+<tr class="separator:a08247b475f67d2c839a8d1fe5124b569"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0c4e80907c12bdbec8be7e450017f42"><td class="memItemLeft" align="right" valign="top">static const std::array&lt; <a class="el" href="glad_8h.html#ac83513893df92266f79a515488701770">std::string</a>, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceshaders.html#af0c4e80907c12bdbec8be7e450017f42">shaders::custom_vertex_shaders</a> ({ R&quot;(
+#version 450 core
+layout (<a class="el" href="glad_8h.html#a6f0165ed903f22b8bb600c3e0b628e73">location</a> = 0) in vec2 aPos;
+layout (<a class="el" href="glad_8h.html#a6f0165ed903f22b8bb600c3e0b628e73">location</a> = 1) in vec4 CustomColor;
+
+layout (<a class="el" href="glad_8h.html#a6f0165ed903f22b8bb600c3e0b628e73">location</a> = 0) out vec4 Color;
 
 uniform mat4 transform;
 
-void <a class="el" href="gtest__tests_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>()
+<a class="el" href="glad_8h.html#a950fc91edb4504f62f1c577bf4727c29">void</a> <a class="el" href="gtest__tests_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>()
 {
 gl_PointSize=30.0f;
 
@@ -157,7 +172,6 @@ uniform mat4 transform;
 void main()
 {
 gl_PointSize=10.0f;
-
 gl_Position = transform*vec4(aPos,1.0f);
 Color = CustomColor;
 }
@@ -179,14 +193,12 @@ Color = CustomColor;
 
 }
 )&quot;})</td></tr>
-<tr class="separator:ab9d754beb253e36c2805513fdf473da8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:af0c4e80907c12bdbec8be7e450017f42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:adb630ad693498e928fa4fec5657b7fbd"><td class="memItemLeft" align="right" valign="top">static const GLchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceshaders.html#adb630ad693498e928fa4fec5657b7fbd">shaders::uniform_fragment_shader</a></td></tr>
-<tr class="separator:adb630ad693498e928fa4fec5657b7fbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a53aefc57e61e6526c0469b6790903754"><td class="memItemLeft" align="right" valign="top">static const GLchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceshaders.html#a53aefc57e61e6526c0469b6790903754">shaders::custom_fragment_shader</a></td></tr>
-<tr class="separator:a53aefc57e61e6526c0469b6790903754"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acea5f97c6eee2604b26ca2c01a42018b"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="glad_8h.html#ac83513893df92266f79a515488701770">std::string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceshaders.html#acea5f97c6eee2604b26ca2c01a42018b">shaders::custom_fragment_shader</a></td></tr>
+<tr class="separator:acea5f97c6eee2604b26ca2c01a42018b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->

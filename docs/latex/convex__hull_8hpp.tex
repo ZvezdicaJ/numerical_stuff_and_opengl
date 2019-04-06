@@ -1,0 +1,97 @@
+\hypertarget{convex__hull_8hpp}{}\section{src/algorithms/convex\+\_\+hull.hpp File Reference}
+\label{convex__hull_8hpp}\index{src/algorithms/convex\+\_\+hull.\+hpp@{src/algorithms/convex\+\_\+hull.\+hpp}}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{convex__hull_8hpp_aed1a25f4b15c6110f7ac1dc385827049}{S\+I\+DE}} \{ \mbox{\hyperlink{convex__hull_8hpp_aed1a25f4b15c6110f7ac1dc385827049a684d325a7303f52e64011467ff5c5758}{S\+I\+D\+E\+::\+L\+E\+FT}} = -\/1, 
+\mbox{\hyperlink{convex__hull_8hpp_aed1a25f4b15c6110f7ac1dc385827049a21507b40c80068eda19865706fdc2403}{S\+I\+D\+E\+::\+R\+I\+G\+HT}} = 1, 
+\mbox{\hyperlink{convex__hull_8hpp_aed1a25f4b15c6110f7ac1dc385827049a4abfdcffb893d65efbefb6ed09109291}{S\+I\+D\+E\+::\+C\+O\+L\+I\+N\+E\+AR}} = 0
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T , long unsigned N$>$ }\\std\+::array$<$ T, N $>$ \mbox{\hyperlink{convex__hull_8hpp_afd8496a6888139286a1fa37542fafc89}{operator-\/}} (const std\+::array$<$ T, N $>$ \mbox{\hyperlink{glad_8h_ac8729153468b5dcf13f971b21d84d4e5}{a}}, const std\+::array$<$ T, N $>$ \mbox{\hyperlink{glad_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b}})
+\item 
+{\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{convex__hull_8hpp_aed1a25f4b15c6110f7ac1dc385827049}{S\+I\+DE}} \mbox{\hyperlink{convex__hull_8hpp_a346716575683ccf176b2b05ccb0e9550}{point\+\_\+side\+\_\+2d}} (std\+::array$<$ T, 2 $>$ vec, std\+::array$<$ T, 2 $>$ point)
+\begin{DoxyCompactList}\small\item\em The function return L\+E\+FT or R\+I\+G\+HT depending on which side of the vector r the point lies. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{convex__hull_8hpp_aed1a25f4b15c6110f7ac1dc385827049}{S\+I\+DE}} \mbox{\hyperlink{convex__hull_8hpp_ae8fe78c28e599b65e599b82f875716ea}{point\+\_\+side\+\_\+2d}} (float $\ast$vec, float $\ast$point)
+\begin{DoxyCompactList}\small\item\em The function return L\+E\+FT or R\+I\+G\+HT depending on which side of the vector r the point lies. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T $>$ }\\std\+::vector$<$ std\+::array$<$ T, 2 $>$ $>$ \mbox{\hyperlink{convex__hull_8hpp_aa7eee7a61e7f88224f77b226e624da1a}{convex\+\_\+hull}} (std\+::vector$<$ std\+::array$<$ T, 2 $>$$>$ \&collection)
+\end{DoxyCompactItemize}
+
+
+\subsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{convex__hull_8hpp_aed1a25f4b15c6110f7ac1dc385827049}\label{convex__hull_8hpp_aed1a25f4b15c6110f7ac1dc385827049}} 
+\index{convex\+\_\+hull.\+hpp@{convex\+\_\+hull.\+hpp}!S\+I\+DE@{S\+I\+DE}}
+\index{S\+I\+DE@{S\+I\+DE}!convex\+\_\+hull.\+hpp@{convex\+\_\+hull.\+hpp}}
+\subsubsection{\texorpdfstring{S\+I\+DE}{SIDE}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{convex__hull_8hpp_aed1a25f4b15c6110f7ac1dc385827049}{S\+I\+DE}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{L\+E\+FT@{L\+E\+FT}!convex\+\_\+hull.\+hpp@{convex\+\_\+hull.\+hpp}}\index{convex\+\_\+hull.\+hpp@{convex\+\_\+hull.\+hpp}!L\+E\+FT@{L\+E\+FT}}}\mbox{\Hypertarget{convex__hull_8hpp_aed1a25f4b15c6110f7ac1dc385827049a684d325a7303f52e64011467ff5c5758}\label{convex__hull_8hpp_aed1a25f4b15c6110f7ac1dc385827049a684d325a7303f52e64011467ff5c5758}} 
+L\+E\+FT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{R\+I\+G\+HT@{R\+I\+G\+HT}!convex\+\_\+hull.\+hpp@{convex\+\_\+hull.\+hpp}}\index{convex\+\_\+hull.\+hpp@{convex\+\_\+hull.\+hpp}!R\+I\+G\+HT@{R\+I\+G\+HT}}}\mbox{\Hypertarget{convex__hull_8hpp_aed1a25f4b15c6110f7ac1dc385827049a21507b40c80068eda19865706fdc2403}\label{convex__hull_8hpp_aed1a25f4b15c6110f7ac1dc385827049a21507b40c80068eda19865706fdc2403}} 
+R\+I\+G\+HT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{C\+O\+L\+I\+N\+E\+AR@{C\+O\+L\+I\+N\+E\+AR}!convex\+\_\+hull.\+hpp@{convex\+\_\+hull.\+hpp}}\index{convex\+\_\+hull.\+hpp@{convex\+\_\+hull.\+hpp}!C\+O\+L\+I\+N\+E\+AR@{C\+O\+L\+I\+N\+E\+AR}}}\mbox{\Hypertarget{convex__hull_8hpp_aed1a25f4b15c6110f7ac1dc385827049a4abfdcffb893d65efbefb6ed09109291}\label{convex__hull_8hpp_aed1a25f4b15c6110f7ac1dc385827049a4abfdcffb893d65efbefb6ed09109291}} 
+C\+O\+L\+I\+N\+E\+AR&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{convex__hull_8hpp_aa7eee7a61e7f88224f77b226e624da1a}\label{convex__hull_8hpp_aa7eee7a61e7f88224f77b226e624da1a}} 
+\index{convex\+\_\+hull.\+hpp@{convex\+\_\+hull.\+hpp}!convex\+\_\+hull@{convex\+\_\+hull}}
+\index{convex\+\_\+hull@{convex\+\_\+hull}!convex\+\_\+hull.\+hpp@{convex\+\_\+hull.\+hpp}}
+\subsubsection{\texorpdfstring{convex\+\_\+hull()}{convex\_hull()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::vector$<$std\+::array$<$T, 2$>$ $>$ convex\+\_\+hull (\begin{DoxyParamCaption}\item[{std\+::vector$<$ std\+::array$<$ T, 2 $>$$>$ \&}]{collection }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{convex__hull_8hpp_afd8496a6888139286a1fa37542fafc89}\label{convex__hull_8hpp_afd8496a6888139286a1fa37542fafc89}} 
+\index{convex\+\_\+hull.\+hpp@{convex\+\_\+hull.\+hpp}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!convex\+\_\+hull.\+hpp@{convex\+\_\+hull.\+hpp}}
+\subsubsection{\texorpdfstring{operator-\/()}{operator-()}}
+{\footnotesize\ttfamily template$<$typename T , long unsigned N$>$ \\
+std\+::array$<$T, N$>$ operator-\/ (\begin{DoxyParamCaption}\item[{const std\+::array$<$ T, N $>$}]{a,  }\item[{const std\+::array$<$ T, N $>$}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{convex__hull_8hpp_a346716575683ccf176b2b05ccb0e9550}\label{convex__hull_8hpp_a346716575683ccf176b2b05ccb0e9550}} 
+\index{convex\+\_\+hull.\+hpp@{convex\+\_\+hull.\+hpp}!point\+\_\+side\+\_\+2d@{point\+\_\+side\+\_\+2d}}
+\index{point\+\_\+side\+\_\+2d@{point\+\_\+side\+\_\+2d}!convex\+\_\+hull.\+hpp@{convex\+\_\+hull.\+hpp}}
+\subsubsection{\texorpdfstring{point\+\_\+side\+\_\+2d()}{point\_side\_2d()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{convex__hull_8hpp_aed1a25f4b15c6110f7ac1dc385827049}{S\+I\+DE}} point\+\_\+side\+\_\+2d (\begin{DoxyParamCaption}\item[{std\+::array$<$ T, 2 $>$}]{vec,  }\item[{std\+::array$<$ T, 2 $>$}]{point }\end{DoxyParamCaption})}
+
+
+
+The function return L\+E\+FT or R\+I\+G\+HT depending on which side of the vector r the point lies. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vec} & vector relative to which the side is calculated \\
+\hline
+{\em point} & point for which we calculate the side. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{convex__hull_8hpp_ae8fe78c28e599b65e599b82f875716ea}\label{convex__hull_8hpp_ae8fe78c28e599b65e599b82f875716ea}} 
+\index{convex\+\_\+hull.\+hpp@{convex\+\_\+hull.\+hpp}!point\+\_\+side\+\_\+2d@{point\+\_\+side\+\_\+2d}}
+\index{point\+\_\+side\+\_\+2d@{point\+\_\+side\+\_\+2d}!convex\+\_\+hull.\+hpp@{convex\+\_\+hull.\+hpp}}
+\subsubsection{\texorpdfstring{point\+\_\+side\+\_\+2d()}{point\_side\_2d()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{convex__hull_8hpp_aed1a25f4b15c6110f7ac1dc385827049}{S\+I\+DE}} point\+\_\+side\+\_\+2d (\begin{DoxyParamCaption}\item[{float $\ast$}]{vec,  }\item[{float $\ast$}]{point }\end{DoxyParamCaption})}
+
+
+
+The function return L\+E\+FT or R\+I\+G\+HT depending on which side of the vector r the point lies. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vec} & vector relative to which the side is calculated \\
+\hline
+{\em point} & point for which we calculate the side. \\
+\hline
+\end{DoxyParams}

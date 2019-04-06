@@ -1,15 +1,14 @@
 var searchData=
 [
-  ['calcdotproduct',['CalcDotProduct',['../auxiliary__functions_8hpp.html#aca897d81c2bc86dbf6c9100fc6a13f23',1,'auxiliary_functions.hpp']]],
-  ['chebyshev',['chebyshev',['../auxiliary__functions_8hpp.html#a816432e281588deee6316480dd32acea',1,'auxiliary_functions.hpp']]],
-  ['chebyshev_5fnext',['chebyshev_next',['../auxiliary__functions_8hpp.html#a97aa85c33137a6ee418f26998eafdfc2',1,'auxiliary_functions.hpp']]],
-  ['check_5ffragment_5fshader',['check_fragment_shader',['../check__shaders_8cpp.html#a60086975d0f32577be786cac838ae2b1',1,'check_fragment_shader(const unsigned shader_):&#160;check_shaders.cpp'],['../check__shaders_8hpp.html#a3a0708f320ffd4c90e8ee6ad5c8d6083',1,'check_fragment_shader(const unsigned):&#160;check_shaders.cpp']]],
-  ['check_5fshader_5fprogram',['check_shader_program',['../check__shaders_8cpp.html#a54e70ca8643b654e156168d1f24a0993',1,'check_shader_program(const unsigned shaderProgram):&#160;check_shaders.cpp'],['../check__shaders_8hpp.html#a69a642e0cd792d524267e0c5671f933e',1,'check_shader_program(const unsigned):&#160;check_shaders.cpp']]],
-  ['check_5fvertex_5fshader',['check_vertex_shader',['../check__shaders_8cpp.html#a615f0ba7f3d0f01a90697d70d47780ce',1,'check_vertex_shader(const unsigned shader_):&#160;check_shaders.cpp'],['../check__shaders_8hpp.html#a4c1c7711209035cff79219252cd8c6d9',1,'check_vertex_shader(const unsigned):&#160;check_shaders.cpp']]],
-  ['circle',['Circle',['../classCircle.html#a0a298ea0e982a94a60091aeb2767f6e4',1,'Circle::Circle()'],['../classCircle.html#ad4ee8eadfd4201a937af204ac4e6ec37',1,'Circle::Circle(Circle &amp;&amp;)=default'],['../classCircle.html#a163162aa8beaceb25ebd9a17966f4bd5',1,'Circle::Circle(const Circle &amp;)=default']]],
-  ['compile_5fshaders',['compile_shaders',['../classShader.html#a1176d69a08aef6df3b7850104871a839',1,'Shader::compile_shaders()'],['../classShader.html#a3ffd553eceda4e9d5a1d8b4a5a157659',1,'Shader::compile_shaders()'],['../classShader.html#ae486635d367b6054482c56747ed74846',1,'Shader::compile_shaders()']]],
-  ['cos',['cos',['../auxiliary__functions_8hpp.html#a98d2c4a34900207c58ef82a02b46c05a',1,'auxiliary_functions.hpp']]],
-  ['cross_5fproduct',['cross_product',['../auxiliary__functions_8hpp.html#a14fd50e50074c652da4fe34311bb46fd',1,'auxiliary_functions.hpp']]],
-  ['cross_5fproduct_5fold',['cross_product_old',['../auxiliary__functions_8hpp.html#a0207b589afc88ba8d29f51d0ce576cb3',1,'auxiliary_functions.hpp']]],
-  ['custom_5fvertex_5fshaders',['custom_vertex_shaders',['../namespaceshaders.html#ab9d754beb253e36c2805513fdf473da8',1,'shaders']]]
+  ['benchmark',['BENCHMARK',['../sort__benchmarks_8cpp.html#a30a76de4151cf1da4d59aa0646fba710',1,'BENCHMARK(bitonic_float_sort_bench) -&gt; Apply(CustomArguments):&#160;sort_benchmarks.cpp'],['../sort__benchmarks_8cpp.html#a9f86154d764ea4d1fd5a8cb38358861e',1,'BENCHMARK(improved_bitonic_float_sort_bench) -&gt; Apply(CustomArguments):&#160;sort_benchmarks.cpp'],['../sort__benchmarks_8cpp.html#aa9fd02fedb475fcd901e28a9ce71661d',1,'BENCHMARK(simd_QS_float_bench) -&gt; Apply(CustomArguments):&#160;sort_benchmarks.cpp'],['../sort__benchmarks_8cpp.html#a62388f93f792974aea9280fdb5ec6741',1,'BENCHMARK(std_float_sort_bench) -&gt; Apply(CustomArguments):&#160;sort_benchmarks.cpp'],['../sort__benchmarks_8cpp.html#a3ae7cf93a40119b3d2cc5cbb094441d2',1,'BENCHMARK(bitonic_double_sort_bench) -&gt; Apply(CustomArguments):&#160;sort_benchmarks.cpp'],['../sort__benchmarks_8cpp.html#a174f4d99ac50df35e74b698213e7cbd9',1,'BENCHMARK(std_double_sort_bench) -&gt; Apply(CustomArguments):&#160;sort_benchmarks.cpp']]],
+  ['benchmark_5fmain',['BENCHMARK_MAIN',['../sort__benchmarks_8cpp.html#a5851750faa9cfec10f7cad1f3b89697e',1,'sort_benchmarks.cpp']]],
+  ['binary_5ftree',['binary_tree',['../binary__tree_8hpp.html#ad66e92eb847f4a0b3656b67c0c540539',1,'binary_tree.hpp']]],
+  ['bitonic_5f2n_5fdouble_5fsort_5fbench',['bitonic_2n_double_sort_bench',['../sort__benchmarks_8cpp.html#aaaa0fb02856afcc3a5667143ac929fa8',1,'sort_benchmarks.cpp']]],
+  ['bitonic_5f2n_5ffloat_5fsort_5fbench',['bitonic_2n_float_sort_bench',['../sort__benchmarks_8cpp.html#ad219368285075022a9c69e414d3c3ebc',1,'sort_benchmarks.cpp']]],
+  ['bitonic_5f4n_5fdouble_5fsort_5fbench',['bitonic_4n_double_sort_bench',['../sort__benchmarks_8cpp.html#aa98359c453da15b3c322d5ff94640b11',1,'sort_benchmarks.cpp']]],
+  ['bitonic_5f8n_5ffloat_5fsort_5fbench',['bitonic_8n_float_sort_bench',['../sort__benchmarks_8cpp.html#aef7cc83f7229fa95364231f81c1de508',1,'sort_benchmarks.cpp']]],
+  ['bitonic_5fdouble_5fsort_5fbench',['bitonic_double_sort_bench',['../sort__benchmarks_8cpp.html#aa7865bd05b5f9c6b2a9fe4a43d594d2c',1,'sort_benchmarks.cpp']]],
+  ['bitonic_5ffloat_5fsort_5fbench',['bitonic_float_sort_bench',['../sort__benchmarks_8cpp.html#aa0236fefbfeebbc828fa895743a62522',1,'sort_benchmarks.cpp']]],
+  ['bitonic_5fmerge_5f8n',['bitonic_merge_8n',['../namespaceHYBRID__SORT.html#a5f76d2e085c5ce3b1aac2200c1f42b7b',1,'HYBRID_SORT']]],
+  ['box',['Box',['../classBox.html#a057f84d8fa68647c6484d4e004d8ab74',1,'Box::Box()'],['../classBox.html#af72b67fa2f421acbe9a7d3d1bcd540d1',1,'Box::Box(Box &amp;&amp;)=default'],['../classBox.html#aab49a6687d04530ec60421bcbdb929c2',1,'Box::Box(const Box &amp;)=default']]]
 ];

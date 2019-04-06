@@ -1,0 +1,20 @@
+The repository contains all sorts of things -\/ sorting algorithms, vectorized trigonometric functions, various shape meshes,...
+
+Build\+:
+\begin{DoxyItemize}
+\item create build directory
+\item cd build \&\& cmake ..
+\item make
+\begin{DoxyItemize}
+\item make sort\+\_\+benchamrks
+\item make run\+Tests
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+\subsubsection*{Running benchmarks}
+
+There is an unfinished script in benchmarks directory called run\+\_\+benchmarks.\+sh. For now, all it does, is that it sets the cpu frequency to 2000\+M\+Hz, or at least it is supposed to. Before running the script one has to build sort\+\_\+benchmarks. Benchmarks require you to install \href{https://github.com/google/benchmark}{\tt google benchmark} library.
+
+\subsubsection*{Running tests}
+
+To run the tests make run\+Tests. Tests require you to install \href{https://github.com/google/googletest}{\tt googletest} library. 

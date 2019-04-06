@@ -1,13 +1,16 @@
 var searchData=
 [
-  ['pause_5fscreen',['pause_screen',['../display__functions_8cpp.html#af1c28aa5ebc757216e27616f2378bb6f',1,'pause_screen():&#160;display_functions.cpp'],['../display__functions_8hpp.html#af1c28aa5ebc757216e27616f2378bb6f',1,'pause_screen():&#160;display_functions.cpp']]],
-  ['perimeter',['perimeter',['../classBox.html#ac64e9d619b0f3b991174a2ac49fef899',1,'Box::perimeter()'],['../classCircle.html#a6f066fc39c0de339b0498b04a56be028',1,'Circle::perimeter()'],['../classRectangle.html#a9c59dcb7376296711ad86e2da924d3c8',1,'Rectangle::perimeter()'],['../classStar.html#a908253192d0b1fe95aeeaa81322545bf',1,'Star::perimeter()'],['../classStar.html#a908253192d0b1fe95aeeaa81322545bf',1,'Star::perimeter()'],['../classCircle.html#aa6c86a4a5d3ee7eb598879ba856430d9',1,'Circle::perimeter()']]],
-  ['platform_5fid',['PLATFORM_ID',['../CMakeCCompilerId_8c.html#adbc5372f40838899018fadbc89bd588b',1,'PLATFORM_ID():&#160;CMakeCCompilerId.c'],['../CMakeCXXCompilerId_8cpp.html#adbc5372f40838899018fadbc89bd588b',1,'PLATFORM_ID():&#160;CMakeCXXCompilerId.cpp']]],
-  ['print',['print',['../print__functions_8hpp.html#a3d4d133740596e48ae566f3787708cac',1,'print_functions.hpp']]],
-  ['print_5favx',['print_avx',['../print__functions_8hpp.html#af24e558b56ec8f975ca113dbae6d39cf',1,'print_avx(__m256d reg, std::string name=&quot;&quot;):&#160;print_functions.hpp'],['../print__functions_8hpp.html#ae3ab4fc9d15ad5b79e13f132a3159231',1,'print_avx(__m256 reg, std::string name=&quot;&quot;):&#160;print_functions.hpp']]],
-  ['print_5ffunctions_2ehpp',['print_functions.hpp',['../print__functions_8hpp.html',1,'']]],
-  ['print_5fsse',['print_sse',['../print__functions_8hpp.html#a78e60036219ba165a614ca0bc26a7b70',1,'print_sse(__m128 reg, std::string name=&quot;&quot;):&#160;print_functions.hpp'],['../print__functions_8hpp.html#a66bc2b246bcb32348494c27b9ac3a338',1,'print_sse(__m128i reg, std::string name=&quot;&quot;):&#160;print_functions.hpp']]],
-  ['print_5ftriangles',['print_triangles',['../print__functions_8hpp.html#a78551a8213b6b4cb20a2ba034f6fe428',1,'print_triangles(const std::array&lt; std::array&lt; T, 9 &gt;, size &gt; &amp;triangles, int number_to_print=size, int vertex_size=3):&#160;print_functions.hpp'],['../print__functions_8hpp.html#a4087f401a4caca5fb056cbf16b5f0457',1,'print_triangles(float *triangles, int number_to_print, int vertex_size=3):&#160;print_functions.hpp']]],
-  ['print_5fvertex',['print_vertex',['../print__functions_8hpp.html#ad76581154e6d1acab2db9524b6b88081',1,'print_functions.hpp']]],
-  ['print_5fvertexes',['print_vertexes',['../print__functions_8hpp.html#ae262efa25a6ff6d9af96017e164277a3',1,'print_vertexes(const std::array&lt; T, size &gt; &amp;vertexes, int number_to_print=0, int vertex_size=3):&#160;print_functions.hpp'],['../print__functions_8hpp.html#ababe176b2311f47ed58472552dd8926c',1,'print_vertexes(const std::vector&lt; T &gt; &amp;vertexes, int number_to_print=0, int vertex_size=3):&#160;print_functions.hpp'],['../print__functions_8hpp.html#a0b3977f406dde5253a2e8ac86fea559a',1,'print_vertexes(const aligned_vector&lt; T &gt; &amp;vertexes, int number_to_print=0, int vertex_size=3):&#160;print_functions.hpp'],['../print__functions_8hpp.html#a4eaa38d525e6dca2ea442d9060571dcb',1,'print_vertexes(T *vertexes, int number_to_print, int vertex_size=3):&#160;print_functions.hpp']]]
+  ['n',['n',['../glad_8h.html#a0788d3762d0c3c76e4c094d8078b4c27',1,'glad.h']]],
+  ['name',['name',['../glad_8h.html#aaced7cfc21e7d37775d6921bb8177239',1,'glad.h']]],
+  ['normalized',['normalized',['../glad_8h.html#ae135469dc217c53faad86e600563cc19',1,'glad.h']]],
+  ['num_5fexts_5fi',['num_exts_i',['../glad_8c.html#afa6e943e56556f413c9720e419157252',1,'glad.c']]],
+  ['num_5fgroups_5fy',['num_groups_y',['../glad_8h.html#a69f7d16a5eaa8691a96a548622c98659',1,'glad.h']]],
+  ['num_5fgroups_5fz',['num_groups_z',['../glad_8h.html#a09dce46b395326182c7dec92a140a6b2',1,'glad.h']]],
+  ['num_5fvertexes',['num_vertexes',['../classShape.html#a131e85c7f5cad85bffb92e6719117cab',1,'Shape']]],
+  ['numattachments',['numAttachments',['../glad_8h.html#af26fa7bb96c0c01a6e5b1e482c3fe73d',1,'glad.h']]],
+  ['numlayers',['numlayers',['../glad_8h.html#a0cb61e7d2bf068c245e1f3e79c62f6d8',1,'glad.h']]],
+  ['numlevels',['numlevels',['../glad_8h.html#a93a74c475c73f67b5ee2e2b7d7b86bda',1,'glad.h']]],
+  ['numspecializationconstants',['numSpecializationConstants',['../glad_8h.html#ad638fac8b6d716fa0edb8c24cd4b5b04',1,'glad.h']]],
+  ['ny',['ny',['../glad_8h.html#a0fced2824d94c0fd138a58727a89adfc',1,'glad.h']]],
+  ['nz',['nz',['../glad_8h.html#ab5d2115402ae81dc9b0967e1cfb9229a',1,'glad.h']]]
 ];

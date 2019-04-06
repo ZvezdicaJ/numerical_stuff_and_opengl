@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['uniform_5fcolor',['UNIFORM_COLOR',['../render_8hpp.html#a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed',1,'UNIFORM_COLOR():&#160;render.hpp'],['../shader__class_8hpp.html#a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed',1,'UNIFORM_COLOR():&#160;shader_class.hpp'],['../render_8hpp.html#a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed',1,'UNIFORM_COLOR():&#160;render.hpp'],['../shader__class_8hpp.html#a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed',1,'UNIFORM_COLOR():&#160;shader_class.hpp']]]
+  ['down',['DOWN',['../Ising__model_8hpp.html#a27e9e5c2dd9c2cf6992b2ab0f3eafcf7a9b0b4a95b99523966e0e34ffdadac9da',1,'Ising_model.hpp']]]
 ];

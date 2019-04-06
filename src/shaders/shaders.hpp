@@ -1,4 +1,6 @@
 #pragma once
+#include <array>
+#include <string>
 
 namespace shaders {
 // vertex shader
@@ -17,8 +19,7 @@ void main()
 {
 gl_PointSize=30.0f;
 
-gl_Position = transform*vec4(aPos,0.0f,1.0f);
-
+gl_Position = transform*vec4(aPos, 1.0f,1.0f);
 
 }
 )",
@@ -58,7 +59,8 @@ gl_Position = transform*aPos;
 });
 
 //  fragment shader
-static const GLchar *uniform_fragment_shader = R"(
+// static const GLchar *
+static const std::string uniform_fragment_shader(R"(
 #version 450 core
 
 out vec4 FragColor;
@@ -69,9 +71,7 @@ void main()
 {
 FragColor = color; //vec4(1.0f, 0.5f, 0.2f, 1.0f);
 }
-)";
-
-// namespace shaders
+)");
 
 static const std::array<std::string, 3> custom_vertex_shaders({
     R"(
@@ -87,7 +87,7 @@ void main()
 {
 gl_PointSize=30.0f;
 
-gl_Position = transform*vec4(aPos, 0.0f, 1.0f);
+gl_Position = transform*vec4(aPos, 1.0f, 1.0f);
 
 Color = CustomColor;
 }
@@ -104,7 +104,6 @@ uniform mat4 transform;
 void main()
 {
 gl_PointSize=10.0f;
-
 gl_Position = transform*vec4(aPos,1.0f);
 Color = CustomColor;
 }
@@ -129,7 +128,8 @@ Color = CustomColor;
 )"});
 
 //  fragment shader
-static const GLchar *custom_fragment_shader = R"(
+// static const GLchar *
+static const std::string custom_fragment_shader = R"(
 #version 450 core
 
 layout (location = 0) in  vec4 Color1;

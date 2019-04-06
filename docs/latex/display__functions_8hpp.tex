@@ -1,28 +1,80 @@
-\hypertarget{display__functions_8hpp}{}\section{src/display\+\_\+functions.hpp File Reference}
-\label{display__functions_8hpp}\index{src/display\+\_\+functions.\+hpp@{src/display\+\_\+functions.\+hpp}}
+\hypertarget{display__functions_8hpp}{}\section{src/display\+\_\+and\+\_\+drawing\+\_\+functions/display\+\_\+functions.hpp File Reference}
+\label{display__functions_8hpp}\index{src/display\+\_\+and\+\_\+drawing\+\_\+functions/display\+\_\+functions.\+hpp@{src/display\+\_\+and\+\_\+drawing\+\_\+functions/display\+\_\+functions.\+hpp}}
+{\ttfamily \#include $<$glad/glad.\+h$>$}\newline
+{\ttfamily \#include $<$G\+L\+F\+W/glfw3.\+h$>$}\newline
+{\ttfamily \#include $<$xmmintrin.\+h$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$array$>$}\newline
+{\ttfamily \#include $<$cmath$>$}\newline
+{\ttfamily \#include $<$ctime$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$glm/glm.\+hpp$>$}\newline
+{\ttfamily \#include $<$glm/gtc/matrix\+\_\+transform.\+hpp$>$}\newline
+{\ttfamily \#include $<$glm/gtc/type\+\_\+ptr.\+hpp$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$limits$>$}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$unordered\+\_\+map$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$random$>$}\newline
+{\ttfamily \#include $<$list$>$}\newline
+{\ttfamily \#include $<$functional$>$}\newline
+{\ttfamily \#include $<$boost/align/aligned\+\_\+allocator.\+hpp$>$}\newline
+{\ttfamily \#include \char`\"{}apex\+\_\+memmove.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}type\+\_\+definitions.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}convex\+\_\+hull.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}shaders.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}shader\+\_\+class.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}auxiliary\+\_\+functions.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}print\+\_\+functions.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}drawing\+\_\+functions.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}shape.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}sphere.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}circle.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}rectangle.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}star.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}box.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}disk.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}star3d.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}display\+\_\+functions.\+hpp\char`\"{}}\newline
+{\ttfamily \#include $<$glm/gtx/string\+\_\+cast.\+hpp$>$}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{display__functions_8hpp_abd75661fe7969e19439052a5f69ba5d1}{G\+L\+M\+\_\+\+E\+N\+A\+B\+L\+E\+\_\+\+E\+X\+P\+E\+R\+I\+M\+E\+N\+T\+AL}}
+\end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \mbox{\hyperlink{display__functions_8hpp_a1e5b20fed15743656bb6d2e6a6ea6269}{display}} ()
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{display__functions_8hpp_a1e5b20fed15743656bb6d2e6a6ea6269}{display}} ()
 \item 
-void \mbox{\hyperlink{display__functions_8hpp_af1c28aa5ebc757216e27616f2378bb6f}{pause\+\_\+screen}} ()
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{display__functions_8hpp_af1c28aa5ebc757216e27616f2378bb6f}{pause\+\_\+screen}} ()
 \item 
-void \mbox{\hyperlink{display__functions_8hpp_a97874040cd0acbe14a8682f7c18d87bd}{On\+Plus\+Pressed}} (G\+L\+F\+Wwindow $\ast$window)
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{display__functions_8hpp_a97874040cd0acbe14a8682f7c18d87bd}{On\+Plus\+Pressed}} (G\+L\+F\+Wwindow $\ast$window)
 \item 
-void \mbox{\hyperlink{display__functions_8hpp_a683de253748ad67ecc6170c66dd66569}{On\+Minus\+Pressed}} (G\+L\+F\+Wwindow $\ast$window)
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{display__functions_8hpp_a683de253748ad67ecc6170c66dd66569}{On\+Minus\+Pressed}} (G\+L\+F\+Wwindow $\ast$window)
 \item 
-void \mbox{\hyperlink{display__functions_8hpp_adc6de68759108bd6880dd37ac3982119}{On\+Enter\+Pressed}} (G\+L\+F\+Wwindow $\ast$window, unsigned \&enter\+\_\+count)
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{display__functions_8hpp_adc6de68759108bd6880dd37ac3982119}{On\+Enter\+Pressed}} (G\+L\+F\+Wwindow $\ast$window, unsigned \&enter\+\_\+count)
 \item 
-void \mbox{\hyperlink{display__functions_8hpp_a593f053bcb6e8eff57fd9a6bc122b5db}{On\+Close\+Pressed}} (G\+L\+F\+Wwindow $\ast$window)
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{display__functions_8hpp_a593f053bcb6e8eff57fd9a6bc122b5db}{On\+Close\+Pressed}} (G\+L\+F\+Wwindow $\ast$window)
 \item 
-{\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{display__functions_8hpp_ac1a8aa39c9efcd495c6627a765fb9885}{initialize\+\_\+shapes}} (std\+::vector$<$ \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ $\ast$$>$ \&shapes)
+{\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{display__functions_8hpp_ac1a8aa39c9efcd495c6627a765fb9885}{initialize\+\_\+shapes}} (std\+::vector$<$ \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ $\ast$$>$ \&shapes)
 \begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classThis}{This}} function is for initialization of \mbox{\hyperlink{classShape}{Shape}} vector. It\textquotesingle{}s not a general function and you have to check the implementation to see which shapes are implemented. \end{DoxyCompactList}\item 
-{\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{display__functions_8hpp_a78f31366b18469ccc2b5cf93d0efe712}{display}} (std\+::vector$<$ \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ $\ast$$>$ \&shapes)
+{\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{display__functions_8hpp_a78f31366b18469ccc2b5cf93d0efe712}{display}} (std\+::vector$<$ \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ $\ast$$>$ \&shapes)
 \item 
-{\footnotesize template$<$R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+PE T, typename U $>$ }\\void \mbox{\hyperlink{display__functions_8hpp_acf37a87c984dae27dd3ad4326a0b458b}{display\+\_\+all\+\_\+shapes}} (std\+::vector$<$ \mbox{\hyperlink{classShape}{Shape}}$<$ U $>$ $\ast$$>$ \&shapes, \mbox{\hyperlink{classShader}{Shader}}$<$ T $>$ \&shader)
+{\footnotesize template$<$R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+PE T, typename U $>$ }\\\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{display__functions_8hpp_acf37a87c984dae27dd3ad4326a0b458b}{display\+\_\+all\+\_\+shapes}} (std\+::vector$<$ \mbox{\hyperlink{classShape}{Shape}}$<$ U $>$ $\ast$$>$ \&shapes, \mbox{\hyperlink{classShader}{Shader}}$<$ T $>$ \&\mbox{\hyperlink{glad_8h_a57b2a96adb1d51204909a82d861e395e}{shader}})
 \item 
-{\footnotesize template$<$R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+PE T, typename U $>$ }\\void \mbox{\hyperlink{display__functions_8hpp_aa5b5ec9c00739d99048d44b95b614e1b}{rotate\+\_\+all\+\_\+shapes}} (std\+::vector$<$ \mbox{\hyperlink{classShape}{Shape}}$<$ U $>$ $\ast$$>$ \&shapes, \mbox{\hyperlink{classShader}{Shader}}$<$ T $>$ \&shader)
+{\footnotesize template$<$R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+PE T, typename U $>$ }\\\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{display__functions_8hpp_aa5b5ec9c00739d99048d44b95b614e1b}{rotate\+\_\+all\+\_\+shapes}} (std\+::vector$<$ \mbox{\hyperlink{classShape}{Shape}}$<$ U $>$ $\ast$$>$ \&shapes, \mbox{\hyperlink{classShader}{Shader}}$<$ T $>$ \&\mbox{\hyperlink{glad_8h_a57b2a96adb1d51204909a82d861e395e}{shader}})
 \end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{display__functions_8hpp_abd75661fe7969e19439052a5f69ba5d1}\label{display__functions_8hpp_abd75661fe7969e19439052a5f69ba5d1}} 
+\index{display\+\_\+functions.\+hpp@{display\+\_\+functions.\+hpp}!G\+L\+M\+\_\+\+E\+N\+A\+B\+L\+E\+\_\+\+E\+X\+P\+E\+R\+I\+M\+E\+N\+T\+AL@{G\+L\+M\+\_\+\+E\+N\+A\+B\+L\+E\+\_\+\+E\+X\+P\+E\+R\+I\+M\+E\+N\+T\+AL}}
+\index{G\+L\+M\+\_\+\+E\+N\+A\+B\+L\+E\+\_\+\+E\+X\+P\+E\+R\+I\+M\+E\+N\+T\+AL@{G\+L\+M\+\_\+\+E\+N\+A\+B\+L\+E\+\_\+\+E\+X\+P\+E\+R\+I\+M\+E\+N\+T\+AL}!display\+\_\+functions.\+hpp@{display\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{G\+L\+M\+\_\+\+E\+N\+A\+B\+L\+E\+\_\+\+E\+X\+P\+E\+R\+I\+M\+E\+N\+T\+AL}{GLM\_ENABLE\_EXPERIMENTAL}}
+{\footnotesize\ttfamily \#define G\+L\+M\+\_\+\+E\+N\+A\+B\+L\+E\+\_\+\+E\+X\+P\+E\+R\+I\+M\+E\+N\+T\+AL}
+
 
 
 \subsection{Function Documentation}
@@ -30,28 +82,28 @@ void \mbox{\hyperlink{display__functions_8hpp_a593f053bcb6e8eff57fd9a6bc122b5db}
 \index{display\+\_\+functions.\+hpp@{display\+\_\+functions.\+hpp}!display@{display}}
 \index{display@{display}!display\+\_\+functions.\+hpp@{display\+\_\+functions.\+hpp}}
 \subsubsection{\texorpdfstring{display()}{display()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily void display (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} display (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{display__functions_8hpp_a78f31366b18469ccc2b5cf93d0efe712}\label{display__functions_8hpp_a78f31366b18469ccc2b5cf93d0efe712}} 
 \index{display\+\_\+functions.\+hpp@{display\+\_\+functions.\+hpp}!display@{display}}
 \index{display@{display}!display\+\_\+functions.\+hpp@{display\+\_\+functions.\+hpp}}
 \subsubsection{\texorpdfstring{display()}{display()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$typename T $>$ \\
-void display (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ $\ast$$>$ \&}]{shapes }\end{DoxyParamCaption})}
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} display (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ $\ast$$>$ \&}]{shapes }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{display__functions_8hpp_acf37a87c984dae27dd3ad4326a0b458b}\label{display__functions_8hpp_acf37a87c984dae27dd3ad4326a0b458b}} 
 \index{display\+\_\+functions.\+hpp@{display\+\_\+functions.\+hpp}!display\+\_\+all\+\_\+shapes@{display\+\_\+all\+\_\+shapes}}
 \index{display\+\_\+all\+\_\+shapes@{display\+\_\+all\+\_\+shapes}!display\+\_\+functions.\+hpp@{display\+\_\+functions.\+hpp}}
 \subsubsection{\texorpdfstring{display\+\_\+all\+\_\+shapes()}{display\_all\_shapes()}}
 {\footnotesize\ttfamily template$<$R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+PE T, typename U $>$ \\
-void display\+\_\+all\+\_\+shapes (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classShape}{Shape}}$<$ U $>$ $\ast$$>$ \&}]{shapes,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ T $>$ \&}]{shader }\end{DoxyParamCaption})}
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} display\+\_\+all\+\_\+shapes (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classShape}{Shape}}$<$ U $>$ $\ast$$>$ \&}]{shapes,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ T $>$ \&}]{shader }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{display__functions_8hpp_ac1a8aa39c9efcd495c6627a765fb9885}\label{display__functions_8hpp_ac1a8aa39c9efcd495c6627a765fb9885}} 
 \index{display\+\_\+functions.\+hpp@{display\+\_\+functions.\+hpp}!initialize\+\_\+shapes@{initialize\+\_\+shapes}}
 \index{initialize\+\_\+shapes@{initialize\+\_\+shapes}!display\+\_\+functions.\+hpp@{display\+\_\+functions.\+hpp}}
 \subsubsection{\texorpdfstring{initialize\+\_\+shapes()}{initialize\_shapes()}}
 {\footnotesize\ttfamily template$<$typename T $>$ \\
-void initialize\+\_\+shapes (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ $\ast$$>$ \&}]{shapes }\end{DoxyParamCaption})}
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} initialize\+\_\+shapes (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classShape}{Shape}}$<$ T $>$ $\ast$$>$ \&}]{shapes }\end{DoxyParamCaption})}
 
 
 
@@ -66,36 +118,36 @@ void initialize\+\_\+shapes (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mb
 \index{display\+\_\+functions.\+hpp@{display\+\_\+functions.\+hpp}!On\+Close\+Pressed@{On\+Close\+Pressed}}
 \index{On\+Close\+Pressed@{On\+Close\+Pressed}!display\+\_\+functions.\+hpp@{display\+\_\+functions.\+hpp}}
 \subsubsection{\texorpdfstring{On\+Close\+Pressed()}{OnClosePressed()}}
-{\footnotesize\ttfamily void On\+Close\+Pressed (\begin{DoxyParamCaption}\item[{G\+L\+F\+Wwindow $\ast$}]{window }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} On\+Close\+Pressed (\begin{DoxyParamCaption}\item[{G\+L\+F\+Wwindow $\ast$}]{window }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{display__functions_8hpp_adc6de68759108bd6880dd37ac3982119}\label{display__functions_8hpp_adc6de68759108bd6880dd37ac3982119}} 
 \index{display\+\_\+functions.\+hpp@{display\+\_\+functions.\+hpp}!On\+Enter\+Pressed@{On\+Enter\+Pressed}}
 \index{On\+Enter\+Pressed@{On\+Enter\+Pressed}!display\+\_\+functions.\+hpp@{display\+\_\+functions.\+hpp}}
 \subsubsection{\texorpdfstring{On\+Enter\+Pressed()}{OnEnterPressed()}}
-{\footnotesize\ttfamily void On\+Enter\+Pressed (\begin{DoxyParamCaption}\item[{G\+L\+F\+Wwindow $\ast$}]{window,  }\item[{unsigned \&}]{enter\+\_\+count }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} On\+Enter\+Pressed (\begin{DoxyParamCaption}\item[{G\+L\+F\+Wwindow $\ast$}]{window,  }\item[{unsigned \&}]{enter\+\_\+count }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{display__functions_8hpp_a683de253748ad67ecc6170c66dd66569}\label{display__functions_8hpp_a683de253748ad67ecc6170c66dd66569}} 
 \index{display\+\_\+functions.\+hpp@{display\+\_\+functions.\+hpp}!On\+Minus\+Pressed@{On\+Minus\+Pressed}}
 \index{On\+Minus\+Pressed@{On\+Minus\+Pressed}!display\+\_\+functions.\+hpp@{display\+\_\+functions.\+hpp}}
 \subsubsection{\texorpdfstring{On\+Minus\+Pressed()}{OnMinusPressed()}}
-{\footnotesize\ttfamily void On\+Minus\+Pressed (\begin{DoxyParamCaption}\item[{G\+L\+F\+Wwindow $\ast$}]{window }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} On\+Minus\+Pressed (\begin{DoxyParamCaption}\item[{G\+L\+F\+Wwindow $\ast$}]{window }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{display__functions_8hpp_a97874040cd0acbe14a8682f7c18d87bd}\label{display__functions_8hpp_a97874040cd0acbe14a8682f7c18d87bd}} 
 \index{display\+\_\+functions.\+hpp@{display\+\_\+functions.\+hpp}!On\+Plus\+Pressed@{On\+Plus\+Pressed}}
 \index{On\+Plus\+Pressed@{On\+Plus\+Pressed}!display\+\_\+functions.\+hpp@{display\+\_\+functions.\+hpp}}
 \subsubsection{\texorpdfstring{On\+Plus\+Pressed()}{OnPlusPressed()}}
-{\footnotesize\ttfamily void On\+Plus\+Pressed (\begin{DoxyParamCaption}\item[{G\+L\+F\+Wwindow $\ast$}]{window }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} On\+Plus\+Pressed (\begin{DoxyParamCaption}\item[{G\+L\+F\+Wwindow $\ast$}]{window }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{display__functions_8hpp_af1c28aa5ebc757216e27616f2378bb6f}\label{display__functions_8hpp_af1c28aa5ebc757216e27616f2378bb6f}} 
 \index{display\+\_\+functions.\+hpp@{display\+\_\+functions.\+hpp}!pause\+\_\+screen@{pause\+\_\+screen}}
 \index{pause\+\_\+screen@{pause\+\_\+screen}!display\+\_\+functions.\+hpp@{display\+\_\+functions.\+hpp}}
 \subsubsection{\texorpdfstring{pause\+\_\+screen()}{pause\_screen()}}
-{\footnotesize\ttfamily void pause\+\_\+screen (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} pause\+\_\+screen (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{display__functions_8hpp_aa5b5ec9c00739d99048d44b95b614e1b}\label{display__functions_8hpp_aa5b5ec9c00739d99048d44b95b614e1b}} 
 \index{display\+\_\+functions.\+hpp@{display\+\_\+functions.\+hpp}!rotate\+\_\+all\+\_\+shapes@{rotate\+\_\+all\+\_\+shapes}}
 \index{rotate\+\_\+all\+\_\+shapes@{rotate\+\_\+all\+\_\+shapes}!display\+\_\+functions.\+hpp@{display\+\_\+functions.\+hpp}}
 \subsubsection{\texorpdfstring{rotate\+\_\+all\+\_\+shapes()}{rotate\_all\_shapes()}}
 {\footnotesize\ttfamily template$<$R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+PE T, typename U $>$ \\
-void rotate\+\_\+all\+\_\+shapes (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classShape}{Shape}}$<$ U $>$ $\ast$$>$ \&}]{shapes,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ T $>$ \&}]{shader }\end{DoxyParamCaption})}
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} rotate\+\_\+all\+\_\+shapes (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classShape}{Shape}}$<$ U $>$ $\ast$$>$ \&}]{shapes,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ T $>$ \&}]{shader }\end{DoxyParamCaption})}
 

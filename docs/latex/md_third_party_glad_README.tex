@@ -1,0 +1,263 @@
+G\+L/\+G\+L\+E\+S/\+E\+G\+L/\+G\+L\+X/\+W\+GL Loader-\/\+Generator based on the official specs.
+
+Use the \href{https://glad.dav1d.de}{\tt webservice} to generate the files you need!
+
+{\bfseries I\+M\+P\+O\+R\+T\+A\+NT\+:} If you\textquotesingle{}re experiencing errors like {\ttfamily identifier \char`\"{}\+G\+Lintptr\char`\"{} is undefined}, {\itshape update} to the latest glad version!
+
+
+\begin{DoxyCode}
+\textcolor{preprocessor}{#include <\mbox{\hyperlink{glad_8h}{glad/glad.h}}>}
+
+\textcolor{keywordtype}{int} \mbox{\hyperlink{build_2CMakeFiles_23_812_83_2CompilerIdC_2CMakeCCompilerId_8c_a0ddf1224851353fc92bfbff6f499fa97}{main}}(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char} **argv)
+\{
+    \textcolor{comment}{// .. setup the context}
+
+    \textcolor{keywordflow}{if}(!\mbox{\hyperlink{glad_8h_a7e9e0ebe65864f5f2bcd289c5736041b}{gladLoadGL}}()) \{
+        printf(\textcolor{stringliteral}{"Something went wrong!\(\backslash\)n"});
+        exit(-1);
+    \}
+    printf(\textcolor{stringliteral}{"OpenGL %d.%d\(\backslash\)n"}, \mbox{\hyperlink{glad_8h_ae67346f059e05b267a9f972854df2c15}{GLVersion}}.\mbox{\hyperlink{structgladGLversionStruct_ac7f9db11d2679df12ef0313b728554db}{major}}, \mbox{\hyperlink{glad_8h_ae67346f059e05b267a9f972854df2c15}{GLVersion}}.
+      \mbox{\hyperlink{structgladGLversionStruct_acc2bff1c8966c6866f2ad6f5a4e475b2}{minor}});
+
+    \textcolor{comment}{// .. render here ..}
+\}
+\end{DoxyCode}
+
+
+Examples\+:
+\begin{DoxyItemize}
+\item \href{https://github.com/Dav1dde/glad/blob/master/example/c/simple.c}{\tt simple.\+c}
+\item \href{https://github.com/Dav1dde/glad/blob/master/example/c%2B%2B/hellowindow2.cpp}{\tt hellowindow2.\+cpp} using \href{https://glfw.org}{\tt G\+L\+FW}\+:
+\end{DoxyItemize}
+
+\subsection*{Usage}
+
+{\bfseries If you don\textquotesingle{}t want to install glad you can use the \href{https://glad.dav1d.de}{\tt webservice}}
+
+Otherwise either install glad via pip\+: \begin{DoxyVerb}# Windows
+pip install glad
+
+# Linux
+pip install --user glad
+# Linux global (root)
+pip install glad
+
+glad --help
+\end{DoxyVerb}
+
+
+To install the most recent version from Github\+: \begin{DoxyVerb}pip install --upgrade git+https://github.com/dav1dde/glad.git#egg=glad
+\end{DoxyVerb}
+
+
+Or launch glad directly (after cloning the repository)\+: \begin{DoxyVerb}python -m glad --help
+\end{DoxyVerb}
+
+
+Possible commandline options\+: \begin{DoxyVerb}usage: glad [-h] [--profile {core,compatibility}] --out-path OUT
+                 [--api API] --generator {c,d,volt}
+                 [--extensions EXTENSIONS] [--spec {gl,egl,glx,wgl}]
+                 [--no-loader]
+
+Uses the official Khronos-XML specs to generate a GL/GLES/EGL/GLX/WGL Loader
+made for your needs. Glad currently supports the languages C, D and Volt.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --profile {core,compatibility}
+                        OpenGL profile (defaults to compatibility)
+  --out-path OUT        Output path for loader
+  --api API             API type/version pairs, like "gl=3.2,gles=", no
+                        version means latest
+  --generator {c,c-debug,d,volt}
+                        Language to generate the binding for
+  --extensions EXTENSIONS
+                        Path to extensions file or comma separated list of
+                        extensions, if missing all extensions are included
+  --spec {gl,egl,glx,wgl}
+                        Name of the spec
+  --reproducible        Makes the build reproducible by not fetching 
+                        the latest specification from Khronos
+  --no-loader
+  --omit-khrplatform    Omits inclusion of the khrplatform.h file which is
+                        often unnecessary. Only has an effect if used
+                        together with c generators.
+  --local-files         Forces every file directly into the output directory.
+                        No src or include subdirectories are generated. Only
+                        has an effect if used together with c generators.
+\end{DoxyVerb}
+
+
+To generate a loader for C with two extensions, it could look like this\+: \begin{DoxyVerb}python main.py --generator=c --extensions=GL_EXT_framebuffer_multisample,GL_EXT_texture_filter_anisotropic --out-path=GL
+\end{DoxyVerb}
+
+
+{\ttfamily -\/-\/out-\/path} and {\ttfamily -\/-\/generator} are required! If the {\ttfamily -\/-\/extensions} option is missing, glad adds support for all extensions found in the specification.
+
+When integrating glad into your build system the {\ttfamily -\/-\/reproducible} option is highly recommended, it prevents the build from failing in case Khronos made incompatible changes to the specification.
+
+\subsection*{Generators}
+
+\subsubsection*{C/\+C++}
+
+
+\begin{DoxyCode}
+\textcolor{keyword}{struct }\mbox{\hyperlink{structgladGLversionStruct}{gladGLversionStruct}} \{
+    \textcolor{keywordtype}{int} \mbox{\hyperlink{structgladGLversionStruct_ac7f9db11d2679df12ef0313b728554db}{major}};
+    \textcolor{keywordtype}{int} \mbox{\hyperlink{structgladGLversionStruct_acc2bff1c8966c6866f2ad6f5a4e475b2}{minor}};
+\};
+
+\textcolor{keyword}{extern} \textcolor{keyword}{struct }\mbox{\hyperlink{structgladGLversionStruct}{gladGLversionStruct}} \mbox{\hyperlink{glad_8h_ae67346f059e05b267a9f972854df2c15}{GLVersion}};
+
+\textcolor{keyword}{typedef} \textcolor{keywordtype}{void}* (* GLADloadproc)(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *\mbox{\hyperlink{glad_8h_aaced7cfc21e7d37775d6921bb8177239}{name}});
+
+\textcolor{comment}{/*}
+\textcolor{comment}{ * Load OpenGL using the internal loader.}
+\textcolor{comment}{ * Returns the true/1 if loading succeeded.}
+\textcolor{comment}{ *}
+\textcolor{comment}{ */}
+\textcolor{keywordtype}{int} \mbox{\hyperlink{glad_8h_a7e9e0ebe65864f5f2bcd289c5736041b}{gladLoadGL}}(\textcolor{keywordtype}{void});
+
+\textcolor{comment}{/*}
+\textcolor{comment}{ * Load OpenGL using an external loader like SDL\_GL\_GetProcAddress.}
+\textcolor{comment}{ *}
+\textcolor{comment}{ * Substitute GL with the API you generated}
+\textcolor{comment}{ *}
+\textcolor{comment}{ */}
+\textcolor{keywordtype}{int} \mbox{\hyperlink{glad_8h_a1f34fdf1c2f94c05c53d2a1cd3d80537}{gladLoadGLLoader}}(\mbox{\hyperlink{glad_8h_a90ad7e2ab6cd1b09bf0f5b9eebacc8a2}{GLADloadproc}});
+\end{DoxyCode}
+
+
+{\ttfamily glad.\+h} completely replaces any {\ttfamily gl.\+h} or {\ttfamily gl3.\+h} only include {\ttfamily glad.\+h}.
+
+
+\begin{DoxyCode}
+\textcolor{keywordflow}{if}(!\mbox{\hyperlink{glad_8h_a7e9e0ebe65864f5f2bcd289c5736041b}{gladLoadGL}}()) \{ exit(-1); \}
+printf(\textcolor{stringliteral}{"OpenGL Version %d.%d loaded"}, \mbox{\hyperlink{glad_8h_ae67346f059e05b267a9f972854df2c15}{GLVersion}}.\mbox{\hyperlink{structgladGLversionStruct_ac7f9db11d2679df12ef0313b728554db}{major}}, \mbox{\hyperlink{glad_8h_ae67346f059e05b267a9f972854df2c15}{GLVersion}}.
+      \mbox{\hyperlink{structgladGLversionStruct_acc2bff1c8966c6866f2ad6f5a4e475b2}{minor}});
+
+\textcolor{keywordflow}{if}(GLAD\_GL\_EXT\_framebuffer\_multisample) \{
+    \textcolor{comment}{/* GL\_EXT\_framebuffer\_multisample is supported */} 
+\}
+
+\textcolor{keywordflow}{if}(\mbox{\hyperlink{glad_8h_ab9d61f95d41f2be94371bf29ca6dc075}{GLAD\_GL\_VERSION\_3\_0}}) \{
+    \textcolor{comment}{/* We support at least OpenGL version 3 */}
+\}
+\end{DoxyCode}
+
+
+On non-\/\+Windows platforms glad requires {\ttfamily libdl}, make sure to link with it ({\ttfamily -\/ldl} for gcc)!
+
+Note, there are two kinds of extension/version symbols, e.\+g. {\ttfamily G\+L\+\_\+\+V\+E\+R\+S\+I\+O\+N\+\_\+3\+\_\+0} and {\ttfamily G\+L\+A\+D\+\_\+\+V\+E\+R\+S\+I\+O\+N\+\_\+3\+\_\+0}. Latter is a runtime boolean (represented as integer), whereas the first (not prefixed with {\ttfamily G\+L\+A\+D\+\_\+}) is a compiletime-\/constant, indicating that this header supports this version (the official headers define these symbols as well). The runtime booleans are only valid {\itshape after} a succesful call to {\ttfamily glad\+Load\+GL} or {\ttfamily glad\+Load\+G\+L\+Loader}.
+
+\subsubsection*{C/\+C++ Debug}
+
+The C-\/\+Debug generator extends the A\+PI by these two functions\+:
+
+
+\begin{DoxyCode}
+\textcolor{comment}{// this symbol only exists if generated with the c-debug generator}
+\textcolor{preprocessor}{#define GLAD\_DEBUG}
+\textcolor{keyword}{typedef} \mbox{\hyperlink{glad_8h_aef30cfca5b4a4c292babb2f60f6d3296}{void}} (* GLADcallback)(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *\mbox{\hyperlink{glad_8h_aaced7cfc21e7d37775d6921bb8177239}{name}}, \textcolor{keywordtype}{void} *funcptr, \textcolor{keywordtype}{int} len\_args, ...);
+
+\textcolor{comment}{/*}
+\textcolor{comment}{ * Sets a callback which will be called before every function call}
+\textcolor{comment}{ * to a function loaded by glad.}
+\textcolor{comment}{ *}
+\textcolor{comment}{ */}
+\mbox{\hyperlink{glad_8h_abad5ea874b73fa802c9ac0f5488bf9b5}{GLAPI}} \textcolor{keywordtype}{void} glad\_set\_pre\_callback(GLADcallback cb);
+
+\textcolor{comment}{/*}
+\textcolor{comment}{ * Sets a callback which will be called after every function call}
+\textcolor{comment}{ * to a function loaded by glad.}
+\textcolor{comment}{ *}
+\textcolor{comment}{ */}
+\mbox{\hyperlink{glad_8h_abad5ea874b73fa802c9ac0f5488bf9b5}{GLAPI}} \textcolor{keywordtype}{void} glad\_set\_post\_callback(GLADcallback cb);
+\end{DoxyCode}
+
+
+To call a function like {\ttfamily gl\+Get\+Error} in a callback prefix it with {\ttfamily glad\+\_\+}, e.\+g. the default post callback looks like this\+:
+
+
+\begin{DoxyCode}
+\textcolor{keywordtype}{void} \_post\_call\_callback\_default(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *\mbox{\hyperlink{glad_8h_aaced7cfc21e7d37775d6921bb8177239}{name}}, \textcolor{keywordtype}{void} *funcptr, \textcolor{keywordtype}{int} len\_args, ...) \{
+    \mbox{\hyperlink{glad_8h_a5d5233918a454ad3975c620a69ac5f0b}{GLenum}} error\_code;
+    error\_code = \mbox{\hyperlink{glad_8h_af6cbddf133dfcc83ecd9ef6a3c29d0fa}{glad\_glGetError}}();
+
+    \textcolor{keywordflow}{if} (error\_code != \mbox{\hyperlink{glad_8h_a8868c96a8632a9a5b2af712c62dfd36a}{GL\_NO\_ERROR}}) \{
+        fprintf(stderr, \textcolor{stringliteral}{"ERROR %d in %s\(\backslash\)n"}, error\_code, \mbox{\hyperlink{glad_8h_aaced7cfc21e7d37775d6921bb8177239}{name}});
+    \}
+\}
+\end{DoxyCode}
+
+
+You can also submit own implementations for every call made by overwriting the function pointer with the name of the function prefixed by {\ttfamily glad\+\_\+debug\+\_\+}.
+
+E.\+g. you could disable the callbacks for gl\+Clear with {\ttfamily glad\+\_\+debug\+\_\+gl\+Clear = glad\+\_\+gl\+Clear}, where {\ttfamily glad\+\_\+gl\+Clear} is the function pointer loaded by glad.
+
+The {\ttfamily gl\+Clear} macro is defined as {\ttfamily \#define gl\+Clear glad\+\_\+debug\+\_\+gl\+Clear}, {\ttfamily glad\+\_\+debug\+\_\+gl\+Clear} is initialized with a default implementation, which calls the two callbacks and the real function, in this case {\ttfamily glad\+\_\+gl\+Clear}.
+
+\subsubsection*{D}
+
+Import {\ttfamily glad.\+gl} for Open\+GL functions/extensions, import {\ttfamily glad.\+loader} to import the functions needed to initialize glad and load the Open\+GL functions.
+
+
+\begin{DoxyCode}
+enforce(\mbox{\hyperlink{glad_8h_a7e9e0ebe65864f5f2bcd289c5736041b}{gladLoadGL}}()); \textcolor{comment}{// optionally you can pass a loader to this function}
+writefln(\textcolor{stringliteral}{"OpenGL Version %d.%d loaded"}, \mbox{\hyperlink{glad_8h_ae67346f059e05b267a9f972854df2c15}{GLVersion}}.\mbox{\hyperlink{structgladGLversionStruct_ac7f9db11d2679df12ef0313b728554db}{major}}, \mbox{\hyperlink{glad_8h_ae67346f059e05b267a9f972854df2c15}{GLVersion}}.
+      \mbox{\hyperlink{structgladGLversionStruct_acc2bff1c8966c6866f2ad6f5a4e475b2}{minor}});
+
+\textcolor{keywordflow}{if}(GL\_EXT\_framebuffer\_multisample) \{ 
+    \textcolor{comment}{/* GL\_EXT\_framebuffer\_multisample is supported */} 
+\}
+
+\textcolor{keywordflow}{if}(\mbox{\hyperlink{glad_8h_a705efdb94407e52b7f9c12623f029450}{GL\_VERSION\_3\_0}}) \{
+    \textcolor{comment}{/* We support at least OpenGL version 3 */}
+\}
+\end{DoxyCode}
+
+
+On non-\/\+Windows platforms glad requires {\ttfamily libdl}, make sure to link with it ({\ttfamily L-\/ldl} for dmd)!
+
+\subsection*{F\+AQ}
+
+\subsubsection*{How do I build glad or how do I integrate glad?}
+
+Easiest way of using glad is through the \href{https://glad.dav1d.de}{\tt webservice}.
+
+Alternatively glad integrates with\+:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily C\+Make}
+\item \href{https://bintray.com/bincrafters/public-conan/glad%3Abincrafters}{\tt Conan} ~\newline
+\href{https://bintray.com/bincrafters/public-conan/glad%3Abincrafters/_latestVersion}{\tt }
+\end{DoxyItemize}
+
+Thanks for all the help and support maintaining those!
+
+\subsubsection*{glad includes windows.\+h which breaks my code! \href{https://github.com/Dav1dde/glad/issues/42}{\tt \#42}}
+
+Defining {\ttfamily A\+P\+I\+E\+N\+T\+RY} before including {\ttfamily glad.\+h} solves this problem\+:
+
+
+\begin{DoxyCode}
+\textcolor{preprocessor}{#ifdef \_WIN32}
+\textcolor{preprocessor}{    #define APIENTRY \_\_stdcall}
+\textcolor{preprocessor}{#endif}
+
+\textcolor{preprocessor}{#include <\mbox{\hyperlink{glad_8h}{glad/glad.h}}>}
+\end{DoxyCode}
+
+
+But make sure you have the correct definition of {\ttfamily A\+P\+I\+E\+N\+T\+RY} for platforms which define {\ttfamily \+\_\+\+W\+I\+N32} but don\textquotesingle{}t use {\ttfamily \+\_\+\+\_\+stdcall}
+
+\subsubsection*{What\textquotesingle{}s the license of glad generated code? \href{https://github.com/Dav1dde/glad/issues/101}{\tt \#101}}
+
+Any of Public Domain, W\+T\+F\+PL or C\+C0.
+
+\subsection*{Contribute}
+
+Contributing is easy! Found a bug? Message me or make a pull request! Added a new generator backend? Make a pull request!
+
+Special thanks for all the people who contributed and are going to contribute! Also to these who helped me solve a problem when I simply could not think of a solution. 

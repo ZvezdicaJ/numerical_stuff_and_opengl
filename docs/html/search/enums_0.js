@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['render_5ftype',['RENDER_TYPE',['../render_8hpp.html#a24e288e18eb7b6e01de7565001fedb60',1,'RENDER_TYPE():&#160;render.hpp'],['../shader__class_8hpp.html#a24e288e18eb7b6e01de7565001fedb60',1,'RENDER_TYPE():&#160;shader_class.hpp']]]
+  ['khronos_5fboolean_5fenum_5ft',['khronos_boolean_enum_t',['../khrplatform_8h.html#a0b823cfbc138820708978d43a5f26c64',1,'khrplatform.h']]]
 ];

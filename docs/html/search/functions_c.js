@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['quality',['quality',['../classSphere.html#a9ebc65dabaf8d87fbe599f4b64816f73',1,'Sphere']]]
+  ['num_5fvertexes',['num_vertexes',['../classShape.html#a131e85c7f5cad85bffb92e6719117cab',1,'Shape']]]
 ];

@@ -2,9 +2,9 @@
 #ifndef __SQUARE_BOARD__
 
 /**
- *@class A class which holds vertexes forming a circle.
+ *@class SquareBoard
  *@brief This class holds vertexes and other data for a circle in xy plane.
- @todo Finish float version of perimeter function and implement double version.
+ *@todo Finish float version of perimeter function and implement double version.
  */
 template <typename T = float>
 class SquareBoard : public Shape2D<T> {
@@ -25,6 +25,7 @@ class SquareBoard : public Shape2D<T> {
 
 /** @brief Basic constructor for class SquareBoard.
  *  @details Constructor generates vertexes and initializes opengl buffers.
+ *  @param size number of squares in single direction
  */
 template <typename T>
 SquareBoard<T>::SquareBoard(unsigned size_) : size(size_) {
@@ -35,13 +36,15 @@ SquareBoard<T>::SquareBoard(unsigned size_) : size(size_) {
     this->generate_vertexes();
     this->initialize_buffers();
     this->generate_filling_ebo();
-
-    // std::cout << "circle buffers:\nVBO: " << this->VBO << "\nVAO: " <<
-    // this->VAO << std::endl;
 };
 
+/*@brief This function generates vertexes for SquareBoard.
+ * @details The vertexes start in the upper left corner and continue in the
+ * direction of lower y. This is done for each x value.
+ */
 template <>
 inline void SquareBoard<float>::generate_vertexes() {
+    std::cout << "generating board vertexes!" << std::endl;
     float step = 2.0 / (size); // 2 because 1-(-1)=2 - origin is at (-1,-1)
     unsigned num_points = size + 1;
     unsigned reminder = size % 4;
@@ -54,6 +57,7 @@ inline void SquareBoard<float>::generate_vertexes() {
     __m128 step_vec = _mm_set_ps1(step);
     __m128 origin = _mm_set_ps1(-1.0);
     unsigned index = 0;
+
     for (unsigned i = 0; i < num_points; i += 1) {
 #ifdef __FMA__
         __m128 xcoord = _mm_fmadd_ps(step_vec, _mm_set_ps1(i), origin);
@@ -61,13 +65,18 @@ inline void SquareBoard<float>::generate_vertexes() {
 #ifndef __FMA__
         __m128 xcoord = _mm_add_ps(_mm_mul_ps(step, _mm_set_ps1(i)), origin);
 #endif
-        __m128 ansatz = _mm_setr_ps(0.0, 1.0, 2.0, 3.0);
+        __m128 ansatz = _mm_sub_ps(_mm_set1_ps(num_points),
+                                   _mm_setr_ps(1.0, 2.0, 3.0, 4.0));
         int stevec = 0;
+        // j goes over y coord
         for (unsigned j = 0; j < num_points - 4; j += 4) {
-            // std::cout << "i, j: " << i << " " << j << "  index: " << index
-            //          << "  " << stevec << std::endl;
+
             __m128 ycoord = _mm_add_ps(_mm_mul_ps(ansatz, step_vec), origin);
-            ansatz = _mm_add_ps(ansatz, _mm_set_ps1(4.0));
+            ansatz = _mm_sub_ps(ansatz, _mm_set_ps1(4.0));
+            std::cout << j << " " << std::endl;
+            print_sse(ycoord, "ycoord: ");
+            std::cout << "\n" << std::endl;
+
             __m128 tocki12 = _mm_shuffle_ps(xcoord, ycoord, 0b01000100);
             tocki12 = _mm_shuffle_ps(tocki12, tocki12, 0b11011000);
             _mm_storeu_ps(&(this->vertexes[index]), tocki12);
@@ -80,16 +89,15 @@ inline void SquareBoard<float>::generate_vertexes() {
             stevec += 8;
         }
 
-        for (unsigned j = 0; j <= reminder; j++) {
+        //        for (unsigned j = 0; j <= reminder; j++) {
+        for (int j = reminder; j >= 0; j -= 1) {
             vertexes[index] = (float)i * step - 1.0;
             index += 1;
-            vertexes[index] = (float)(j + integer_part) * step - 1.0;
+            vertexes[index] = (float)(j)*step - 1.0;
             index += 1;
             stevec += 2;
-            // std::cout << "index: " << index << std::endl;
         }
     }
-    // std::cout << "vertex generation finished" << std::endl;
 
     this->element_array.reserve(8 * size * size);
     this->element_array.resize(8 * size * size + 1);
@@ -113,19 +121,26 @@ inline void SquareBoard<float>::generate_vertexes() {
         element_ansatz1 = _mm_add_epi32(element_ansatz1, increase);
         element_ansatz2 = _mm_add_epi32(element_ansatz2, increase);
     }
-    // std::cout << "element generation finished" << std::endl;
 }
 
+/* @brief This function generates filling element buffer object.
+ * each square consists of two triangles. Thus the number of triangles is
+ * twice the number of squares and 6 times the number of squares
+ *
+ */
 template <typename T>
 inline void SquareBoard<T>::generate_filling_ebo() {
     unsigned index = 0;
     this->filling_elements.reserve(6 * size * size + 2);
-    this->filling_elements.resize(6 * size * size + 2);
-    __m128i element_ansatz1 = _mm_setr_epi32(0, 1, size, 0);
-    __m128i element_ansatz2 = _mm_setr_epi32(1, size, size + 1, 0);
+    this->filling_elements.resize(6 * size * size);
+    // below two ansatz represent the two triangles forming each square
+    // triangle 1
+    __m128i element_ansatz1 = _mm_setr_epi32(0, 1, size + 1, 0);
+    // triangle 2
+    __m128i element_ansatz2 = _mm_setr_epi32(1, size + 1, size + 2, 0);
     __m128i increase = _mm_set1_epi32(1);
     __m128i jump = _mm_set1_epi32(size);
-    // std::cout << "filling elements size: " << 6 * size * size << std::endl;
+
     for (unsigned i = 0; i < size; i++) {
         for (unsigned j = 0; j < size; j++) {
             _mm_storeu_si128((__m128i *)&(this->filling_elements[index]),
@@ -134,9 +149,12 @@ inline void SquareBoard<T>::generate_filling_ebo() {
             _mm_storeu_si128((__m128i *)&(this->filling_elements[index]),
                              element_ansatz2);
             index += 3;
+
             element_ansatz1 = _mm_add_epi32(element_ansatz1, increase);
             element_ansatz2 = _mm_add_epi32(element_ansatz2, increase);
         }
+        element_ansatz1 = _mm_add_epi32(element_ansatz1, increase);
+        element_ansatz2 = _mm_add_epi32(element_ansatz2, increase);
     }
     glGenBuffers(1, &(this->FILLING_EBO));
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->FILLING_EBO);
@@ -146,11 +164,16 @@ inline void SquareBoard<T>::generate_filling_ebo() {
 }
 
 #ifdef __AVX2__
+/* @brief This function generates filling element buffer object.
+ * each square consists of two triangles. Thus the number of triangles is
+ * twice the number of squares.
+ */
 template <>
 inline void SquareBoard<double>::generate_vertexes() {
     double step = 2.0 / (size); // 2 because 1-(-1)=2 - origin is at (-1,-1)
     unsigned num_points = size + 1;
-    // number of vector in y direction - 4 points are processed at the same time
+    // number of vector in y direction - 4 points are processed at the same
+    // time
     unsigned num_vectors = num_points / 4;
     this->vertexes.reserve(num_points * 2);
     this->vertexes.resize(num_points * 2);
@@ -198,11 +221,4 @@ inline void SquareBoard<double>::generate_vertexes() {
 
 #endif
 
-/*
-  static unsigned random_value() {
-  static std::mt19937 engine{std::random_device{}()};
-  static std::uniform_int_distribution<unsigned> distribution{0, 10};
-  return distribution(engine);
-  }
-*/
 #endif

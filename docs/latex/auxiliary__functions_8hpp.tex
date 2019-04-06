@@ -1,5 +1,5 @@
-\hypertarget{auxiliary__functions_8hpp}{}\section{src/auxiliary\+\_\+functions.hpp File Reference}
-\label{auxiliary__functions_8hpp}\index{src/auxiliary\+\_\+functions.\+hpp@{src/auxiliary\+\_\+functions.\+hpp}}
+\hypertarget{auxiliary__functions_8hpp}{}\section{src/algorithms/auxiliary\+\_\+functions.hpp File Reference}
+\label{auxiliary__functions_8hpp}\index{src/algorithms/auxiliary\+\_\+functions.\+hpp@{src/algorithms/auxiliary\+\_\+functions.\+hpp}}
 \subsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
@@ -80,38 +80,39 @@ struct \mbox{\hyperlink{structstd_1_1hash_3_01pair_3_01S_00_01T_01_4_01_4}{std\+
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-{\footnotesize template$<$class T $>$ }\\void \mbox{\hyperlink{auxiliary__functions_8hpp_a04cc1b733a2f4d205f13f7a59facba64}{hash\+\_\+combine}} (std\+::size\+\_\+t \&seed, const T \&v)
+{\footnotesize template$<$class T $>$ }\\\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{auxiliary__functions_8hpp_a04cc1b733a2f4d205f13f7a59facba64}{hash\+\_\+combine}} (std\+::size\+\_\+t \&seed, const T \&\mbox{\hyperlink{glad_8h_a30522dbcc3e66083fcf2bf64d1fad76a}{v}})
 \item 
-\+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_a40fb7870d45199fe59a4db693749f966}{load\+\_\+vertex}} (float $\ast$value)
+\+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_a40fb7870d45199fe59a4db693749f966}{load\+\_\+vertex}} (float $\ast$\mbox{\hyperlink{glad_8h_a00c583381eee9c272e088ff2da20162d}{value}})
+\begin{DoxyCompactList}\small\item\em Function loads 3 floats to an sse vector -\/$>$ x\+:\mbox{[}32\+:0\mbox{]}, y\+:\mbox{[}32\+:64\mbox{]}, z\+:\mbox{[}64\+:96\mbox{]}. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_ab0f5a192faed0940d0608eb9c97523aa}{load\+\_\+vertex2}} (float $\ast$\mbox{\hyperlink{glad_8h_a00c583381eee9c272e088ff2da20162d}{value}})
 \item 
-\+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_ab0f5a192faed0940d0608eb9c97523aa}{load\+\_\+vertex2}} (float $\ast$value)
-\item 
-\+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_a0207b589afc88ba8d29f51d0ce576cb3}{cross\+\_\+product\+\_\+old}} (\+\_\+\+\_\+m128 a, \+\_\+\+\_\+m128 b)
+\+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_a0207b589afc88ba8d29f51d0ce576cb3}{cross\+\_\+product\+\_\+old}} (\+\_\+\+\_\+m128 \mbox{\hyperlink{glad_8h_ac8729153468b5dcf13f971b21d84d4e5}{a}}, \+\_\+\+\_\+m128 \mbox{\hyperlink{glad_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b}})
+\begin{DoxyCompactList}\small\item\em Old version\+: Calculates cross product of two \+\_\+\+\_\+m128 vectors (floats)\+: a x b. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_a14fd50e50074c652da4fe34311bb46fd}{cross\+\_\+product}} (\+\_\+\+\_\+m128 \mbox{\hyperlink{glad_8h_ac8729153468b5dcf13f971b21d84d4e5}{a}}, \+\_\+\+\_\+m128 \mbox{\hyperlink{glad_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b}})
 \begin{DoxyCompactList}\small\item\em Calculates cross product of two \+\_\+\+\_\+m128 vectors (floats)\+: a x b. \end{DoxyCompactList}\item 
-\+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_a14fd50e50074c652da4fe34311bb46fd}{cross\+\_\+product}} (\+\_\+\+\_\+m128 a, \+\_\+\+\_\+m128 b)
-\item 
+float \mbox{\hyperlink{auxiliary__functions_8hpp_a14fe8d7be898021ac36297536f0e42e6}{Calc\+Dot\+Product}} (\+\_\+\+\_\+m128 \mbox{\hyperlink{glad_8h_a78d5aac12144d7f8f26224e085394fbb}{x}}, \+\_\+\+\_\+m128 \mbox{\hyperlink{glad_8h_a5e247fc24ceb70d83f6ad59149b8910a}{y}})
+\begin{DoxyCompactList}\small\item\em Calculates scalar product of two \+\_\+\+\_\+m128 vectors (floats)\+: a x b. \end{DoxyCompactList}\item 
 float \mbox{\hyperlink{auxiliary__functions_8hpp_aca897d81c2bc86dbf6c9100fc6a13f23}{Calc\+Dot\+Product}} (float vec1\mbox{[}3\mbox{]}, float vec2\mbox{[}3\mbox{]})
 \begin{DoxyCompactList}\small\item\em Calculates cross product of two float vectors\+: a x b. \end{DoxyCompactList}\item 
-\+\_\+\+\_\+m128i \mbox{\hyperlink{auxiliary__functions_8hpp_af8a321f4f96496363eee1ca32b2afb8b}{sse\+\_\+factorial}} (int n)
+\+\_\+\+\_\+m128i \mbox{\hyperlink{auxiliary__functions_8hpp_af8a321f4f96496363eee1ca32b2afb8b}{sse\+\_\+factorial}} (int \mbox{\hyperlink{glad_8h_a0788d3762d0c3c76e4c094d8078b4c27}{n}})
 \begin{DoxyCompactList}\small\item\em Calculates factorial of integer and returns vector containing the result -\/ this is slow and useless -\/ do not use. \end{DoxyCompactList}\item 
-int \mbox{\hyperlink{auxiliary__functions_8hpp_a5951a99d0212bea2c9fb92a2a0439c44}{scalar\+\_\+factorial}} (int n)
+int \mbox{\hyperlink{auxiliary__functions_8hpp_a5951a99d0212bea2c9fb92a2a0439c44}{scalar\+\_\+factorial}} (int \mbox{\hyperlink{glad_8h_a0788d3762d0c3c76e4c094d8078b4c27}{n}})
 \begin{DoxyCompactList}\small\item\em Calculates factorial of the parameter. \end{DoxyCompactList}\item 
-\+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_a816432e281588deee6316480dd32acea}{chebyshev}} (int n, \+\_\+\+\_\+m128 x\+\_\+vec)
-\begin{DoxyCompactList}\small\item\em Calculates Chebyshev polynomials. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_a816432e281588deee6316480dd32acea}{chebyshev}} (int \mbox{\hyperlink{glad_8h_a0788d3762d0c3c76e4c094d8078b4c27}{n}}, \+\_\+\+\_\+m128 x\+\_\+vec)
+\begin{DoxyCompactList}\small\item\em Calculates single precision Chebyshev polynomials. \end{DoxyCompactList}\item 
 \+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_a97aa85c33137a6ee418f26998eafdfc2}{chebyshev\+\_\+next}} (\+\_\+\+\_\+m128 \&cn, \+\_\+\+\_\+m128 \&cn\+\_\+1, \+\_\+\+\_\+m128 \&x\+\_\+vec)
 \begin{DoxyCompactList}\small\item\em Given previous two chebyshev polynomials and vector of x values, the function calculates next chebyshev polynomial. \end{DoxyCompactList}\item 
-\+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_a98d2c4a34900207c58ef82a02b46c05a}{cos}} (\+\_\+\+\_\+m128 x\+\_\+vec\+\_\+)
-\begin{DoxyCompactList}\small\item\em Given previous two chebyshev polynomials and vector of x values, the function calculates next chebyshev polynomial. \end{DoxyCompactList}\item 
-\+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_a3328236e15864e503ff73fc4f3920f5a}{sin}} (\+\_\+\+\_\+m128 x\+\_\+vec\+\_\+)
-\begin{DoxyCompactList}\small\item\em calculates single precision sin. \end{DoxyCompactList}\item 
-\+\_\+\+\_\+m256d \mbox{\hyperlink{auxiliary__functions_8hpp_ae2f6e0931526e2e5533cb388422b76db}{sin}} (\+\_\+\+\_\+m256d x\+\_\+vec\+\_\+)
-\begin{DoxyCompactList}\small\item\em calculates double precision sin. \end{DoxyCompactList}\item 
-\+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_a58f28b8e4e0e39b744a712c2da76cc6f}{legendre\+\_\+next}} (\+\_\+\+\_\+m128 Pn, \+\_\+\+\_\+m128 Pnm1, \+\_\+\+\_\+m128 x\+\_\+vec, int n)
-\begin{DoxyCompactList}\small\item\em given two consequtive Legendre polynomials, this code calculates next Legendre polynomial \end{DoxyCompactList}\item 
-\+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_aa46b6793153f447f2dc180906aac7c67}{tan}} (\+\_\+\+\_\+m128 x)
-\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classThis}{This}} function calculates tangens of sse vector. \end{DoxyCompactList}\item 
-\+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_abb4fa093130a7b67578b3075af30d02b}{arctan}} (\+\_\+\+\_\+m128 x)
-\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classThis}{This}} function calculates arcus tangens of sse vector. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\+\_\+\+\_\+m128 \mbox{\hyperlink{auxiliary__functions_8hpp_abb4fa093130a7b67578b3075af30d02b}{arctan}} (\+\_\+\+\_\+m128 \mbox{\hyperlink{glad_8h_a78d5aac12144d7f8f26224e085394fbb}{x}})
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classThis}{This}} function calculates arcus tangens of sse vector. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::pair$<$ int, int $>$ $>$ \mbox{\hyperlink{auxiliary__functions_8hpp_a1b87dd281f54db2e98e69cace5d28643}{find\+\_\+products}} (int num)
+\begin{DoxyCompactList}\small\item\em The function finds all integer pairs whose multiplication yield the supplied integer. \end{DoxyCompactList}\item 
+std\+::pair$<$ int, int $>$ \mbox{\hyperlink{auxiliary__functions_8hpp_abb7d4d2c1aa53eae7cc3851c45e144a7}{closest\+\_\+pair}} (std\+::vector$<$ std\+::pair$<$ int, int $>$$>$ pairs)
+\begin{DoxyCompactList}\small\item\em The function return closest pair of numbers in a vector of pairs. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct std\+::hash$<$ pair$<$ S, T $>$ $>$ \mbox{\hyperlink{namespacestd_a0dc59575a8304dc28c74f9641fefdeee}{std\+::draw\+\_\+frame}}
+\end{DoxyCompactItemize}
 
 
 \subsection{Macro Definition Documentation}
@@ -320,10 +321,27 @@ int \mbox{\hyperlink{auxiliary__functions_8hpp_a5951a99d0212bea2c9fb92a2a0439c44
 
 \mbox{\hyperlink{classThis}{This}} function calculates arcus tangens of sse vector. 
 
-For detailed documentation on formula used check pdf files discussing trigonometric functions. \mbox{\hyperlink{classThis}{This}} is float version and uses sse instructions. \mbox{\Hypertarget{auxiliary__functions_8hpp_aca897d81c2bc86dbf6c9100fc6a13f23}\label{auxiliary__functions_8hpp_aca897d81c2bc86dbf6c9100fc6a13f23}} 
+For detailed documentation on formula used check pdf files discussing trigonometric functions. \mbox{\hyperlink{classThis}{This}} is float version and uses sse instructions. \mbox{\Hypertarget{auxiliary__functions_8hpp_a14fe8d7be898021ac36297536f0e42e6}\label{auxiliary__functions_8hpp_a14fe8d7be898021ac36297536f0e42e6}} 
 \index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!Calc\+Dot\+Product@{Calc\+Dot\+Product}}
 \index{Calc\+Dot\+Product@{Calc\+Dot\+Product}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
-\subsubsection{\texorpdfstring{Calc\+Dot\+Product()}{CalcDotProduct()}}
+\subsubsection{\texorpdfstring{Calc\+Dot\+Product()}{CalcDotProduct()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily float Calc\+Dot\+Product (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+m128}]{x,  }\item[{\+\_\+\+\_\+m128}]{y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Calculates scalar product of two \+\_\+\+\_\+m128 vectors (floats)\+: a x b. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & \+\_\+\+\_\+m128 vector \\
+\hline
+{\em b} & \+\_\+\+\_\+m128 vector \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{auxiliary__functions_8hpp_aca897d81c2bc86dbf6c9100fc6a13f23}\label{auxiliary__functions_8hpp_aca897d81c2bc86dbf6c9100fc6a13f23}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!Calc\+Dot\+Product@{Calc\+Dot\+Product}}
+\index{Calc\+Dot\+Product@{Calc\+Dot\+Product}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{Calc\+Dot\+Product()}{CalcDotProduct()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily float Calc\+Dot\+Product (\begin{DoxyParamCaption}\item[{float}]{vec1\mbox{[}3\mbox{]},  }\item[{float}]{vec2\mbox{[}3\mbox{]} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
@@ -345,7 +363,7 @@ Calculates cross product of two float vectors\+: a x b.
 
 
 
-Calculates Chebyshev polynomials. 
+Calculates single precision Chebyshev polynomials. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -373,23 +391,19 @@ Given previous two chebyshev polynomials and vector of x values, the function ca
 {\em x\+\_\+vec} & vector of x values in which the polynomial is calculated \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{auxiliary__functions_8hpp_a98d2c4a34900207c58ef82a02b46c05a}\label{auxiliary__functions_8hpp_a98d2c4a34900207c58ef82a02b46c05a}} 
-\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!cos@{cos}}
-\index{cos@{cos}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
-\subsubsection{\texorpdfstring{cos()}{cos()}}
-{\footnotesize\ttfamily \+\_\+\+\_\+m128 cos (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+m128}]{x\+\_\+vec\+\_\+ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+\mbox{\Hypertarget{auxiliary__functions_8hpp_abb7d4d2c1aa53eae7cc3851c45e144a7}\label{auxiliary__functions_8hpp_abb7d4d2c1aa53eae7cc3851c45e144a7}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!closest\+\_\+pair@{closest\+\_\+pair}}
+\index{closest\+\_\+pair@{closest\+\_\+pair}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{closest\+\_\+pair()}{closest\_pair()}}
+{\footnotesize\ttfamily std\+::pair$<$int, int$>$ closest\+\_\+pair (\begin{DoxyParamCaption}\item[{std\+::vector$<$ std\+::pair$<$ int, int $>$$>$}]{pairs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
-Given previous two chebyshev polynomials and vector of x values, the function calculates next chebyshev polynomial. 
+The function return closest pair of numbers in a vector of pairs. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em n} & -\/th Chebyshev polynomial evaluated in points of x vector \\
-\hline
-{\em n-\/1} & -\/th Chebyshev polynomial evaluated in points of x vector \\
-\hline
-{\em x\+\_\+vec} & vector of x values in which the polynomial is calculated \\
+{\em Vector} & of pairs among which to find closest pair \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{auxiliary__functions_8hpp_a14fd50e50074c652da4fe34311bb46fd}\label{auxiliary__functions_8hpp_a14fd50e50074c652da4fe34311bb46fd}} 
@@ -397,12 +411,6 @@ Given previous two chebyshev polynomials and vector of x values, the function ca
 \index{cross\+\_\+product@{cross\+\_\+product}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
 \subsubsection{\texorpdfstring{cross\+\_\+product()}{cross\_product()}}
 {\footnotesize\ttfamily \+\_\+\+\_\+m128 cross\+\_\+product (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+m128}]{a,  }\item[{\+\_\+\+\_\+m128}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
-
-\mbox{\Hypertarget{auxiliary__functions_8hpp_a0207b589afc88ba8d29f51d0ce576cb3}\label{auxiliary__functions_8hpp_a0207b589afc88ba8d29f51d0ce576cb3}} 
-\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!cross\+\_\+product\+\_\+old@{cross\+\_\+product\+\_\+old}}
-\index{cross\+\_\+product\+\_\+old@{cross\+\_\+product\+\_\+old}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
-\subsubsection{\texorpdfstring{cross\+\_\+product\+\_\+old()}{cross\_product\_old()}}
-{\footnotesize\ttfamily \+\_\+\+\_\+m128 cross\+\_\+product\+\_\+old (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+m128}]{a,  }\item[{\+\_\+\+\_\+m128}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -415,35 +423,56 @@ Calculates cross product of two \+\_\+\+\_\+m128 vectors (floats)\+: a x b.
 {\em b} & \+\_\+\+\_\+m128 vector \\
 \hline
 \end{DoxyParams}
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a0207b589afc88ba8d29f51d0ce576cb3}\label{auxiliary__functions_8hpp_a0207b589afc88ba8d29f51d0ce576cb3}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!cross\+\_\+product\+\_\+old@{cross\+\_\+product\+\_\+old}}
+\index{cross\+\_\+product\+\_\+old@{cross\+\_\+product\+\_\+old}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{cross\+\_\+product\+\_\+old()}{cross\_product\_old()}}
+{\footnotesize\ttfamily \+\_\+\+\_\+m128 cross\+\_\+product\+\_\+old (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+m128}]{a,  }\item[{\+\_\+\+\_\+m128}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Old version\+: Calculates cross product of two \+\_\+\+\_\+m128 vectors (floats)\+: a x b. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & \+\_\+\+\_\+m128 vector \\
+\hline
+{\em b} & \+\_\+\+\_\+m128 vector \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{auxiliary__functions_8hpp_a1b87dd281f54db2e98e69cace5d28643}\label{auxiliary__functions_8hpp_a1b87dd281f54db2e98e69cace5d28643}} 
+\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!find\+\_\+products@{find\+\_\+products}}
+\index{find\+\_\+products@{find\+\_\+products}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
+\subsubsection{\texorpdfstring{find\+\_\+products()}{find\_products()}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::pair$<$int, int$>$ $>$ find\+\_\+products (\begin{DoxyParamCaption}\item[{int}]{num }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The function finds all integer pairs whose multiplication yield the supplied integer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em number} & to be factorized \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{auxiliary__functions_8hpp_a04cc1b733a2f4d205f13f7a59facba64}\label{auxiliary__functions_8hpp_a04cc1b733a2f4d205f13f7a59facba64}} 
 \index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!hash\+\_\+combine@{hash\+\_\+combine}}
 \index{hash\+\_\+combine@{hash\+\_\+combine}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
 \subsubsection{\texorpdfstring{hash\+\_\+combine()}{hash\_combine()}}
 {\footnotesize\ttfamily template$<$class T $>$ \\
-void hash\+\_\+combine (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t \&}]{seed,  }\item[{const T \&}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} hash\+\_\+combine (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t \&}]{seed,  }\item[{const T \&}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{auxiliary__functions_8hpp_a58f28b8e4e0e39b744a712c2da76cc6f}\label{auxiliary__functions_8hpp_a58f28b8e4e0e39b744a712c2da76cc6f}} 
-\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!legendre\+\_\+next@{legendre\+\_\+next}}
-\index{legendre\+\_\+next@{legendre\+\_\+next}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
-\subsubsection{\texorpdfstring{legendre\+\_\+next()}{legendre\_next()}}
-{\footnotesize\ttfamily \+\_\+\+\_\+m128 legendre\+\_\+next (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+m128}]{Pn,  }\item[{\+\_\+\+\_\+m128}]{Pnm1,  }\item[{\+\_\+\+\_\+m128}]{x\+\_\+vec,  }\item[{int}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
-
-
-
-given two consequtive Legendre polynomials, this code calculates next Legendre polynomial 
-
-
-\begin{DoxyParams}{Parameters}
-{\em x\+\_\+vec} & vector of x values for which the next polynomial is calculated calculated \\
-\hline
-\end{DoxyParams}
 \mbox{\Hypertarget{auxiliary__functions_8hpp_a40fb7870d45199fe59a4db693749f966}\label{auxiliary__functions_8hpp_a40fb7870d45199fe59a4db693749f966}} 
 \index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!load\+\_\+vertex@{load\+\_\+vertex}}
 \index{load\+\_\+vertex@{load\+\_\+vertex}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
 \subsubsection{\texorpdfstring{load\+\_\+vertex()}{load\_vertex()}}
 {\footnotesize\ttfamily \+\_\+\+\_\+m128 load\+\_\+vertex (\begin{DoxyParamCaption}\item[{float $\ast$}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
-Function loads 3 floats to a sse vector, the last value is set to 0. 
+
+
+Function loads 3 floats to an sse vector -\/$>$ x\+:\mbox{[}32\+:0\mbox{]}, y\+:\mbox{[}32\+:64\mbox{]}, z\+:\mbox{[}64\+:96\mbox{]}. 
+
+
 \begin{DoxyParams}{Parameters}
 {\em value} & float pointer pointing to first element \\
 \hline
@@ -457,7 +486,7 @@ returns \+\_\+\+\_\+m128 vector, last element is 0.
 \subsubsection{\texorpdfstring{load\+\_\+vertex2()}{load\_vertex2()}}
 {\footnotesize\ttfamily \+\_\+\+\_\+m128 load\+\_\+vertex2 (\begin{DoxyParamCaption}\item[{float $\ast$}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
-Function loads 3 floats to a sse vector, the last value is set to 0. 
+Function loads 3 floats to an sse vector -\/$>$ x\+:\mbox{[}32\+:0\mbox{]}, y\+:\mbox{[}32\+:64\mbox{]}, z\+:\mbox{[}64\+:96\mbox{]} 
 \begin{DoxyParams}{Parameters}
 {\em value} & float pointer pointing to first element \\
 \hline
@@ -480,36 +509,6 @@ Calculates factorial of the parameter.
 {\em n} & calculates n! \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{auxiliary__functions_8hpp_a3328236e15864e503ff73fc4f3920f5a}\label{auxiliary__functions_8hpp_a3328236e15864e503ff73fc4f3920f5a}} 
-\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!sin@{sin}}
-\index{sin@{sin}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
-\subsubsection{\texorpdfstring{sin()}{sin()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily \+\_\+\+\_\+m128 sin (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+m128}]{x\+\_\+vec\+\_\+ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
-
-
-
-calculates single precision sin. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em x\+\_\+vec} & vector of x values for which the sin is calculated calculated \\
-\hline
-\end{DoxyParams}
-\mbox{\Hypertarget{auxiliary__functions_8hpp_ae2f6e0931526e2e5533cb388422b76db}\label{auxiliary__functions_8hpp_ae2f6e0931526e2e5533cb388422b76db}} 
-\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!sin@{sin}}
-\index{sin@{sin}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
-\subsubsection{\texorpdfstring{sin()}{sin()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily \+\_\+\+\_\+m256d sin (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+m256d}]{x\+\_\+vec\+\_\+ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
-
-
-
-calculates double precision sin. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em x\+\_\+vec} & vector of x values for which the sin is calculated \\
-\hline
-\end{DoxyParams}
 \mbox{\Hypertarget{auxiliary__functions_8hpp_af8a321f4f96496363eee1ca32b2afb8b}\label{auxiliary__functions_8hpp_af8a321f4f96496363eee1ca32b2afb8b}} 
 \index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!sse\+\_\+factorial@{sse\+\_\+factorial}}
 \index{sse\+\_\+factorial@{sse\+\_\+factorial}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
@@ -525,14 +524,3 @@ Calculates factorial of integer and returns vector containing the result -\/ thi
 {\em n} & calculates n! \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{auxiliary__functions_8hpp_aa46b6793153f447f2dc180906aac7c67}\label{auxiliary__functions_8hpp_aa46b6793153f447f2dc180906aac7c67}} 
-\index{auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}!tan@{tan}}
-\index{tan@{tan}!auxiliary\+\_\+functions.\+hpp@{auxiliary\+\_\+functions.\+hpp}}
-\subsubsection{\texorpdfstring{tan()}{tan()}}
-{\footnotesize\ttfamily \+\_\+\+\_\+m128 tan (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+m128}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
-
-
-
-\mbox{\hyperlink{classThis}{This}} function calculates tangens of sse vector. 
-
-For detailed documentation on formula used check pdf files discussing trigonometric functions. \mbox{\hyperlink{classThis}{This}} is float version and uses sse instructions. 

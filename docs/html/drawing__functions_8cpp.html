@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.14"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Geometrical objects: src/drawing_functions.cpp File Reference</title>
+<title>Geometrical objects: examples/ising/drawing_functions.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,80 +61,145 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d28a4824dc47e487b107a5db32ef43c4.html">examples</a></li><li class="navelem"><a class="el" href="dir_39269976ee38e7f70d40a1c61d0ba16e.html">ising</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#define-members">Macros</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">drawing_functions.cpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="opengl__test_8hpp_source.html">opengl_test.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="glad_8h_source.html">glad/glad.h</a>&gt;</code><br />
+<code>#include &lt;GLFW/glfw3.h&gt;</code><br />
+<code>#include &lt;xmmintrin.h&gt;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;array&gt;</code><br />
+<code>#include &lt;cmath&gt;</code><br />
+<code>#include &lt;ctime&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;glm/glm.hpp&gt;</code><br />
+<code>#include &lt;glm/gtc/matrix_transform.hpp&gt;</code><br />
+<code>#include &lt;glm/gtc/type_ptr.hpp&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;limits&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;unordered_map&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;random&gt;</code><br />
+<code>#include &lt;list&gt;</code><br />
+<code>#include &lt;functional&gt;</code><br />
+<code>#include &lt;boost/align/aligned_allocator.hpp&gt;</code><br />
+<code>#include &quot;<a class="el" href="apex__memmove_8h_source.html">apex_memmove.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="type__definitions_8hpp_source.html">type_definitions.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="convex__hull_8hpp_source.html">convex_hull.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="shaders_8hpp_source.html">shaders.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="shader__class_8hpp_source.html">shader_class.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="auxiliary__functions_8hpp_source.html">auxiliary_functions.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="print__functions_8hpp_source.html">print_functions.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="drawing__functions_8hpp_source.html">drawing_functions.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="shape_8hpp_source.html">shape.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="sphere_8hpp_source.html">sphere.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="circle_8hpp_source.html">circle.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="rectangle_8hpp_source.html">rectangle.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="star_8hpp_source.html">star.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="box_8hpp_source.html">box.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="disk_8hpp_source.html">disk.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="square__board_8hpp_source.html">square_board.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="display__functions_8hpp_source.html">display_functions.hpp</a>&quot;</code><br />
+<code>#include &lt;glm/gtx/string_cast.hpp&gt;</code><br />
+<code>#include &quot;<a class="el" href="Ising__model_8hpp_source.html">Ising_model.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="ising__shader_8hpp_source.html">ising_shader.hpp</a>&quot;</code><br />
 </div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classspin__array.html">spin_array</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a088324ad8995e3eb76024e3e79083d48"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="drawing__functions_8cpp.html#a088324ad8995e3eb76024e3e79083d48">GLFW_INCLUDE_NONE</a></td></tr>
+<tr class="separator:a088324ad8995e3eb76024e3e79083d48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd75661fe7969e19439052a5f69ba5d1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="drawing__functions_8cpp.html#abd75661fe7969e19439052a5f69ba5d1">GLM_ENABLE_EXPERIMENTAL</a></td></tr>
+<tr class="separator:abd75661fe7969e19439052a5f69ba5d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a3d8be34b1de2e92c135cfc44cfbe6ea1"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a3d8be34b1de2e92c135cfc44cfbe6ea1"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="drawing__functions_8cpp.html#a3d8be34b1de2e92c135cfc44cfbe6ea1">draw</a> (<a class="el" href="classShape.html">Shape</a>&lt; T &gt; &amp;shape, <a class="el" href="classShader.html">Shader</a>&lt; <a class="el" href="render_8hpp.html#a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed">RENDER_TYPE::UNIFORM_COLOR</a> &gt; &amp;shader_object, std::array&lt; float, 3 &gt; scale, std::array&lt; float, 3 &gt; position, std::array&lt; float, 3 &gt; rotation_axis, float angle, glm::vec4 color)</td></tr>
-<tr class="separator:a3d8be34b1de2e92c135cfc44cfbe6ea1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a195c2d99e1b6e5a63a49de1e1eae3c2e"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a195c2d99e1b6e5a63a49de1e1eae3c2e"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="drawing__functions_8cpp.html#a195c2d99e1b6e5a63a49de1e1eae3c2e">draw</a> (<a class="el" href="classShape.html">Shape</a>&lt; T &gt; &amp;shape, <a class="el" href="classShader.html">Shader</a>&lt; <a class="el" href="render_8hpp.html#a24e288e18eb7b6e01de7565001fedb60a9d34355b5a26c54b5dbab1e45245a6f4">RENDER_TYPE::CUSTOM_COLOR</a> &gt; &amp;shader_object, std::array&lt; float, 3 &gt; scale, std::array&lt; float, 3 &gt; position, std::array&lt; float, 3 &gt; rotation_axis, float angle)</td></tr>
-<tr class="separator:a195c2d99e1b6e5a63a49de1e1eae3c2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a736c853c5f9b08d18e53745dd60e4616"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a736c853c5f9b08d18e53745dd60e4616"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="drawing__functions_8cpp.html#a736c853c5f9b08d18e53745dd60e4616">draw_wireframe</a> (<a class="el" href="classShape.html">Shape</a>&lt; T &gt; &amp;shape, <a class="el" href="classShader.html">Shader</a>&lt; <a class="el" href="render_8hpp.html#a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed">RENDER_TYPE::UNIFORM_COLOR</a> &gt; &amp;shader_object, std::array&lt; float, 3 &gt; scale, std::array&lt; float, 3 &gt; position, std::array&lt; float, 3 &gt; rotation_axis, float angle, glm::vec4 color)</td></tr>
-<tr class="separator:a736c853c5f9b08d18e53745dd60e4616"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e5dc908ac3c37e4950acc8abf195680"><td class="memItemLeft" align="right" valign="top">class <a class="el" href="classspin__array.html">spin_array</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="drawing__functions_8cpp.html#a9e5dc908ac3c37e4950acc8abf195680">draw_frame</a> (<a class="el" href="classShader.html">Shader</a>&lt; <a class="el" href="shader__class_8hpp.html#a24e288e18eb7b6e01de7565001fedb60a72baef04098f035e8a320b03ad197818">RENDER_TYPE::CUSTOM</a> &gt; <a class="el" href="glad_8h.html#a57b2a96adb1d51204909a82d861e395e">shader</a>, float *<a class="el" href="glad_8h.html#ac2d75f84419bfa76ad2557d1f8b770bc">points</a>, std::vector&lt; <a class="el" href="classspin__dir.html">spin_dir</a> &gt; <a class="el" href="classspin__array.html">spin_array</a>, unsigned array_size)</td></tr>
+<tr class="separator:a9e5dc908ac3c37e4950acc8abf195680"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:af410fc3f8e45b7a264ed400d169a2f82"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="drawing__functions_8cpp.html#af410fc3f8e45b7a264ed400d169a2f82">VBO</a></td></tr>
+<tr class="separator:af410fc3f8e45b7a264ed400d169a2f82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13101f8da04d18c0bce2df7a0f4add8e"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="drawing__functions_8cpp.html#a13101f8da04d18c0bce2df7a0f4add8e">VAO</a></td></tr>
+<tr class="separator:a13101f8da04d18c0bce2df7a0f4add8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a332472779b1aaa533f8f91f098bf112a"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="drawing__functions_8cpp.html#a332472779b1aaa533f8f91f098bf112a">EBO</a></td></tr>
+<tr class="separator:a332472779b1aaa533f8f91f098bf112a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a088324ad8995e3eb76024e3e79083d48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a088324ad8995e3eb76024e3e79083d48">&#9670;&nbsp;</a></span>GLFW_INCLUDE_NONE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define GLFW_INCLUDE_NONE</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abd75661fe7969e19439052a5f69ba5d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd75661fe7969e19439052a5f69ba5d1">&#9670;&nbsp;</a></span>GLM_ENABLE_EXPERIMENTAL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define GLM_ENABLE_EXPERIMENTAL</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a3d8be34b1de2e92c135cfc44cfbe6ea1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3d8be34b1de2e92c135cfc44cfbe6ea1">&#9670;&nbsp;</a></span>draw() <span class="overload">[1/2]</span></h2>
+<a id="a9e5dc908ac3c37e4950acc8abf195680"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e5dc908ac3c37e4950acc8abf195680">&#9670;&nbsp;</a></span>draw_frame()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void draw </td>
+          <td class="memname">class <a class="el" href="classspin__array.html">spin_array</a> draw_frame </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classShape.html">Shape</a>&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>shape</em>, </td>
+          <td class="paramtype"><a class="el" href="classShader.html">Shader</a>&lt; <a class="el" href="shader__class_8hpp.html#a24e288e18eb7b6e01de7565001fedb60a72baef04098f035e8a320b03ad197818">RENDER_TYPE::CUSTOM</a> &gt;&#160;</td>
+          <td class="paramname"><em>shader</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classShader.html">Shader</a>&lt; <a class="el" href="render_8hpp.html#a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed">RENDER_TYPE::UNIFORM_COLOR</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>shader_object</em>, </td>
+          <td class="paramtype">float *&#160;</td>
+          <td class="paramname"><em>points</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::array&lt; float, 3 &gt;&#160;</td>
-          <td class="paramname"><em>scale</em>, </td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="classspin__dir.html">spin_dir</a> &gt;&#160;</td>
+          <td class="paramname"><em>spin_array</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::array&lt; float, 3 &gt;&#160;</td>
-          <td class="paramname"><em>position</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::array&lt; float, 3 &gt;&#160;</td>
-          <td class="paramname"><em>rotation_axis</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>angle</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">glm::vec4&#160;</td>
-          <td class="paramname"><em>color</em>&#160;</td>
+          <td class="paramtype">unsigned&#160;</td>
+          <td class="paramname"><em>array_size</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -146,116 +211,69 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a195c2d99e1b6e5a63a49de1e1eae3c2e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a195c2d99e1b6e5a63a49de1e1eae3c2e">&#9670;&nbsp;</a></span>draw() <span class="overload">[2/2]</span></h2>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a332472779b1aaa533f8f91f098bf112a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a332472779b1aaa533f8f91f098bf112a">&#9670;&nbsp;</a></span>EBO</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void draw </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classShape.html">Shape</a>&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>shape</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classShader.html">Shader</a>&lt; <a class="el" href="render_8hpp.html#a24e288e18eb7b6e01de7565001fedb60a9d34355b5a26c54b5dbab1e45245a6f4">RENDER_TYPE::CUSTOM_COLOR</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>shader_object</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::array&lt; float, 3 &gt;&#160;</td>
-          <td class="paramname"><em>scale</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::array&lt; float, 3 &gt;&#160;</td>
-          <td class="paramname"><em>position</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::array&lt; float, 3 &gt;&#160;</td>
-          <td class="paramname"><em>rotation_axis</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>angle</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
+          <td class="memname">unsigned EBO</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a736c853c5f9b08d18e53745dd60e4616"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a736c853c5f9b08d18e53745dd60e4616">&#9670;&nbsp;</a></span>draw_wireframe()</h2>
+<a id="a13101f8da04d18c0bce2df7a0f4add8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13101f8da04d18c0bce2df7a0f4add8e">&#9670;&nbsp;</a></span>VAO</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void draw_wireframe </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classShape.html">Shape</a>&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>shape</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classShader.html">Shader</a>&lt; <a class="el" href="render_8hpp.html#a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed">RENDER_TYPE::UNIFORM_COLOR</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>shader_object</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::array&lt; float, 3 &gt;&#160;</td>
-          <td class="paramname"><em>scale</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::array&lt; float, 3 &gt;&#160;</td>
-          <td class="paramname"><em>position</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::array&lt; float, 3 &gt;&#160;</td>
-          <td class="paramname"><em>rotation_axis</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>angle</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">glm::vec4&#160;</td>
-          <td class="paramname"><em>color</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
+          <td class="memname">unsigned VAO</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af410fc3f8e45b7a264ed400d169a2f82"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af410fc3f8e45b7a264ed400d169a2f82">&#9670;&nbsp;</a></span>VBO</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned VBO</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>

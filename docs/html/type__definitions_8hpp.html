@@ -79,12 +79,16 @@ $(function() {
 Macros</h2></td></tr>
 <tr class="memitem:ab1685f5b7adbd900be6729b20c6647b1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="type__definitions_8hpp.html#ab1685f5b7adbd900be6729b20c6647b1">__ALIGNED_VECTOR__</a>&#160;&#160;&#160;1</td></tr>
 <tr class="separator:ab1685f5b7adbd900be6729b20c6647b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d117cc43f15725c7a046081a19a63c7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="type__definitions_8hpp.html#a5d117cc43f15725c7a046081a19a63c7">LIKELY</a>(condition)&#160;&#160;&#160;__builtin_expect(static_cast&lt;bool&gt;(condition), 1)</td></tr>
+<tr class="separator:a5d117cc43f15725c7a046081a19a63c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94d125afeb18b983792d9f34551c44b4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="type__definitions_8hpp.html#a94d125afeb18b983792d9f34551c44b4">UNLIKELY</a>(condition)&#160;&#160;&#160;__builtin_expect(static_cast&lt;bool&gt;(condition), 0)</td></tr>
+<tr class="separator:a94d125afeb18b983792d9f34551c44b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:accb98a876f193a416d9c8a02fe22d526"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:accb98a876f193a416d9c8a02fe22d526"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="type__definitions_8hpp.html#accb98a876f193a416d9c8a02fe22d526">aligned_vector</a> = std::vector&lt; T, boost::alignment::aligned_allocator&lt; T, sizeof(T)&gt; &gt;</td></tr>
-<tr class="separator:accb98a876f193a416d9c8a02fe22d526"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a087efd587d66b881646ef378f1919c90"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a087efd587d66b881646ef378f1919c90"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="type__definitions_8hpp.html#a087efd587d66b881646ef378f1919c90">aligned_vector</a> = std::vector&lt; T, boost::alignment::aligned_allocator&lt; T, 32 &gt; &gt;</td></tr>
+<tr class="separator:a087efd587d66b881646ef378f1919c90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ab1685f5b7adbd900be6729b20c6647b1"></a>
@@ -101,9 +105,45 @@ Typedefs</h2></td></tr>
 
 </div>
 </div>
+<a id="a5d117cc43f15725c7a046081a19a63c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d117cc43f15725c7a046081a19a63c7">&#9670;&nbsp;</a></span>LIKELY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LIKELY</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">condition</td><td>)</td>
+          <td>&#160;&#160;&#160;__builtin_expect(static_cast&lt;bool&gt;(condition), 1)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a94d125afeb18b983792d9f34551c44b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94d125afeb18b983792d9f34551c44b4">&#9670;&nbsp;</a></span>UNLIKELY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define UNLIKELY</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">condition</td><td>)</td>
+          <td>&#160;&#160;&#160;__builtin_expect(static_cast&lt;bool&gt;(condition), 0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Typedef Documentation</h2>
-<a id="accb98a876f193a416d9c8a02fe22d526"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#accb98a876f193a416d9c8a02fe22d526">&#9670;&nbsp;</a></span>aligned_vector</h2>
+<a id="a087efd587d66b881646ef378f1919c90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a087efd587d66b881646ef378f1919c90">&#9670;&nbsp;</a></span>aligned_vector</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -111,7 +151,7 @@ Typedefs</h2></td></tr>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="type__definitions_8hpp.html#accb98a876f193a416d9c8a02fe22d526">aligned_vector</a> =  std::vector&lt;T, boost::alignment::aligned_allocator&lt;T, sizeof(T)&gt; &gt;</td>
+          <td class="memname">using <a class="el" href="type__definitions_8hpp.html#a087efd587d66b881646ef378f1919c90">aligned_vector</a> =  std::vector&lt;T, boost::alignment::aligned_allocator&lt;T, 32&gt; &gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['min_5fvertexes',['min_vertexes',['../classShape.html#acb30d3bdd3434dc2cb3074a4d61985ed',1,'Shape']]]
+  ['h',['H',['../classIsingModel.html#a19e1a223476c953a9964532c7f0eb6dd',1,'IsingModel']]]
 ];
