@@ -8,7 +8,7 @@
  * @class spin_dir
  * @brief This enum contains two possible spin directions in the Ising model
  */
-enum spin_dir : int { UP = 1, DOWN = -1 };
+enum spin_dir : int { UP = 1, DOWN = 0 };
 
 /**
  * @class IsingModel
@@ -128,6 +128,10 @@ class IsingModel {
     }
 
   public:
+#ifdef __gl_h_
+    unsigned VBO, VAO;
+#endif
+
     /** @brief Basic constructor for IsingModel class.
      *  @details By default it sets the temperature to 2 and size of spin array
      * to 50. It also initializes random generator, sets random spin directions
@@ -141,7 +145,15 @@ class IsingModel {
         rng.seed(::time(NULL));
         set_random_spin_directions();
         enforce_boundary_conditions();
+#ifdef __gl_h_
+        initialize_buffers();
+#endif
     };
+
+    /** @brief
+     *
+     **/
+    spin_dir *get_spin_array() { return spin_array; };
 
     /**
      * @brief calculate magnetization - difference between spins up and spins
@@ -291,4 +303,22 @@ class IsingModel {
             }
         }
     }
+
+#ifdef __gl_h_
+    /**
+     * @brief Allocates and initializes vertex buffer object, element buffer
+     * object and vertex array object. It also allocates color buffer - where
+     * color for each vertex is stored.
+     */
+    void initialize_buffers() {
+        glGenVertexArrays(1, &VAO);
+        glBindVertexArray(VAO);
+        // std::cout << "vertexes size: " << vertexes.size() << std::endl;
+        // generate and bind and fill vertex data
+        glGenBuffers(1, &VBO);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(spin_dir) * size * size,
+                     spin_array, GL_STATIC_DRAW);
+    }
+#endif
 };

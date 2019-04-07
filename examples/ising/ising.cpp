@@ -49,8 +49,10 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
 
-#include "Ising_model.hpp"
+#include "display_functions.hpp"
 #include "ising_shader.hpp"
+#include "spin_array.hpp"
+
 int main() {
 
     glfwInit();
@@ -76,27 +78,40 @@ int main() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    unsigned size = 50;
-    float step_size = 1.0 / (float)size;
-    float ising_array[size * size][2];
-    float initial_pos = -0.5 + step_size / 2.0;
+    unsigned size = 3;
+    Shader<RENDER_TYPE::CUSTOM> frame_shader(ising_frame_vertex_shaders,
+                                             ising_frame_geometry_shader,
+                                             ising_frame_fragment_shader);
+    Shader<RENDER_TYPE::CUSTOM> triangle_shader(ising_triangle_vertex_shaders,
+                                                ising_triangle_geometry_shader,
+                                                ising_triangle_fragment_shader);
 
-    // i goes over x coordinate
-    for (int i = 0; i < size; i++) {
-        // j goes over x coordinate
-        for (int j = 0; j < size; j++) {
-            ising_array[i * size + j][0] = initial_pos + j * step_size;
-            ising_array[i * size + j][1] = initial_pos + i * step_size;
-            // std::cout << "array index:  " << i * size + j << std::endl;
-        }
-    }
-
-    Shader<RENDER_TYPE::CUSTOM> shader(ising_frame_vertex_shaders,
-                                       ising_frame_geometry_shader,
-                                       ising_frame_fragment_shader);
-
+    SpinArray<float> spin_array(size);
     IsingModel<float> alg1(size);
     alg1.set_temperature(2.7);
+    int *p = reinterpret_cast<int *>(alg1.get_spin_array());
+
+    aligned_vector<float> vert = spin_array.get_vertexes();
+
+    while (!glfwWindowShouldClose(window)) {
+        OnMinusPressed(window);
+        OnPlusPressed(window);
+        OnClosePressed(window);
+        glfwPollEvents();
+
+        draw_frame(frame_shader, spin_array, {0, 0, 0}, {3.0, 3.0, 3.0});
+        draw_black_white(triangle_shader, spin_array, p, {0, 0, 0},
+                         {3.0, 3.0, 3.0});
+
+        glfwSwapBuffers(window);
+        glClearColor(1.0f, 1.0f, 1.0f,
+                     1.0f); // set which color to clear the screen with
+        // GL_COLOR_BUFFER_BIT, GL_DEPTH_BUFFER_BIT and
+        // GL_STENCIL_BUFFER_BIT. set which buffer to use to clear the
+        // screen
+        glClear(GL_COLOR_BUFFER_BIT);
+    }
+
     /*
     for (int i = 0; i < 1000; i++) {
         std::cout << "magnetization: " << alg1.calc_magnetization()

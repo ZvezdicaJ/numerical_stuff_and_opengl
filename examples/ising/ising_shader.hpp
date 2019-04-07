@@ -3,6 +3,7 @@ static const std::string ising_frame_vertex_shaders({
 #version 450 core
 layout (location = 0) in vec2 aPos;
 
+
 void main()
 {
 gl_PointSize=30.0f;
@@ -24,19 +25,21 @@ uniform mat4 transform;
 
 void main() {
 
-gl_Position = gl_in[0].gl_Position + vec4(-square_size*0.5, -square_size*0.5, 0.0, 1.0f);
+vec4 factor = vec4(0.5,0.5,1.0,1.0);
+
+gl_Position = transform*(gl_in[0].gl_Position + vec4(-square_size, -square_size, 0.0, 1.0f)*factor);
 EmitVertex();
 
-gl_Position = gl_in[0].gl_Position + vec4( -square_size*0.5, square_size*0.5, 0.0, 1.0f);
+gl_Position = transform*(gl_in[0].gl_Position + vec4( -square_size, square_size, 0.0, 1.0f)*factor);
 EmitVertex();
 
-gl_Position = gl_in[0].gl_Position + vec4( square_size*0.5, square_size*0.5, 0.0, 1.0f);
+gl_Position = transform*(gl_in[0].gl_Position + vec4( square_size, square_size, 0.0, 1.0f)*factor);
 EmitVertex();
 
-gl_Position = gl_in[0].gl_Position + vec4( square_size*0.5, -square_size*0.5, 0.0, 1.0f);
+gl_Position = transform*(gl_in[0].gl_Position + vec4( square_size, -square_size, 0.0, 1.0f)*factor);
 EmitVertex();
 
-gl_Position = gl_in[0].gl_Position + vec4(-square_size*0.5, -square_size*0.5, 0.0, 1.0f);
+gl_Position = transform*(gl_in[0].gl_Position + vec4(-square_size, -square_size, 0.0, 1.0f)*factor);
 EmitVertex();
 
 EndPrimitive();
@@ -53,7 +56,7 @@ out vec4 FragColor;
 
 void main()
 {
-  FragColor = vec4(1, 1, 1, 1);
+  FragColor = vec4(0.5, 0.5, 0.5, 0.5);
 }
 )"});
 
@@ -62,15 +65,17 @@ void main()
 /////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
 
-static const std::string ising_vertex_shaders({
+static const std::string ising_triangle_vertex_shaders({
     R"(
 #version 450 core
 layout (location = 0) in vec2 aPos;
-layout (location = 1) in int spin_dir_in;
 
 layout (location = 0) out int spin_dir_out;
 
-
+layout(std430, binding = 0) buffer spin_directions
+ {
+     int spin_dirs[];
+ };
 
 void main()
 {
@@ -78,64 +83,63 @@ gl_PointSize=30.0f;
 
 gl_Position = vec4(aPos, 0.0f, 1.0f);
 
-spin_dir_out=spin_dir_in;
-
+spin_dir_out = spin_dirs[gl_VertexID];
 
 }
 )"});
 
-static const std::string ising_geometry_shader({
+static const std::string ising_triangle_geometry_shader({
     R"(
 #version 450 core
 layout (points) in;
-layout (line_strip, max_vertices = 5) out;
+layout (triangle_strip, max_vertices = 4) out;
 
-uniform FL_FLOAT square_size
+layout (location=0) in int spin_dir[]; // Output from vertex shader for each vertex
+
+layout (location=0) out int spin_dir_out; // Output to fragment shader
+
+uniform float square_size;
 uniform mat4 transform;
 
 void main() {
 
-gl_Position = gl_in[0].gl_Position + vec4(-square_size/2, -square_size/2, 0.0, 1.0f);
+vec4 factor = vec4(0.5,0.5,1.0,1.0);
+
+
+gl_Position = transform*(gl_in[0].gl_Position + vec4(-square_size, square_size, 0.0, 1.0f)*factor);
 EmitVertex();
 
-gl_Position = gl_in[0].gl_Position + vec4( -square_size/2, square_size/2, 0.0, 1.0f);
+gl_Position = transform*(gl_in[0].gl_Position + vec4( -square_size, -square_size, 0.0, 1.0f)*factor);
 EmitVertex();
 
-
-gl_Position = gl_in[0].gl_Position + vec4( square_size/2, square_size/2, 0.0, 1.0f);
+gl_Position = transform*(gl_in[0].gl_Position + vec4( square_size, square_size, 0.0, 1.0f)*factor);
 EmitVertex();
 
-gl_Position = gl_in[0].gl_Position + vec4( square_size/2, -square_size/2, 0.0, 1.0f);
+gl_Position = transform*(gl_in[0].gl_Position + vec4( square_size, -square_size, 0.0, 1.0f)*factor);
 EmitVertex();
-
-gl_Position = gl_in[0].gl_Position + vec4(-square_size/2, -square_size/2, 0.0, 1.0f);
-EmitVertex();
-
 
 EndPrimitive();
+
+spin_dir_out=spin_dir[0];
+
 }
 )"});
 
 //  fragment shader
 // static const GLchar *
-static const std::string ising_fragment_shader({
-    R"(
+static const std::string ising_triangle_fragment_shader({R"(
 #version 450 core
-
-layout (location = 0) in  int spin_dir_in;
+layout(location=0) in flat int spin_dir;
 
 out vec4 FragColor;
 
 void main()
 {
-
-if(spin_dir_in == -1)
-{
-    FragColor = vec4(1, 1, 1, 1);
+if(spin_dir==0){
+  FragColor = vec4(1.0, 1.0, 1.0, 1.0);
 }
-else
-{
-   FragColor = vec4(0, 0, 0, 0);
+else{
+  FragColor = vec4(0.5, 0.0, 0.0, 0.5);
 }
 
 }

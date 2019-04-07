@@ -266,6 +266,7 @@ class Shader<RENDER_TYPE::CUSTOM> {
         if (geometry_shader_provided)
             glDeleteShader(geometryShader);
         glDeleteShader(fragmentShader);
+        std::cout << "shader successfully compiled!" << std::endl;
     }
 
     /**

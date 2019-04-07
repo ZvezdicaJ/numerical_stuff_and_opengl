@@ -84,8 +84,8 @@ int main() {
         draw_2d_object(star1, uniform_shader, {0.5, 0.5, 0.5}, {0, 0, 0},
                        {0, 0, 1}, fi, {0.2, 0.5, 0.2, 1.0});
 
-        draw(star1, uniform_shader, {0.5, 0.5, 0.5}, {0, 0, 0},
-                       {0, 0, 1}, fi, {0.5, 0.0, 0.0, 1.0});
+        draw(star1, uniform_shader, {0.5, 0.5, 0.5}, {0, 0, 0}, {0, 0, 1}, fi,
+             {0.5, 0.0, 0.0, 1.0});
 
         draw(sphere1, uniform_shader, {0.2, 0.2, 0.2},
              {0.7f * std::cos(fi), 0, 0.7f * std::sin(fi)}, {1, 1, 1}, fi,

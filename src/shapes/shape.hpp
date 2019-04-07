@@ -12,7 +12,7 @@ class Shape {
     static_assert(std::is_same<float, T>::value ||
                       std::is_same<double, T>::value,
                   "Shapes can only be instantiated with floating point types: "
-                  "float, double, long double!");
+                  "float or double!");
 
   protected:
     unsigned vertex_size = 2;
@@ -111,7 +111,7 @@ class Shape {
 
         for (int i = 0; i < size; i++) {
             vertex_colors.emplace_back(random_real());
-            //vertex_colors.emplace_back(0.5);
+            // vertex_colors.emplace_back(0.5);
         }
         glBindBuffer(GL_ARRAY_BUFFER, CBO);
         glBufferData(GL_ARRAY_BUFFER, sizeof(float) * (vertex_colors.size()),
