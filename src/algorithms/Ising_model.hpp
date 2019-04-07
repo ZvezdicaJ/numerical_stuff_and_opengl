@@ -245,8 +245,8 @@ class IsingModel {
         spin_dir *p = spin_array;
         T dE;
         for (unsigned i = 0; i < spin_flips; i++) {
-            std::cout << "metropolis: magnetization: "
-                      << this->calc_magnetization() << std::endl;
+            //  std::cout << "metropolis: magnetization: "
+            //          << this->calc_magnetization() << std::endl;
             unsigned k = random_int(rng);
             unsigned l = random_int(rng);
 

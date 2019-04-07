@@ -78,18 +78,24 @@ int main() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    unsigned size = 3;
+
     Shader<RENDER_TYPE::CUSTOM> frame_shader(ising_frame_vertex_shaders,
                                              ising_frame_geometry_shader,
                                              ising_frame_fragment_shader);
     Shader<RENDER_TYPE::CUSTOM> triangle_shader(ising_triangle_vertex_shaders,
                                                 ising_triangle_geometry_shader,
                                                 ising_triangle_fragment_shader);
-
+    unsigned size = 6;
     SpinArray<float> spin_array(size);
     IsingModel<float> alg1(size);
     alg1.set_temperature(2.7);
     int *p = reinterpret_cast<int *>(alg1.get_spin_array());
+
+    for (int u = 0; u < size; u++) {
+        for (int k = 0; k < size; k++)
+            std::cout << *(p + u * size + k);
+        std::cout << " " << std::endl;
+    }
 
     aligned_vector<float> vert = spin_array.get_vertexes();
 
@@ -102,7 +108,7 @@ int main() {
         draw_frame(frame_shader, spin_array, {0, 0, 0}, {3.0, 3.0, 3.0});
         draw_black_white(triangle_shader, spin_array, p, {0, 0, 0},
                          {3.0, 3.0, 3.0});
-
+        alg1.metropolis_steps(1000);
         glfwSwapBuffers(window);
         glClearColor(1.0f, 1.0f, 1.0f,
                      1.0f); // set which color to clear the screen with
