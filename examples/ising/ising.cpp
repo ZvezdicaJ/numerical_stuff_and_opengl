@@ -26,6 +26,8 @@
 #include <list>
 #include <functional>
 #include <boost/align/aligned_allocator.hpp> // this is for aligned std::vector
+#include <thread>                            // std::this_thread::sleep_for
+#include <chrono>
 
 #include "apex_memmove.h"
 #include "type_definitions.hpp"
@@ -61,7 +63,7 @@ int main() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-    GLFWwindow *window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(1280, 800, "LearnOpenGL", NULL, NULL);
     if (window == NULL) {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
@@ -77,7 +79,9 @@ int main() {
     }
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+    glDisable(GL_DITHER);
+    glEnable(GL_LINE_SMOOTH);
+    glEnable(GL_POINT_SMOOTH);
 
     Shader<RENDER_TYPE::CUSTOM> frame_shader(ising_frame_vertex_shaders,
                                              ising_frame_geometry_shader,
@@ -85,19 +89,12 @@ int main() {
     Shader<RENDER_TYPE::CUSTOM> triangle_shader(ising_triangle_vertex_shaders,
                                                 ising_triangle_geometry_shader,
                                                 ising_triangle_fragment_shader);
-    unsigned size = 6;
+    unsigned size = 50;
     SpinArray<float> spin_array(size);
     IsingModel<float> alg1(size);
-    alg1.set_temperature(2.7);
-    int *p = reinterpret_cast<int *>(alg1.get_spin_array());
-
-    for (int u = 0; u < size; u++) {
-        for (int k = 0; k < size; k++)
-            std::cout << *(p + u * size + k);
-        std::cout << " " << std::endl;
-    }
 
     aligned_vector<float> vert = spin_array.get_vertexes();
+    alg1.set_temperature(2);
 
     while (!glfwWindowShouldClose(window)) {
         OnMinusPressed(window);
@@ -105,10 +102,12 @@ int main() {
         OnClosePressed(window);
         glfwPollEvents();
 
-        draw_frame(frame_shader, spin_array, {0, 0, 0}, {3.0, 3.0, 3.0});
-        draw_black_white(triangle_shader, spin_array, p, {0, 0, 0},
+        // draw_frame(frame_shader, spin_array, {0, 0, 0}, {3.0, 3.0, 3.0});
+        draw_black_white(triangle_shader, spin_array, alg1, {0, 0, 0},
                          {3.0, 3.0, 3.0});
-        alg1.metropolis_steps(1000);
+
+        // alg1.metropolis_steps(100);
+        alg1.flip_cluster();
         glfwSwapBuffers(window);
         glClearColor(1.0f, 1.0f, 1.0f,
                      1.0f); // set which color to clear the screen with
@@ -116,6 +115,10 @@ int main() {
         // GL_STENCIL_BUFFER_BIT. set which buffer to use to clear the
         // screen
         glClear(GL_COLOR_BUFFER_BIT);
+        std::cout << "magnetization: " << alg1.calc_magnetization()
+                  << "   energy: " << alg1.calc_energy() << std::endl;
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(300));
     }
 
     /*
@@ -134,6 +137,5 @@ int main() {
                   << "  cluster size: " << alg1.get_cluster_size() << "\n"
                   << std::endl;
     }
-    alg1.metropolis_steps(1000);
     */
 }

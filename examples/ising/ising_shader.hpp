@@ -69,13 +69,9 @@ static const std::string ising_triangle_vertex_shaders({
     R"(
 #version 450 core
 layout (location = 0) in vec2 aPos;
+layout (location = 1) in int spin;
 
-layout (location = 0) out int spin_dir_out;
-
-layout(std430, binding = 0) buffer spin_directions
- {
-     int spin_dirs[];
- };
+layout (location = 0) out vec4 Color;
 
 void main()
 {
@@ -83,7 +79,16 @@ gl_PointSize=30.0f;
 
 gl_Position = vec4(aPos, 0.0f, 1.0f);
 
-spin_dir_out = spin_dirs[gl_VertexID];
+if(spin == 1)
+{
+    Color = vec4(1.0, 0.0, 0.0, 1.0);
+}
+else
+{
+    Color = vec4(0.0, 0.0, 1.0,1.0);
+}
+
+//Color = vec4(0.4, 0.4, 0.4, 0.4);
 
 }
 )"});
@@ -94,17 +99,18 @@ static const std::string ising_triangle_geometry_shader({
 layout (points) in;
 layout (triangle_strip, max_vertices = 4) out;
 
-layout (location=0) in int spin_dir[]; // Output from vertex shader for each vertex
+layout (location=0) in vec4 Color[]; // Output from vertex shader for each vertex
 
-layout (location=0) out int spin_dir_out; // Output to fragment shader
+layout (location=0) out vec4 frag_color; // Output to fragment shader
 
 uniform float square_size;
 uniform mat4 transform;
 
 void main() {
 
-vec4 factor = vec4(0.5,0.5,1.0,1.0);
+frag_color = Color[0];
 
+vec4 factor = vec4(0.4,0.4,1.0,1.0);
 
 gl_Position = transform*(gl_in[0].gl_Position + vec4(-square_size, square_size, 0.0, 1.0f)*factor);
 EmitVertex();
@@ -120,7 +126,6 @@ EmitVertex();
 
 EndPrimitive();
 
-spin_dir_out=spin_dir[0];
 
 }
 )"});
@@ -129,18 +134,15 @@ spin_dir_out=spin_dir[0];
 // static const GLchar *
 static const std::string ising_triangle_fragment_shader({R"(
 #version 450 core
-layout(location=0) in flat int spin_dir;
+layout(location=0) in vec4 frag_color;
 
 out vec4 FragColor;
 
 void main()
 {
-if(spin_dir==0){
-  FragColor = vec4(1.0, 1.0, 1.0, 1.0);
-}
-else{
-  FragColor = vec4(0.5, 0.0, 0.0, 0.5);
-}
+
+ FragColor = frag_color;
+// FragColor = vec4(0.7, 0.7, 0.7, 0.7);
 
 }
 )"});

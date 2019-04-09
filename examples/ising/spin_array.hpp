@@ -51,10 +51,12 @@ void draw_frame(Shader<RENDER_TYPE::CUSTOM> &shader_object,
 
 template <typename T>
 void draw_black_white(Shader<RENDER_TYPE::CUSTOM> &shader_object,
-                      SpinArray<T> &spin_array, int *spin_directions,
+                      SpinArray<T> &spin_array, IsingModel<T> &ising_model,
                       std::array<T, 3> position = {0.0, 0.0, 0.0},
                       std::array<T, 3> scale = {1.0, 1.0, 1.0}) {
 
+    unsigned size = spin_array.vertexes.size() / spin_array.vertex_size;
+    // std::cout << "size:  " << size << std::endl;
     unsigned shaderProgram = shader_object.get_shader_program();
     glUseProgram(shaderProgram);
 
@@ -74,7 +76,25 @@ void draw_black_white(Shader<RENDER_TYPE::CUSTOM> &shader_object,
     unsigned int square_size_loc =
         glGetUniformLocation(shaderProgram, "square_size");
     glUniform1fv(square_size_loc, 1, (GLfloat *)&spin_array.square_size);
+    /*
+    static int ind = 0;
 
+    if (ind == 0) {
+        int *p = (int*)ising_model.get_spin_array();
+
+        for (int u = 0; u < 6; u++) {
+            for (int k = 0; k < 6; k++)
+                std::cout << *(p + u * 6 + k) << " ";
+            std::cout << " " << std::endl;
+        }
+
+        std::cout << " \n\n" << std::endl;
+        for (int k = 0; k < size; k++)
+            std::cout << " ( " << spin_array.vertexes[k] << ", "
+                      << spin_array.vertexes[k + 1] << " ) " << std::endl;
+        ind = 1;
+    }
+    */
     GLenum type;
     if (std::is_same<double, T>::value)
         type = GL_DOUBLE;
@@ -82,22 +102,19 @@ void draw_black_white(Shader<RENDER_TYPE::CUSTOM> &shader_object,
         type = GL_FLOAT;
 
     glBindBuffer(GL_ARRAY_BUFFER, spin_array.VBO);
+
     glBindVertexArray(spin_array.VAO);
+
     glVertexAttribPointer(0, spin_array.vertex_size, type, GL_TRUE,
                           spin_array.vertex_size * sizeof(T), (void *)0);
     glEnableVertexAttribArray(0);
 
-    // bind spin data to shader storage buffer
-    GLuint binding = 0;
+    glBindBuffer(GL_ARRAY_BUFFER, ising_model.VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(int) * size,
+                 (void *)ising_model.get_spin_array(), GL_STATIC_DRAW);
 
-    glBindBuffer(GL_SHADER_STORAGE_BUFFER, spin_array.ssbo);
-
-    glBufferData(GL_SHADER_STORAGE_BUFFER,
-                 sizeof(spin_dir) * spin_array.size * spin_array.size,
-                 spin_directions, GL_DYNAMIC_READ);
-
-    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, binding, spin_array.ssbo);
-    glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+    glVertexAttribIPointer(1, 1, GL_INT, 0, (void *)0);
+    glEnableVertexAttribArray(1);
 
     glDrawArrays(GL_POINTS, 0,
                  spin_array.vertexes.size() / spin_array.vertex_size);
@@ -132,7 +149,7 @@ class SpinArray {
 
         glGenVertexArrays(1, &VAO);
         glBindVertexArray(VAO);
-        // std::cout << "vertexes size: " << vertexes.size() << std::endl;
+
         // generate and bind and fill vertex data
         glGenBuffers(1, &VBO);
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -175,6 +192,6 @@ class SpinArray {
                               std::array<T, 3>, std::array<T, 3>);
 
     friend void draw_black_white<T>(Shader<RENDER_TYPE::CUSTOM> &,
-                                    SpinArray<T> &, int *, std::array<T, 3>,
-                                    std::array<T, 3>);
+                                    SpinArray<T> &, IsingModel<T> &,
+                                    std::array<T, 3>, std::array<T, 3>);
 };

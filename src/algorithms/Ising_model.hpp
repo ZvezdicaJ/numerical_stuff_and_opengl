@@ -8,7 +8,7 @@
  * @class spin_dir
  * @brief This enum contains two possible spin directions in the Ising model
  */
-enum spin_dir : int { UP = 1, DOWN = 0 };
+enum spin_dir : int { UP = 1, DOWN = -1 };
 
 /**
  * @class IsingModel
@@ -61,8 +61,8 @@ class IsingModel {
     void set_random_spin_directions() {
         int spin_up = 0;
         int spin_down = 0;
-        for (unsigned i = 1; i < size - 1; i++) {
-            for (unsigned j = 1; j < size - 1; j++) {
+        for (unsigned i = 0; i < size; i++) {
+            for (unsigned j = 0; j < size; j++) {
                 // h[i][j]=1;
                 // std::cout << "random: " << random_real(rng) << std::endl;
                 if (random_real(rng) >= 0.5) {
@@ -129,7 +129,7 @@ class IsingModel {
 
   public:
 #ifdef __gl_h_
-    unsigned VBO, VAO;
+    unsigned VBO;
 #endif
 
     /** @brief Basic constructor for IsingModel class.
@@ -146,7 +146,7 @@ class IsingModel {
         set_random_spin_directions();
         enforce_boundary_conditions();
 #ifdef __gl_h_
-        initialize_buffers();
+        initialize_VBO();
 #endif
     };
 
@@ -310,15 +310,11 @@ class IsingModel {
      * object and vertex array object. It also allocates color buffer - where
      * color for each vertex is stored.
      */
-    void initialize_buffers() {
-        glGenVertexArrays(1, &VAO);
-        glBindVertexArray(VAO);
-        // std::cout << "vertexes size: " << vertexes.size() << std::endl;
-        // generate and bind and fill vertex data
+    void initialize_VBO() {
         glGenBuffers(1, &VBO);
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferData(GL_ARRAY_BUFFER, sizeof(spin_dir) * size * size,
-                     spin_array, GL_STATIC_DRAW);
+                     (void *)spin_array, GL_DYNAMIC_DRAW);
     }
 #endif
 };
