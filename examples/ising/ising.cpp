@@ -54,6 +54,7 @@
 #include "display_functions.hpp"
 #include "ising_shader.hpp"
 #include "spin_array.hpp"
+#include "text_rendering.hpp"
 
 int main() {
 
@@ -63,7 +64,7 @@ int main() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-    GLFWwindow *window = glfwCreateWindow(1280, 800, "LearnOpenGL", NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(1280, 800, "Ising model", NULL, NULL);
     if (window == NULL) {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
@@ -118,7 +119,7 @@ int main() {
         std::cout << "magnetization: " << alg1.calc_magnetization()
                   << "   energy: " << alg1.calc_energy() << std::endl;
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(300));
+        std::this_thread::sleep_for(std::chrono::milliseconds(150));
     }
 
     /*
