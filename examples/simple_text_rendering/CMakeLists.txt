@@ -55,12 +55,12 @@ add_library(display_functions "${TOP_LEVEL_DIR}/src/display_and_drawing_function
 target_link_libraries(display_functions  glad /usr/local/lib/libglfw.so apex_memmove)
 
 # add example files
-add_executable(ising
-  ising.cpp
+add_executable(simple_text
+  text.cpp
   )
 
 #target_include_directories(opengl_test PRIVATE "${GLAD_DIR}/include" "./examples/opengl_test")
-target_link_libraries(ising display_functions
+target_link_libraries(simple_text display_functions
   glad
   /usr/local/lib/libglfw.so
   apex_memmove

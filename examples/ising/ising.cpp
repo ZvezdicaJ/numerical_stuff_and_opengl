@@ -97,6 +97,11 @@ int main() {
     aligned_vector<float> vert = spin_array.get_vertexes();
     alg1.set_temperature(2);
 
+    Text ising_text("/usr/share/fonts/truetype/ubuntu/Ubuntu-M.ttf");
+
+    int width, height;
+    glfwGetWindowSize(window, &width, &height);
+
     while (!glfwWindowShouldClose(window)) {
         OnMinusPressed(window);
         OnPlusPressed(window);
@@ -105,9 +110,18 @@ int main() {
 
         // draw_frame(frame_shader, spin_array, {0, 0, 0}, {3.0, 3.0, 3.0});
         draw_black_white(triangle_shader, spin_array, alg1, {0, 0, 0},
-                         {3.0, 3.0, 3.0});
+                         {2.5, 2.5, 2.5});
+        ising_text.RenderText("Ising model", width * 0.45, height * 0.95, 1.0,
+                              glm::vec3(1.0, 0, 0), window);
+        ising_text.RenderText(
+            "magnetization: " + std::to_string(alg1.calc_magnetization()),
+            width * 0.3, height * 0.85, 1.0, glm::vec3(0.0, 0.0, 0), window);
 
-        // alg1.metropolis_steps(100);
+        ising_text.RenderText("energy: " + std::to_string((int)alg1.calc_energy()),
+                              width * 0.6, height * 0.85, 1.0,
+                              glm::vec3(0.0, 0.0, 0), window);
+
+        alg1.metropolis_steps(100);
         alg1.flip_cluster();
         glfwSwapBuffers(window);
         glClearColor(1.0f, 1.0f, 1.0f,
@@ -116,8 +130,8 @@ int main() {
         // GL_STENCIL_BUFFER_BIT. set which buffer to use to clear the
         // screen
         glClear(GL_COLOR_BUFFER_BIT);
-        std::cout << "magnetization: " << alg1.calc_magnetization()
-                  << "   energy: " << alg1.calc_energy() << std::endl;
+        //       std::cout << "magnetization: " << alg1.calc_magnetization()
+        //          << "   energy: " << alg1.calc_energy() << std::endl;
 
         std::this_thread::sleep_for(std::chrono::milliseconds(150));
     }
