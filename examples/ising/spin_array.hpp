@@ -5,13 +5,22 @@ template <typename T>
 class SpinArray;
 
 template <typename T>
-void draw_frame(Shader<RENDER_TYPE::CUSTOM> &shader_object,
+void draw_frame(GLFWwindow *window, Shader<RENDER_TYPE::CUSTOM> &shader_object,
                 SpinArray<T> &spin_array,
                 std::array<T, 3> position = {0.0, 0.0, 0.0},
                 std::array<T, 3> scale = {1.0, 1.0, 1.0}) {
 
+    int width, height;
+    glfwGetWindowSize(window, &width, &height);
+
     unsigned shaderProgram = shader_object.get_shader_program();
     glUseProgram(shaderProgram);
+
+    glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(width), 0.0f,
+                                      static_cast<GLfloat>(height));
+
+    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1,
+                       GL_FALSE, glm::value_ptr(projection));
 
     glm::mat4 trans = glm::mat4(1.0);
     trans =
@@ -50,15 +59,32 @@ void draw_frame(Shader<RENDER_TYPE::CUSTOM> &shader_object,
 };
 
 template <typename T>
-void draw_black_white(Shader<RENDER_TYPE::CUSTOM> &shader_object,
+void draw_black_white(GLFWwindow *window,
+                      Shader<RENDER_TYPE::CUSTOM> &shader_object,
                       SpinArray<T> &spin_array, IsingModel<T> &ising_model,
                       std::array<T, 3> position = {0.0, 0.0, 0.0},
                       std::array<T, 3> scale = {1.0, 1.0, 1.0}) {
 
+    int width, height;
+    glfwGetWindowSize(window, &width, &height);
+
     unsigned size = spin_array.vertexes.size() / spin_array.vertex_size;
-    // std::cout << "size:  " << size << std::endl;
+
     unsigned shaderProgram = shader_object.get_shader_program();
     glUseProgram(shaderProgram);
+
+    glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(width), 0.0f,
+                                      static_cast<GLfloat>(height));
+
+    static int ind = 0;
+    if (ind == 0) {
+        std::cout << "window dims: " << width << "  " << height << std::endl;
+        std::cout << glm::to_string(projection) << std::endl;
+        ind = 1;
+    }
+
+    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1,
+                       GL_FALSE, glm::value_ptr(projection));
 
     glm::mat4 trans = glm::mat4(1.0);
     trans =
@@ -188,10 +214,11 @@ class SpinArray {
     aligned_vector<T> get_vertexes() { return vertexes; }
     T get_square_size() { return square_size; }
 
-    friend void draw_frame<T>(Shader<RENDER_TYPE::CUSTOM> &, SpinArray<T> &,
-                              std::array<T, 3>, std::array<T, 3>);
+    friend void draw_frame<T>(GLFWwindow *, Shader<RENDER_TYPE::CUSTOM> &,
+                              SpinArray<T> &, std::array<T, 3>,
+                              std::array<T, 3>);
 
-    friend void draw_black_white<T>(Shader<RENDER_TYPE::CUSTOM> &,
+    friend void draw_black_white<T>(GLFWwindow *, Shader<RENDER_TYPE::CUSTOM> &,
                                     SpinArray<T> &, IsingModel<T> &,
                                     std::array<T, 3>, std::array<T, 3>);
 };

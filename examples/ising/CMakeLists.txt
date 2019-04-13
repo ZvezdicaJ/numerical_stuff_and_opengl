@@ -54,9 +54,21 @@ include_directories("${APEX_MEMMOVE_DIR}")
 add_library(display_functions "${TOP_LEVEL_DIR}/src/display_and_drawing_functions/display_functions.cpp")
 target_link_libraries(display_functions  glad /usr/local/lib/libglfw.so apex_memmove)
 
+#imgui
+
+set(IMGUI_DIR "${TOP_LEVEL_DIR}/third_party/imgui/")
+add_library(imgui
+  "${IMGUI_DIR}/imgui.cpp"
+  "${IMGUI_DIR}/imgui_draw.cpp"
+  "${IMGUI_DIR}/imgui_widgets.cpp"
+  "${IMGUI_DIR}/imgui_demo.cpp")
+include_directories("${IMGUI_DIR}")
+
 # add example files
 add_executable(ising
   ising.cpp
+  imgui_impl_glfw.cpp
+  imgui_impl_opengl3.cpp
   )
 
 #target_include_directories(opengl_test PRIVATE "${GLAD_DIR}/include" "./examples/opengl_test")
@@ -67,4 +79,6 @@ target_link_libraries(ising display_functions
   libdl.so
   libfreetype.a
   /usr/lib/x86_64-linux-gnu/libpng.a
-  /usr/lib/x86_64-linux-gnu/libz.a)
+  /usr/lib/x86_64-linux-gnu/libz.a
+  libmgl.a
+  imgui)

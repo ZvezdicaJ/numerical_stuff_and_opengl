@@ -33,7 +33,6 @@
 #include "type_definitions.hpp"
 #include "convex_hull.hpp"
 
-
 #include "shaders.hpp"
 #include "shader_class.hpp"
 #include "auxiliary_functions.hpp"
@@ -51,7 +50,6 @@
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
-
 
 void display();
 void pause_screen();
@@ -85,7 +83,6 @@ void display(std::vector<Shape<T> *> &shapes) {
     display_all_shapes(shapes, shader);
 }
 
-
 template <RENDER_TYPE T, typename U>
 void display_all_shapes(std::vector<Shape<U> *> &shapes, Shader<T> &shader) {
     static_assert(std::is_same<float, U>::value ||
@@ -106,5 +103,39 @@ void rotate_all_shapes(std::vector<Shape<U> *> &shapes, Shader<T> &shader) {
         fi += 0.05;
         draw(*shape, shader, {0.2, 0.2, 0.2}, {0.4, 0.5, 0}, axis, fi,
              {0.2, 0.4, 0.5, 0.7});
+    }
+}
+
+template <typename T>
+void move_square(GLFWwindow *window, std::array<T, 4> &square,
+                 std::array<T, 2> &pos) {
+
+    static_assert(
+        std::is_same<T, float>::value ||
+        std::is_same<T, double>::value &
+            "move_square function is defined only for floats and doubles");
+
+    T &min_x = square[0];
+    T &max_x = square[1];
+    T &min_y = square[2];
+    T &max_y = square[3];
+
+    std::array<T, 2> cursor_pos;
+
+    if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+        glfwGetCursorPos(window, cursor_pos.data(), cursor_pos.data() + 1);
+
+        T pos_x = cursor_pos[0];
+        T pos_y = cursor_pos[1];
+        bool move = true;
+
+        if (pos_x > min_x && pos_x < max_x && pos_y > min_y && pos_y < max_y) {
+
+            glfwGetCursorPos(window, pos.data(), pos.data() + 1);
+            &min_x += pos[0] - cursor_pos[0];
+            &max_x += pos[0] - cursor_pos[0];
+            &min_y += pos[1] - cursor_pos[1];
+            &max_y += pos[1] - cursor_pos[1];
+        }
     }
 }

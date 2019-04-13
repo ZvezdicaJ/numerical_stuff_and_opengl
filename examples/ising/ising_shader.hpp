@@ -3,12 +3,13 @@ static const std::string ising_frame_vertex_shaders({
 #version 450 core
 layout (location = 0) in vec2 aPos;
 
+uniform mat4 projection;
 
 void main()
 {
 gl_PointSize=30.0f;
 
-gl_Position = vec4(aPos, 0.0f, 1.0f);
+gl_Position = projection*vec4(aPos, -1.0f, 1.0f);
 
 
 }
@@ -73,11 +74,13 @@ layout (location = 1) in int spin;
 
 layout (location = 0) out vec4 Color;
 
+uniform mat4 projection;
+
 void main()
 {
 gl_PointSize=30.0f;
 
-gl_Position = vec4(aPos, 0.0f, 1.0f);
+gl_Position = projection*vec4(aPos, -1.0f, 1.0f);
 
 if(spin == 1)
 {
