@@ -187,12 +187,14 @@ int main() {
         ImGui::SetWindowPos(pos);
         ImGui::Text("Hello, world %d", 123);
 
-        draw_frame(window, frame_shader, spin_array,
-                   {0.5 * width, 0.5 * height, 1.0}, {3.0, 3.0, 3.0});
+        { // draw Ising
+            std::array<float, 3> pos = {0, 0, 0};
+            std::array<float, 3> scale = {2, 2, 2};
+            
+            draw_frame(frame_shader, spin_array, pos, scale);
 
-        draw_black_white(window, triangle_shader, spin_array, alg1,
-                         {0.5 * width, 0.5 * height, 1.0}, {2.0, 2.0, 2.5});
-
+            draw_black_white(triangle_shader, spin_array, alg1, pos, scale);
+        }
         ising_text.RenderText("Ising model", width * 0.45, height * 0.95, 1.0,
                               glm::vec3(1.0, 0, 0), window);
 

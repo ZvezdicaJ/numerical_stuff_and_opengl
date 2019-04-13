@@ -1,5 +1,11 @@
 #include "test_includes.hpp"
 
+std::default_random_engine generator(std::time(0));
+std::uniform_real_distribution<float> float_dist(-100, 100);
+std::uniform_real_distribution<double> double_dist(-100, 100);
+auto random_float = std::bind(float_dist, generator);
+auto random_double = std::bind(double_dist, generator);
+
 #include "type_definitions.hpp"
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"

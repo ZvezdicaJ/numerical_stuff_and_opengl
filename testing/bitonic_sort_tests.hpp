@@ -1,11 +1,5 @@
 #ifdef __AVX2__
 
-std::default_random_engine generator(std::time(0));
-std::uniform_real_distribution<float> float_dist(-100, 100);
-std::uniform_real_distribution<double> double_dist(-100, 100);
-auto random_float = std::bind(float_dist, generator);
-auto random_double = std::bind(double_dist, generator);
-
 TEST(MODULO, MOD2) {
     ASSERT_EQ(mod2(5), 1);
     ASSERT_EQ(mod2(2), 0);
@@ -30,6 +24,7 @@ TEST(MODULO, MOD8) {
     ASSERT_EQ(mod8(25), 1);
     ASSERT_EQ(mod8(23), 7);
 }
+
 /*
 TEST(MASK, MASK_LOAD) {
     {
