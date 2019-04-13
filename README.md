@@ -1,7 +1,7 @@
 ### My mixed bag
 The repository contains all sorts of things - sorting algorithms, vectorized trigonometric functions, various shape meshes,...
 
-#####Dependencies:
+##### Dependencies:
 * opengl libraries:
 ```
 sudo apt-get install libglu1-mesa-dev mesa-utils mesa-common-dev
@@ -16,7 +16,7 @@ sudo apt-get install libglfw3-dev libglfw3
 
 
 
-#####Build:
+##### Build:
 * create build directory
 * cd build && cmake ..
 * make
