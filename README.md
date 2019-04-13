@@ -2,17 +2,17 @@
 The repository contains all sorts of things - sorting algorithms, vectorized trigonometric functions, various shape meshes,...
 
 ##### Dependencies:
-* opengl libraries:
+1. opengl libraries:
 ```
 sudo apt-get install libglu1-mesa-dev mesa-utils mesa-common-dev
 ```
 
-*[glfw](https://github.com/glfw/glfw)
+2. [glfw](https://github.com/glfw/glfw)
 ```
 sudo apt-get install libglfw3-dev libglfw3
 ```
 
-*[glad](https://github.com/Dav1dde/glad) and [glad web generator](https://glad.dav1d.de)
+3. [glad](https://github.com/Dav1dde/glad) and [glad web generator](https://glad.dav1d.de)
 
 
 
