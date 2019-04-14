@@ -25,7 +25,7 @@ class Text {
     GLFWmonitor *primary;
     int monitor_widthMM, monitor_heightMM;
 
-    GLuint VAO, VBO;
+    GLuint VAO, VBO, CBO;
     struct Character {
         GLuint TextureID;   // ID handle of the glyph texture
         glm::ivec2 Size;    // Size of glyph
@@ -72,7 +72,7 @@ class Text {
         error = FT_Set_Char_Size(
             face,                         /* handle to face object           */
             0,                            /* char_width in 1/64th of points  */
-            12*64,                      /* char_height in 1/64th of points */
+            12 * 64,                      /* char_height in 1/64th of points */
             horizontal_device_resolution, /* horizontal device
                                              resolution    */
             vertical_device_resolution);  /* vertical device resolution
@@ -218,11 +218,7 @@ class Text {
                 {xpos, ypos + h, 0.0, 0.0}, {xpos, ypos, 0.0, 1.0},
                 {xpos + w, ypos, 1.0, 1.0}, {xpos, ypos + h, 0.0, 0.0},
                 {xpos + w, ypos, 1.0, 1.0}, {xpos + w, ypos + h, 1.0, 0.0}};
-            /*           for (int i = 0; i < 6; i++) {
-                for (int k = 0; k < 4; k++)
-                    std::cout << vertices[i][k] << " ";
-                std::cout << "\n" << std::endl;
-                }*/
+
             // std::cout << "\n" << std::endl;
             // Render glyph texture over quad
             glBindTexture(GL_TEXTURE_2D, ch.TextureID);

@@ -8,16 +8,17 @@ cmake_minimum_required(VERSION 3.2)
 # uncomment to set intel compiler
 #set(CMAKE_CXX_COMPILER "/opt/intel/system_studio_2019/compilers_and_libraries/linux/bin/intel64/icc" CACHE STRING "C++ compiler" FORCE)
 
-set(CMAKE_CXX_COMPILER "g++-8")
+set(CMAKE_CXX_COMPILER "g++")
 #message(STATUS "compiler: ${CMAKE_CXX_COMPILER}")
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+
   # setting flags for gcc compiler
   # comment if you set intel compiler
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Ofast -march=native -Wno-sign-compare -Wno-template-friend -Wno-unused-variable -Wno-maybe-uninitialized -Wno-ignored-attributes -fabi-version=4")
+
   #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse -msse4.1 -mno-avx -mno-avx2 -mno-fma -Wall -Wnon-template-friend -Wno-unused-variable")
-  #message(STATUS "CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
-  #message(STATUS "COMPILER IS g++")
+
 else("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
   # setting flags for intel compiler 
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Ofast -march=native -Wno-unused-variable")

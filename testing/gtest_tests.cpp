@@ -16,6 +16,7 @@ auto random_double = std::bind(double_dist, generator);
 #include "modified_bitonic_sort_tests.hpp"
 #include "quick_sort_tests.hpp"
 #include "bitonic_sort_key_value_tests.hpp"
+#include "test_operator_overloads.hpp"
 
 int main(int argc, char **argv) {
     glfwInit();

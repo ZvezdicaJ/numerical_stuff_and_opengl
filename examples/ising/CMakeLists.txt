@@ -34,6 +34,7 @@ include_directories("../../src/display_and_drawing_functions")
 include_directories("../../src/shapes")
 include_directories("../../src/algorithms")
 include_directories("../../src/print_functions")
+include_directories("../../src/text_rendering")
 include_directories("/usr/local/include/freetype2/")
 
 set(TOP_LEVEL_DIR "../..")

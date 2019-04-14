@@ -26,19 +26,19 @@ void main() {
 
 vec4 factor = vec4(0.5,0.5,1.0,1.0);
 
-gl_Position = transform*(gl_in[0].gl_Position + vec4(-square_size, -square_size, 0.0, 1.0f)*factor);
+gl_Position = transform*(gl_in[0].gl_Position + vec4(-square_size, -square_size, 0.0, 0.0f)*factor);
 EmitVertex();
 
-gl_Position = transform*(gl_in[0].gl_Position + vec4( -square_size, square_size, 0.0, 1.0f)*factor);
+gl_Position = transform*(gl_in[0].gl_Position + vec4( -square_size, square_size, 0.0, 0.0f)*factor);
 EmitVertex();
 
-gl_Position = transform*(gl_in[0].gl_Position + vec4( square_size, square_size, 0.0, 1.0f)*factor);
+gl_Position = transform*(gl_in[0].gl_Position + vec4( square_size, square_size, 0.0, 0.0f)*factor);
 EmitVertex();
 
-gl_Position = transform*(gl_in[0].gl_Position + vec4( square_size, -square_size, 0.0, 1.0f)*factor);
+gl_Position = transform*(gl_in[0].gl_Position + vec4( square_size, -square_size, 0.0, 0.0f)*factor);
 EmitVertex();
 
-gl_Position = transform*(gl_in[0].gl_Position + vec4(-square_size, -square_size, 0.0, 1.0f)*factor);
+gl_Position = transform*(gl_in[0].gl_Position + vec4(-square_size, -square_size, 0.0, 0.0f)*factor);
 EmitVertex();
 
 EndPrimitive();
@@ -113,16 +113,16 @@ frag_color = Color[0];
 
 vec4 factor = vec4(0.4,0.4,1.0,1.0);
 
-gl_Position = transform*(gl_in[0].gl_Position + vec4(-square_size, square_size, 0.0, 1.0f)*factor);
+gl_Position = transform*(gl_in[0].gl_Position + vec4(-square_size, square_size, 0.0, 0.0f)*factor);
 EmitVertex();
 
-gl_Position = transform*(gl_in[0].gl_Position + vec4( -square_size, -square_size, 0.0, 1.0f)*factor);
+gl_Position = transform*(gl_in[0].gl_Position + vec4( -square_size, -square_size, 0.0, 0.0f)*factor);
 EmitVertex();
 
-gl_Position = transform*(gl_in[0].gl_Position + vec4( square_size, square_size, 0.0, 1.0f)*factor);
+gl_Position = transform*(gl_in[0].gl_Position + vec4( square_size, square_size, 0.0, 0.0f)*factor);
 EmitVertex();
 
-gl_Position = transform*(gl_in[0].gl_Position + vec4( square_size, -square_size, 0.0, 1.0f)*factor);
+gl_Position = transform*(gl_in[0].gl_Position + vec4( square_size, -square_size, 0.0, 0.0f)*factor);
 EmitVertex();
 
 EndPrimitive();

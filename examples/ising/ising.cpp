@@ -98,21 +98,6 @@ int main() {
     glEnable(GL_LINE_SMOOTH);
     glEnable(GL_POINT_SMOOTH);
 
-    Shader<RENDER_TYPE::CUSTOM> frame_shader(ising_frame_vertex_shaders,
-                                             ising_frame_geometry_shader,
-                                             ising_frame_fragment_shader);
-    Shader<RENDER_TYPE::CUSTOM> triangle_shader(ising_triangle_vertex_shaders,
-                                                ising_triangle_geometry_shader,
-                                                ising_triangle_fragment_shader);
-    unsigned size = 100;
-    SpinArray<float> spin_array(size);
-    IsingModel<float> alg1(size);
-
-    aligned_vector<float> vert = spin_array.get_vertexes();
-    alg1.set_temperature(1);
-
-    Text ising_text("/usr/share/fonts/truetype/ubuntu/Ubuntu-M.ttf");
-
     int width, height;
     glfwGetWindowSize(window, &width, &height);
 
@@ -158,6 +143,22 @@ int main() {
     // io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f,
     // NULL, io.Fonts->GetGlyphRangesJapanese()); IM_ASSERT(font != NULL);
 
+    Shader<RENDER_TYPE::CUSTOM> frame_shader(ising_frame_vertex_shaders,
+                                             ising_frame_geometry_shader,
+                                             ising_frame_fragment_shader);
+    Shader<RENDER_TYPE::CUSTOM> triangle_shader(ising_triangle_vertex_shaders,
+                                                ising_triangle_geometry_shader,
+                                                ising_triangle_fragment_shader);
+    unsigned size = 10;
+    SpinArray<float> spin_array(size);
+    spin_array.set_clickable_square(window);
+    IsingModel<float> alg1(size);
+
+    aligned_vector<float> vert = spin_array.get_vertexes();
+    alg1.set_temperature(1);
+
+    Text ising_text("/usr/share/fonts/truetype/ubuntu/Ubuntu-M.ttf");
+
     bool show_demo_window = false;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
@@ -182,32 +183,49 @@ int main() {
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
 
-        ImVec2 pos = {1000.0, 1.0};
-        ImGui::SetCursorPos(pos);
-        ImGui::SetWindowPos(pos);
-        ImGui::Text("Hello, world %d", 123);
-
         { // draw Ising
-            std::array<float, 3> pos = {0, 0, 0};
-            std::array<float, 3> scale = {2, 2, 2};
-            
-            draw_frame(frame_shader, spin_array, pos, scale);
 
-            draw_black_white(triangle_shader, spin_array, alg1, pos, scale);
+            spin_array.movable(window);
+
+            draw_frame(frame_shader, spin_array);
+            draw_black_white(triangle_shader, spin_array, alg1);
+
+            ising_text.RenderText("magnetization: " +
+                                      std::to_string(alg1.calc_magnetization()),
+                                  width * 0.3, height * 0.85, 1.0,
+                                  glm::vec3(0.0, 0.0, 0), window);
+
+            ising_text.RenderText("energy: " +
+                                      std::to_string((int)alg1.calc_energy()),
+                                  width * 0.6, height * 0.85, 1.0,
+                                  glm::vec3(0.0, 0.0, 0), window);
+            ising_text.RenderText("Ising model", width * 0.45, height * 0.95,
+                                  1.0, glm::vec3(1.0, 0, 0), window);
+
+            alg1.metropolis_steps(100);
+            alg1.flip_cluster();
         }
-        ising_text.RenderText("Ising model", width * 0.45, height * 0.95, 1.0,
-                              glm::vec3(1.0, 0, 0), window);
 
-        ising_text.RenderText(
-            "magnetization: " + std::to_string(alg1.calc_magnetization()),
-            width * 0.3, height * 0.85, 1.0, glm::vec3(0.0, 0.0, 0), window);
+        {
+            ImVec2 pos = {50.0, 1.0};
+            // ImGui::SetCursorPos(pos);
+            ImGui::SetWindowPos(pos);
+            std::array<double, 2> cursor_pos;
 
-        ising_text.RenderText(
-            "energy: " + std::to_string((int)alg1.calc_energy()), width * 0.6,
-            height * 0.85, 1.0, glm::vec3(0.0, 0.0, 0), window);
+            std::array<float, 3> scale = {1, 1, 1};
+            std::array<float, 4> square = {
+                width / 2 - width / 4 * scale[0],
+                width / 2 + width / 4 * scale[0],
+                height / 2 - height / 4 * scale[1],
+                height / 2 + height / 4 * scale[1],
+            };
+            glfwGetCursorPos(window, cursor_pos.data(), cursor_pos.data() + 1);
+            ImGui::Text("Cursor_pos: x: %g  y: %g", cursor_pos[0],
+                        cursor_pos[1]);
+            ImGui::Text("Square: min_x: %g  max_x: %g", square[0], square[1]);
+            ImGui::Text("Square: min_y: %g  max_y: %g", square[2], square[3]);
+        }
 
-        alg1.metropolis_steps(100);
-        alg1.flip_cluster();
         glfwSwapBuffers(window);
         glClearColor(1.0f, 1.0f, 1.0f,
                      1.0f); // set which color to clear the screen with
