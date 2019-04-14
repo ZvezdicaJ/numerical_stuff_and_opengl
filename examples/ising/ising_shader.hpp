@@ -1,3 +1,4 @@
+#pragma once
 static const std::string ising_frame_vertex_shaders({
     R"(
 #version 450 core

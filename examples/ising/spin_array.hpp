@@ -183,9 +183,9 @@ class SpinArray {
         };
     }
 
-    void set_scale(const glm::vec3 &scale_ = {1, 1, 1}) { scale = scale_; };
+    void set_scale(glm::vec3 scale_ = {1, 1, 1}) { scale = scale_; };
 
-    void set_pos(const glm::vec3 &pos_ = {0, 0, 0}) { pos = pos_; };
+    void set_pos(glm::vec3 pos_ = {0, 0, 0}) { pos = pos_; };
 
     unsigned get_size() { return size; }
     aligned_vector<T> get_vertexes() { return vertexes; }
@@ -224,10 +224,14 @@ class SpinArray {
                 move = false;
                 int width, height;
                 glfwGetWindowSize(window, &width, &height);
-                square[0] += (float)(pos[0] - pos_before_moved[0])/2.0 * width;
-                square[1] += (float)(pos[0] - pos_before_moved[0])/2.0 * width;
-                square[2] -= (float)(pos[1] - pos_before_moved[1])/2.0 * height;
-                square[3] -= (float)(pos[1] - pos_before_moved[1])/2.0 * height;
+                square[0] +=
+                    (float)(pos[0] - pos_before_moved[0]) / 2.0 * width;
+                square[1] +=
+                    (float)(pos[0] - pos_before_moved[0]) / 2.0 * width;
+                square[2] -=
+                    (float)(pos[1] - pos_before_moved[1]) / 2.0 * height;
+                square[3] -=
+                    (float)(pos[1] - pos_before_moved[1]) / 2.0 * height;
                 std::cout << "square updated:" << std::endl;
                 std::cout << "min_x: " << square[0] << "min_y: " << square[2]
                           << std::endl;
@@ -237,7 +241,7 @@ class SpinArray {
         }
         if (move == true) {
             std::array<double, 2> new_cursor_pos;
-            std::cout << "square clicked!" << std::endl;
+            // std::cout << "square clicked!" << std::endl;
             glfwGetCursorPos(window, new_cursor_pos.data(),
                              new_cursor_pos.data() + 1);
 
@@ -249,12 +253,6 @@ class SpinArray {
 
             pos[1] = pos_before_moved[1] -
                      (float)(new_cursor_pos[1] - cursor_pos[1]) / (float)height;
-
-            std::cout << "move: " << new_cursor_pos[0] - cursor_pos[0]
-                      << std::endl;
-            ;
-            std::cout << "pos[0]: " << pos[0] << "  pos[1]: " << pos[1]
-                      << std::endl;
         }
     }
 

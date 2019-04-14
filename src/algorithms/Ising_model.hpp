@@ -175,6 +175,11 @@ class IsingModel {
      */
     void set_temperature(T temperature_) { temperature = temperature_; }
 
+    /**
+     * @brief get the temperature
+     */
+    T get_temperature() { return temperature; }
+
     /** @brief Get the size of the cluster in the last Wolff step.
      */
     unsigned get_cluster_size() { return cluster_size; }

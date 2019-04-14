@@ -68,6 +68,7 @@ include_directories("${IMGUI_DIR}")
 # add example files
 add_executable(ising
   ising.cpp
+  ising_windows.cpp
   imgui_impl_glfw.cpp
   imgui_impl_opengl3.cpp
   )

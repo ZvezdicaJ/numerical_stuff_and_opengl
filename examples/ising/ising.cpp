@@ -38,16 +38,7 @@
 #include "auxiliary_functions.hpp"
 #include "print_functions.hpp"
 #include "drawing_functions.hpp"
-#include "shape.hpp"
-#include "sphere.hpp"
-#include "circle.hpp"
-#include "rectangle.hpp"
-#include "star.hpp"
-#include "box.hpp"
-#include "disk.hpp"
-#include "square_board.hpp"
 #include "display_functions.hpp"
-#include "square_board.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
 #include <mgl2/mgl.h>
@@ -59,7 +50,6 @@
 
 // imgui includes
 #include "imgui.h"
-
 #include "imgui_internal.h"
 #include "imconfig.h"
 #include "imstb_rectpack.h"
@@ -67,6 +57,8 @@
 #include "imstb_truetype.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+
+#include "ising_windows.hpp"
 
 int main() {
 
@@ -78,7 +70,7 @@ int main() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-    GLFWwindow *window = glfwCreateWindow(1280, 800, "Ising model", NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(1920, 1080, "Ising model", NULL, NULL);
     if (window == NULL) {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
@@ -105,7 +97,9 @@ int main() {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO &io = ImGui::GetIO();
-    (void)io;
+    ImFont *FreeSerif25 = io.Fonts->AddFontFromFileTTF(
+        "/usr/share/fonts/opentype/freefont/FreeSerif.otf", 25);
+
     // io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard
     // Controls io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable
     // Gamepad Controls
@@ -149,13 +143,13 @@ int main() {
     Shader<RENDER_TYPE::CUSTOM> triangle_shader(ising_triangle_vertex_shaders,
                                                 ising_triangle_geometry_shader,
                                                 ising_triangle_fragment_shader);
-    unsigned size = 10;
+    unsigned size = 100;
     SpinArray<float> spin_array(size);
     spin_array.set_clickable_square(window);
     IsingModel<float> alg1(size);
 
     aligned_vector<float> vert = spin_array.get_vertexes();
-    alg1.set_temperature(1);
+    alg1.set_temperature(2.2);
 
     Text ising_text("/usr/share/fonts/truetype/ubuntu/Ubuntu-M.ttf");
 
@@ -163,6 +157,7 @@ int main() {
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     std::array<float, 2> ising_pos;
+
     while (!glfwWindowShouldClose(window)) {
 
         OnMinusPressed(window);
@@ -175,55 +170,36 @@ int main() {
 
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
+
         ImGui::NewFrame();
 
-        // 1. Show the big demo window (Most of the sample code is in
-        // ImGui::ShowDemoWindow()! You can browse its code to learn more about
-        // Dear ImGui!).
-        if (show_demo_window)
-            ImGui::ShowDemoWindow(&show_demo_window);
-
-        { // draw Ising
-
+        {
             spin_array.movable(window);
-
+            spin_array.set_pos({0.4, 0.1, 0});
             draw_frame(frame_shader, spin_array);
             draw_black_white(triangle_shader, spin_array, alg1);
 
             ising_text.RenderText("magnetization: " +
                                       std::to_string(alg1.calc_magnetization()),
-                                  width * 0.3, height * 0.85, 1.0,
+                                  width * 0.5, height * 0.85, 1.0,
                                   glm::vec3(0.0, 0.0, 0), window);
 
             ising_text.RenderText("energy: " +
                                       std::to_string((int)alg1.calc_energy()),
-                                  width * 0.6, height * 0.85, 1.0,
+                                  width * 0.75, height * 0.85, 1.0,
                                   glm::vec3(0.0, 0.0, 0), window);
+
             ising_text.RenderText("Ising model", width * 0.45, height * 0.95,
                                   1.0, glm::vec3(1.0, 0, 0), window);
 
-            alg1.metropolis_steps(100);
+            //alg1.metropolis_steps(100);
             alg1.flip_cluster();
         }
 
         {
-            ImVec2 pos = {50.0, 1.0};
-            // ImGui::SetCursorPos(pos);
-            ImGui::SetWindowPos(pos);
-            std::array<double, 2> cursor_pos;
-
-            std::array<float, 3> scale = {1, 1, 1};
-            std::array<float, 4> square = {
-                width / 2 - width / 4 * scale[0],
-                width / 2 + width / 4 * scale[0],
-                height / 2 - height / 4 * scale[1],
-                height / 2 + height / 4 * scale[1],
-            };
-            glfwGetCursorPos(window, cursor_pos.data(), cursor_pos.data() + 1);
-            ImGui::Text("Cursor_pos: x: %g  y: %g", cursor_pos[0],
-                        cursor_pos[1]);
-            ImGui::Text("Square: min_x: %g  max_x: %g", square[0], square[1]);
-            ImGui::Text("Square: min_y: %g  max_y: %g", square[2], square[3]);
+            ImGui::PushFont(FreeSerif25);
+            settings_window(window, alg1);
+            ImGui::PopFont();
         }
 
         glfwSwapBuffers(window);
