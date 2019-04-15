@@ -65,7 +65,9 @@
 
 #include "ising_windows.hpp"
 
-void settings_window(GLFWwindow *window, IsingModel<float> &algorithm) {
+void settings_window(GLFWwindow *window, IsingModel<float> &algorithm,
+                     char &algorithm_choice, std::vector<float> &energy,
+                     std::vector<float> &magnetization) {
 
     static bool first_call = true;
     if (first_call) {
@@ -82,6 +84,26 @@ void settings_window(GLFWwindow *window, IsingModel<float> &algorithm) {
     float temperature = algorithm.get_temperature();
     ImGui::SliderFloat("Temperature", &temperature, 0.0f, 10.0f);
     algorithm.set_temperature(temperature);
+
+    if (ImGui::BeginMenu("Choose algorithm")) {
+        if (ImGui::MenuItem("Metropolis algorithm", "")) {
+            algorithm_choice = 'M';
+        }
+        if (ImGui::MenuItem("Wolff algorithm", "")) {
+            algorithm_choice = 'W';
+        }
+        ImGui::EndMenu();
+    }
+    ImGui::PlotLines(
+        "Magnetization", magnetization.data(), magnetization.size(), 0, "",
+        *std::min_element(std::begin(magnetization), std::end(magnetization)),
+        *std::max_element(std::begin(magnetization), std::end(magnetization)),
+        {500, 200});
+
+    ImGui::PlotLines("Energy", energy.data(), energy.size(), 0, "",
+                     *std::min_element(std::begin(energy), std::end(energy)),
+                     *std::max_element(std::begin(energy), std::end(energy)),
+                     {500, 200});
 
     /* std::array<double, 2> cursor_pos;
     glfwGetCursorPos(window, cursor_pos.data(), cursor_pos.data() + 1);

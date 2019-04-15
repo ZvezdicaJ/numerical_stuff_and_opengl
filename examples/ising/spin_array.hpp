@@ -162,12 +162,12 @@ class SpinArray {
     }
 
   public:
-    SpinArray(unsigned size_ = 50)
+    SpinArray(unsigned size_ = 50, glm::vec3 pos_ = {0.0, 0.0, 0.0})
         : size(size_), square_size((T)1.0 / (T)size_) {
         generate_vertexes();
         initialize_buffers();
         set_scale();
-        set_pos();
+        set_pos(pos_);
     }
 
     void set_clickable_square(GLFWwindow *window) {

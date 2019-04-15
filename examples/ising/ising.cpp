@@ -70,7 +70,8 @@ int main() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-    GLFWwindow *window = glfwCreateWindow(1920, 1080, "Ising model", NULL, NULL);
+    GLFWwindow *window =
+        glfwCreateWindow(1920, 1080, "Ising model", NULL, NULL);
     if (window == NULL) {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
@@ -144,10 +145,11 @@ int main() {
                                                 ising_triangle_geometry_shader,
                                                 ising_triangle_fragment_shader);
     unsigned size = 100;
-    SpinArray<float> spin_array(size);
+    glm::vec3 starting_pos = {0.37, 0.1, 0.0};
+    SpinArray<float> spin_array(size, starting_pos);
     spin_array.set_clickable_square(window);
     IsingModel<float> alg1(size);
-
+    char algorithm_choice = 'M';
     aligned_vector<float> vert = spin_array.get_vertexes();
     alg1.set_temperature(2.2);
 
@@ -157,6 +159,7 @@ int main() {
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     std::array<float, 2> ising_pos;
+    std::vector<float> energy, magnetization;
 
     while (!glfwWindowShouldClose(window)) {
 
@@ -170,12 +173,11 @@ int main() {
 
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
-
         ImGui::NewFrame();
 
         {
             spin_array.movable(window);
-            spin_array.set_pos({0.4, 0.1, 0});
+            // spin_array.set_pos({0.4, 0.1, 0});
             draw_frame(frame_shader, spin_array);
             draw_black_white(triangle_shader, spin_array, alg1);
 
@@ -191,14 +193,18 @@ int main() {
 
             ising_text.RenderText("Ising model", width * 0.45, height * 0.95,
                                   1.0, glm::vec3(1.0, 0, 0), window);
-
-            //alg1.metropolis_steps(100);
-            alg1.flip_cluster();
+            if (algorithm_choice == 'M')
+                alg1.metropolis_steps(size * size);
+            if (algorithm_choice == 'W')
+                alg1.flip_cluster();
+            magnetization.push_back(alg1.get_magnetization());
+            energy.push_back(alg1.get_energy());
         }
 
         {
             ImGui::PushFont(FreeSerif25);
-            settings_window(window, alg1);
+            settings_window(window, alg1, algorithm_choice, energy,
+                            magnetization);
             ImGui::PopFont();
         }
 
