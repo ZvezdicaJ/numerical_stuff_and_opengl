@@ -48,17 +48,8 @@
 #include "spin_array.hpp"
 #include "text_rendering.hpp"
 
-// imgui includes
-#include "imgui.h"
-#include "imgui_internal.h"
-#include "imconfig.h"
-#include "imstb_rectpack.h"
-#include "imstb_textedit.h"
-#include "imstb_truetype.h"
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl3.h"
-
 #include "ising_windows.hpp"
+#include "nanogui/nanogui.h"
 
 int main() {
 
@@ -93,6 +84,9 @@ int main() {
 
     int width, height;
     glfwGetWindowSize(window, &width, &height);
+    glViewport(0, 0, width, height);
+    glfwSwapInterval(0);
+    glfwSwapBuffers(window);
 
     Shader<RENDER_TYPE::CUSTOM> frame_shader(ising_frame_vertex_shaders,
                                              ising_frame_geometry_shader,
@@ -114,6 +108,21 @@ int main() {
     std::array<float, 2> ising_pos;
     std::vector<float> energy, magnetization;
 
+    // initialize nanogui screen
+    nanogui::Screen *screen = nullptr;
+    screen = new nanogui::Screen();
+    screen->initialize(window, true);
+
+    bool enabled = true;
+    nanogui::FormHelper *gui = new nanogui::FormHelper(screen);
+    nanogui::ref<nanogui::Window> nanoguiWindow =
+        gui->addWindow(Eigen::Vector2i(10, 10), "Form helper example");
+    settings_window(gui, window, alg1, algorithm_choice, energy, magnetization);
+
+    screen->setVisible(true);
+    screen->performLayout();
+    nanoguiWindow->center();
+
     while (!glfwWindowShouldClose(window)) {
 
         OnMinusPressed(window);
@@ -121,8 +130,6 @@ int main() {
         OnClosePressed(window);
 
         glfwPollEvents();
-
-        // Start the Dear ImGui frame
 
         {
             spin_array.movable(window);
@@ -151,8 +158,9 @@ int main() {
         }
 
         {
-            settings_window(window, alg1, algorithm_choice, energy,
-                            magnetization);
+            // Draw nanogui
+            screen->drawContents();
+            screen->drawWidgets();
         }
 
         glfwSwapBuffers(window);
@@ -162,9 +170,6 @@ int main() {
         // GL_STENCIL_BUFFER_BIT. set which buffer to use to clear the
         // screen
         glClear(GL_COLOR_BUFFER_BIT);
-
-        //       std::cout << "magnetization: " << alg1.calc_magnetization()
-        //          << "   energy: " << alg1.calc_energy() << std::endl;
 
         std::this_thread::sleep_for(std::chrono::milliseconds(150));
     }

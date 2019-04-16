@@ -12,7 +12,7 @@ set(CMAKE_CXX_COMPILER "g++" CACHE STRING "C++ compiler" FORCE)
 message(STATUS "compiler: ${CMAKE_CXX_COMPILER}")
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -ffast-math -Wno-reorder -Wnon-template-friend -Wno-unused-variable -Wmaybe-uninitialized")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -ffast-math -Wno-reorder -Wnon-template-friend -Wno-unused-variable -Wno-maybe-uninitialized -Wno-narrowing")
   #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse -msse4.1 -mno-avx -mno-avx2 -mno-fma -Wall -Wnon-template-friend -Wno-unused-variable")
 
 else("g++" STREQUAL "$CMAKE_CXX_COMPILER")
@@ -56,31 +56,29 @@ add_library(display_functions "${TOP_LEVEL_DIR}/src/display_and_drawing_function
 target_link_libraries(display_functions  glad /usr/local/lib/libglfw.so apex_memmove)
 
 #nanogui
-ExternalProject_Add(project_a
-  URL ...project_a.tar.gz
-  PREFIX ${CMAKE_CURRENT_BINARY_DIR}/project_a
-  CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
-)
+set(NANOGUI_DIR "${CMAKE_SOURCE_DIR}/../../third_party/nanogui")
+include(ExternalProject)
+ExternalProject_Add(nanogui
+  SOURCE_DIR "${NANOGUI_DIR}"
+  PREFIX "${NANOGUI_DIR}/build"
+  STEP_TARGETS build
+  EXCLUDE_FROM_ALL TRUE
+  INSTALL_COMMAND cmake -E echo "Skipping install step."
+  )
 
-include(${CMAKE_CURRENT_BINARY_DIR}/lib/project_a/project_a-targets.cmake)
-
-ExternalProject_Get_Property(project_a install_dir)
-include_directories(${install_dir}/include)
-
-add_dependencies(project_b_exe project_a)
-target_link_libraries(project_b_exe ${install_dir}/lib/alib.lib)
-
+include_directories("${NANOGUI_DIR}/include" "${NANOGUI_DIR}/ext/nanovg/src")
 
 # add example files
 add_executable(ising
   ising.cpp
   ising_windows.cpp
-  imgui_impl_glfw.cpp
-  imgui_impl_opengl3.cpp
   )
 
-#target_include_directories(opengl_test PRIVATE "${GLAD_DIR}/include" "./examples/opengl_test")
-target_link_libraries(ising display_functions
+add_dependencies(ising nanogui)
+target_link_libraries(ising ${NANOGUI_DIR}/build/src/nanogui-build/libnanogui.so)
+
+target_link_libraries(ising
+  display_functions
   glad
   /usr/local/lib/libglfw.so
   apex_memmove
@@ -88,5 +86,4 @@ target_link_libraries(ising display_functions
   libfreetype.a
   /usr/lib/x86_64-linux-gnu/libpng.a
   /usr/lib/x86_64-linux-gnu/libz.a
-  libmgl.a
-  imgui)
+)
