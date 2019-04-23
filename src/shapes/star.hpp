@@ -33,8 +33,10 @@ Star<T>::Star(int bulges, T ratio) {
     this->vertex_size = 2;
     this->min_vertexes = 50;
     this->generate_vertexes(bulges, ratio);
+#ifdef __gl_h_
     this->initialize_buffers();
     this->generate_filling_vbo();
+#endif
 };
 
 /**

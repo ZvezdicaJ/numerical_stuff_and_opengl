@@ -29,11 +29,10 @@ Circle<T>::Circle() {
     this->vertex_size = 2;
     this->min_vertexes = 10;
     this->generate_vertexes();
+#ifdef __gl_h_
     this->initialize_buffers();
     this->generate_filling_vbo();
-
-    // std::cout << "circle buffers:\nVBO: " << this->VBO << "\nVAO: " <<
-    // this->VAO << std::endl;
+#endif
 };
 
 /** @brief This function generates vertexes for float version of class Circle
@@ -75,7 +74,7 @@ inline void Circle<float>::generate_vertexes(int num_vert) {
 
         __m128 cos_vec = cos(fi_vec);
         __m128 sin_vec = sin(fi_vec);
-        ;
+
         __m128 tocki12 = _mm_unpackhi_ps(cos_vec, sin_vec);
         tocki12 = _mm_shuffle_ps(tocki12, tocki12, _MM_SHUFFLE(1, 0, 3, 2));
         __m128 tocki34 = _mm_unpacklo_ps(cos_vec, sin_vec);

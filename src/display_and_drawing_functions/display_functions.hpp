@@ -45,7 +45,6 @@
 #include "star.hpp"
 #include "box.hpp"
 #include "disk.hpp"
-#include "star3d.hpp"
 #include "display_functions.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
@@ -105,5 +104,3 @@ void rotate_all_shapes(std::vector<Shape<U> *> &shapes, Shader<T> &shader) {
              {0.2, 0.4, 0.5, 0.7});
     }
 }
-
-

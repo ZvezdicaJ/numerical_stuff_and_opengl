@@ -33,11 +33,10 @@ SquareBoard<T>::SquareBoard(unsigned size_) : size(size_) {
     this->vertex_size = 2;
     this->min_vertexes = 10;
     this->generate_vertexes();
+#ifdef __gl_h_
     this->initialize_buffers();
     this->generate_filling_ebo();
-
-    // std::cout << "circle buffers:\nVBO: " << this->VBO << "\nVAO: " <<
-    // this->VAO << std::endl;
+#endif
 };
 
 template <>
@@ -198,11 +197,5 @@ inline void SquareBoard<double>::generate_vertexes() {
 
 #endif
 
-/*
-  static unsigned random_value() {
-  static std::mt19937 engine{std::random_device{}()};
-  static std::uniform_int_distribution<unsigned> distribution{0, 10};
-  return distribution(engine);
-  }
-*/
+#define __SQUARE_BOARD__
 #endif

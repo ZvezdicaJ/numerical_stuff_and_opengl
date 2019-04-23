@@ -28,7 +28,9 @@ Box<T>::Box() {
     this->vertex_size = 3;
     this->min_vertexes = 8;
     this->generate_vertexes();
+#ifdef __gl_h_
     this->initialize_buffers();
+#endif
 };
 
 /**
@@ -53,19 +55,9 @@ void Box<T>::generate_vertexes() {
                                         0.5,  0.5,  0.5} // g
     );
 
-    this->element_array =
-        aligned_vector<int>({0,3,6,
-                             6,2,0,
-                             3,5,6,
-                             5,7,6,
-                             5,1,7,
-                             7,4,1,
-                             0,1,2,
-                             1,2,4,
-                             0,5,1,
-                             0,5,3,
-                             2,7,6,
-                             2,7,4 });
+    this->element_array = aligned_vector<int>(
+        {0, 3, 6, 6, 2, 0, 3, 5, 6, 5, 7, 6, 5, 1, 7, 7, 4, 1,
+         0, 1, 2, 1, 2, 4, 0, 5, 1, 0, 5, 3, 2, 7, 6, 2, 7, 4});
 }
 
 #define __BOX__

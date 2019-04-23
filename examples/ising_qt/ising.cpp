@@ -49,7 +49,6 @@
 #include "text_rendering.hpp"
 
 #include "ising_windows.hpp"
-#include "nanogui/nanogui.h"
 #include "callback_functions.hpp"
 
 nanogui::Screen *screen;
@@ -110,50 +109,10 @@ int main() {
     std::array<float, 2> ising_pos;
     std::vector<float> energy, magnetization;
 
-    // initialize nanogui screen
-    screen = new nanogui::Screen();
-    screen->initialize(window, true);
-
     bool enabled = true;
 
     settings_window(screen, window, alg1, algorithm_choice, energy,
                     magnetization);
-
-    screen->setVisible(true);
-    screen->performLayout();
-    // nanoguiWindow->center();
-
-    glfwSetCursorPosCallback(window, [](GLFWwindow *, double x, double y) {
-        screen->cursorPosCallbackEvent(x, y);
-    });
-
-    glfwSetMouseButtonCallback(
-        window, [](GLFWwindow *, int button, int action, int modifiers) {
-            screen->mouseButtonCallbackEvent(button, action, modifiers);
-        });
-
-    glfwSetKeyCallback(
-        window, [](GLFWwindow *, int key, int scancode, int action, int mods) {
-            screen->keyCallbackEvent(key, scancode, action, mods);
-        });
-
-    glfwSetCharCallback(window, [](GLFWwindow *, unsigned int codepoint) {
-        screen->charCallbackEvent(codepoint);
-    });
-
-    glfwSetDropCallback(window,
-                        [](GLFWwindow *, int count, const char **filenames) {
-                            screen->dropCallbackEvent(count, filenames);
-                        });
-
-    glfwSetScrollCallback(window, [](GLFWwindow *, double x, double y) {
-        screen->scrollCallbackEvent(x, y);
-    });
-
-    glfwSetFramebufferSizeCallback(
-        window, [](GLFWwindow *, int width, int height) {
-            screen->resizeCallbackEvent(width, height);
-        });
 
     while (!glfwWindowShouldClose(window)) {
 
@@ -194,8 +153,6 @@ int main() {
         {}
         // Draw nanogui
 
-        screen->drawContents();
-        screen->drawWidgets();
 
         glfwSwapBuffers(window);
         glClearColor(1.0f, 1.0f, 1.0f,

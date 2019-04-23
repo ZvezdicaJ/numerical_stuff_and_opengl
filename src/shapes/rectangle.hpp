@@ -29,8 +29,10 @@ Rectangle<T>::Rectangle() {
     this->vertex_size = 2;
     this->min_vertexes = 4;
     this->generate_vertexes();
+#ifdef __gl_h_
     this->initialize_buffers();
     this->generate_filling_vbo();
+#endif
 };
 
 /**

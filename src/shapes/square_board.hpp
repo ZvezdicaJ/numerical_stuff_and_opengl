@@ -34,8 +34,10 @@ SquareBoard<T>::SquareBoard(unsigned size_) : size(size_) {
     this->vertex_size = 2;
     this->min_vertexes = 10;
     this->generate_vertexes();
+#ifdef __gl_h_
     this->initialize_buffers();
     this->generate_filling_ebo();
+#endif
 };
 
 /*@brief This function generates vertexes for SquareBoard.

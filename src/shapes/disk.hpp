@@ -36,7 +36,9 @@ Disk<T>::Disk() {
     this->vertex_size = 3;
     this->min_vertexes = 50;
     this->generate_vertexes();
+#ifdef __gl_h_
     this->initialize_buffers();
+#endif
 };
 
 /**
@@ -138,20 +140,19 @@ inline void Disk<float>::generate_vertexes() {
             // print_sse(_mm_shuffle_epi32(elements_high, 0b10011001),
             //           "shuffled:");
 
-                      __m128i stranski2 = _mm_unpackhi_epi32(
-                          _mm_shuffle_epi32(elements_low, 0b10011001),
-                          _mm_shuffle_epi32(elements_high, 0b01100110));
+            __m128i stranski2 = _mm_unpackhi_epi32(
+                _mm_shuffle_epi32(elements_low, 0b10011001),
+                _mm_shuffle_epi32(elements_high, 0b01100110));
 
-                      _mm_storeu_si128((__m128i *)(&(this->element_array[0]) +
-                                                   ind + 12 * j + 6),
-                                       stranski1);
-                      _mm_storeu_si128((__m128i *)(&(this->element_array[0]) +
-                                                   ind + 12 * j + 9),
-                                       stranski2);
+            _mm_storeu_si128(
+                (__m128i *)(&(this->element_array[0]) + ind + 12 * j + 6),
+                stranski1);
+            _mm_storeu_si128(
+                (__m128i *)(&(this->element_array[0]) + ind + 12 * j + 9),
+                stranski2);
 
-                      elements_high =
-                          _mm_add_epi32(elements_high, next_element);
-                      elements_low = _mm_add_epi32(elements_low, next_element);
+            elements_high = _mm_add_epi32(elements_high, next_element);
+            elements_low = _mm_add_epi32(elements_low, next_element);
         }
         ind += 48;
     };
@@ -174,7 +175,7 @@ inline void Disk<float>::generate_vertexes() {
     this->vertexes[second_half_ind] = 0;
 
     // print_vertexes(&(this->vertexes[0]), 2 * num_upper_vertexes + 2, 3);
-    //std::cout << "\n\n" << std::endl;
+    // std::cout << "\n\n" << std::endl;
     //  print_vertexes(&(this->element_array[0]), 4 * num_upper_vertexes, 3);
 }
 
@@ -354,7 +355,8 @@ void Disk<T>::generate_wheel_line_elements() {
         _mm_add_epi32(horizontal_d, increment);
         _mm_add_epi32(horizontal_u, increment);
     }
-    //print_vertexes(&(this->wheel_line_elements[0]), 4 * num_upper_vertexes, 3);
+    // print_vertexes(&(this->wheel_line_elements[0]), 4 * num_upper_vertexes,
+    // 3);
     __m128i last_horizontal_lines =
         _mm_set_epi32(num_upper_vertexes - 1, num_upper_vertexes,
                       number_of_points - 1, number_of_points - 2);
