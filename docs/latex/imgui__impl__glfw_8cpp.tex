@@ -1,0 +1,294 @@
+\hypertarget{imgui__impl__glfw_8cpp}{}\section{examples/ising\+\_\+imgui/imgui\+\_\+impl\+\_\+glfw.cpp File Reference}
+\label{imgui__impl__glfw_8cpp}\index{examples/ising\+\_\+imgui/imgui\+\_\+impl\+\_\+glfw.\+cpp@{examples/ising\+\_\+imgui/imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+{\ttfamily \#include \char`\"{}imgui.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}imgui\+\_\+impl\+\_\+glfw.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$G\+L\+F\+W/glfw3.\+h$>$}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{imgui__impl__glfw_8cpp_af81f1903ed3f6ea6f2182e856b87a6b2}{G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+W\+I\+N\+D\+O\+W\+\_\+\+T\+O\+P\+M\+O\+ST}}~(G\+L\+F\+W\+\_\+\+V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+A\+J\+OR $\ast$ 1000 + G\+L\+F\+W\+\_\+\+V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+I\+N\+OR $\ast$ 100 $>$= 3200)
+\item 
+\#define \mbox{\hyperlink{imgui__impl__glfw_8cpp_a962141962262d1961f4189f70a505a29}{G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+W\+I\+N\+D\+O\+W\+\_\+\+H\+O\+V\+E\+R\+ED}}~(G\+L\+F\+W\+\_\+\+V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+A\+J\+OR $\ast$ 1000 + G\+L\+F\+W\+\_\+\+V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+I\+N\+OR $\ast$ 100 $>$= 3300)
+\item 
+\#define \mbox{\hyperlink{imgui__impl__glfw_8cpp_ae64ad564e536847807e36c670c8ac9fc}{G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+W\+I\+N\+D\+O\+W\+\_\+\+A\+L\+P\+HA}}~(G\+L\+F\+W\+\_\+\+V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+A\+J\+OR $\ast$ 1000 + G\+L\+F\+W\+\_\+\+V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+I\+N\+OR $\ast$ 100 $>$= 3300)
+\item 
+\#define \mbox{\hyperlink{imgui__impl__glfw_8cpp_ac70b8597a58988c599e0f0a80b4a28e1}{G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+P\+E\+R\+\_\+\+M\+O\+N\+I\+T\+O\+R\+\_\+\+D\+PI}}~(G\+L\+F\+W\+\_\+\+V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+A\+J\+OR $\ast$ 1000 + G\+L\+F\+W\+\_\+\+V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+I\+N\+OR $\ast$ 100 $>$= 3300)
+\item 
+\#define \mbox{\hyperlink{imgui__impl__glfw_8cpp_aaf81690ad26c92c85a6acdd7f1d3a3bc}{G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+V\+U\+L\+K\+AN}}~(G\+L\+F\+W\+\_\+\+V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+A\+J\+OR $\ast$ 1000 + G\+L\+F\+W\+\_\+\+V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+I\+N\+OR $\ast$ 100 $>$= 3200)
+\item 
+\#define \mbox{\hyperlink{imgui__impl__glfw_8cpp_a0720760ecc7d8768f926a5b2ba4af07d}{M\+A\+P\+\_\+\+B\+U\+T\+T\+ON}}(N\+A\+V\+\_\+\+NO,  B\+U\+T\+T\+O\+N\+\_\+\+NO)~\{ if (buttons\+\_\+count $>$ B\+U\+T\+T\+O\+N\+\_\+\+NO \&\& buttons\mbox{[}B\+U\+T\+T\+O\+N\+\_\+\+NO\mbox{]} == G\+L\+F\+W\+\_\+\+P\+R\+E\+SS) io.\+Nav\+Inputs\mbox{[}N\+A\+V\+\_\+\+NO\mbox{]} = 1.\+0f; \}
+\item 
+\#define \mbox{\hyperlink{imgui__impl__glfw_8cpp_ad181101ed89f4155bbc97eccffea135b}{M\+A\+P\+\_\+\+A\+N\+A\+L\+OG}}(N\+A\+V\+\_\+\+NO,  A\+X\+I\+S\+\_\+\+NO,  V0,  V1)~\{ float v = (axes\+\_\+count $>$ A\+X\+I\+S\+\_\+\+NO) ? axes\mbox{[}A\+X\+I\+S\+\_\+\+NO\mbox{]} \+: V0; v = (v -\/ V0) / (V1 -\/ V0); if (v $>$ 1.\+0f) v = 1.\+0f; if (io.\+Nav\+Inputs\mbox{[}\+N\+A\+V\+\_\+\+N\+O\mbox{]} $<$ v) io.\+Nav\+Inputs\mbox{[}\+N\+A\+V\+\_\+\+N\+O\mbox{]} = v; \}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413}{Glfw\+Client\+Api}} \{ \mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413a64b18e86183bf2f895418038ae86fd97}{Glfw\+Client\+Api\+\_\+\+Unknown}}, 
+\mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413a4bdb1206a80d2fecbccc1ba13a194189}{Glfw\+Client\+Api\+\_\+\+Open\+GL}}, 
+\mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413aea35a390f6542022f5704637f7cbefb5}{Glfw\+Client\+Api\+\_\+\+Vulkan}}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static const char $\ast$ \mbox{\hyperlink{imgui__impl__glfw_8cpp_ac6d412d050ee620b67e11ae745f6059c}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Get\+Clipboard\+Text}} (void $\ast$user\+\_\+data)
+\item 
+static void \mbox{\hyperlink{imgui__impl__glfw_8cpp_abd5ac7368a6c59615369da9a02a22e15}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Set\+Clipboard\+Text}} (void $\ast$user\+\_\+data, const char $\ast$text)
+\item 
+void \mbox{\hyperlink{imgui__impl__glfw_8cpp_a075e351f00b5c13086cacb05b5b6ee08}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Mouse\+Button\+Callback}} (G\+L\+F\+Wwindow $\ast$window, int button, int action, int mods)
+\item 
+void \mbox{\hyperlink{imgui__impl__glfw_8cpp_a59c26c674cfd04975ac49c7d83339113}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Scroll\+Callback}} (G\+L\+F\+Wwindow $\ast$window, double xoffset, double yoffset)
+\item 
+void \mbox{\hyperlink{imgui__impl__glfw_8cpp_af7d27e4c1ce0fa6d11fca29cc2a1cb12}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Key\+Callback}} (G\+L\+F\+Wwindow $\ast$window, int key, int scancode, int action, int mods)
+\item 
+void \mbox{\hyperlink{imgui__impl__glfw_8cpp_afe604d459cc5c4a173ce9e331af6735b}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Char\+Callback}} (G\+L\+F\+Wwindow $\ast$window, unsigned int c)
+\item 
+static bool \mbox{\hyperlink{imgui__impl__glfw_8cpp_a637facc7eff897ef4512026ea1afaf0d}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init}} (G\+L\+F\+Wwindow $\ast$window, bool install\+\_\+callbacks, \mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413}{Glfw\+Client\+Api}} client\+\_\+api)
+\item 
+bool \mbox{\hyperlink{imgui__impl__glfw_8cpp_a3d472e598f8e218a0bd994e840b865ab}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init\+For\+Open\+GL}} (G\+L\+F\+Wwindow $\ast$window, bool install\+\_\+callbacks)
+\item 
+bool \mbox{\hyperlink{imgui__impl__glfw_8cpp_ac7cab00e5027bccc3b536afb0e07bc8f}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init\+For\+Vulkan}} (G\+L\+F\+Wwindow $\ast$window, bool install\+\_\+callbacks)
+\item 
+void \mbox{\hyperlink{imgui__impl__glfw_8cpp_a983c2903ccb938fea5ecdd4d53e54704}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Shutdown}} ()
+\item 
+static void \mbox{\hyperlink{imgui__impl__glfw_8cpp_a2ebafc51ad76753370ea635b192fce9c}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Mouse\+Pos\+And\+Buttons}} ()
+\item 
+static void \mbox{\hyperlink{imgui__impl__glfw_8cpp_a876edf1a44dd8b6358feba912702a860}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Mouse\+Cursor}} ()
+\item 
+static void \mbox{\hyperlink{imgui__impl__glfw_8cpp_a676d90dabe6acb909f287625118e999d}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Gamepads}} ()
+\item 
+void \mbox{\hyperlink{imgui__impl__glfw_8cpp_a206e99434f63c4b8e24e8a4208c11b65}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+New\+Frame}} ()
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+static G\+L\+F\+Wwindow $\ast$ \mbox{\hyperlink{imgui__impl__glfw_8cpp_ae8d6764a756d7aae38cef1abf0d30229}{g\+\_\+\+Window}} = N\+U\+LL
+\item 
+static \mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413}{Glfw\+Client\+Api}} \mbox{\hyperlink{imgui__impl__glfw_8cpp_a3f8f37f8528a45a0e2092dc953828ef4}{g\+\_\+\+Client\+Api}} = \mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413a64b18e86183bf2f895418038ae86fd97}{Glfw\+Client\+Api\+\_\+\+Unknown}}
+\item 
+static double \mbox{\hyperlink{imgui__impl__glfw_8cpp_aeadcd9b9799016abf222f5cb112c9997}{g\+\_\+\+Time}} = 0.\+0
+\item 
+static bool \mbox{\hyperlink{imgui__impl__glfw_8cpp_a4d4efbce48d5234cec2fd4b04ffb589b}{g\+\_\+\+Mouse\+Just\+Pressed}} \mbox{[}5\mbox{]} = \{ false, false, false, false, false \}
+\item 
+static G\+L\+F\+Wcursor $\ast$ \mbox{\hyperlink{imgui__impl__glfw_8cpp_aaec363467fd3f45ebc5e7173c965b497}{g\+\_\+\+Mouse\+Cursors}} \mbox{[}Im\+Gui\+Mouse\+Cursor\+\_\+\+C\+O\+U\+NT\mbox{]} = \{ 0 \}
+\item 
+static G\+L\+F\+Wmousebuttonfun \mbox{\hyperlink{imgui__impl__glfw_8cpp_a4050ee29c2912f416655ea45215aeec3}{g\+\_\+\+Prev\+User\+Callback\+Mousebutton}} = N\+U\+LL
+\item 
+static G\+L\+F\+Wscrollfun \mbox{\hyperlink{imgui__impl__glfw_8cpp_a4edb8104037885cdf5082da8a563e075}{g\+\_\+\+Prev\+User\+Callback\+Scroll}} = N\+U\+LL
+\item 
+static G\+L\+F\+Wkeyfun \mbox{\hyperlink{imgui__impl__glfw_8cpp_a9b5eac1f94edb13fde2c15e7dda185d9}{g\+\_\+\+Prev\+User\+Callback\+Key}} = N\+U\+LL
+\item 
+static G\+L\+F\+Wcharfun \mbox{\hyperlink{imgui__impl__glfw_8cpp_afc0ef1371549f06d838734b689508397}{g\+\_\+\+Prev\+User\+Callback\+Char}} = N\+U\+LL
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_ac70b8597a58988c599e0f0a80b4a28e1}\label{imgui__impl__glfw_8cpp_ac70b8597a58988c599e0f0a80b4a28e1}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+P\+E\+R\+\_\+\+M\+O\+N\+I\+T\+O\+R\+\_\+\+D\+PI@{G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+P\+E\+R\+\_\+\+M\+O\+N\+I\+T\+O\+R\+\_\+\+D\+PI}}
+\index{G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+P\+E\+R\+\_\+\+M\+O\+N\+I\+T\+O\+R\+\_\+\+D\+PI@{G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+P\+E\+R\+\_\+\+M\+O\+N\+I\+T\+O\+R\+\_\+\+D\+PI}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+P\+E\+R\+\_\+\+M\+O\+N\+I\+T\+O\+R\+\_\+\+D\+PI}{GLFW\_HAS\_PER\_MONITOR\_DPI}}
+{\footnotesize\ttfamily \#define G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+P\+E\+R\+\_\+\+M\+O\+N\+I\+T\+O\+R\+\_\+\+D\+PI~(G\+L\+F\+W\+\_\+\+V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+A\+J\+OR $\ast$ 1000 + G\+L\+F\+W\+\_\+\+V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+I\+N\+OR $\ast$ 100 $>$= 3300)}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_aaf81690ad26c92c85a6acdd7f1d3a3bc}\label{imgui__impl__glfw_8cpp_aaf81690ad26c92c85a6acdd7f1d3a3bc}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+V\+U\+L\+K\+AN@{G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+V\+U\+L\+K\+AN}}
+\index{G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+V\+U\+L\+K\+AN@{G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+V\+U\+L\+K\+AN}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+V\+U\+L\+K\+AN}{GLFW\_HAS\_VULKAN}}
+{\footnotesize\ttfamily \#define G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+V\+U\+L\+K\+AN~(G\+L\+F\+W\+\_\+\+V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+A\+J\+OR $\ast$ 1000 + G\+L\+F\+W\+\_\+\+V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+I\+N\+OR $\ast$ 100 $>$= 3200)}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_ae64ad564e536847807e36c670c8ac9fc}\label{imgui__impl__glfw_8cpp_ae64ad564e536847807e36c670c8ac9fc}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+W\+I\+N\+D\+O\+W\+\_\+\+A\+L\+P\+HA@{G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+W\+I\+N\+D\+O\+W\+\_\+\+A\+L\+P\+HA}}
+\index{G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+W\+I\+N\+D\+O\+W\+\_\+\+A\+L\+P\+HA@{G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+W\+I\+N\+D\+O\+W\+\_\+\+A\+L\+P\+HA}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+W\+I\+N\+D\+O\+W\+\_\+\+A\+L\+P\+HA}{GLFW\_HAS\_WINDOW\_ALPHA}}
+{\footnotesize\ttfamily \#define G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+W\+I\+N\+D\+O\+W\+\_\+\+A\+L\+P\+HA~(G\+L\+F\+W\+\_\+\+V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+A\+J\+OR $\ast$ 1000 + G\+L\+F\+W\+\_\+\+V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+I\+N\+OR $\ast$ 100 $>$= 3300)}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_a962141962262d1961f4189f70a505a29}\label{imgui__impl__glfw_8cpp_a962141962262d1961f4189f70a505a29}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+W\+I\+N\+D\+O\+W\+\_\+\+H\+O\+V\+E\+R\+ED@{G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+W\+I\+N\+D\+O\+W\+\_\+\+H\+O\+V\+E\+R\+ED}}
+\index{G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+W\+I\+N\+D\+O\+W\+\_\+\+H\+O\+V\+E\+R\+ED@{G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+W\+I\+N\+D\+O\+W\+\_\+\+H\+O\+V\+E\+R\+ED}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+W\+I\+N\+D\+O\+W\+\_\+\+H\+O\+V\+E\+R\+ED}{GLFW\_HAS\_WINDOW\_HOVERED}}
+{\footnotesize\ttfamily \#define G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+W\+I\+N\+D\+O\+W\+\_\+\+H\+O\+V\+E\+R\+ED~(G\+L\+F\+W\+\_\+\+V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+A\+J\+OR $\ast$ 1000 + G\+L\+F\+W\+\_\+\+V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+I\+N\+OR $\ast$ 100 $>$= 3300)}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_af81f1903ed3f6ea6f2182e856b87a6b2}\label{imgui__impl__glfw_8cpp_af81f1903ed3f6ea6f2182e856b87a6b2}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+W\+I\+N\+D\+O\+W\+\_\+\+T\+O\+P\+M\+O\+ST@{G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+W\+I\+N\+D\+O\+W\+\_\+\+T\+O\+P\+M\+O\+ST}}
+\index{G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+W\+I\+N\+D\+O\+W\+\_\+\+T\+O\+P\+M\+O\+ST@{G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+W\+I\+N\+D\+O\+W\+\_\+\+T\+O\+P\+M\+O\+ST}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+W\+I\+N\+D\+O\+W\+\_\+\+T\+O\+P\+M\+O\+ST}{GLFW\_HAS\_WINDOW\_TOPMOST}}
+{\footnotesize\ttfamily \#define G\+L\+F\+W\+\_\+\+H\+A\+S\+\_\+\+W\+I\+N\+D\+O\+W\+\_\+\+T\+O\+P\+M\+O\+ST~(G\+L\+F\+W\+\_\+\+V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+A\+J\+OR $\ast$ 1000 + G\+L\+F\+W\+\_\+\+V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+I\+N\+OR $\ast$ 100 $>$= 3200)}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_ad181101ed89f4155bbc97eccffea135b}\label{imgui__impl__glfw_8cpp_ad181101ed89f4155bbc97eccffea135b}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!M\+A\+P\+\_\+\+A\+N\+A\+L\+OG@{M\+A\+P\+\_\+\+A\+N\+A\+L\+OG}}
+\index{M\+A\+P\+\_\+\+A\+N\+A\+L\+OG@{M\+A\+P\+\_\+\+A\+N\+A\+L\+OG}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{M\+A\+P\+\_\+\+A\+N\+A\+L\+OG}{MAP\_ANALOG}}
+{\footnotesize\ttfamily \#define M\+A\+P\+\_\+\+A\+N\+A\+L\+OG(\begin{DoxyParamCaption}\item[{}]{N\+A\+V\+\_\+\+NO,  }\item[{}]{A\+X\+I\+S\+\_\+\+NO,  }\item[{}]{V0,  }\item[{}]{V1 }\end{DoxyParamCaption})~\{ float v = (axes\+\_\+count $>$ A\+X\+I\+S\+\_\+\+NO) ? axes\mbox{[}A\+X\+I\+S\+\_\+\+NO\mbox{]} \+: V0; v = (v -\/ V0) / (V1 -\/ V0); if (v $>$ 1.\+0f) v = 1.\+0f; if (io.\+Nav\+Inputs\mbox{[}\+N\+A\+V\+\_\+\+N\+O\mbox{]} $<$ v) io.\+Nav\+Inputs\mbox{[}\+N\+A\+V\+\_\+\+N\+O\mbox{]} = v; \}}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_a0720760ecc7d8768f926a5b2ba4af07d}\label{imgui__impl__glfw_8cpp_a0720760ecc7d8768f926a5b2ba4af07d}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!M\+A\+P\+\_\+\+B\+U\+T\+T\+ON@{M\+A\+P\+\_\+\+B\+U\+T\+T\+ON}}
+\index{M\+A\+P\+\_\+\+B\+U\+T\+T\+ON@{M\+A\+P\+\_\+\+B\+U\+T\+T\+ON}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{M\+A\+P\+\_\+\+B\+U\+T\+T\+ON}{MAP\_BUTTON}}
+{\footnotesize\ttfamily \#define M\+A\+P\+\_\+\+B\+U\+T\+T\+ON(\begin{DoxyParamCaption}\item[{}]{N\+A\+V\+\_\+\+NO,  }\item[{}]{B\+U\+T\+T\+O\+N\+\_\+\+NO }\end{DoxyParamCaption})~\{ if (buttons\+\_\+count $>$ B\+U\+T\+T\+O\+N\+\_\+\+NO \&\& buttons\mbox{[}B\+U\+T\+T\+O\+N\+\_\+\+NO\mbox{]} == G\+L\+F\+W\+\_\+\+P\+R\+E\+SS) io.\+Nav\+Inputs\mbox{[}N\+A\+V\+\_\+\+NO\mbox{]} = 1.\+0f; \}}
+
+
+
+\subsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413}\label{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!Glfw\+Client\+Api@{Glfw\+Client\+Api}}
+\index{Glfw\+Client\+Api@{Glfw\+Client\+Api}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{Glfw\+Client\+Api}{GlfwClientApi}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413}{Glfw\+Client\+Api}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Glfw\+Client\+Api\+\_\+\+Unknown@{Glfw\+Client\+Api\+\_\+\+Unknown}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!Glfw\+Client\+Api\+\_\+\+Unknown@{Glfw\+Client\+Api\+\_\+\+Unknown}}}\mbox{\Hypertarget{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413a64b18e86183bf2f895418038ae86fd97}\label{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413a64b18e86183bf2f895418038ae86fd97}} 
+Glfw\+Client\+Api\+\_\+\+Unknown&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Glfw\+Client\+Api\+\_\+\+Open\+GL@{Glfw\+Client\+Api\+\_\+\+Open\+GL}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!Glfw\+Client\+Api\+\_\+\+Open\+GL@{Glfw\+Client\+Api\+\_\+\+Open\+GL}}}\mbox{\Hypertarget{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413a4bdb1206a80d2fecbccc1ba13a194189}\label{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413a4bdb1206a80d2fecbccc1ba13a194189}} 
+Glfw\+Client\+Api\+\_\+\+Open\+GL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Glfw\+Client\+Api\+\_\+\+Vulkan@{Glfw\+Client\+Api\+\_\+\+Vulkan}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!Glfw\+Client\+Api\+\_\+\+Vulkan@{Glfw\+Client\+Api\+\_\+\+Vulkan}}}\mbox{\Hypertarget{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413aea35a390f6542022f5704637f7cbefb5}\label{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413aea35a390f6542022f5704637f7cbefb5}} 
+Glfw\+Client\+Api\+\_\+\+Vulkan&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_afe604d459cc5c4a173ce9e331af6735b}\label{imgui__impl__glfw_8cpp_afe604d459cc5c4a173ce9e331af6735b}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Char\+Callback@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Char\+Callback}}
+\index{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Char\+Callback@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Char\+Callback}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Char\+Callback()}{ImGui\_ImplGlfw\_CharCallback()}}
+{\footnotesize\ttfamily void Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Char\+Callback (\begin{DoxyParamCaption}\item[{G\+L\+F\+Wwindow $\ast$}]{window,  }\item[{unsigned int}]{c }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_ac6d412d050ee620b67e11ae745f6059c}\label{imgui__impl__glfw_8cpp_ac6d412d050ee620b67e11ae745f6059c}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Get\+Clipboard\+Text@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Get\+Clipboard\+Text}}
+\index{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Get\+Clipboard\+Text@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Get\+Clipboard\+Text}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Get\+Clipboard\+Text()}{ImGui\_ImplGlfw\_GetClipboardText()}}
+{\footnotesize\ttfamily static const char$\ast$ Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Get\+Clipboard\+Text (\begin{DoxyParamCaption}\item[{void $\ast$}]{user\+\_\+data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_a637facc7eff897ef4512026ea1afaf0d}\label{imgui__impl__glfw_8cpp_a637facc7eff897ef4512026ea1afaf0d}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init}}
+\index{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init()}{ImGui\_ImplGlfw\_Init()}}
+{\footnotesize\ttfamily static bool Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init (\begin{DoxyParamCaption}\item[{G\+L\+F\+Wwindow $\ast$}]{window,  }\item[{bool}]{install\+\_\+callbacks,  }\item[{\mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413}{Glfw\+Client\+Api}}}]{client\+\_\+api }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_a3d472e598f8e218a0bd994e840b865ab}\label{imgui__impl__glfw_8cpp_a3d472e598f8e218a0bd994e840b865ab}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init\+For\+Open\+GL@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init\+For\+Open\+GL}}
+\index{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init\+For\+Open\+GL@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init\+For\+Open\+GL}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init\+For\+Open\+G\+L()}{ImGui\_ImplGlfw\_InitForOpenGL()}}
+{\footnotesize\ttfamily bool Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init\+For\+Open\+GL (\begin{DoxyParamCaption}\item[{G\+L\+F\+Wwindow $\ast$}]{window,  }\item[{bool}]{install\+\_\+callbacks }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_ac7cab00e5027bccc3b536afb0e07bc8f}\label{imgui__impl__glfw_8cpp_ac7cab00e5027bccc3b536afb0e07bc8f}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init\+For\+Vulkan@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init\+For\+Vulkan}}
+\index{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init\+For\+Vulkan@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init\+For\+Vulkan}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init\+For\+Vulkan()}{ImGui\_ImplGlfw\_InitForVulkan()}}
+{\footnotesize\ttfamily bool Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init\+For\+Vulkan (\begin{DoxyParamCaption}\item[{G\+L\+F\+Wwindow $\ast$}]{window,  }\item[{bool}]{install\+\_\+callbacks }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_af7d27e4c1ce0fa6d11fca29cc2a1cb12}\label{imgui__impl__glfw_8cpp_af7d27e4c1ce0fa6d11fca29cc2a1cb12}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Key\+Callback@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Key\+Callback}}
+\index{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Key\+Callback@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Key\+Callback}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Key\+Callback()}{ImGui\_ImplGlfw\_KeyCallback()}}
+{\footnotesize\ttfamily void Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Key\+Callback (\begin{DoxyParamCaption}\item[{G\+L\+F\+Wwindow $\ast$}]{window,  }\item[{int}]{key,  }\item[{int}]{scancode,  }\item[{int}]{action,  }\item[{int}]{mods }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_a075e351f00b5c13086cacb05b5b6ee08}\label{imgui__impl__glfw_8cpp_a075e351f00b5c13086cacb05b5b6ee08}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Mouse\+Button\+Callback@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Mouse\+Button\+Callback}}
+\index{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Mouse\+Button\+Callback@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Mouse\+Button\+Callback}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Mouse\+Button\+Callback()}{ImGui\_ImplGlfw\_MouseButtonCallback()}}
+{\footnotesize\ttfamily void Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Mouse\+Button\+Callback (\begin{DoxyParamCaption}\item[{G\+L\+F\+Wwindow $\ast$}]{window,  }\item[{int}]{button,  }\item[{int}]{action,  }\item[{int}]{mods }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_a206e99434f63c4b8e24e8a4208c11b65}\label{imgui__impl__glfw_8cpp_a206e99434f63c4b8e24e8a4208c11b65}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+New\+Frame@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+New\+Frame}}
+\index{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+New\+Frame@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+New\+Frame}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+New\+Frame()}{ImGui\_ImplGlfw\_NewFrame()}}
+{\footnotesize\ttfamily void Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+New\+Frame (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_a59c26c674cfd04975ac49c7d83339113}\label{imgui__impl__glfw_8cpp_a59c26c674cfd04975ac49c7d83339113}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Scroll\+Callback@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Scroll\+Callback}}
+\index{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Scroll\+Callback@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Scroll\+Callback}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Scroll\+Callback()}{ImGui\_ImplGlfw\_ScrollCallback()}}
+{\footnotesize\ttfamily void Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Scroll\+Callback (\begin{DoxyParamCaption}\item[{G\+L\+F\+Wwindow $\ast$}]{window,  }\item[{double}]{xoffset,  }\item[{double}]{yoffset }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_abd5ac7368a6c59615369da9a02a22e15}\label{imgui__impl__glfw_8cpp_abd5ac7368a6c59615369da9a02a22e15}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Set\+Clipboard\+Text@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Set\+Clipboard\+Text}}
+\index{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Set\+Clipboard\+Text@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Set\+Clipboard\+Text}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Set\+Clipboard\+Text()}{ImGui\_ImplGlfw\_SetClipboardText()}}
+{\footnotesize\ttfamily static void Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Set\+Clipboard\+Text (\begin{DoxyParamCaption}\item[{void $\ast$}]{user\+\_\+data,  }\item[{const char $\ast$}]{text }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_a983c2903ccb938fea5ecdd4d53e54704}\label{imgui__impl__glfw_8cpp_a983c2903ccb938fea5ecdd4d53e54704}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Shutdown@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Shutdown}}
+\index{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Shutdown@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Shutdown}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Shutdown()}{ImGui\_ImplGlfw\_Shutdown()}}
+{\footnotesize\ttfamily void Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Shutdown (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_a676d90dabe6acb909f287625118e999d}\label{imgui__impl__glfw_8cpp_a676d90dabe6acb909f287625118e999d}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Gamepads@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Gamepads}}
+\index{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Gamepads@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Gamepads}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Gamepads()}{ImGui\_ImplGlfw\_UpdateGamepads()}}
+{\footnotesize\ttfamily static void Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Gamepads (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_a876edf1a44dd8b6358feba912702a860}\label{imgui__impl__glfw_8cpp_a876edf1a44dd8b6358feba912702a860}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Mouse\+Cursor@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Mouse\+Cursor}}
+\index{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Mouse\+Cursor@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Mouse\+Cursor}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Mouse\+Cursor()}{ImGui\_ImplGlfw\_UpdateMouseCursor()}}
+{\footnotesize\ttfamily static void Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Mouse\+Cursor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_a2ebafc51ad76753370ea635b192fce9c}\label{imgui__impl__glfw_8cpp_a2ebafc51ad76753370ea635b192fce9c}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Mouse\+Pos\+And\+Buttons@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Mouse\+Pos\+And\+Buttons}}
+\index{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Mouse\+Pos\+And\+Buttons@{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Mouse\+Pos\+And\+Buttons}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Mouse\+Pos\+And\+Buttons()}{ImGui\_ImplGlfw\_UpdateMousePosAndButtons()}}
+{\footnotesize\ttfamily static void Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Mouse\+Pos\+And\+Buttons (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_a3f8f37f8528a45a0e2092dc953828ef4}\label{imgui__impl__glfw_8cpp_a3f8f37f8528a45a0e2092dc953828ef4}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!g\+\_\+\+Client\+Api@{g\+\_\+\+Client\+Api}}
+\index{g\+\_\+\+Client\+Api@{g\+\_\+\+Client\+Api}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{g\+\_\+\+Client\+Api}{g\_ClientApi}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413}{Glfw\+Client\+Api}} g\+\_\+\+Client\+Api = \mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413a64b18e86183bf2f895418038ae86fd97}{Glfw\+Client\+Api\+\_\+\+Unknown}}\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_aaec363467fd3f45ebc5e7173c965b497}\label{imgui__impl__glfw_8cpp_aaec363467fd3f45ebc5e7173c965b497}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!g\+\_\+\+Mouse\+Cursors@{g\+\_\+\+Mouse\+Cursors}}
+\index{g\+\_\+\+Mouse\+Cursors@{g\+\_\+\+Mouse\+Cursors}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{g\+\_\+\+Mouse\+Cursors}{g\_MouseCursors}}
+{\footnotesize\ttfamily G\+L\+F\+Wcursor$\ast$ g\+\_\+\+Mouse\+Cursors\mbox{[}Im\+Gui\+Mouse\+Cursor\+\_\+\+C\+O\+U\+NT\mbox{]} = \{ 0 \}\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_a4d4efbce48d5234cec2fd4b04ffb589b}\label{imgui__impl__glfw_8cpp_a4d4efbce48d5234cec2fd4b04ffb589b}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!g\+\_\+\+Mouse\+Just\+Pressed@{g\+\_\+\+Mouse\+Just\+Pressed}}
+\index{g\+\_\+\+Mouse\+Just\+Pressed@{g\+\_\+\+Mouse\+Just\+Pressed}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{g\+\_\+\+Mouse\+Just\+Pressed}{g\_MouseJustPressed}}
+{\footnotesize\ttfamily bool g\+\_\+\+Mouse\+Just\+Pressed\mbox{[}5\mbox{]} = \{ false, false, false, false, false \}\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_afc0ef1371549f06d838734b689508397}\label{imgui__impl__glfw_8cpp_afc0ef1371549f06d838734b689508397}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!g\+\_\+\+Prev\+User\+Callback\+Char@{g\+\_\+\+Prev\+User\+Callback\+Char}}
+\index{g\+\_\+\+Prev\+User\+Callback\+Char@{g\+\_\+\+Prev\+User\+Callback\+Char}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{g\+\_\+\+Prev\+User\+Callback\+Char}{g\_PrevUserCallbackChar}}
+{\footnotesize\ttfamily G\+L\+F\+Wcharfun g\+\_\+\+Prev\+User\+Callback\+Char = N\+U\+LL\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_a9b5eac1f94edb13fde2c15e7dda185d9}\label{imgui__impl__glfw_8cpp_a9b5eac1f94edb13fde2c15e7dda185d9}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!g\+\_\+\+Prev\+User\+Callback\+Key@{g\+\_\+\+Prev\+User\+Callback\+Key}}
+\index{g\+\_\+\+Prev\+User\+Callback\+Key@{g\+\_\+\+Prev\+User\+Callback\+Key}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{g\+\_\+\+Prev\+User\+Callback\+Key}{g\_PrevUserCallbackKey}}
+{\footnotesize\ttfamily G\+L\+F\+Wkeyfun g\+\_\+\+Prev\+User\+Callback\+Key = N\+U\+LL\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_a4050ee29c2912f416655ea45215aeec3}\label{imgui__impl__glfw_8cpp_a4050ee29c2912f416655ea45215aeec3}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!g\+\_\+\+Prev\+User\+Callback\+Mousebutton@{g\+\_\+\+Prev\+User\+Callback\+Mousebutton}}
+\index{g\+\_\+\+Prev\+User\+Callback\+Mousebutton@{g\+\_\+\+Prev\+User\+Callback\+Mousebutton}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{g\+\_\+\+Prev\+User\+Callback\+Mousebutton}{g\_PrevUserCallbackMousebutton}}
+{\footnotesize\ttfamily G\+L\+F\+Wmousebuttonfun g\+\_\+\+Prev\+User\+Callback\+Mousebutton = N\+U\+LL\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_a4edb8104037885cdf5082da8a563e075}\label{imgui__impl__glfw_8cpp_a4edb8104037885cdf5082da8a563e075}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!g\+\_\+\+Prev\+User\+Callback\+Scroll@{g\+\_\+\+Prev\+User\+Callback\+Scroll}}
+\index{g\+\_\+\+Prev\+User\+Callback\+Scroll@{g\+\_\+\+Prev\+User\+Callback\+Scroll}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{g\+\_\+\+Prev\+User\+Callback\+Scroll}{g\_PrevUserCallbackScroll}}
+{\footnotesize\ttfamily G\+L\+F\+Wscrollfun g\+\_\+\+Prev\+User\+Callback\+Scroll = N\+U\+LL\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_aeadcd9b9799016abf222f5cb112c9997}\label{imgui__impl__glfw_8cpp_aeadcd9b9799016abf222f5cb112c9997}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!g\+\_\+\+Time@{g\+\_\+\+Time}}
+\index{g\+\_\+\+Time@{g\+\_\+\+Time}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{g\+\_\+\+Time}{g\_Time}}
+{\footnotesize\ttfamily double g\+\_\+\+Time = 0.\+0\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{imgui__impl__glfw_8cpp_ae8d6764a756d7aae38cef1abf0d30229}\label{imgui__impl__glfw_8cpp_ae8d6764a756d7aae38cef1abf0d30229}} 
+\index{imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}!g\+\_\+\+Window@{g\+\_\+\+Window}}
+\index{g\+\_\+\+Window@{g\+\_\+\+Window}!imgui\+\_\+impl\+\_\+glfw.\+cpp@{imgui\+\_\+impl\+\_\+glfw.\+cpp}}
+\subsubsection{\texorpdfstring{g\+\_\+\+Window}{g\_Window}}
+{\footnotesize\ttfamily G\+L\+F\+Wwindow$\ast$ g\+\_\+\+Window = N\+U\+LL\hspace{0.3cm}{\ttfamily [static]}}
+

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['num_5fexts_5fi',['num_exts_i',['../glad_8c.html#afa6e943e56556f413c9720e419157252',1,'glad.c']]]
+  ['library',['library',['../classText.html#af0d723786485fad392cebab1458e0196',1,'Text']]],
+  ['load',['LOAD',['../namespaceHYBRID__SORT.html#a08bb817ae8599c88d4e11cc3496d7ed2',1,'HYBRID_SORT']]]
 ];

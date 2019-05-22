@@ -1,0 +1,107 @@
+\hypertarget{ising__nanogui_2ising__windows_8cpp}{}\section{examples/ising\+\_\+nanogui/ising\+\_\+windows.cpp File Reference}
+\label{ising__nanogui_2ising__windows_8cpp}\index{examples/ising\+\_\+nanogui/ising\+\_\+windows.\+cpp@{examples/ising\+\_\+nanogui/ising\+\_\+windows.\+cpp}}
+{\ttfamily \#include $<$glad/glad.\+h$>$}\newline
+{\ttfamily \#include $<$G\+L\+F\+W/glfw3.\+h$>$}\newline
+{\ttfamily \#include $<$xmmintrin.\+h$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$array$>$}\newline
+{\ttfamily \#include $<$cmath$>$}\newline
+{\ttfamily \#include $<$ctime$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$glm/glm.\+hpp$>$}\newline
+{\ttfamily \#include $<$glm/gtc/matrix\+\_\+transform.\+hpp$>$}\newline
+{\ttfamily \#include $<$glm/gtc/type\+\_\+ptr.\+hpp$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$limits$>$}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$unordered\+\_\+map$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$random$>$}\newline
+{\ttfamily \#include $<$list$>$}\newline
+{\ttfamily \#include $<$functional$>$}\newline
+{\ttfamily \#include $<$boost/align/aligned\+\_\+allocator.\+hpp$>$}\newline
+{\ttfamily \#include $<$thread$>$}\newline
+{\ttfamily \#include $<$chrono$>$}\newline
+{\ttfamily \#include \char`\"{}apex\+\_\+memmove.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}type\+\_\+definitions.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}convex\+\_\+hull.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}shaders.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}shader\+\_\+class.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}auxiliary\+\_\+functions.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}print\+\_\+functions.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}drawing\+\_\+functions.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}display\+\_\+functions.\+hpp\char`\"{}}\newline
+{\ttfamily \#include $<$glm/gtx/string\+\_\+cast.\+hpp$>$}\newline
+{\ttfamily \#include $<$mgl2/mgl.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}ising\+\_\+shader.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}spin\+\_\+array.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}text\+\_\+rendering.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}nanogui/nanogui.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}ising\+\_\+windows.\+hpp\char`\"{}}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{ising__nanogui_2ising__windows_8cpp_a088324ad8995e3eb76024e3e79083d48}{G\+L\+F\+W\+\_\+\+I\+N\+C\+L\+U\+D\+E\+\_\+\+N\+O\+NE}}
+\item 
+\#define \mbox{\hyperlink{ising__nanogui_2ising__windows_8cpp_abd75661fe7969e19439052a5f69ba5d1}{G\+L\+M\+\_\+\+E\+N\+A\+B\+L\+E\+\_\+\+E\+X\+P\+E\+R\+I\+M\+E\+N\+T\+AL}}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{ising__nanogui_2ising__windows_8cpp_a6069c29f9d594b35a452e67e4be71846}{test\+\_\+enum}} \{ \mbox{\hyperlink{ising__nanogui_2ising__windows_8cpp_a6069c29f9d594b35a452e67e4be71846a3407b42a9b995db738b671c19572b2e8}{Item1}} = 0, 
+\mbox{\hyperlink{ising__nanogui_2ising__windows_8cpp_a6069c29f9d594b35a452e67e4be71846a770abc7e31fec861087dda69c0e3620f}{Item2}}, 
+\mbox{\hyperlink{ising__nanogui_2ising__windows_8cpp_a6069c29f9d594b35a452e67e4be71846a1a8272c217347780c651602b1ed79c27}{Item3}}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{ising__nanogui_2ising__windows_8cpp_ae712ad91fd6abeddf1f6bb6f1388b948}{settings\+\_\+window}} (nanogui\+::\+Screen $\ast$\mbox{\hyperlink{ising__nanogui_2ising_8cpp_aa0e065656df88c167171b7c49c6e64a6}{screen}}, G\+L\+F\+Wwindow $\ast$window, \mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ float $>$ \&algorithm, char \&algorithm\+\_\+choice, std\+::vector$<$ float $>$ \&energy, std\+::vector$<$ float $>$ \&magnetization)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{ising__nanogui_2ising__windows_8cpp_a088324ad8995e3eb76024e3e79083d48}\label{ising__nanogui_2ising__windows_8cpp_a088324ad8995e3eb76024e3e79083d48}} 
+\index{ising\+\_\+nanogui/ising\+\_\+windows.\+cpp@{ising\+\_\+nanogui/ising\+\_\+windows.\+cpp}!G\+L\+F\+W\+\_\+\+I\+N\+C\+L\+U\+D\+E\+\_\+\+N\+O\+NE@{G\+L\+F\+W\+\_\+\+I\+N\+C\+L\+U\+D\+E\+\_\+\+N\+O\+NE}}
+\index{G\+L\+F\+W\+\_\+\+I\+N\+C\+L\+U\+D\+E\+\_\+\+N\+O\+NE@{G\+L\+F\+W\+\_\+\+I\+N\+C\+L\+U\+D\+E\+\_\+\+N\+O\+NE}!ising\+\_\+nanogui/ising\+\_\+windows.\+cpp@{ising\+\_\+nanogui/ising\+\_\+windows.\+cpp}}
+\subsubsection{\texorpdfstring{G\+L\+F\+W\+\_\+\+I\+N\+C\+L\+U\+D\+E\+\_\+\+N\+O\+NE}{GLFW\_INCLUDE\_NONE}}
+{\footnotesize\ttfamily \#define G\+L\+F\+W\+\_\+\+I\+N\+C\+L\+U\+D\+E\+\_\+\+N\+O\+NE}
+
+\mbox{\Hypertarget{ising__nanogui_2ising__windows_8cpp_abd75661fe7969e19439052a5f69ba5d1}\label{ising__nanogui_2ising__windows_8cpp_abd75661fe7969e19439052a5f69ba5d1}} 
+\index{ising\+\_\+nanogui/ising\+\_\+windows.\+cpp@{ising\+\_\+nanogui/ising\+\_\+windows.\+cpp}!G\+L\+M\+\_\+\+E\+N\+A\+B\+L\+E\+\_\+\+E\+X\+P\+E\+R\+I\+M\+E\+N\+T\+AL@{G\+L\+M\+\_\+\+E\+N\+A\+B\+L\+E\+\_\+\+E\+X\+P\+E\+R\+I\+M\+E\+N\+T\+AL}}
+\index{G\+L\+M\+\_\+\+E\+N\+A\+B\+L\+E\+\_\+\+E\+X\+P\+E\+R\+I\+M\+E\+N\+T\+AL@{G\+L\+M\+\_\+\+E\+N\+A\+B\+L\+E\+\_\+\+E\+X\+P\+E\+R\+I\+M\+E\+N\+T\+AL}!ising\+\_\+nanogui/ising\+\_\+windows.\+cpp@{ising\+\_\+nanogui/ising\+\_\+windows.\+cpp}}
+\subsubsection{\texorpdfstring{G\+L\+M\+\_\+\+E\+N\+A\+B\+L\+E\+\_\+\+E\+X\+P\+E\+R\+I\+M\+E\+N\+T\+AL}{GLM\_ENABLE\_EXPERIMENTAL}}
+{\footnotesize\ttfamily \#define G\+L\+M\+\_\+\+E\+N\+A\+B\+L\+E\+\_\+\+E\+X\+P\+E\+R\+I\+M\+E\+N\+T\+AL}
+
+
+
+\subsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{ising__nanogui_2ising__windows_8cpp_a6069c29f9d594b35a452e67e4be71846}\label{ising__nanogui_2ising__windows_8cpp_a6069c29f9d594b35a452e67e4be71846}} 
+\index{ising\+\_\+nanogui/ising\+\_\+windows.\+cpp@{ising\+\_\+nanogui/ising\+\_\+windows.\+cpp}!test\+\_\+enum@{test\+\_\+enum}}
+\index{test\+\_\+enum@{test\+\_\+enum}!ising\+\_\+nanogui/ising\+\_\+windows.\+cpp@{ising\+\_\+nanogui/ising\+\_\+windows.\+cpp}}
+\subsubsection{\texorpdfstring{test\+\_\+enum}{test\_enum}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ising__nanogui_2ising__windows_8cpp_a6069c29f9d594b35a452e67e4be71846}{test\+\_\+enum}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Item1@{Item1}!ising\+\_\+nanogui/ising\+\_\+windows.\+cpp@{ising\+\_\+nanogui/ising\+\_\+windows.\+cpp}}\index{ising\+\_\+nanogui/ising\+\_\+windows.\+cpp@{ising\+\_\+nanogui/ising\+\_\+windows.\+cpp}!Item1@{Item1}}}\mbox{\Hypertarget{ising__nanogui_2ising__windows_8cpp_a6069c29f9d594b35a452e67e4be71846a3407b42a9b995db738b671c19572b2e8}\label{ising__nanogui_2ising__windows_8cpp_a6069c29f9d594b35a452e67e4be71846a3407b42a9b995db738b671c19572b2e8}} 
+Item1&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Item2@{Item2}!ising\+\_\+nanogui/ising\+\_\+windows.\+cpp@{ising\+\_\+nanogui/ising\+\_\+windows.\+cpp}}\index{ising\+\_\+nanogui/ising\+\_\+windows.\+cpp@{ising\+\_\+nanogui/ising\+\_\+windows.\+cpp}!Item2@{Item2}}}\mbox{\Hypertarget{ising__nanogui_2ising__windows_8cpp_a6069c29f9d594b35a452e67e4be71846a770abc7e31fec861087dda69c0e3620f}\label{ising__nanogui_2ising__windows_8cpp_a6069c29f9d594b35a452e67e4be71846a770abc7e31fec861087dda69c0e3620f}} 
+Item2&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Item3@{Item3}!ising\+\_\+nanogui/ising\+\_\+windows.\+cpp@{ising\+\_\+nanogui/ising\+\_\+windows.\+cpp}}\index{ising\+\_\+nanogui/ising\+\_\+windows.\+cpp@{ising\+\_\+nanogui/ising\+\_\+windows.\+cpp}!Item3@{Item3}}}\mbox{\Hypertarget{ising__nanogui_2ising__windows_8cpp_a6069c29f9d594b35a452e67e4be71846a1a8272c217347780c651602b1ed79c27}\label{ising__nanogui_2ising__windows_8cpp_a6069c29f9d594b35a452e67e4be71846a1a8272c217347780c651602b1ed79c27}} 
+Item3&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{ising__nanogui_2ising__windows_8cpp_ae712ad91fd6abeddf1f6bb6f1388b948}\label{ising__nanogui_2ising__windows_8cpp_ae712ad91fd6abeddf1f6bb6f1388b948}} 
+\index{ising\+\_\+nanogui/ising\+\_\+windows.\+cpp@{ising\+\_\+nanogui/ising\+\_\+windows.\+cpp}!settings\+\_\+window@{settings\+\_\+window}}
+\index{settings\+\_\+window@{settings\+\_\+window}!ising\+\_\+nanogui/ising\+\_\+windows.\+cpp@{ising\+\_\+nanogui/ising\+\_\+windows.\+cpp}}
+\subsubsection{\texorpdfstring{settings\+\_\+window()}{settings\_window()}}
+{\footnotesize\ttfamily void settings\+\_\+window (\begin{DoxyParamCaption}\item[{nanogui\+::\+Screen $\ast$}]{screen,  }\item[{G\+L\+F\+Wwindow $\ast$}]{window,  }\item[{\mbox{\hyperlink{classIsingModel}{Ising\+Model}}$<$ float $>$ \&}]{algorithm,  }\item[{char \&}]{algorithm\+\_\+choice,  }\item[{std\+::vector$<$ float $>$ \&}]{energy,  }\item[{std\+::vector$<$ float $>$ \&}]{magnetization }\end{DoxyParamCaption})}
+

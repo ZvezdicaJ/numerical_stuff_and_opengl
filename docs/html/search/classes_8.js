@@ -6,8 +6,8 @@ var searchData=
   ['shape2d',['Shape2D',['../classShape2D.html',1,'']]],
   ['shape3d',['Shape3D',['../classShape3D.html',1,'']]],
   ['sphere',['Sphere',['../classSphere.html',1,'']]],
-  ['spin_5farray',['spin_array',['../classspin__array.html',1,'']]],
   ['spin_5fdir',['spin_dir',['../classspin__dir.html',1,'']]],
+  ['spinarray',['SpinArray',['../classSpinArray.html',1,'']]],
   ['squareboard',['SquareBoard',['../classSquareBoard.html',1,'']]],
   ['star',['Star',['../classStar.html',1,'']]],
   ['star3d',['Star3d',['../classStar3d.html',1,'']]]

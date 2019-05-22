@@ -1,0 +1,21 @@
+var searchData=
+[
+  ['qr_2ecpp',['qr.cpp',['../qr_8cpp.html',1,'']]],
+  ['qr_5fcolpivoting_2ecpp',['qr_colpivoting.cpp',['../qr__colpivoting_8cpp.html',1,'']]],
+  ['qr_5ffullpivoting_2ecpp',['qr_fullpivoting.cpp',['../qr__fullpivoting_8cpp.html',1,'']]],
+  ['qr_5fint_2ecpp',['qr_int.cpp',['../qr__int_8cpp.html',1,'']]],
+  ['qrsolv_2eh',['qrsolv.h',['../qrsolv_8h.html',1,'']]],
+  ['qtvector_2ecpp',['qtvector.cpp',['../qtvector_8cpp.html',1,'']]],
+  ['quat_5fslerp_2ecpp',['quat_slerp.cpp',['../quat__slerp_8cpp.html',1,'']]],
+  ['quaternion_2eh',['Quaternion.h',['../Quaternion_8h.html',1,'']]],
+  ['quaternion_5fdemo_2ecpp',['quaternion_demo.cpp',['../quaternion__demo_8cpp.html',1,'']]],
+  ['quaternion_5fdemo_2eh',['quaternion_demo.h',['../quaternion__demo_8h.html',1,'']]],
+  ['quatmul_2ecpp',['quatmul.cpp',['../quatmul_8cpp.html',1,'']]],
+  ['quick_2edox',['quick.dox',['../quick_8dox.html',1,'']]],
+  ['quick_5fsort_5ftests_2ehpp',['quick_sort_tests.hpp',['../quick__sort__tests_8hpp.html',1,'']]],
+  ['quickreference_2edox',['QuickReference.dox',['../QuickReference_8dox.html',1,'']]],
+  ['quickstart_5fexample_2ecpp',['QuickStart_example.cpp',['../QuickStart__example_8cpp.html',1,'']]],
+  ['quickstart_5fexample2_5fdynamic_2ecpp',['QuickStart_example2_dynamic.cpp',['../QuickStart__example2__dynamic_8cpp.html',1,'']]],
+  ['quickstart_5fexample2_5ffixed_2ecpp',['QuickStart_example2_fixed.cpp',['../QuickStart__example2__fixed_8cpp.html',1,'']]],
+  ['quickstartguide_2edox',['QuickStartGuide.dox',['../QuickStartGuide_8dox.html',1,'']]]
+];

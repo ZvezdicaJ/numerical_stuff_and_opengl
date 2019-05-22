@@ -1,0 +1,44 @@
+\hypertarget{ising__qt_2spin__array_8hpp}{}\section{examples/ising\+\_\+qt/spin\+\_\+array.hpp File Reference}
+\label{ising__qt_2spin__array_8hpp}\index{examples/ising\+\_\+qt/spin\+\_\+array.\+hpp@{examples/ising\+\_\+qt/spin\+\_\+array.\+hpp}}
+{\ttfamily \#include $<$Q\+Widget$>$}\newline
+{\ttfamily \#include $<$Q\+Open\+G\+L\+Widget$>$}\newline
+{\ttfamily \#include $<$Q\+Mouse\+Event$>$}\newline
+{\ttfamily \#include $<$Q\+Open\+G\+L\+Shader\+Program$>$}\newline
+{\ttfamily \#include $<$Q\+Core\+Application$>$}\newline
+{\ttfamily \#include $<$Q\+Open\+G\+L\+Functions$>$}\newline
+{\ttfamily \#include $<$Q\+Open\+G\+L\+Extra\+Functions$>$}\newline
+{\ttfamily \#include $<$Q\+Open\+G\+L\+Vertex\+Array\+Object$>$}\newline
+{\ttfamily \#include $<$Q\+Open\+G\+L\+Buffer$>$}\newline
+{\ttfamily \#include $<$Q\+Matrix4x4$>$}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include $<$glm/gtx/string\+\_\+cast.\+hpp$>$}\newline
+{\ttfamily \#include \char`\"{}shader\+\_\+class\+\_\+qt\+\_\+version.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Ising\+\_\+model.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}ising\+\_\+shader.\+hpp\char`\"{}}\newline
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classSpinArray}{Spin\+Array$<$ T $>$}}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{ising__qt_2spin__array_8hpp_a088324ad8995e3eb76024e3e79083d48}{G\+L\+F\+W\+\_\+\+I\+N\+C\+L\+U\+D\+E\+\_\+\+N\+O\+NE}}
+\item 
+\#define \mbox{\hyperlink{ising__qt_2spin__array_8hpp_abd75661fe7969e19439052a5f69ba5d1}{G\+L\+M\+\_\+\+E\+N\+A\+B\+L\+E\+\_\+\+E\+X\+P\+E\+R\+I\+M\+E\+N\+T\+AL}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{ising__qt_2spin__array_8hpp_a088324ad8995e3eb76024e3e79083d48}\label{ising__qt_2spin__array_8hpp_a088324ad8995e3eb76024e3e79083d48}} 
+\index{ising\+\_\+qt/spin\+\_\+array.\+hpp@{ising\+\_\+qt/spin\+\_\+array.\+hpp}!G\+L\+F\+W\+\_\+\+I\+N\+C\+L\+U\+D\+E\+\_\+\+N\+O\+NE@{G\+L\+F\+W\+\_\+\+I\+N\+C\+L\+U\+D\+E\+\_\+\+N\+O\+NE}}
+\index{G\+L\+F\+W\+\_\+\+I\+N\+C\+L\+U\+D\+E\+\_\+\+N\+O\+NE@{G\+L\+F\+W\+\_\+\+I\+N\+C\+L\+U\+D\+E\+\_\+\+N\+O\+NE}!ising\+\_\+qt/spin\+\_\+array.\+hpp@{ising\+\_\+qt/spin\+\_\+array.\+hpp}}
+\subsubsection{\texorpdfstring{G\+L\+F\+W\+\_\+\+I\+N\+C\+L\+U\+D\+E\+\_\+\+N\+O\+NE}{GLFW\_INCLUDE\_NONE}}
+{\footnotesize\ttfamily \#define G\+L\+F\+W\+\_\+\+I\+N\+C\+L\+U\+D\+E\+\_\+\+N\+O\+NE}
+
+\mbox{\Hypertarget{ising__qt_2spin__array_8hpp_abd75661fe7969e19439052a5f69ba5d1}\label{ising__qt_2spin__array_8hpp_abd75661fe7969e19439052a5f69ba5d1}} 
+\index{ising\+\_\+qt/spin\+\_\+array.\+hpp@{ising\+\_\+qt/spin\+\_\+array.\+hpp}!G\+L\+M\+\_\+\+E\+N\+A\+B\+L\+E\+\_\+\+E\+X\+P\+E\+R\+I\+M\+E\+N\+T\+AL@{G\+L\+M\+\_\+\+E\+N\+A\+B\+L\+E\+\_\+\+E\+X\+P\+E\+R\+I\+M\+E\+N\+T\+AL}}
+\index{G\+L\+M\+\_\+\+E\+N\+A\+B\+L\+E\+\_\+\+E\+X\+P\+E\+R\+I\+M\+E\+N\+T\+AL@{G\+L\+M\+\_\+\+E\+N\+A\+B\+L\+E\+\_\+\+E\+X\+P\+E\+R\+I\+M\+E\+N\+T\+AL}!ising\+\_\+qt/spin\+\_\+array.\+hpp@{ising\+\_\+qt/spin\+\_\+array.\+hpp}}
+\subsubsection{\texorpdfstring{G\+L\+M\+\_\+\+E\+N\+A\+B\+L\+E\+\_\+\+E\+X\+P\+E\+R\+I\+M\+E\+N\+T\+AL}{GLM\_ENABLE\_EXPERIMENTAL}}
+{\footnotesize\ttfamily \#define G\+L\+M\+\_\+\+E\+N\+A\+B\+L\+E\+\_\+\+E\+X\+P\+E\+R\+I\+M\+E\+N\+T\+AL}
+

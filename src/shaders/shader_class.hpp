@@ -85,15 +85,17 @@ class Shader {
     }
 
   public:
-    Shader() {
-        if (RENDER_TYPE::UNIFORM_COLOR == T) {
-            vertex_source = shaders::uniform_vertex_shaders;
-            fragment_source = shaders::uniform_fragment_shader;
-        } else if (RENDER_TYPE::CUSTOM_COLOR == T) {
-            vertex_source = shaders::custom_vertex_shaders;
-            fragment_source = shaders::custom_fragment_shader;
+    Shader(bool initialize = false) {
+        if (initialize) {
+            if (RENDER_TYPE::UNIFORM_COLOR == T) {
+                vertex_source = shaders::uniform_vertex_shaders;
+                fragment_source = shaders::uniform_fragment_shader;
+            } else if (RENDER_TYPE::CUSTOM_COLOR == T) {
+                vertex_source = shaders::custom_vertex_shaders;
+                fragment_source = shaders::custom_fragment_shader;
+            }
+            compile_shaders();
         }
-        compile_shaders();
     }
 
     Shader(const std::array<std::string, 3> vertex_source_,
@@ -107,8 +109,21 @@ class Shader {
     Shader(const Shader &) = delete;
     Shader &operator=(const Shader &) = delete;
     unsigned get_shader_program(int i) { return shader_program[i]; }
-};
 
+    void reinitialize_shader_program(std::string vertex_source_,
+                                     std::string fragment_source_) {
+        if (shaders_compiled[0])
+            glDeleteProgram(shader_program[0]);
+        if (shaders_compiled[1])
+            glDeleteProgram(shader_program[1]);
+        if (shaders_compiled[2])
+            glDeleteProgram(shader_program[2]);
+
+        vertex_source = vertex_source_;
+        fragment_source = fragment_source_;
+        compile_shaders();
+    };
+};
 /**
  * @brief Constructor compiles shaders and tests them.
  */
@@ -204,9 +219,9 @@ class Shader<RENDER_TYPE::CUSTOM> {
     ; /**< true/false depending on whether the shaders were successfully
          compiled*/
 
-    const std::string vertex_source;
-    const std::string fragment_source;
-    const std::string geometry_source;
+    std::string vertex_source;
+    std::string fragment_source;
+    std::string geometry_source;
 
     /**
      * @brief Constructor compiles shaders and tests them.
@@ -354,6 +369,19 @@ class Shader<RENDER_TYPE::CUSTOM> {
         compile_shaders();
     }
 
+    void reinitialize_shader_program(std::string vertex_source_,
+                                     std::string geometry_source_,
+                                     std::string fragment_source_) {
+        if (shaders_compiled)
+            glDeleteProgram(shader_program);
+
+        vertex_source = vertex_source_;
+        fragment_source = fragment_source_;
+        geometry_source = geometry_source_;
+        compile_shaders();
+    };
+
+    Shader(){};
     Shader(Shader &&) = delete;
     Shader &operator=(Shader &&) = delete;
     Shader(const Shader &) = delete;

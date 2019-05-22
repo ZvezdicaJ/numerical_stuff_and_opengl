@@ -1,0 +1,164 @@
+\hypertarget{classText}{}\section{Text Class Reference}
+\label{classText}\index{Text@{Text}}
+
+
+{\ttfamily \#include \char`\"{}text\+\_\+rendering.\+hpp\char`\"{}}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structText_1_1Character}{Character}}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classText_ac76e1d24db004590f1e03da44dfb04dd}{Text}} (const std\+::string \&font\+\_\+file)
+\item 
+void \mbox{\hyperlink{classText_a8e38585b2e2f824a97895f3ca743372c}{initialize\+\_\+gl\+\_\+buffers}} ()
+\item 
+void \mbox{\hyperlink{classText_abc6c6300e6d689d25e25ff47575aa81b}{set\+\_\+char\+\_\+size}} (int width, int height)
+\item 
+void \mbox{\hyperlink{classText_ae5fe3bc91282c8a70253af9baf904b22}{Render\+Text}} (std\+::string text, G\+Lfloat x, G\+Lfloat y, G\+Lfloat scale, glm \+::vec3 color, G\+L\+F\+Wwindow $\ast$window)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+F\+T\+\_\+\+Library \mbox{\hyperlink{classText_af0d723786485fad392cebab1458e0196}{library}}
+\item 
+F\+T\+\_\+\+Face \mbox{\hyperlink{classText_aead69571b262356d6e4641050485d492}{face}}
+\item 
+unsigned \mbox{\hyperlink{classText_a09fe1fc4ba6ed5e64dcbef2ac2c56f26}{horizontal\+\_\+device\+\_\+resolution}}
+\item 
+unsigned \mbox{\hyperlink{classText_aeac01a7f249d00dacd246abfd6f35f91}{vertical\+\_\+device\+\_\+resolution}} = 176
+\item 
+G\+L\+F\+Wmonitor $\ast$ \mbox{\hyperlink{classText_ad7d37381d10639257b7bb9beccbe36a5}{primary}}
+\item 
+int \mbox{\hyperlink{classText_ae4127137a06a53bf5bf7cb838bd0a4ff}{monitor\+\_\+width\+MM}}
+\item 
+int \mbox{\hyperlink{classText_a49c1ab744e7a55b4c9e55ac57527bfc8}{monitor\+\_\+height\+MM}}
+\item 
+G\+Luint \mbox{\hyperlink{classText_a485e2c31f7a6d7a5a7d360f00818d751}{V\+AO}}
+\item 
+G\+Luint \mbox{\hyperlink{classText_aaac524c6d42c895e6cbf962538f72b3a}{V\+BO}}
+\item 
+G\+Luint \mbox{\hyperlink{classText_a0904900eab3438a866585562109cb586}{C\+BO}}
+\item 
+std\+::map$<$ G\+Lchar, \mbox{\hyperlink{structText_1_1Character}{Character}} $>$ \mbox{\hyperlink{classText_aab2c5b22cf4c381151ccba967b104614}{characters}}
+\item 
+\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60a72baef04098f035e8a320b03ad197818}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+OM}} $>$ \mbox{\hyperlink{classText_aceda97361cb73286cd090db34aa10084}{text\+\_\+shader}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classText_ac76e1d24db004590f1e03da44dfb04dd}\label{classText_ac76e1d24db004590f1e03da44dfb04dd}} 
+\index{Text@{Text}!Text@{Text}}
+\index{Text@{Text}!Text@{Text}}
+\subsubsection{\texorpdfstring{Text()}{Text()}}
+{\footnotesize\ttfamily Text\+::\+Text (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{font\+\_\+file }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classText_a8e38585b2e2f824a97895f3ca743372c}\label{classText_a8e38585b2e2f824a97895f3ca743372c}} 
+\index{Text@{Text}!initialize\+\_\+gl\+\_\+buffers@{initialize\+\_\+gl\+\_\+buffers}}
+\index{initialize\+\_\+gl\+\_\+buffers@{initialize\+\_\+gl\+\_\+buffers}!Text@{Text}}
+\subsubsection{\texorpdfstring{initialize\+\_\+gl\+\_\+buffers()}{initialize\_gl\_buffers()}}
+{\footnotesize\ttfamily void Text\+::initialize\+\_\+gl\+\_\+buffers (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classText_ae5fe3bc91282c8a70253af9baf904b22}\label{classText_ae5fe3bc91282c8a70253af9baf904b22}} 
+\index{Text@{Text}!Render\+Text@{Render\+Text}}
+\index{Render\+Text@{Render\+Text}!Text@{Text}}
+\subsubsection{\texorpdfstring{Render\+Text()}{RenderText()}}
+{\footnotesize\ttfamily void Text\+::\+Render\+Text (\begin{DoxyParamCaption}\item[{std\+::string}]{text,  }\item[{G\+Lfloat}]{x,  }\item[{G\+Lfloat}]{y,  }\item[{G\+Lfloat}]{scale,  }\item[{glm \+::vec3}]{color,  }\item[{G\+L\+F\+Wwindow $\ast$}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classText_abc6c6300e6d689d25e25ff47575aa81b}\label{classText_abc6c6300e6d689d25e25ff47575aa81b}} 
+\index{Text@{Text}!set\+\_\+char\+\_\+size@{set\+\_\+char\+\_\+size}}
+\index{set\+\_\+char\+\_\+size@{set\+\_\+char\+\_\+size}!Text@{Text}}
+\subsubsection{\texorpdfstring{set\+\_\+char\+\_\+size()}{set\_char\_size()}}
+{\footnotesize\ttfamily void Text\+::set\+\_\+char\+\_\+size (\begin{DoxyParamCaption}\item[{int}]{width,  }\item[{int}]{height }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classText_a0904900eab3438a866585562109cb586}\label{classText_a0904900eab3438a866585562109cb586}} 
+\index{Text@{Text}!C\+BO@{C\+BO}}
+\index{C\+BO@{C\+BO}!Text@{Text}}
+\subsubsection{\texorpdfstring{C\+BO}{CBO}}
+{\footnotesize\ttfamily G\+Luint Text\+::\+C\+BO\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classText_aab2c5b22cf4c381151ccba967b104614}\label{classText_aab2c5b22cf4c381151ccba967b104614}} 
+\index{Text@{Text}!characters@{characters}}
+\index{characters@{characters}!Text@{Text}}
+\subsubsection{\texorpdfstring{characters}{characters}}
+{\footnotesize\ttfamily std\+::map$<$G\+Lchar, \mbox{\hyperlink{structText_1_1Character}{Character}}$>$ Text\+::characters\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classText_aead69571b262356d6e4641050485d492}\label{classText_aead69571b262356d6e4641050485d492}} 
+\index{Text@{Text}!face@{face}}
+\index{face@{face}!Text@{Text}}
+\subsubsection{\texorpdfstring{face}{face}}
+{\footnotesize\ttfamily F\+T\+\_\+\+Face Text\+::face\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classText_a09fe1fc4ba6ed5e64dcbef2ac2c56f26}\label{classText_a09fe1fc4ba6ed5e64dcbef2ac2c56f26}} 
+\index{Text@{Text}!horizontal\+\_\+device\+\_\+resolution@{horizontal\+\_\+device\+\_\+resolution}}
+\index{horizontal\+\_\+device\+\_\+resolution@{horizontal\+\_\+device\+\_\+resolution}!Text@{Text}}
+\subsubsection{\texorpdfstring{horizontal\+\_\+device\+\_\+resolution}{horizontal\_device\_resolution}}
+{\footnotesize\ttfamily unsigned Text\+::horizontal\+\_\+device\+\_\+resolution\hspace{0.3cm}{\ttfamily [private]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+=
+        176
+\end{DoxyCode}
+\mbox{\Hypertarget{classText_af0d723786485fad392cebab1458e0196}\label{classText_af0d723786485fad392cebab1458e0196}} 
+\index{Text@{Text}!library@{library}}
+\index{library@{library}!Text@{Text}}
+\subsubsection{\texorpdfstring{library}{library}}
+{\footnotesize\ttfamily F\+T\+\_\+\+Library Text\+::library\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classText_a49c1ab744e7a55b4c9e55ac57527bfc8}\label{classText_a49c1ab744e7a55b4c9e55ac57527bfc8}} 
+\index{Text@{Text}!monitor\+\_\+height\+MM@{monitor\+\_\+height\+MM}}
+\index{monitor\+\_\+height\+MM@{monitor\+\_\+height\+MM}!Text@{Text}}
+\subsubsection{\texorpdfstring{monitor\+\_\+height\+MM}{monitor\_heightMM}}
+{\footnotesize\ttfamily int Text\+::monitor\+\_\+height\+MM\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classText_ae4127137a06a53bf5bf7cb838bd0a4ff}\label{classText_ae4127137a06a53bf5bf7cb838bd0a4ff}} 
+\index{Text@{Text}!monitor\+\_\+width\+MM@{monitor\+\_\+width\+MM}}
+\index{monitor\+\_\+width\+MM@{monitor\+\_\+width\+MM}!Text@{Text}}
+\subsubsection{\texorpdfstring{monitor\+\_\+width\+MM}{monitor\_widthMM}}
+{\footnotesize\ttfamily int Text\+::monitor\+\_\+width\+MM\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classText_ad7d37381d10639257b7bb9beccbe36a5}\label{classText_ad7d37381d10639257b7bb9beccbe36a5}} 
+\index{Text@{Text}!primary@{primary}}
+\index{primary@{primary}!Text@{Text}}
+\subsubsection{\texorpdfstring{primary}{primary}}
+{\footnotesize\ttfamily G\+L\+F\+Wmonitor$\ast$ Text\+::primary\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classText_aceda97361cb73286cd090db34aa10084}\label{classText_aceda97361cb73286cd090db34aa10084}} 
+\index{Text@{Text}!text\+\_\+shader@{text\+\_\+shader}}
+\index{text\+\_\+shader@{text\+\_\+shader}!Text@{Text}}
+\subsubsection{\texorpdfstring{text\+\_\+shader}{text\_shader}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classShader}{Shader}}$<$\mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60a72baef04098f035e8a320b03ad197818}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+OM}}$>$ Text\+::text\+\_\+shader\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classText_a485e2c31f7a6d7a5a7d360f00818d751}\label{classText_a485e2c31f7a6d7a5a7d360f00818d751}} 
+\index{Text@{Text}!V\+AO@{V\+AO}}
+\index{V\+AO@{V\+AO}!Text@{Text}}
+\subsubsection{\texorpdfstring{V\+AO}{VAO}}
+{\footnotesize\ttfamily G\+Luint Text\+::\+V\+AO\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classText_aaac524c6d42c895e6cbf962538f72b3a}\label{classText_aaac524c6d42c895e6cbf962538f72b3a}} 
+\index{Text@{Text}!V\+BO@{V\+BO}}
+\index{V\+BO@{V\+BO}!Text@{Text}}
+\subsubsection{\texorpdfstring{V\+BO}{VBO}}
+{\footnotesize\ttfamily G\+Luint Text\+::\+V\+BO\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classText_aeac01a7f249d00dacd246abfd6f35f91}\label{classText_aeac01a7f249d00dacd246abfd6f35f91}} 
+\index{Text@{Text}!vertical\+\_\+device\+\_\+resolution@{vertical\+\_\+device\+\_\+resolution}}
+\index{vertical\+\_\+device\+\_\+resolution@{vertical\+\_\+device\+\_\+resolution}!Text@{Text}}
+\subsubsection{\texorpdfstring{vertical\+\_\+device\+\_\+resolution}{vertical\_device\_resolution}}
+{\footnotesize\ttfamily unsigned Text\+::vertical\+\_\+device\+\_\+resolution = 176\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/text\+\_\+rendering/\mbox{\hyperlink{text__rendering_8hpp}{text\+\_\+rendering.\+hpp}}\end{DoxyCompactItemize}

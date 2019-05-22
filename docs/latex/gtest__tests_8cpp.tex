@@ -11,17 +11,64 @@
 {\ttfamily \#include \char`\"{}modified\+\_\+bitonic\+\_\+sort\+\_\+tests.\+hpp\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}quick\+\_\+sort\+\_\+tests.\+hpp\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}bitonic\+\_\+sort\+\_\+key\+\_\+value\+\_\+tests.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}test\+\_\+operator\+\_\+overloads.\+hpp\char`\"{}}\newline
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
+std\+::default\+\_\+random\+\_\+engine \mbox{\hyperlink{gtest__tests_8cpp_a5dc9079dfed6570c71f2ce9059815185}{generator}} (std\+::time(0))
+\item 
+std\+::uniform\+\_\+real\+\_\+distribution$<$ float $>$ \mbox{\hyperlink{gtest__tests_8cpp_a6904ec0ecb2e2c2d27fcb6f5cc972964}{float\+\_\+dist}} (-\/100, 100)
+\item 
+std\+::uniform\+\_\+real\+\_\+distribution$<$ double $>$ \mbox{\hyperlink{gtest__tests_8cpp_ab6dce82b9fcdaf6fff7ec472c87efccf}{double\+\_\+dist}} (-\/100, 100)
+\item 
 int \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+auto \mbox{\hyperlink{gtest__tests_8cpp_a9dd4b1bafcf4df807cbedae854a203fb}{random\+\_\+float}} = std\+::bind(\mbox{\hyperlink{gtest__tests_8cpp_a6904ec0ecb2e2c2d27fcb6f5cc972964}{float\+\_\+dist}}, \mbox{\hyperlink{gtest__tests_8cpp_a5dc9079dfed6570c71f2ce9059815185}{generator}})
+\item 
+auto \mbox{\hyperlink{gtest__tests_8cpp_af37e683a424a342bfd2154a2bf058dc8}{random\+\_\+double}} = std\+::bind(\mbox{\hyperlink{gtest__tests_8cpp_ab6dce82b9fcdaf6fff7ec472c87efccf}{double\+\_\+dist}}, \mbox{\hyperlink{gtest__tests_8cpp_a5dc9079dfed6570c71f2ce9059815185}{generator}})
 \end{DoxyCompactItemize}
 
 
 \subsection{Function Documentation}
+\mbox{\Hypertarget{gtest__tests_8cpp_ab6dce82b9fcdaf6fff7ec472c87efccf}\label{gtest__tests_8cpp_ab6dce82b9fcdaf6fff7ec472c87efccf}} 
+\index{gtest\+\_\+tests.\+cpp@{gtest\+\_\+tests.\+cpp}!double\+\_\+dist@{double\+\_\+dist}}
+\index{double\+\_\+dist@{double\+\_\+dist}!gtest\+\_\+tests.\+cpp@{gtest\+\_\+tests.\+cpp}}
+\subsubsection{\texorpdfstring{double\+\_\+dist()}{double\_dist()}}
+{\footnotesize\ttfamily std\+::uniform\+\_\+real\+\_\+distribution$<$double$>$ double\+\_\+dist (\begin{DoxyParamCaption}\item[{-\/}]{100,  }\item[{100}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{gtest__tests_8cpp_a6904ec0ecb2e2c2d27fcb6f5cc972964}\label{gtest__tests_8cpp_a6904ec0ecb2e2c2d27fcb6f5cc972964}} 
+\index{gtest\+\_\+tests.\+cpp@{gtest\+\_\+tests.\+cpp}!float\+\_\+dist@{float\+\_\+dist}}
+\index{float\+\_\+dist@{float\+\_\+dist}!gtest\+\_\+tests.\+cpp@{gtest\+\_\+tests.\+cpp}}
+\subsubsection{\texorpdfstring{float\+\_\+dist()}{float\_dist()}}
+{\footnotesize\ttfamily std\+::uniform\+\_\+real\+\_\+distribution$<$float$>$ float\+\_\+dist (\begin{DoxyParamCaption}\item[{-\/}]{100,  }\item[{100}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{gtest__tests_8cpp_a5dc9079dfed6570c71f2ce9059815185}\label{gtest__tests_8cpp_a5dc9079dfed6570c71f2ce9059815185}} 
+\index{gtest\+\_\+tests.\+cpp@{gtest\+\_\+tests.\+cpp}!generator@{generator}}
+\index{generator@{generator}!gtest\+\_\+tests.\+cpp@{gtest\+\_\+tests.\+cpp}}
+\subsubsection{\texorpdfstring{generator()}{generator()}}
+{\footnotesize\ttfamily std\+::default\+\_\+random\+\_\+engine generator (\begin{DoxyParamCaption}\item[{std\+::time(0)}]{ }\end{DoxyParamCaption})}
+
 \mbox{\Hypertarget{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}\label{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}} 
 \index{gtest\+\_\+tests.\+cpp@{gtest\+\_\+tests.\+cpp}!main@{main}}
 \index{main@{main}!gtest\+\_\+tests.\+cpp@{gtest\+\_\+tests.\+cpp}}
 \subsubsection{\texorpdfstring{main()}{main()}}
 {\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{gtest__tests_8cpp_af37e683a424a342bfd2154a2bf058dc8}\label{gtest__tests_8cpp_af37e683a424a342bfd2154a2bf058dc8}} 
+\index{gtest\+\_\+tests.\+cpp@{gtest\+\_\+tests.\+cpp}!random\+\_\+double@{random\+\_\+double}}
+\index{random\+\_\+double@{random\+\_\+double}!gtest\+\_\+tests.\+cpp@{gtest\+\_\+tests.\+cpp}}
+\subsubsection{\texorpdfstring{random\+\_\+double}{random\_double}}
+{\footnotesize\ttfamily auto random\+\_\+double = std\+::bind(\mbox{\hyperlink{gtest__tests_8cpp_ab6dce82b9fcdaf6fff7ec472c87efccf}{double\+\_\+dist}}, \mbox{\hyperlink{gtest__tests_8cpp_a5dc9079dfed6570c71f2ce9059815185}{generator}})}
+
+\mbox{\Hypertarget{gtest__tests_8cpp_a9dd4b1bafcf4df807cbedae854a203fb}\label{gtest__tests_8cpp_a9dd4b1bafcf4df807cbedae854a203fb}} 
+\index{gtest\+\_\+tests.\+cpp@{gtest\+\_\+tests.\+cpp}!random\+\_\+float@{random\+\_\+float}}
+\index{random\+\_\+float@{random\+\_\+float}!gtest\+\_\+tests.\+cpp@{gtest\+\_\+tests.\+cpp}}
+\subsubsection{\texorpdfstring{random\+\_\+float}{random\_float}}
+{\footnotesize\ttfamily auto random\+\_\+float = std\+::bind(\mbox{\hyperlink{gtest__tests_8cpp_a6904ec0ecb2e2c2d27fcb6f5cc972964}{float\+\_\+dist}}, \mbox{\hyperlink{gtest__tests_8cpp_a5dc9079dfed6570c71f2ce9059815185}{generator}})}
 

@@ -1,18 +1,8 @@
 var searchData=
 [
-  ['khronos_5ffloat_5ft',['khronos_float_t',['../khrplatform_8h.html#a1591fab40b33ac5df09dfe668d4c62fe',1,'khrplatform.h']]],
-  ['khronos_5fint16_5ft',['khronos_int16_t',['../khrplatform_8h.html#aea31402f1f8fad5bec8bdc4dd0919da9',1,'khrplatform.h']]],
-  ['khronos_5fint32_5ft',['khronos_int32_t',['../khrplatform_8h.html#af409d81dd359bf16ec33a34810a61b7c',1,'khrplatform.h']]],
-  ['khronos_5fint64_5ft',['khronos_int64_t',['../khrplatform_8h.html#a55dc5b71f5c76458b3bfaa7621520796',1,'khrplatform.h']]],
-  ['khronos_5fint8_5ft',['khronos_int8_t',['../khrplatform_8h.html#afb103620f76ee8c038529cbf0375cfed',1,'khrplatform.h']]],
-  ['khronos_5fintptr_5ft',['khronos_intptr_t',['../khrplatform_8h.html#a182f27e517e990b263b51dc7b5f4ca3f',1,'khrplatform.h']]],
-  ['khronos_5fssize_5ft',['khronos_ssize_t',['../khrplatform_8h.html#a8bd045e2edc004c61c2586c7cbcff35d',1,'khrplatform.h']]],
-  ['khronos_5fstime_5fnanoseconds_5ft',['khronos_stime_nanoseconds_t',['../khrplatform_8h.html#aaec967d90a72559fa6aa12e0160743f8',1,'khrplatform.h']]],
-  ['khronos_5fuint16_5ft',['khronos_uint16_t',['../khrplatform_8h.html#a99a2182846c1c18bb6629ac57ccbe178',1,'khrplatform.h']]],
-  ['khronos_5fuint32_5ft',['khronos_uint32_t',['../khrplatform_8h.html#a8c4a2ace0aee51dc1c2c9827b90a31cf',1,'khrplatform.h']]],
-  ['khronos_5fuint64_5ft',['khronos_uint64_t',['../khrplatform_8h.html#a8c07fcf14a1c0f49618f9abd659a3c99',1,'khrplatform.h']]],
-  ['khronos_5fuint8_5ft',['khronos_uint8_t',['../khrplatform_8h.html#ab18f061b993d901e1161a4de18e8fc6b',1,'khrplatform.h']]],
-  ['khronos_5fuintptr_5ft',['khronos_uintptr_t',['../khrplatform_8h.html#ab5f63ab277fa98e81850e4d15f87c19b',1,'khrplatform.h']]],
-  ['khronos_5fusize_5ft',['khronos_usize_t',['../khrplatform_8h.html#a0e1021b0953a3d0e673c83cc66c58164',1,'khrplatform.h']]],
-  ['khronos_5futime_5fnanoseconds_5ft',['khronos_utime_nanoseconds_t',['../khrplatform_8h.html#a7643cf38bfc46e0d120a42d586639856',1,'khrplatform.h']]]
+  ['j',['j',['../glad_2include_2glad_2glad_8h.html#a1fb4b4dc7b41b62604a44f280bccbd54',1,'j():&#160;glad.h'],['../nanogui_2ext_2glfw_2deps_2glad_2glad_8h.html#a1fb4b4dc7b41b62604a44f280bccbd54',1,'j():&#160;glad.h']]],
+  ['j1',['j1',['../glad_2include_2glad_2glad_8h.html#ad542017f1283aa71acb968605407f674',1,'j1():&#160;glad.h'],['../nanogui_2ext_2glfw_2deps_2glad_2glad_8h.html#ad542017f1283aa71acb968605407f674',1,'j1():&#160;glad.h']]],
+  ['j2',['j2',['../glad_2include_2glad_2glad_8h.html#a7b90ba682e4c88c434f5f2a591eb856b',1,'j2():&#160;glad.h'],['../nanogui_2ext_2glfw_2deps_2glad_2glad_8h.html#a7b90ba682e4c88c434f5f2a591eb856b',1,'j2():&#160;glad.h']]],
+  ['jacobiantype',['JacobianType',['../structDenseLM.html#a6f4b1203ec13d892f6a55d805db50f87',1,'DenseLM::JacobianType()'],['../structsparseGaussianTest.html#a70f401285ae4bbd10402f2bc0aa2ebfb',1,'sparseGaussianTest::JacobianType()'],['../classEigen_1_1AutoDiffJacobian.html#acd5c9daf8db336d70ad61cc75e62af22',1,'Eigen::AutoDiffJacobian::JacobianType()'],['../structEigen_1_1DenseFunctor.html#a01a6ac8a8bf00b999a06b0f898edc3b7',1,'Eigen::DenseFunctor::JacobianType()'],['../structEigen_1_1SparseFunctor.html#ae5db523ee2f0521c8b42398d9d1c8b43',1,'Eigen::SparseFunctor::JacobianType()'],['../classEigen_1_1LevenbergMarquardt.html#a46de8f98bf9a71684e17c81d1190c96f',1,'Eigen::LevenbergMarquardt::JacobianType()'],['../classEigen_1_1HybridNonLinearSolver.html#a55713d5bb80e014eb649b7d621ab3562',1,'Eigen::HybridNonLinearSolver::JacobianType()'],['../classEigen_1_1LevenbergMarquardt.html#ab5836240f9acd2280276710216d185b5',1,'Eigen::LevenbergMarquardt::JacobianType()'],['../classEigen_1_1NumericalDiff.html#aba79bc99cd5ed368ba9c1877084796aa',1,'Eigen::NumericalDiff::JacobianType()'],['../structTestFunc1.html#a7d784c423cd16d95e9c7af75316d0155',1,'TestFunc1::JacobianType()'],['../structTestFunc1.html#a7d784c423cd16d95e9c7af75316d0155',1,'TestFunc1::JacobianType()'],['../structFunctor.html#aaa52be4c1b359195253672350664bc92',1,'Functor::JacobianType()'],['../structFunctor.html#aaa52be4c1b359195253672350664bc92',1,'Functor::JacobianType()']]],
+  ['jrs',['JRs',['../classEigen_1_1RealQZ.html#af09e9f3304feb4669e4bdafbbbf97cb0',1,'Eigen::RealQZ']]]
 ];

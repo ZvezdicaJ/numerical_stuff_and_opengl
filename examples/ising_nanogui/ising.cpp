@@ -26,7 +26,7 @@
 #include <list>
 #include <functional>
 #include <boost/align/aligned_allocator.hpp> // this is for aligned std::vector
-#include <thread>                            // std::this_thread::sleep_for
+#include <thread> // std::this_thread::sleep_for
 #include <chrono>
 
 #include "apex_memmove.h"
@@ -64,7 +64,8 @@ int main() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-    GLFWwindow *window = glfwCreateWindow(1280, 800, "Ising model", NULL, NULL);
+    GLFWwindow *window =
+        glfwCreateWindow(1280, 800, "Ising model", NULL, NULL);
     if (window == NULL) {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
@@ -90,22 +91,24 @@ int main() {
     glfwSwapInterval(0);
     glfwSwapBuffers(window);
 
-    Shader<RENDER_TYPE::CUSTOM> frame_shader(ising_frame_vertex_shaders,
-                                             ising_frame_geometry_shader,
-                                             ising_frame_fragment_shader);
-    Shader<RENDER_TYPE::CUSTOM> triangle_shader(ising_triangle_vertex_shaders,
-                                                ising_triangle_geometry_shader,
-                                                ising_triangle_fragment_shader);
+    Shader<RENDER_TYPE::CUSTOM> frame_shader(
+        ising_frame_vertex_shaders, ising_frame_geometry_shader,
+        ising_frame_fragment_shader);
+    Shader<RENDER_TYPE::CUSTOM> triangle_shader(
+        ising_triangle_vertex_shaders,
+        ising_triangle_geometry_shader,
+        ising_triangle_fragment_shader);
     unsigned size = 50;
     glm::vec3 starting_pos = {0.37, 0.1, 0.0};
     SpinArray<float> spin_array(size, starting_pos);
     spin_array.set_clickable_square(window);
     IsingModel<float> alg1(size);
-    char algorithm_choice = 'M';
+    static char algorithm_choice = 'M';
     aligned_vector<float> vert = spin_array.get_vertexes();
     alg1.set_temperature(2.2);
 
-    Text ising_text("/usr/share/fonts/truetype/ubuntu/Ubuntu-M.ttf");
+    Text ising_text(
+        "/usr/share/fonts/truetype/ubuntu/Ubuntu-M.ttf");
 
     std::array<float, 2> ising_pos;
     std::vector<float> energy, magnetization;
@@ -116,39 +119,44 @@ int main() {
 
     bool enabled = true;
 
-    settings_window(screen, window, alg1, algorithm_choice, energy,
+    settings_window(screen, window, alg1, &algorithm_choice, energy,
                     magnetization);
 
     screen->setVisible(true);
     screen->performLayout();
     // nanoguiWindow->center();
 
-    glfwSetCursorPosCallback(window, [](GLFWwindow *, double x, double y) {
-        screen->cursorPosCallbackEvent(x, y);
-    });
-
-    glfwSetMouseButtonCallback(
-        window, [](GLFWwindow *, int button, int action, int modifiers) {
-            screen->mouseButtonCallbackEvent(button, action, modifiers);
+    glfwSetCursorPosCallback(
+        window, [](GLFWwindow *, double x, double y) {
+            screen->cursorPosCallbackEvent(x, y);
         });
 
-    glfwSetKeyCallback(
-        window, [](GLFWwindow *, int key, int scancode, int action, int mods) {
-            screen->keyCallbackEvent(key, scancode, action, mods);
-        });
-
-    glfwSetCharCallback(window, [](GLFWwindow *, unsigned int codepoint) {
-        screen->charCallbackEvent(codepoint);
+    glfwSetMouseButtonCallback(window, [](GLFWwindow *, int button,
+                                          int action,
+                                          int modifiers) {
+        screen->mouseButtonCallbackEvent(button, action, modifiers);
     });
 
-    glfwSetDropCallback(window,
-                        [](GLFWwindow *, int count, const char **filenames) {
-                            screen->dropCallbackEvent(count, filenames);
+    glfwSetKeyCallback(window, [](GLFWwindow *, int key,
+                                  int scancode, int action,
+                                  int mods) {
+        screen->keyCallbackEvent(key, scancode, action, mods);
+    });
+
+    glfwSetCharCallback(window,
+                        [](GLFWwindow *, unsigned int codepoint) {
+                            screen->charCallbackEvent(codepoint);
                         });
 
-    glfwSetScrollCallback(window, [](GLFWwindow *, double x, double y) {
-        screen->scrollCallbackEvent(x, y);
+    glfwSetDropCallback(window, [](GLFWwindow *, int count,
+                                   const char **filenames) {
+        screen->dropCallbackEvent(count, filenames);
     });
+
+    glfwSetScrollCallback(window,
+                          [](GLFWwindow *, double x, double y) {
+                              screen->scrollCallbackEvent(x, y);
+                          });
 
     glfwSetFramebufferSizeCallback(
         window, [](GLFWwindow *, int width, int height) {
@@ -169,24 +177,27 @@ int main() {
             draw_frame(frame_shader, spin_array);
             draw_black_white(triangle_shader, spin_array, alg1);
 
-            ising_text.RenderText("magnetization: " +
-                                      std::to_string(alg1.calc_magnetization()),
-                                  width * 0.5, height * 0.85, 1.0,
-                                  glm::vec3(0.0, 0.0, 0), window);
+            ising_text.RenderText(
+                "magnetization: " +
+                    std::to_string(alg1.calc_magnetization()),
+                width * 0.5, height * 0.85, 1.0,
+                glm::vec3(0.0, 0.0, 0), window);
 
-            ising_text.RenderText("energy: " +
-                                      std::to_string((int)alg1.calc_energy()),
-                                  width * 0.75, height * 0.85, 1.0,
-                                  glm::vec3(0.0, 0.0, 0), window);
+            ising_text.RenderText(
+                "energy: " +
+                    std::to_string((int)alg1.calc_energy()),
+                width * 0.75, height * 0.85, 1.0,
+                glm::vec3(0.0, 0.0, 0), window);
 
-            ising_text.RenderText("Ising model", width * 0.45, height * 0.95,
-                                  1.0, glm::vec3(1.0, 0, 0), window);
+            ising_text.RenderText("Ising model", width * 0.45,
+                                  height * 0.95, 1.0,
+                                  glm::vec3(1.0, 0, 0), window);
 
-            /*     if (algorithm_choice == 'M')
+            if (algorithm_choice == 'M')
                 alg1.metropolis_steps(size * size);
             if (algorithm_choice == 'W')
                 alg1.flip_cluster();
-            */
+
             magnetization.push_back(alg1.get_magnetization());
             energy.push_back(alg1.get_energy());
         }
@@ -198,11 +209,12 @@ int main() {
         screen->drawWidgets();
 
         glfwSwapBuffers(window);
-        glClearColor(1.0f, 1.0f, 1.0f,
-                     1.0f); // set which color to clear the screen with
+        glClearColor(
+            1.0f, 1.0f, 1.0f,
+            1.0f); // set which color to clear the screen with
         // GL_COLOR_BUFFER_BIT, GL_DEPTH_BUFFER_BIT and
-        // GL_STENCIL_BUFFER_BIT. set which buffer to use to clear the
-        // screen
+        // GL_STENCIL_BUFFER_BIT. set which buffer to use to clear
+        // the screen
         glClear(GL_COLOR_BUFFER_BIT);
 
         std::this_thread::sleep_for(std::chrono::milliseconds(50));

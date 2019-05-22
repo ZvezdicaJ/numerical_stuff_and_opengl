@@ -15,7 +15,7 @@ int main() {
     }
 
     glfwMakeContextCurrent(window);
-    print("Window created!");
+    // print("Window created!");
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         std::cout << "Failed to initialize GLAD" << std::endl;
@@ -49,7 +49,7 @@ int main() {
     // Circle<float> circle2;
     // std::vector<float> vert2 = circle2.get_vertexes();
     // print_vertexes(vert2, vert2.size() / 2, 2);
-
+    
     Disk<float> disk1;
     disk1.generate_random_colors();
     // aligned_vector<float> vert = rect1.get_filling_vertexes();

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['platform_5fid',['PLATFORM_ID',['../build_2CMakeFiles_23_812_83_2CompilerIdC_2CMakeCCompilerId_8c.html#adbc5372f40838899018fadbc89bd588b',1,'PLATFORM_ID():&#160;CMakeCCompilerId.c'],['../build_2CMakeFiles_23_812_83_2CompilerIdCXX_2CMakeCXXCompilerId_8cpp.html#adbc5372f40838899018fadbc89bd588b',1,'PLATFORM_ID():&#160;CMakeCXXCompilerId.cpp'],['../examples_2ising_2build_2CMakeFiles_23_812_83_2CompilerIdC_2CMakeCCompilerId_8c.html#adbc5372f40838899018fadbc89bd588b',1,'PLATFORM_ID():&#160;CMakeCCompilerId.c'],['../examples_2ising_2build_2CMakeFiles_23_812_83_2CompilerIdCXX_2CMakeCXXCompilerId_8cpp.html#adbc5372f40838899018fadbc89bd588b',1,'PLATFORM_ID():&#160;CMakeCXXCompilerId.cpp'],['../examples_2opengl__test_2build_2CMakeFiles_23_812_83_2CompilerIdC_2CMakeCCompilerId_8c.html#adbc5372f40838899018fadbc89bd588b',1,'PLATFORM_ID():&#160;CMakeCCompilerId.c'],['../examples_2opengl__test_2build_2CMakeFiles_23_812_83_2CompilerIdCXX_2CMakeCXXCompilerId_8cpp.html#adbc5372f40838899018fadbc89bd588b',1,'PLATFORM_ID():&#160;CMakeCXXCompilerId.cpp']]]
+  ['map_5fanalog',['MAP_ANALOG',['../imgui__impl__glfw_8cpp.html#ad181101ed89f4155bbc97eccffea135b',1,'imgui_impl_glfw.cpp']]],
+  ['map_5fbutton',['MAP_BUTTON',['../imgui__impl__glfw_8cpp.html#a0720760ecc7d8768f926a5b2ba4af07d',1,'imgui_impl_glfw.cpp']]]
 ];

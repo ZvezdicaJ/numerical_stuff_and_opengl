@@ -1,6 +1,25 @@
 The repository contains all sorts of things -\/ sorting algorithms, vectorized trigonometric functions, various shape meshes,...
 
-Build\+:
+\subparagraph*{Dependencies\+:}
+
+
+\begin{DoxyEnumerate}
+\item opengl libraries\+: 
+\begin{DoxyCode}
+sudo apt-get install libglu1-mesa-dev mesa-utils mesa-common-dev
+\end{DoxyCode}
+
+\item \href{https://github.com/glfw/glfw}{\tt glfw} 
+\begin{DoxyCode}
+sudo apt-get install libglfw3-dev libglfw3
+\end{DoxyCode}
+
+\item \href{https://github.com/Dav1dde/glad}{\tt glad} and \href{https://glad.dav1d.de}{\tt glad web generator}
+\end{DoxyEnumerate}
+
+\subparagraph*{Build\+:}
+
+
 \begin{DoxyItemize}
 \item create build directory
 \item cd build \&\& cmake ..

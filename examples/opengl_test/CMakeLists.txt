@@ -56,4 +56,4 @@ target_link_libraries(display_functions  glad /usr/local/lib/libglfw.so apex_mem
 # add example files
 add_executable(opengl_test opengl_test.cpp)
 #target_include_directories(opengl_test PRIVATE "${GLAD_DIR}/include" "./examples/opengl_test")
-target_link_libraries(opengl_test display_functions  glad /usr/local/lib/libglfw.so apex_memmove)
+target_link_libraries(opengl_test display_functions glad /usr/local/lib/libglfw.so apex_memmove)

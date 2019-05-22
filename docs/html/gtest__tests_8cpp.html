@@ -66,7 +66,8 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">gtest_tests.cpp File Reference</div>  </div>
 </div><!--header-->
@@ -82,13 +83,101 @@ $(function() {
 <code>#include &quot;<a class="el" href="modified__bitonic__sort__tests_8hpp_source.html">modified_bitonic_sort_tests.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="quick__sort__tests_8hpp_source.html">quick_sort_tests.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="bitonic__sort__key__value__tests_8hpp_source.html">bitonic_sort_key_value_tests.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="test__operator__overloads_8hpp_source.html">test_operator_overloads.hpp</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a5dc9079dfed6570c71f2ce9059815185"><td class="memItemLeft" align="right" valign="top">std::default_random_engine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gtest__tests_8cpp.html#a5dc9079dfed6570c71f2ce9059815185">generator</a> (std::time(0))</td></tr>
+<tr class="separator:a5dc9079dfed6570c71f2ce9059815185"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6904ec0ecb2e2c2d27fcb6f5cc972964"><td class="memItemLeft" align="right" valign="top">std::uniform_real_distribution&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gtest__tests_8cpp.html#a6904ec0ecb2e2c2d27fcb6f5cc972964">float_dist</a> (-100, 100)</td></tr>
+<tr class="separator:a6904ec0ecb2e2c2d27fcb6f5cc972964"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6dce82b9fcdaf6fff7ec472c87efccf"><td class="memItemLeft" align="right" valign="top">std::uniform_real_distribution&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gtest__tests_8cpp.html#ab6dce82b9fcdaf6fff7ec472c87efccf">double_dist</a> (-100, 100)</td></tr>
+<tr class="separator:ab6dce82b9fcdaf6fff7ec472c87efccf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gtest__tests_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a> (int argc, char **argv)</td></tr>
 <tr class="separator:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a9dd4b1bafcf4df807cbedae854a203fb"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gtest__tests_8cpp.html#a9dd4b1bafcf4df807cbedae854a203fb">random_float</a> = std::bind(<a class="el" href="gtest__tests_8cpp.html#a6904ec0ecb2e2c2d27fcb6f5cc972964">float_dist</a>, <a class="el" href="gtest__tests_8cpp.html#a5dc9079dfed6570c71f2ce9059815185">generator</a>)</td></tr>
+<tr class="separator:a9dd4b1bafcf4df807cbedae854a203fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af37e683a424a342bfd2154a2bf058dc8"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gtest__tests_8cpp.html#af37e683a424a342bfd2154a2bf058dc8">random_double</a> = std::bind(<a class="el" href="gtest__tests_8cpp.html#ab6dce82b9fcdaf6fff7ec472c87efccf">double_dist</a>, <a class="el" href="gtest__tests_8cpp.html#a5dc9079dfed6570c71f2ce9059815185">generator</a>)</td></tr>
+<tr class="separator:af37e683a424a342bfd2154a2bf058dc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="ab6dce82b9fcdaf6fff7ec472c87efccf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6dce82b9fcdaf6fff7ec472c87efccf">&#9670;&nbsp;</a></span>double_dist()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uniform_real_distribution&lt;double&gt; double_dist </td>
+          <td>(</td>
+          <td class="paramtype">-&#160;</td>
+          <td class="paramname"><em>100</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">100&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6904ec0ecb2e2c2d27fcb6f5cc972964"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6904ec0ecb2e2c2d27fcb6f5cc972964">&#9670;&nbsp;</a></span>float_dist()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uniform_real_distribution&lt;float&gt; float_dist </td>
+          <td>(</td>
+          <td class="paramtype">-&#160;</td>
+          <td class="paramname"><em>100</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">100&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5dc9079dfed6570c71f2ce9059815185"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5dc9079dfed6570c71f2ce9059815185">&#9670;&nbsp;</a></span>generator()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::default_random_engine generator </td>
+          <td>(</td>
+          <td class="paramtype">std::time(0)&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a3c04138a5bfe5d72780bb7e82a18e627"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3c04138a5bfe5d72780bb7e82a18e627">&#9670;&nbsp;</a></span>main()</h2>
 
@@ -111,6 +200,35 @@ Functions</h2></td></tr>
           <td></td>
           <td>)</td>
           <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="af37e683a424a342bfd2154a2bf058dc8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af37e683a424a342bfd2154a2bf058dc8">&#9670;&nbsp;</a></span>random_double</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto random_double = std::bind(<a class="el" href="gtest__tests_8cpp.html#ab6dce82b9fcdaf6fff7ec472c87efccf">double_dist</a>, <a class="el" href="gtest__tests_8cpp.html#a5dc9079dfed6570c71f2ce9059815185">generator</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9dd4b1bafcf4df807cbedae854a203fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9dd4b1bafcf4df807cbedae854a203fb">&#9670;&nbsp;</a></span>random_float</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto random_float = std::bind(<a class="el" href="gtest__tests_8cpp.html#a6904ec0ecb2e2c2d27fcb6f5cc972964">float_dist</a>, <a class="el" href="gtest__tests_8cpp.html#a5dc9079dfed6570c71f2ce9059815185">generator</a>)</td>
         </tr>
       </table>
 </div><div class="memdoc">

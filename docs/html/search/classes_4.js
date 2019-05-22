@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['gladglversionstruct',['gladGLversionStruct',['../structgladGLversionStruct.html',1,'']]]
+  ['exampleapplication',['ExampleApplication',['../classExampleApplication.html',1,'']]]
 ];

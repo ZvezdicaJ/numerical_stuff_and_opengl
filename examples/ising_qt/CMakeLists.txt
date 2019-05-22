@@ -25,25 +25,30 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
-find_package(glfw3 REQUIRED)
-message(STATUS "glfw libraries: ${GLFW_LIBRARIES}")
-
-include_directories("../../src/shaders")
-include_directories("../../src/")
-include_directories("../../src/display_and_drawing_functions")
-include_directories("../../src/shapes")
-include_directories("../../src/algorithms")
-include_directories("../../src/print_functions")
-include_directories("../../src/text_rendering")
-include_directories("/usr/local/include/freetype2/")
-
 set(TOP_LEVEL_DIR "../..")
 
-# GLAD
-set(GLAD_DIR "${TOP_LEVEL_DIR}/third_party/glad")
-add_library(glad SHARED "${GLAD_DIR}/src/glad.c")
-target_include_directories(glad PRIVATE "${GLAD_DIR}/include")
-include_directories("${GLAD_DIR}/include")
+include_directories("${TOP_LEVEL_DIR}/src/algorithms")
+include_directories("${TOP_LEVEL_DIR}/src")
+include_directories("${TOP_LEVEL_DIR}/src/print_functions")
+include_directories("${TOP_LEVEL_DIR}/src/shaders")
+
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+# Instruct CMake to run moc automatically when needed
+set(CMAKE_AUTOMOC ON)
+# Create code from a list of Qt designer ui files
+set(CMAKE_AUTOUIC ON)
+
+
+#set path to find cmake config files for qt
+# change this based on the install directory of your qt version
+set(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH};/opt/Qt/5.12.3/gcc_64/lib/cmake")
+# Find the QtWidgets library
+find_package(Qt5Widgets CONFIG REQUIRED)
+# Find the QtCore library
+find_package(Qt5Core CONFIG REQUIRED)
+# Find the QtCore library
+find_package(Qt5Gui CONFIG REQUIRED)
 
 #APEX
 set(APEX_MEMMOVE_DIR "${TOP_LEVEL_DIR}/third_party/apex_memmove/")
@@ -51,39 +56,25 @@ add_library(apex_memmove "${APEX_MEMMOVE_DIR}/apex_memmove.cpp"
   "${APEX_MEMMOVE_DIR}/apex_memmove.h")
 include_directories("${APEX_MEMMOVE_DIR}")
 
-#DISPLAY FUNCTIONS - events, input,...
-add_library(display_functions "${TOP_LEVEL_DIR}/src/display_and_drawing_functions/display_functions.cpp")
-target_link_libraries(display_functions  glad /usr/local/lib/libglfw.so apex_memmove)
+# GLAD
+set(GLAD_DIR "${TOP_LEVEL_DIR}/third_party/glad")
+add_library(glad SHARED "${GLAD_DIR}/src/glad.c")
+target_include_directories(glad PRIVATE "${GLAD_DIR}/include")
+include_directories("${GLAD_DIR}/include")
 
-#nanogui
-set(NANOGUI_DIR "${CMAKE_SOURCE_DIR}/../../third_party/nanogui")
-include(ExternalProject)
-ExternalProject_Add(nanogui
-  SOURCE_DIR "${NANOGUI_DIR}"
-  PREFIX "${NANOGUI_DIR}/build"
-  STEP_TARGETS build
-  EXCLUDE_FROM_ALL TRUE
-  INSTALL_COMMAND cmake -E echo "Skipping install step."
-  )
-
-include_directories("${NANOGUI_DIR}/include" "${NANOGUI_DIR}/ext/nanovg/src")
+#find OPENGL
+find_package(OpenGL)
 
 # add example files
 add_executable(ising
   ising.cpp
-  ising_windows.cpp
   )
 
-add_dependencies(ising nanogui)
-target_link_libraries(ising ${NANOGUI_DIR}/build/src/nanogui-build/libnanogui.so)
-
-target_link_libraries(ising
-  display_functions
-  glad
-  /usr/local/lib/libglfw.so
+target_link_libraries(ising 
   apex_memmove
   libdl.so
-  libfreetype.a
-  /usr/lib/x86_64-linux-gnu/libpng.a
-  /usr/lib/x86_64-linux-gnu/libz.a
-)
+  ${OPENGL_LIBRARIES}
+  Qt5::Widgets
+  Qt5::Core
+  Qt5::Gui
+  )

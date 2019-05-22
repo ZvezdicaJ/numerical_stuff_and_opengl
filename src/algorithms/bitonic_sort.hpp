@@ -5,9 +5,17 @@
 #ifndef __BITONIC_SORT_FLOAT__
 #define __BITONIC_SORT_FLOAT__
 
-inline int mod2(int number) { return number & 0b00000001; }
-inline int mod4(int number) { return number & 0b00000011; }
-inline int mod8(int number) { return number & 0b00000111; }
+inline __attribute__((always_inline)) int mod2(const int number) {
+    return number & 0b00000001;
+}
+
+inline __attribute__((always_inline)) int mod4(const int number) {
+    return number & 0b00000011;
+}
+
+inline __attribute__((always_inline)) int mod8(const int number) {
+    return number & 0b00000111;
+}
 
 namespace BITONIC_SORT {
 
@@ -15,17 +23,20 @@ static const int LOAD = 0xffffffff;
 static const int STORE = 0xffffffff;
 
 inline __attribute__((always_inline)) void
-shuffle_and_compare(__m256 &reg, const uint8_t mask1, const uint8_t mask2) {
+shuffle_and_compare(__m256 &reg, const uint8_t mask1,
+                    const uint8_t mask2) {
     __m256 shuffled_reg = _mm256_shuffle_ps(reg, reg, mask1);
     __m256 max = _mm256_max_ps(reg, shuffled_reg);
     __m256 min = _mm256_min_ps(reg, shuffled_reg);
     reg = _mm256_blend_ps(max, min, mask2);
 }
 
-inline __attribute__((always_inline)) void reverse_and_compare(__m256 &reg) {
-    __m256 reversed_halves = _mm256_permute2f128_ps(reg, reg, 0b00000001);
-    __m256 reversed =
-        _mm256_shuffle_ps(reversed_halves, reversed_halves, 0b00011011);
+inline __attribute__((always_inline)) void
+reverse_and_compare(__m256 &reg) {
+    __m256 reversed_halves =
+        _mm256_permute2f128_ps(reg, reg, 0b00000001);
+    __m256 reversed = _mm256_shuffle_ps(
+        reversed_halves, reversed_halves, 0b00011011);
     __m256 max = _mm256_max_ps(reg, reversed);
     __m256 min = _mm256_min_ps(reg, reversed);
     reg = _mm256_blend_ps(max, min, 0b00001111);
@@ -46,12 +57,13 @@ void bitonic_sort(__m256 &reg) {
 }
 #endif
 
-inline __attribute__((always_inline)) void reverse_and_compare(__m256 &reg0,
-                                                               __m256 &reg1) {
+inline __attribute__((always_inline)) void
+reverse_and_compare(__m256 &reg0, __m256 &reg1) {
     // reverse one of registers register reg0
-    __m256 reversed_halves = _mm256_permute2f128_ps(reg0, reg0, 0b00000001);
-    __m256 reversed =
-        _mm256_shuffle_ps(reversed_halves, reversed_halves, 0b00011011);
+    __m256 reversed_halves =
+        _mm256_permute2f128_ps(reg0, reg0, 0b00000001);
+    __m256 reversed = _mm256_shuffle_ps(
+        reversed_halves, reversed_halves, 0b00011011);
     // register 2 vsebuje min vrednosti
     reg0 = _mm256_min_ps(reg1, reversed);
     // register 1 vsebuje max vrednosti
@@ -61,13 +73,15 @@ inline __attribute__((always_inline)) void reverse_and_compare(__m256 &reg0,
 inline __attribute__((always_inline)) void
 reverse_halves_and_compare(__m256 &reg0) {
     // tu narediš *----* *----* *----* *----*
-    __m256 reversed_halves = _mm256_permute2f128_ps(reg0, reg0, 0b00000001);
+    __m256 reversed_halves =
+        _mm256_permute2f128_ps(reg0, reg0, 0b00000001);
     __m256 max = _mm256_max_ps(reg0, reversed_halves);
     __m256 min = _mm256_min_ps(reg0, reversed_halves);
     reg0 = _mm256_blend_ps(max, min, 0b00001111);
 }
 
-inline __attribute__((always_inline)) void compare(__m256 &reg0, __m256 &reg1) {
+inline __attribute__((always_inline)) void compare(__m256 &reg0,
+                                                   __m256 &reg1) {
     {
         __m256 max = _mm256_max_ps(reg0, reg1);
         __m256 min = _mm256_min_ps(reg0, reg1);
@@ -77,12 +91,15 @@ inline __attribute__((always_inline)) void compare(__m256 &reg0, __m256 &reg1) {
 }
 
 /**
- * @brief The function accepts two unsorted  __m256 vectors and sorts them.
- * @param reg1 upper vector of numbers - at the end it contains larger values,
- * the largest value is in the upper half of register [255:192]
+ * @brief The function accepts two unsorted  __m256 vectors and
+ * sorts them.
+ * @param reg1 upper vector of numbers - at the end it contains
+ * larger values, the largest value is in the upper half of register
+ * [255:192]
  *
- * @param reg0 lower vector of numbers - at the end it contains smaller values.
- * The smallest value is in the lowest half of register - at [63:0]
+ * @param reg0 lower vector of numbers - at the end it contains
+ * smaller values. The smallest value is in the lowest half of
+ * register - at [63:0]
  *
  */
 
@@ -99,13 +116,15 @@ inline void bitonic_sort(__m256 &reg0, __m256 &reg1) {
     return;
 }
 /**
- * @brief The function accepts two already sorted  __m256 vectors and sorts
- * them.
- * @param reg1 upper vector of numbers - at the end it contains larger values,
- * the largest value is in the upper half of register [255:192]
+ * @brief The function accepts two already sorted  __m256 vectors
+ * and sorts them.
+ * @param reg1 upper vector of numbers - at the end it contains
+ * larger values, the largest value is in the upper half of register
+ * [255:192]
  *
- * @param reg0 lower vector of numbers - at the end it contains smaller values.
- * The smallest value is in the lowest half of register - at [63:0]
+ * @param reg0 lower vector of numbers - at the end it contains
+ * smaller values. The smallest value is in the lowest half of
+ * register - at [63:0]
  *
  */
 
@@ -121,13 +140,16 @@ inline void bitonic_merge(__m256 &reg0, __m256 &reg1) {
 }
 
 /**
- * @brief The function accepts four unsorted  __m256 vectors and sorts them.
- * @param reg3 upper vector of numbers - at the end it contains larger values,
- * the largest value is in the upper half of register [255:192]
+ * @brief The function accepts four unsorted  __m256 vectors and
+ * sorts them.
+ * @param reg3 upper vector of numbers - at the end it contains
+ * larger values, the largest value is in the upper half of register
+ * [255:192]
  * @param reg2
  * @param reg1
- * @param reg0 lower vector of numbers - at the end it contains smaller values.
- * The smallest value is in the lowest half of register - at [63:0]
+ * @param reg0 lower vector of numbers - at the end it contains
+ * smaller values. The smallest value is in the lowest half of
+ * register - at [63:0]
  *
  */
 inline void bitonic_sort(__m256 &reg0, __m256 &reg1, __m256 &reg2,
@@ -167,13 +189,16 @@ inline void bitonic_sort(__m256 &reg0, __m256 &reg1, __m256 &reg2,
 }
 
 /**
- * @brief The function accepts four sorted  __m256 vectors and sorts them.
- * @param reg3 upper vector of numbers - at the end it contains larger values,
- * the largest value is in the upper half of register [255:192]
+ * @brief The function accepts four sorted  __m256 vectors and sorts
+ * them.
+ * @param reg3 upper vector of numbers - at the end it contains
+ * larger values, the largest value is in the upper half of register
+ * [255:192]
  * @param reg2
  * @param reg1
- * @param reg0 lower vector of numbers - at the end it contains smaller values.
- * The smallest value is in the lowest half of register - at [63:0]
+ * @param reg0 lower vector of numbers - at the end it contains
+ * smaller values. The smallest value is in the lowest half of
+ * register - at [63:0]
  *
  */
 inline void bitonic_merge(__m256 &reg0, __m256 &reg1, __m256 &reg2,
@@ -207,13 +232,14 @@ inline void bitonic_merge(__m256 &reg0, __m256 &reg1, __m256 &reg2,
 // 2^N FLOAT ARRAY SORTING ALGORITHM
 
 // float implementation
-/** @brief compared vectors from top and bottom of array and then gradually
- * compare inner vectors.
+/** @brief compared vectors from top and bottom of array and then
+ * gradually compare inner vectors.
  * @param arr pointer to the float array to be sorted
  * @param start index of the first element to be sorted
  * @param end index of the last element to be sorted
  */
-inline void compare_full_length(float *arr, unsigned start, unsigned end) {
+inline void compare_full_length(float *arr, unsigned start,
+                                unsigned end) {
     unsigned length = end - start + 1;
     unsigned half = length / 2;
     for (int i = 0; i < half; i += 8) {
@@ -229,15 +255,15 @@ inline void compare_full_length(float *arr, unsigned start, unsigned end) {
     }
 }
 
-/** @brief compared vectors from top and bottom of array and then gradually
- * compare inner vectors.
+/** @brief compared vectors from top and bottom of array and then
+ * gradually compare inner vectors.
  * @param arr pointer to the array to be sorted
  * @param start index of the first element to be sorted
  * @param end index of the last element to be sorted
  * @param depth a parameter to follow the depth of recursion
  */
-inline void lane_crossing_compare(float *arr, unsigned start, unsigned end,
-                                  unsigned depth) {
+inline void lane_crossing_compare(float *arr, unsigned start,
+                                  unsigned end, unsigned depth) {
     unsigned length = end - start + 1;
     if (length == 8) {
         __m256 reg = _mm256_load_ps(arr + start);
@@ -254,7 +280,8 @@ inline void lane_crossing_compare(float *arr, unsigned start, unsigned end,
             float *p1 = p + i;
             float *p2 = p + length / 2 + i;
             __m256 reg0 = _mm256_load_ps(p1); // i-ti od začetka
-            __m256 reg1 = _mm256_load_ps(p2); // ta je prvi čez polovico
+            __m256 reg1 =
+                _mm256_load_ps(p2); // ta je prvi čez polovico
             // register 2 vsebuje min vrednosti
             __m256 min = _mm256_min_ps(reg1, reg0);
             // register 1 vsebuje max vrednosti
@@ -265,7 +292,8 @@ inline void lane_crossing_compare(float *arr, unsigned start, unsigned end,
         }
     }
     lane_crossing_compare(arr, start, (start + end) / 2, depth + 1);
-    lane_crossing_compare(arr, (start + end) / 2 + 1, end, depth + 1);
+    lane_crossing_compare(arr, (start + end) / 2 + 1, end,
+                          depth + 1);
 };
 
 /**
@@ -274,14 +302,18 @@ inline void lane_crossing_compare(float *arr, unsigned start, unsigned end,
  * @param start index of the first number to be sorted
  * @param end index of the last number to be sorted
  * @details end-start+1 should be 8*N. If it's not
- * then add additional elements - like infinity, so that it will be large enough
+ * then add additional elements - like infinity, so that it will be
+ * large enough
  */
-inline void sort_2n_vector(float *array, unsigned start, unsigned end) {
+inline void sort_2n_vector(float *array, unsigned start,
+                           unsigned end) {
 
-    unsigned full_length = end - start + 1; // number of double numbers to sort
+    unsigned full_length =
+        end - start + 1; // number of double numbers to sort
     unsigned vec_count = full_length / 8;
-    assert((full_length >= 0 && !(full_length & (full_length - 1))) &&
-           "The array to be sorted is not the power of 2!");
+    assert(
+        (full_length >= 0 && !(full_length & (full_length - 1))) &&
+        "The array to be sorted is not the power of 2!");
 
     //__m256d *arr = avx_vec.data();
     if (full_length == 8) {
@@ -335,15 +367,16 @@ inline void sort_2n_vector(float *array, unsigned start, unsigned end) {
 // FLOAT ARRAY SORTING ALGORITHM, the array must contain 8n elements
 
 // float implementation
-/** @brief compared vectors from top and bottom of array and then gradually
- * compare inner vectors.
+/** @brief compared vectors from top and bottom of array and then
+ * gradually compare inner vectors.
  * @param arr pointer to the float array to be sorted
  * @param start index of the first element to be sorted
  * @param end index of the last element to be sorted
- * @param last_index last index of array to be sorted, maximum is array size - 1
+ * @param last_index last index of array to be sorted, maximum is
+ * array size - 1
  */
-inline void compare_full_length(float *arr, unsigned start, unsigned end,
-                                unsigned last_index) {
+inline void compare_full_length(float *arr, unsigned start,
+                                unsigned end, unsigned last_index) {
     unsigned length = end - start + 1;
     unsigned half = length / 2; // half je index prvega cez polovico
     for (int i = half - 8; i >= 0; i -= 8) {
@@ -357,32 +390,36 @@ inline void compare_full_length(float *arr, unsigned start, unsigned end,
             __m256 vec2 = _mm256_load_ps(p2);
             __m256 reversed_halves =
                 _mm256_permute2f128_ps(vec1, vec1, 0b00000001);
-            __m256 reversed =
-                _mm256_shuffle_ps(reversed_halves, reversed_halves, 0b00011011);
+            __m256 reversed = _mm256_shuffle_ps(
+                reversed_halves, reversed_halves, 0b00011011);
             vec1 = _mm256_min_ps(reversed, vec2);
             vec2 = _mm256_max_ps(reversed, vec2);
-            reversed_halves = _mm256_permute2f128_ps(vec1, vec1, 0b00000001);
-            vec1 =
-                _mm256_shuffle_ps(reversed_halves, reversed_halves, 0b00011011);
+            reversed_halves =
+                _mm256_permute2f128_ps(vec1, vec1, 0b00000001);
+            vec1 = _mm256_shuffle_ps(reversed_halves,
+                                     reversed_halves, 0b00011011);
             _mm256_store_ps(p1, vec1);
             _mm256_store_ps(p2, vec2);
         }
     }
 }
 
-/** @brief compared vectors from top and bottom of array and then gradually
- * compare inner vectors.
+/** @brief compared vectors from top and bottom of array and then
+ * gradually compare inner vectors.
  * @param arr pointer to the array to be sorted
  * @param start index of the first element to be sorted
  * @param end index of the last element to be sorted
- * @param last_index last index of array to be sorted, maximum is array size - 1
+ * @param last_index last index of array to be sorted, maximum is
+ * array size - 1
  * @param depth a parameter to follow the depth of recursion
  */
-inline void lane_crossing_compare(float *arr, unsigned start, unsigned end,
-                                  unsigned last_index, unsigned depth) {
+inline void lane_crossing_compare(float *arr, unsigned start,
+                                  unsigned end, unsigned last_index,
+                                  unsigned depth) {
 
     if (start > last_index) {
-        // std::cout << "aborted start index: " << start << std::endl;
+        // std::cout << "aborted start index: " << start <<
+        // std::endl;
         return;
     }
     unsigned length = end - start + 1;
@@ -404,7 +441,8 @@ inline void lane_crossing_compare(float *arr, unsigned start, unsigned end,
             float *p1 = p + i;
             float *p2 = p + length / 2 + i;
             __m256 reg0 = _mm256_load_ps(p1); // i-ti od začetka
-            __m256 reg1 = _mm256_load_ps(p2); // ta je prvi čez polovico
+            __m256 reg1 =
+                _mm256_load_ps(p2); // ta je prvi čez polovico
             // register 2 vsebuje min vrednosti
             __m256 min = _mm256_min_ps(reg1, reg0);
             // register 1 vsebuje max vrednosti
@@ -414,9 +452,10 @@ inline void lane_crossing_compare(float *arr, unsigned start, unsigned end,
             _mm256_store_ps(p2, reg1);
         }
     }
-    lane_crossing_compare(arr, start, (start + end) / 2, last_index, depth + 1);
-    lane_crossing_compare(arr, (start + end) / 2 + 1, end, last_index,
+    lane_crossing_compare(arr, start, (start + end) / 2, last_index,
                           depth + 1);
+    lane_crossing_compare(arr, (start + end) / 2 + 1, end,
+                          last_index, depth + 1);
 };
 
 /**
@@ -426,15 +465,17 @@ inline void lane_crossing_compare(float *arr, unsigned start, unsigned end,
  * @param end index of the last number to be sorted
  * @details end-start+1 should be 8*n
  */
-inline void sort_8n_vector(float *array, unsigned start, unsigned end) {
+inline void sort_8n_vector(float *array, unsigned start,
+                           unsigned end) {
 
-    //    unsigned full_length = end - start + 1; // number of double
-    //    numbers to sort
+    //    unsigned full_length = end - start + 1; // number of
+    //    double numbers to sort
     int pow2 = (int)std::ceil(std::log2f(end + 1));
     int imaginary_length = (int)std::pow(2, pow2);
     unsigned full_length = end - start + 1;
     unsigned last_index = end - 7; // last index to be loaded
-    // std::cout << "imaginary_length: " << imaginary_length << std::endl;
+    // std::cout << "imaginary_length: " << imaginary_length <<
+    // std::endl;
     unsigned vec_count = full_length / 8;
     assert((full_length >= 0 && (full_length % 8) == 0) &&
            "The array to be sorted is not a multiples of 8!");
@@ -474,19 +515,21 @@ inline void sort_8n_vector(float *array, unsigned start, unsigned end) {
             // std::cout << "len: " << len << std::endl;
             // inner loop goes over all subdivisions
             for (unsigned n = 0; n < imaginary_length; n += len) {
-                compare_full_length(array, n, n + len - 1, last_index);
-                lane_crossing_compare(array, n, n + len - 1, last_index, 0);
+                compare_full_length(array, n, n + len - 1,
+                                    last_index);
+                lane_crossing_compare(array, n, n + len - 1,
+                                      last_index, 0);
             }
         }
     }
 }
 
 //////////////////////////////////////////////////////////////////
-// FLOAT ARRAY SORTING ALGORITHM FOR ARRAYS OF ARBITRARY LENGTH, the array must
-// contain 8n elements
-// float implementation
+// FLOAT ARRAY SORTING ALGORITHM FOR ARRAYS OF ARBITRARY LENGTH, the
+// array must contain 8n elements float implementation
 
-inline void maskload(int diff, float *p2, __m256i &mask, __m256 &reg1) {
+inline void maskload(int diff, float *p2, __m256i &mask,
+                     __m256 &reg1) {
     switch (diff) {
     case 0: {
         mask = _mm256_set_epi32(0, 0, 0, 0, 0, 0, 0, LOAD);
@@ -517,21 +560,24 @@ inline void maskload(int diff, float *p2, __m256i &mask, __m256 &reg1) {
         reg1 = _mm256_blend_ps(infinity, reg1, 0b00001111);
     } break;
     case 4: {
-        mask = _mm256_set_epi32(0, 0, 0, LOAD, LOAD, LOAD, LOAD, LOAD);
+        mask =
+            _mm256_set_epi32(0, 0, 0, LOAD, LOAD, LOAD, LOAD, LOAD);
         reg1 = _mm256_maskload_ps(p2, mask);
         __m256 infinity =
             _mm256_set1_ps(std::numeric_limits<float>::infinity());
         reg1 = _mm256_blend_ps(infinity, reg1, 0b00011111);
     } break;
     case 5: {
-        mask = _mm256_set_epi32(0, 0, LOAD, LOAD, LOAD, LOAD, LOAD, LOAD);
+        mask = _mm256_set_epi32(0, 0, LOAD, LOAD, LOAD, LOAD, LOAD,
+                                LOAD);
         reg1 = _mm256_maskload_ps(p2, mask);
         __m256 infinity =
             _mm256_set1_ps(std::numeric_limits<float>::infinity());
         reg1 = _mm256_blend_ps(infinity, reg1, 0b00111111);
     } break;
     case 6: {
-        mask = _mm256_set_epi32(0, LOAD, LOAD, LOAD, LOAD, LOAD, LOAD, LOAD);
+        mask = _mm256_set_epi32(0, LOAD, LOAD, LOAD, LOAD, LOAD,
+                                LOAD, LOAD);
         reg1 = _mm256_maskload_ps(p2, mask);
         __m256 infinity =
             _mm256_set1_ps(std::numeric_limits<float>::infinity());
@@ -540,14 +586,16 @@ inline void maskload(int diff, float *p2, __m256i &mask, __m256 &reg1) {
     };
 }
 
-/** @brief compared vectors from top and bottom of array and then gradually
- * compare inner vectors.
+/** @brief compared vectors from top and bottom of array and then
+ * gradually compare inner vectors.
  * @param arr pointer to the float array to be sorted
  * @param start index of the first element to be sorted
  * @param end index of the last element to be sorted
  */
-inline void compare_full_length_all_cases(float *arr, unsigned start,
-                                          unsigned end, unsigned last_index) {
+inline void compare_full_length_all_cases(float *arr,
+                                          unsigned start,
+                                          unsigned end,
+                                          unsigned last_index) {
 
     unsigned length = end - start + 1;
     unsigned half = length / 2; // half je index prvega cez polovico
@@ -570,13 +618,14 @@ inline void compare_full_length_all_cases(float *arr, unsigned start,
             __m256 vec1 = _mm256_load_ps(p1);
             __m256 reversed_halves =
                 _mm256_permute2f128_ps(vec1, vec1, 0b00000001);
-            __m256 reversed =
-                _mm256_shuffle_ps(reversed_halves, reversed_halves, 0b00011011);
+            __m256 reversed = _mm256_shuffle_ps(
+                reversed_halves, reversed_halves, 0b00011011);
             vec1 = _mm256_min_ps(reversed, vec2);
             vec2 = _mm256_max_ps(reversed, vec2);
-            reversed_halves = _mm256_permute2f128_ps(vec1, vec1, 0b00000001);
-            vec1 =
-                _mm256_shuffle_ps(reversed_halves, reversed_halves, 0b00011011);
+            reversed_halves =
+                _mm256_permute2f128_ps(vec1, vec1, 0b00000001);
+            vec1 = _mm256_shuffle_ps(reversed_halves,
+                                     reversed_halves, 0b00011011);
             _mm256_store_ps(p1, vec1);
             if (UNLIKELY(diff <= 6))
                 _mm256_maskstore_ps(p2, mask, vec2);
@@ -586,15 +635,17 @@ inline void compare_full_length_all_cases(float *arr, unsigned start,
     }
 }
 
-/** @brief compared vectors from top and bottom of array and then gradually
- * compare inner vectors.
+/** @brief compared vectors from top and bottom of array and then
+ * gradually compare inner vectors.
  * @param arr pointer to the array to be sorted
  * @param start index of the first element to be sorted
  * @param end index of the last element to be sorted
  * @param depth a parameter to follow the depth of recursion
  */
-inline void lane_crossing_compare_all_cases(float *arr, unsigned start,
-                                            unsigned end, unsigned last_index,
+inline void lane_crossing_compare_all_cases(float *arr,
+                                            unsigned start,
+                                            unsigned end,
+                                            unsigned last_index,
                                             unsigned depth) {
     if (start > last_index) {
         return;
@@ -647,10 +698,10 @@ inline void lane_crossing_compare_all_cases(float *arr, unsigned start,
         else
             _mm256_store_ps(p2, reg1);
     }
-    lane_crossing_compare_all_cases(arr, start, (start + end) / 2, last_index,
-                                    depth + 1);
-    lane_crossing_compare_all_cases(arr, (start + end) / 2 + 1, end, last_index,
-                                    depth + 1);
+    lane_crossing_compare_all_cases(arr, start, (start + end) / 2,
+                                    last_index, depth + 1);
+    lane_crossing_compare_all_cases(arr, (start + end) / 2 + 1, end,
+                                    last_index, depth + 1);
 };
 
 /**
@@ -660,8 +711,8 @@ inline void lane_crossing_compare_all_cases(float *arr, unsigned start,
  * @param end index of the last number to be sorted
  * @details end-start+1 should be 2^n
  */
-inline void sort_vector(aligned_vector<float> &array, unsigned start,
-                        unsigned end) {
+inline void sort_vector(aligned_vector<float> &array,
+                        unsigned start, unsigned end) {
 
     unsigned full_length = end - start + 1;
     if (full_length <= 1)
@@ -702,7 +753,8 @@ inline void sort_vector(aligned_vector<float> &array, unsigned start,
         __m256i mask;
         maskload(reminder, p, mask, reg1);
         bitonic_sort(reg1);
-        _mm256_maskstore_ps(array.data() + end - reminder, mask, reg1);
+        _mm256_maskstore_ps(array.data() + end - reminder, mask,
+                            reg1);
 
         ///////////////////////////////////////////////////////
 
@@ -710,15 +762,16 @@ inline void sort_vector(aligned_vector<float> &array, unsigned start,
         // len is number of floats in length to be compared
         // each step increases this length by factor of 2.
         // 8 and less has already been done above
-        // for (unsigned len = 16; len <= imaginary_length; len *= 2) {
+        // for (unsigned len = 16; len <= imaginary_length; len *=
+        // 2) {
         for (unsigned len = 16; len <= imaginary_length; len *= 2) {
             // std::cout << "len: " << len << std::endl;
             // inner loop goes over all subdivisions
             for (unsigned n = 0; n < imaginary_length; n += len) {
-                compare_full_length_all_cases(array.data(), n, n + len - 1,
-                                              last_index);
-                lane_crossing_compare_all_cases(array.data(), n, n + len - 1,
-                                                last_index, 0);
+                compare_full_length_all_cases(
+                    array.data(), n, n + len - 1, last_index);
+                lane_crossing_compare_all_cases(
+                    array.data(), n, n + len - 1, last_index, 0);
             }
         }
     }
@@ -739,7 +792,8 @@ shuffle_and_compare(__m256d &reg, const uint8_t mask) {
     reg = _mm256_unpacklo_pd(min, max);
 }
 
-inline __attribute__((always_inline)) void reverse_and_compare(__m256d &reg) {
+inline __attribute__((always_inline)) void
+reverse_and_compare(__m256d &reg) {
     __m256d reversed_reg = _mm256_permute4x64_pd(reg, 0b00011011);
     __m256d max = _mm256_max_pd(reg, reversed_reg);
     __m256d min = _mm256_min_pd(reg, reversed_reg);
@@ -747,8 +801,8 @@ inline __attribute__((always_inline)) void reverse_and_compare(__m256d &reg) {
     reg = _mm256_blend_pd(max, min, 0b0011);
 }
 
-inline __attribute__((always_inline)) void reverse_and_compare(__m256d &reg0,
-                                                               __m256d &reg1) {
+inline __attribute__((always_inline)) void
+reverse_and_compare(__m256d &reg0, __m256d &reg1) {
     __m256d reverse0 = _mm256_permute4x64_pd(reg0, 0b00011011);
     // register 2 vsebuje min vrednosti
     reg0 = _mm256_min_pd(reg1, reverse0);
@@ -785,12 +839,13 @@ inline void bitonic_sort(__m256d &reg) {
 
 /**
  * @brief The function accepts two __m256d vectors and sorts them.
- * @param reg1 upper vector of numbers - at the end it contains larger
- * values, the largest value is in the upper half of register [255:192]
+ * @param reg1 upper vector of numbers - at the end it contains
+ * larger values, the largest value is in the upper half of register
+ * [255:192]
  *
- * @param reg0 lower vector of numbers - at the end it contains smaller
- * values. The smallest value is in the lowest half of register - at
- * [63:0]
+ * @param reg0 lower vector of numbers - at the end it contains
+ * smaller values. The smallest value is in the lowest half of
+ * register - at [63:0]
  *
  */
 inline void bitonic_sort(__m256d &reg0, __m256d &reg1) {
@@ -806,16 +861,17 @@ inline void bitonic_sort(__m256d &reg0, __m256d &reg1) {
 
 /**
  * @brief The function accepts two __m256d vectors and sorts them.
- * @param reg1 upper vector of numbers - at the end it contains larger
- * values, the largest value is in the upper half of register [255:192]
+ * @param reg1 upper vector of numbers - at the end it contains
+ * larger values, the largest value is in the upper half of register
+ * [255:192]
  *
- * @param reg0 lower vector of numbers - at the end it contains smaller
- * values. The smallest value is in the lowest half of register - at
- * [63:0]
+ * @param reg0 lower vector of numbers - at the end it contains
+ * smaller values. The smallest value is in the lowest half of
+ * register - at [63:0]
  *
  */
-inline void bitonic_sort(__m256d &reg0, __m256d &reg1, __m256d &reg2,
-                         __m256d &reg3) {
+inline void bitonic_sort(__m256d &reg0, __m256d &reg1,
+                         __m256d &reg2, __m256d &reg3) {
     bitonic_sort(reg0);       // sort first register
     bitonic_sort(reg1);       // sort second register
     bitonic_sort(reg2);       // sort third register
@@ -853,7 +909,8 @@ inline void bitonic_sort(__m256d &reg0, __m256d &reg1, __m256d &reg2,
  * @param start index of the first element to be sorted
  * @param end index of the last element to be sorted
  */
-inline void compare_full_length(double *arr, unsigned start, unsigned end) {
+inline void compare_full_length(double *arr, unsigned start,
+                                unsigned end) {
     unsigned length = end - start + 1;
     unsigned half = length / 2;
     for (unsigned i = 0; i < half; i += 4) {
@@ -874,8 +931,8 @@ inline void compare_full_length(double *arr, unsigned start, unsigned end) {
  * @param end index of the last element to be sorted
  * @param depth a parameter to follow the depth of recursion
  */
-inline void lane_crossing_compare(double *arr, unsigned start, unsigned end,
-                                  unsigned depth) {
+inline void lane_crossing_compare(double *arr, unsigned start,
+                                  unsigned end, unsigned depth) {
 
     unsigned length = end - start + 1;
     if (length == 4) {
@@ -892,7 +949,8 @@ inline void lane_crossing_compare(double *arr, unsigned start, unsigned end,
             double *p2 = p + length / 2 + i;
 
             __m256d reg0 = _mm256_load_pd(p1); // i-ti od začetka
-            __m256d reg1 = _mm256_load_pd(p2); // ta je prvi čez polovico
+            __m256d reg1 =
+                _mm256_load_pd(p2); // ta je prvi čez polovico
             // register 2 vsebuje min vrednosti
             __m256d min = _mm256_min_pd(reg1, reg0);
             // register 1 vsebuje max vrednosti
@@ -905,7 +963,8 @@ inline void lane_crossing_compare(double *arr, unsigned start, unsigned end,
         }
     }
     lane_crossing_compare(arr, start, (start + end) / 2, depth + 1);
-    lane_crossing_compare(arr, (start + end) / 2 + 1, end, depth + 1);
+    lane_crossing_compare(arr, (start + end) / 2 + 1, end,
+                          depth + 1);
 };
 
 /**
@@ -915,12 +974,15 @@ inline void lane_crossing_compare(double *arr, unsigned start, unsigned end,
  * @param end index of the last number to be sorted
  * @details end-start+1 should be 2^n
  */
-inline void sort_2n_vector(double *array, unsigned start, unsigned end) {
+inline void sort_2n_vector(double *array, unsigned start,
+                           unsigned end) {
 
-    unsigned full_length = end - start + 1; // number of double numbers to sort
+    unsigned full_length =
+        end - start + 1; // number of double numbers to sort
     unsigned vec_count = full_length / 4;
-    assert((full_length >= 0 && !(full_length & (full_length - 1))) &&
-           "The array to be sorted is not the power of 2!");
+    assert(
+        (full_length >= 0 && !(full_length & (full_length - 1))) &&
+        "The array to be sorted is not the power of 2!");
 
     //__m256d *arr = avx_vec.data();
     if (full_length == 4) {
@@ -971,17 +1033,19 @@ inline void sort_2n_vector(double *array, unsigned start, unsigned end) {
 }
 
 //////////////////////////////////////////////////////////////////
-// 4N DOUBLE ARRAY SORTING ALGORITHM --- the array must contain 8n elements
+// 4N DOUBLE ARRAY SORTING ALGORITHM --- the array must contain 8n
+// elements
 
-/** @brief compared vectors from top and bottom of array and then gradually
- * compare inner vectors.
+/** @brief compared vectors from top and bottom of array and then
+ * gradually compare inner vectors.
  * @param arr pointer to the double array to be sorted
  * @param start index of the first element to be sorted
  * @param end index of the last element to be sorted
- * @param last_index last index of array to be sorted, maximum is array size - 1
+ * @param last_index last index of array to be sorted, maximum is
+ * array size - 1
  */
-inline void compare_full_length(double *arr, unsigned start, unsigned end,
-                                unsigned last_index) {
+inline void compare_full_length(double *arr, unsigned start,
+                                unsigned end, unsigned last_index) {
 
     unsigned length = end - start + 1;
     unsigned half = length / 2; // half je index prvega cez polovico
@@ -994,7 +1058,8 @@ inline void compare_full_length(double *arr, unsigned start, unsigned end,
             __m256d vec1 = _mm256_load_pd(p1);
             __m256d vec2 = _mm256_load_pd(p2);
             // reverse one of registers register reg0
-            __m256d reverse = _mm256_permute4x64_pd(vec1, 0b00011011);
+            __m256d reverse =
+                _mm256_permute4x64_pd(vec1, 0b00011011);
             // register 2 vsebuje min vrednosti
             vec1 = _mm256_min_pd(vec2, reverse);
             vec1 = _mm256_permute4x64_pd(vec1, 0b00011011);
@@ -1006,16 +1071,18 @@ inline void compare_full_length(double *arr, unsigned start, unsigned end,
     }
 }
 
-/** @brief compared vectors from top and bottom of array and then gradually
- * compare inner vectors.
+/** @brief compared vectors from top and bottom of array and then
+ * gradually compare inner vectors.
  * @param arr pointer to the array to be sorted
  * @param start index of the first element to be sorted
  * @param end index of the last element to be sorted
- * @param last_index last index of array to be sorted, maximum is array size - 1
+ * @param last_index last index of array to be sorted, maximum is
+ * array size - 1
  * @param depth a parameter to follow the depth of recursion
  */
-inline void lane_crossing_compare(double *arr, unsigned start, unsigned end,
-                                  unsigned last_index, unsigned depth) {
+inline void lane_crossing_compare(double *arr, unsigned start,
+                                  unsigned end, unsigned last_index,
+                                  unsigned depth) {
 
     if (start > last_index) {
         return;
@@ -1039,7 +1106,8 @@ inline void lane_crossing_compare(double *arr, unsigned start, unsigned end,
             double *p1 = p + i;
             double *p2 = p + length / 2 + i;
             __m256d reg0 = _mm256_load_pd(p1); // i-ti od začetka
-            __m256d reg1 = _mm256_load_pd(p2); // ta je prvi čez polovico
+            __m256d reg1 =
+                _mm256_load_pd(p2); // ta je prvi čez polovico
             // register 2 vsebuje min vrednosti
             __m256d min = _mm256_min_pd(reg1, reg0);
             // register 1 vsebuje max vrednosti
@@ -1049,9 +1117,10 @@ inline void lane_crossing_compare(double *arr, unsigned start, unsigned end,
             _mm256_store_pd(p2, reg1);
         }
     }
-    lane_crossing_compare(arr, start, (start + end) / 2, last_index, depth + 1);
-    lane_crossing_compare(arr, (start + end) / 2 + 1, end, last_index,
+    lane_crossing_compare(arr, start, (start + end) / 2, last_index,
                           depth + 1);
+    lane_crossing_compare(arr, (start + end) / 2 + 1, end,
+                          last_index, depth + 1);
 };
 
 /**
@@ -1061,7 +1130,8 @@ inline void lane_crossing_compare(double *arr, unsigned start, unsigned end,
  * @param end index of the last number to be sorted
  * @details end-start+1 should be 8*n
  */
-inline void sort_4n_vector(double *array, unsigned start, unsigned end) {
+inline void sort_4n_vector(double *array, unsigned start,
+                           unsigned end) {
 
     int pow2 = (int)std::ceil(std::log2f(end + 1));
     int imaginary_length = (int)std::pow(2, pow2);
@@ -1106,19 +1176,21 @@ inline void sort_4n_vector(double *array, unsigned start, unsigned end) {
             // std::cout << "len: " << len << std::endl;
             // inner loop goes over all subdivisions
             for (unsigned n = 0; n < imaginary_length; n += len) {
-                compare_full_length(array, n, n + len - 1, last_index);
-                lane_crossing_compare(array, n, n + len - 1, last_index, 0);
+                compare_full_length(array, n, n + len - 1,
+                                    last_index);
+                lane_crossing_compare(array, n, n + len - 1,
+                                      last_index, 0);
             }
         }
     }
 }
 
 //////////////////////////////////////////////////////////////////
-// DOUBLE ARRAY SORTING ALGORITHM FOR ARRAYS OF ARBITRARY LENGTH, the array must
-// contain 8n elements
-// float implementation
+// DOUBLE ARRAY SORTING ALGORITHM FOR ARRAYS OF ARBITRARY LENGTH,
+// the array must contain 8n elements float implementation
 
-inline void maskload(int diff, double *p2, __m256i &mask, __m256d &reg1) {
+inline void maskload(int diff, double *p2, __m256i &mask,
+                     __m256d &reg1) {
     switch (diff) {
     case 0: {
         mask = _mm256_set_epi64x(0, 0, 0, LOAD);
@@ -1144,14 +1216,16 @@ inline void maskload(int diff, double *p2, __m256i &mask, __m256d &reg1) {
     };
 }
 
-/** @brief compared vectors from top and bottom of array and then gradually
- * compare inner vectors.
+/** @brief compared vectors from top and bottom of array and then
+ * gradually compare inner vectors.
  * @param arr pointer to the float array to be sorted
  * @param start index of the first element to be sorted
  * @param end index of the last element to be sorted
  */
-inline void compare_full_length_all_cases(double *arr, unsigned start,
-                                          unsigned end, unsigned last_index) {
+inline void compare_full_length_all_cases(double *arr,
+                                          unsigned start,
+                                          unsigned end,
+                                          unsigned last_index) {
     // std::cout << "start: " << start << "end: " << end
     //          << " last index: " << last_index << std::endl;
     unsigned length = end - start + 1;
@@ -1183,15 +1257,17 @@ inline void compare_full_length_all_cases(double *arr, unsigned start,
     }
 }
 
-/** @brief compared vectors from top and bottom of array and then gradually
- * compare inner vectors.
+/** @brief compared vectors from top and bottom of array and then
+ * gradually compare inner vectors.
  * @param arr pointer to the array to be sorted
  * @param start index of the first element to be sorted
  * @param end index of the last element to be sorted
  * @param depth a parameter to follow the depth of recursion
  */
-inline void lane_crossing_compare_all_cases(double *arr, unsigned start,
-                                            unsigned end, unsigned last_index,
+inline void lane_crossing_compare_all_cases(double *arr,
+                                            unsigned start,
+                                            unsigned end,
+                                            unsigned last_index,
                                             unsigned depth) {
     if (start > last_index) {
         return;
@@ -1243,10 +1319,10 @@ inline void lane_crossing_compare_all_cases(double *arr, unsigned start,
         else
             _mm256_store_pd(p2, reg1);
     }
-    lane_crossing_compare_all_cases(arr, start, (start + end) / 2, last_index,
-                                    depth + 1);
-    lane_crossing_compare_all_cases(arr, (start + end) / 2 + 1, end, last_index,
-                                    depth + 1);
+    lane_crossing_compare_all_cases(arr, start, (start + end) / 2,
+                                    last_index, depth + 1);
+    lane_crossing_compare_all_cases(arr, (start + end) / 2 + 1, end,
+                                    last_index, depth + 1);
 };
 
 /**
@@ -1256,8 +1332,8 @@ inline void lane_crossing_compare_all_cases(double *arr, unsigned start,
  * @param end index of the last number to be sorted
  * @details end - start + 1 should be 2^n
  */
-inline void sort_vector(aligned_vector<double> &array, unsigned start,
-                        unsigned end) {
+inline void sort_vector(aligned_vector<double> &array,
+                        unsigned start, unsigned end) {
     unsigned full_length = end - start + 1;
     if (full_length <= 1)
         return;
@@ -1268,7 +1344,8 @@ inline void sort_vector(aligned_vector<double> &array, unsigned start,
         __m256i mask;
         maskload(reminder, p, mask, reg1);
         bitonic_sort(reg1);
-        _mm256_maskstore_pd(array.data() + end - reminder, mask, reg1);
+        _mm256_maskstore_pd(array.data() + end - reminder, mask,
+                            reg1);
     } else if (!(full_length & (full_length - 1)))
         sort_2n_vector(array.data(), start, end);
     else if (mod4(full_length) == 0)
@@ -1291,7 +1368,8 @@ inline void sort_vector(aligned_vector<double> &array, unsigned start,
         __m256i mask;
         maskload(reminder, p, mask, reg1);
         bitonic_sort(reg1);
-        _mm256_maskstore_pd(array.data() + end - reminder, mask, reg1);
+        _mm256_maskstore_pd(array.data() + end - reminder, mask,
+                            reg1);
 
         ///////////////////////////////////////////////////////
 
@@ -1299,14 +1377,15 @@ inline void sort_vector(aligned_vector<double> &array, unsigned start,
         // len is number of floats in length to be compared
         // each step increases this length by factor of 2.
         // 8 and less has already been done above
-        // for (unsigned len = 16; len <= imaginary_length; len *= 2) {
+        // for (unsigned len = 16; len <= imaginary_length; len *=
+        // 2) {
         for (unsigned len = 8; len <= imaginary_length; len *= 2) {
             // inner loop goes over all subdivisions
             for (unsigned n = 0; n < imaginary_length; n += len) {
-                compare_full_length_all_cases(array.data(), n, n + len - 1,
-                                              last_index);
-                lane_crossing_compare_all_cases(array.data(), n, n + len - 1,
-                                                last_index, 0);
+                compare_full_length_all_cases(
+                    array.data(), n, n + len - 1, last_index);
+                lane_crossing_compare_all_cases(
+                    array.data(), n, n + len - 1, last_index, 0);
             }
         }
     }

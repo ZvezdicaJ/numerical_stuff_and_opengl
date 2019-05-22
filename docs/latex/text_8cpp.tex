@@ -1,0 +1,86 @@
+\hypertarget{text_8cpp}{}\section{examples/simple\+\_\+text\+\_\+rendering/text.cpp File Reference}
+\label{text_8cpp}\index{examples/simple\+\_\+text\+\_\+rendering/text.\+cpp@{examples/simple\+\_\+text\+\_\+rendering/text.\+cpp}}
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$map$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$glad/glad.\+h$>$}\newline
+{\ttfamily \#include $<$G\+L\+F\+W/glfw3.\+h$>$}\newline
+{\ttfamily \#include $<$glm/glm.\+hpp$>$}\newline
+{\ttfamily \#include $<$glm/gtc/matrix\+\_\+transform.\+hpp$>$}\newline
+{\ttfamily \#include $<$glm/gtc/type\+\_\+ptr.\+hpp$>$}\newline
+{\ttfamily \#include $<$ft2build.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}text\+\_\+shaders.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}shader\+\_\+class.\+hpp\char`\"{}}\newline
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structCharacter}{Character}}
+\begin{DoxyCompactList}\small\item\em Holds all state information relevant to a character as loaded using Free\+Type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{text_8cpp_addb5f0efbdc6ceba1ba42cd05f6b0a65}{Render\+Text}} (\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60a72baef04098f035e8a320b03ad197818}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+OM}} $>$ \&shader, std\+::string text, G\+Lfloat x, G\+Lfloat y, G\+Lfloat scale, glm\+::vec3 color)
+\item 
+int \mbox{\hyperlink{text_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const G\+Luint \mbox{\hyperlink{text_8cpp_a02a2dea7b13a988d0086162033ed95a0}{W\+I\+D\+TH}} = 800
+\item 
+const G\+Luint \mbox{\hyperlink{text_8cpp_a45d3f53fb83f7542d154b0222bf523d6}{H\+E\+I\+G\+HT}} = 600
+\item 
+std\+::map$<$ G\+Lchar, \mbox{\hyperlink{structCharacter}{Character}} $>$ \mbox{\hyperlink{text_8cpp_a0ac006b2cb2b1f973f9f5de729c8724a}{Characters}}
+\item 
+G\+Luint \mbox{\hyperlink{text_8cpp_ac1d5b7753fa970a884f00bdcb78eff87}{V\+AO}}
+\item 
+G\+Luint \mbox{\hyperlink{text_8cpp_a753494ab2fd64c9abe9384b082ea8c48}{V\+BO}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{text_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}\label{text_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}} 
+\index{text.\+cpp@{text.\+cpp}!main@{main}}
+\index{main@{main}!text.\+cpp@{text.\+cpp}}
+\subsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{text_8cpp_addb5f0efbdc6ceba1ba42cd05f6b0a65}\label{text_8cpp_addb5f0efbdc6ceba1ba42cd05f6b0a65}} 
+\index{text.\+cpp@{text.\+cpp}!Render\+Text@{Render\+Text}}
+\index{Render\+Text@{Render\+Text}!text.\+cpp@{text.\+cpp}}
+\subsubsection{\texorpdfstring{Render\+Text()}{RenderText()}}
+{\footnotesize\ttfamily void Render\+Text (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60a72baef04098f035e8a320b03ad197818}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+OM}} $>$ \&}]{shader,  }\item[{std\+::string}]{text,  }\item[{G\+Lfloat}]{x,  }\item[{G\+Lfloat}]{y,  }\item[{G\+Lfloat}]{scale,  }\item[{glm\+::vec3}]{color }\end{DoxyParamCaption})}
+
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{text_8cpp_a0ac006b2cb2b1f973f9f5de729c8724a}\label{text_8cpp_a0ac006b2cb2b1f973f9f5de729c8724a}} 
+\index{text.\+cpp@{text.\+cpp}!Characters@{Characters}}
+\index{Characters@{Characters}!text.\+cpp@{text.\+cpp}}
+\subsubsection{\texorpdfstring{Characters}{Characters}}
+{\footnotesize\ttfamily std\+::map$<$G\+Lchar, \mbox{\hyperlink{structCharacter}{Character}}$>$ Characters}
+
+\mbox{\Hypertarget{text_8cpp_a45d3f53fb83f7542d154b0222bf523d6}\label{text_8cpp_a45d3f53fb83f7542d154b0222bf523d6}} 
+\index{text.\+cpp@{text.\+cpp}!H\+E\+I\+G\+HT@{H\+E\+I\+G\+HT}}
+\index{H\+E\+I\+G\+HT@{H\+E\+I\+G\+HT}!text.\+cpp@{text.\+cpp}}
+\subsubsection{\texorpdfstring{H\+E\+I\+G\+HT}{HEIGHT}}
+{\footnotesize\ttfamily const G\+Luint H\+E\+I\+G\+HT = 600}
+
+\mbox{\Hypertarget{text_8cpp_ac1d5b7753fa970a884f00bdcb78eff87}\label{text_8cpp_ac1d5b7753fa970a884f00bdcb78eff87}} 
+\index{text.\+cpp@{text.\+cpp}!V\+AO@{V\+AO}}
+\index{V\+AO@{V\+AO}!text.\+cpp@{text.\+cpp}}
+\subsubsection{\texorpdfstring{V\+AO}{VAO}}
+{\footnotesize\ttfamily G\+Luint V\+AO}
+
+\mbox{\Hypertarget{text_8cpp_a753494ab2fd64c9abe9384b082ea8c48}\label{text_8cpp_a753494ab2fd64c9abe9384b082ea8c48}} 
+\index{text.\+cpp@{text.\+cpp}!V\+BO@{V\+BO}}
+\index{V\+BO@{V\+BO}!text.\+cpp@{text.\+cpp}}
+\subsubsection{\texorpdfstring{V\+BO}{VBO}}
+{\footnotesize\ttfamily G\+Luint V\+BO}
+
+\mbox{\Hypertarget{text_8cpp_a02a2dea7b13a988d0086162033ed95a0}\label{text_8cpp_a02a2dea7b13a988d0086162033ed95a0}} 
+\index{text.\+cpp@{text.\+cpp}!W\+I\+D\+TH@{W\+I\+D\+TH}}
+\index{W\+I\+D\+TH@{W\+I\+D\+TH}!text.\+cpp@{text.\+cpp}}
+\subsubsection{\texorpdfstring{W\+I\+D\+TH}{WIDTH}}
+{\footnotesize\ttfamily const G\+Luint W\+I\+D\+TH = 800}
+

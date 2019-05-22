@@ -2,20 +2,13 @@
 #define GLFW_INCLUDE_NONE
 #endif
 
-#ifndef __glad_h_
-#include <glad/glad.h>
-#endif
-
-#include <GLFW/glfw3.h>
-#include <xmmintrin.h>
+#include <immintrin.h>
 #include <algorithm>
 #include <array>
 #include <cmath>
 #include <ctime>
 #include <string>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+
 #include <iostream>
 #include <limits>
 #include <string>
@@ -33,32 +26,16 @@
 #include "type_definitions.hpp"
 #include "convex_hull.hpp"
 
-#include "shaders.hpp"
-#include "shader_class.hpp"
 #include "auxiliary_functions.hpp"
 #include "print_functions.hpp"
-#include "drawing_functions.hpp"
-#include "display_functions.hpp"
-#define GLM_ENABLE_EXPERIMENTAL
-#include <glm/gtx/string_cast.hpp>
-#include <mgl2/mgl.h>
 
-#include "display_functions.hpp"
 #include "ising_shader.hpp"
 #include "spin_array.hpp"
-#include "text_rendering.hpp"
-
-#include "display_functions.hpp"
-#include "ising_shader.hpp"
-#include "spin_array.hpp"
-#include "text_rendering.hpp"
 
 #include "ising_windows.hpp"
 
-enum test_enum { Item1 = 0, Item2, Item3 };
-
-void settings_window(GLFWwindow *window, IsingModel<float> &algorithm,
-                     char &algorithm_choice, std::vector<float> &energy,
+void settings_window(IsingModel<float> &algorithm, char &algorithm_choice,
+                     std::vector<float> &energy,
                      std::vector<float> &magnetization) {
 
     static int counter = 0;
@@ -70,5 +47,4 @@ void settings_window(GLFWwindow *window, IsingModel<float> &algorithm,
     float fvar = (float)dvar;
     std::string strval = "A string";
     test_enum enumval = Item2;
-
 }

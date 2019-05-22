@@ -1,0 +1,88 @@
+\hypertarget{namespacebasic__text__shaders}{}\section{basic\+\_\+text\+\_\+shaders Namespace Reference}
+\label{namespacebasic__text__shaders}\index{basic\+\_\+text\+\_\+shaders@{basic\+\_\+text\+\_\+shaders}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static const std\+::string \mbox{\hyperlink{namespacebasic__text__shaders_a3a1e289b8d23fe7bbc727f210d18a3d2}{vertex\+\_\+shader}} (\{ R\char`\"{}(
+\#version 450 core
+layout (location = 0) in vec4 vertex; // $<$vec2 pos, vec2 tex$>$
+out vec2 Tex\+Coords;
+uniform mat4 projection;
+void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()
+\{
+gl\+\_\+\+Position = projection $\ast$ vec4(vertex.\+xy, 1.\+0, 1.\+0);
+Tex\+Coords = vertex.\+zw;
+\}
+)\char`\"{}\})
+\item 
+static const std\+::string \mbox{\hyperlink{namespacebasic__text__shaders_a1b36935432456ef648cb7c3704d25a6d}{fragment\+\_\+shader}} (\{R\char`\"{}(
+\#version 450 core
+
+in vec2 Tex\+Coords;
+out vec4 color;
+
+uniform sampler2D text;
+uniform vec3 text\+Color;
+
+void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()
+\{
+vec4 sampled = vec4(1.\+0, 1.\+0, 1.\+0, texture(text, Tex\+Coords).r);
+color = vec4(text\+Color, 1.\+0) $\ast$ sampled;
+\}
+)\char`\"{}\})
+\item 
+static const std\+::string \mbox{\hyperlink{namespacebasic__text__shaders_a3a1e289b8d23fe7bbc727f210d18a3d2}{vertex\+\_\+shader}} (\{ R\char`\"{}(
+\#version 450 core
+layout (location = 0) in vec4 vertex; // $<$vec2 pos, vec2 tex$>$
+out vec2 Tex\+Coords;
+uniform mat4 projection;
+void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()
+\{
+gl\+\_\+\+Position = projection $\ast$ vec4(vertex.\+xy, 1.\+0, 1.\+0);
+Tex\+Coords = vertex.\+zw;
+\}
+)\char`\"{}\})
+\item 
+static const std\+::string \mbox{\hyperlink{namespacebasic__text__shaders_a1b36935432456ef648cb7c3704d25a6d}{fragment\+\_\+shader}} (\{R\char`\"{}(
+\#version 450 core
+
+in vec2 Tex\+Coords;
+out vec4 color;
+
+uniform sampler2D text;
+uniform vec3 text\+Color;
+
+void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()
+\{
+vec4 sampled = vec4(1.\+0, 1.\+0, 1.\+0, texture(text, Tex\+Coords).r);
+color = vec4(text\+Color, 1.\+0) $\ast$ sampled;
+\}
+)\char`\"{}\})
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{namespacebasic__text__shaders_a1b36935432456ef648cb7c3704d25a6d}\label{namespacebasic__text__shaders_a1b36935432456ef648cb7c3704d25a6d}} 
+\index{basic\+\_\+text\+\_\+shaders@{basic\+\_\+text\+\_\+shaders}!fragment\+\_\+shader@{fragment\+\_\+shader}}
+\index{fragment\+\_\+shader@{fragment\+\_\+shader}!basic\+\_\+text\+\_\+shaders@{basic\+\_\+text\+\_\+shaders}}
+\subsubsection{\texorpdfstring{fragment\+\_\+shader()}{fragment\_shader()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily static const std\+::string basic\+\_\+text\+\_\+shaders\+::fragment\+\_\+shader (\begin{DoxyParamCaption}\item[{\{R\char`\"{}(\#version 450 corein vec2 Tex\+Coords;out vec4 color;uniform sampler2D text;uniform vec3 text\+Color;void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()\{vec4 sampled = vec4(1.\+0, 1.\+0, 1.\+0, texture(text, Tex\+Coords).r);color = vec4(text\+Color, 1.\+0) $\ast$ sampled;\})\char`\"{}\}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{namespacebasic__text__shaders_a1b36935432456ef648cb7c3704d25a6d}\label{namespacebasic__text__shaders_a1b36935432456ef648cb7c3704d25a6d}} 
+\index{basic\+\_\+text\+\_\+shaders@{basic\+\_\+text\+\_\+shaders}!fragment\+\_\+shader@{fragment\+\_\+shader}}
+\index{fragment\+\_\+shader@{fragment\+\_\+shader}!basic\+\_\+text\+\_\+shaders@{basic\+\_\+text\+\_\+shaders}}
+\subsubsection{\texorpdfstring{fragment\+\_\+shader()}{fragment\_shader()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily static const std\+::string basic\+\_\+text\+\_\+shaders\+::fragment\+\_\+shader (\begin{DoxyParamCaption}\item[{\{R\char`\"{}(\#version 450 corein vec2 Tex\+Coords;out vec4 color;uniform sampler2D text;uniform vec3 text\+Color;void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()\{vec4 sampled = vec4(1.\+0, 1.\+0, 1.\+0, texture(text, Tex\+Coords).r);color = vec4(text\+Color, 1.\+0) $\ast$ sampled;\})\char`\"{}\}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{namespacebasic__text__shaders_a3a1e289b8d23fe7bbc727f210d18a3d2}\label{namespacebasic__text__shaders_a3a1e289b8d23fe7bbc727f210d18a3d2}} 
+\index{basic\+\_\+text\+\_\+shaders@{basic\+\_\+text\+\_\+shaders}!vertex\+\_\+shader@{vertex\+\_\+shader}}
+\index{vertex\+\_\+shader@{vertex\+\_\+shader}!basic\+\_\+text\+\_\+shaders@{basic\+\_\+text\+\_\+shaders}}
+\subsubsection{\texorpdfstring{vertex\+\_\+shader()}{vertex\_shader()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily static const std\+::string basic\+\_\+text\+\_\+shaders\+::vertex\+\_\+shader (\begin{DoxyParamCaption}\item[{\{ R\char`\"{}(\#version 450 corelayout (location = 0) in vec4 vertex; // $<$vec2 pos, vec2 tex$>$out vec2 Tex\+Coords;uniform mat4 projection;void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()\{gl\+\_\+\+Position = projection $\ast$ vec4(vertex.\+xy, 1.\+0, 1.\+0);Tex\+Coords = vertex.\+zw;\})\char`\"{}\}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{namespacebasic__text__shaders_a3a1e289b8d23fe7bbc727f210d18a3d2}\label{namespacebasic__text__shaders_a3a1e289b8d23fe7bbc727f210d18a3d2}} 
+\index{basic\+\_\+text\+\_\+shaders@{basic\+\_\+text\+\_\+shaders}!vertex\+\_\+shader@{vertex\+\_\+shader}}
+\index{vertex\+\_\+shader@{vertex\+\_\+shader}!basic\+\_\+text\+\_\+shaders@{basic\+\_\+text\+\_\+shaders}}
+\subsubsection{\texorpdfstring{vertex\+\_\+shader()}{vertex\_shader()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily static const std\+::string basic\+\_\+text\+\_\+shaders\+::vertex\+\_\+shader (\begin{DoxyParamCaption}\item[{\{ R\char`\"{}(\#version 450 corelayout (location = 0) in vec4 vertex; // $<$vec2 pos, vec2 tex$>$out vec2 Tex\+Coords;uniform mat4 projection;void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()\{gl\+\_\+\+Position = projection $\ast$ vec4(vertex.\+xy, 1.\+0, 1.\+0);Tex\+Coords = vertex.\+zw;\})\char`\"{}\}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+

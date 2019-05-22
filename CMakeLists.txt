@@ -8,7 +8,11 @@ cmake_minimum_required(VERSION 3.2)
 # uncomment to set intel compiler
 #set(CMAKE_CXX_COMPILER "/opt/intel/system_studio_2019/compilers_and_libraries/linux/bin/intel64/icc" CACHE STRING "C++ compiler" FORCE)
 
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 set(CMAKE_CXX_COMPILER "g++")
+set(CMAKE_CXX_STANDARD 17)
 #message(STATUS "compiler: ${CMAKE_CXX_COMPILER}")
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
@@ -24,11 +28,6 @@ else("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Ofast -march=native -Wno-unused-variable")
 
 endif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-set(CMAKE_CXX_STANDARD 14)
 
 find_package(glfw3 REQUIRED)
 message(STATUS "glfw libraries: ${GLFW_LIBRARIES}")
@@ -80,7 +79,10 @@ target_link_libraries(runTests ${GTEST_LIBRARIES} pthread)
 
 
 #benchmarks section
-
 message(STATUS "benchmark libraries: ${BENCHMARK_LIBRARIES}")
-add_executable(sort_benchmarks benchmarks/sort_benchmarks.cpp)
-target_link_libraries(sort_benchmarks apex_memmove libdl.so libbenchmark.a pthread)
+add_executable(sort_float_benchmarks benchmarks/sort_float_benchmarks.cpp)
+target_link_libraries(sort_float_benchmarks apex_memmove libdl.so libbenchmark.a pthread)
+
+add_executable(sort_double_benchmarks benchmarks/sort_double_benchmarks.cpp)
+target_link_libraries(sort_double_benchmarks apex_memmove libdl.so libbenchmark.a pthread)
+

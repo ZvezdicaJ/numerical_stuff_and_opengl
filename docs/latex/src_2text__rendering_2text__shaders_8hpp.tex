@@ -1,0 +1,38 @@
+\hypertarget{src_2text__rendering_2text__shaders_8hpp}{}\section{src/text\+\_\+rendering/text\+\_\+shaders.hpp File Reference}
+\label{src_2text__rendering_2text__shaders_8hpp}\index{src/text\+\_\+rendering/text\+\_\+shaders.\+hpp@{src/text\+\_\+rendering/text\+\_\+shaders.\+hpp}}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacebasic__text__shaders}{basic\+\_\+text\+\_\+shaders}}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static const std\+::string \mbox{\hyperlink{namespacebasic__text__shaders_a3a1e289b8d23fe7bbc727f210d18a3d2}{basic\+\_\+text\+\_\+shaders\+::vertex\+\_\+shader}} (\{ R\char`\"{}(
+\#version 450 core
+layout (location = 0) in vec4 vertex; // $<$vec2 pos, vec2 tex$>$
+out vec2 Tex\+Coords;
+uniform mat4 projection;
+void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()
+\{
+gl\+\_\+\+Position = projection $\ast$ vec4(vertex.\+xy, 1.\+0, 1.\+0);
+Tex\+Coords = vertex.\+zw;
+\}
+)\char`\"{}\})
+\item 
+static const std\+::string \mbox{\hyperlink{namespacebasic__text__shaders_a1b36935432456ef648cb7c3704d25a6d}{basic\+\_\+text\+\_\+shaders\+::fragment\+\_\+shader}} (\{R\char`\"{}(
+\#version 450 core
+
+in vec2 Tex\+Coords;
+out vec4 color;
+
+uniform sampler2D text;
+uniform vec3 text\+Color;
+
+void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()
+\{
+vec4 sampled = vec4(1.\+0, 1.\+0, 1.\+0, texture(text, Tex\+Coords).r);
+color = vec4(text\+Color, 1.\+0) $\ast$ sampled;
+\}
+)\char`\"{}\})
+\end{DoxyCompactItemize}

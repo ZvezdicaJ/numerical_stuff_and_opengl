@@ -3,9 +3,7 @@
 #define GLFW_INCLUDE_NONE
 #endif
 
-#ifndef __glad_h_
 #include <glad/glad.h>
-#endif
 
 #include <GLFW/glfw3.h>
 #include <xmmintrin.h>
@@ -49,3 +47,4 @@
 #include "square_board.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
+

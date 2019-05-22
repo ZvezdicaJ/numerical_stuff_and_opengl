@@ -45,17 +45,17 @@ T \mbox{\hyperlink{classSquareBoard_a8b2ae6ea7295b2bff171b3d6311a456c}{perimeter
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classSquareBoard_a401c48fa5977d166b75e94bb7ddf1db7}{generate\+\_\+vertexes}} ()
+void \mbox{\hyperlink{classSquareBoard_a401c48fa5977d166b75e94bb7ddf1db7}{generate\+\_\+vertexes}} ()
 \item 
-\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classSquareBoard_a5d12432cc063275a6ffec42a7971abbc}{generate\+\_\+filling\+\_\+ebo}} ()
+void \mbox{\hyperlink{classSquareBoard_a5d12432cc063275a6ffec42a7971abbc}{generate\+\_\+filling\+\_\+ebo}} ()
 \item 
-\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classSquareBoard_a401c48fa5977d166b75e94bb7ddf1db7}{generate\+\_\+vertexes}} ()
+void \mbox{\hyperlink{classSquareBoard_a401c48fa5977d166b75e94bb7ddf1db7}{generate\+\_\+vertexes}} ()
 \item 
-\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classSquareBoard_a5d12432cc063275a6ffec42a7971abbc}{generate\+\_\+filling\+\_\+ebo}} ()
+void \mbox{\hyperlink{classSquareBoard_a5d12432cc063275a6ffec42a7971abbc}{generate\+\_\+filling\+\_\+ebo}} ()
 \item 
-{\footnotesize template$<$$>$ }\\\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classSquareBoard_a7928f781c7709b3fdfe42b5ce5bfc3f9}{generate\+\_\+vertexes}} ()
+{\footnotesize template$<$$>$ }\\void \mbox{\hyperlink{classSquareBoard_a7928f781c7709b3fdfe42b5ce5bfc3f9}{generate\+\_\+vertexes}} ()
 \item 
-{\footnotesize template$<$$>$ }\\\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classSquareBoard_a7928f781c7709b3fdfe42b5ce5bfc3f9}{generate\+\_\+vertexes}} ()
+{\footnotesize template$<$$>$ }\\void \mbox{\hyperlink{classSquareBoard_a7928f781c7709b3fdfe42b5ce5bfc3f9}{generate\+\_\+vertexes}} ()
 \end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
@@ -87,6 +87,11 @@ class Square\+Board$<$ T $>$}
 
 Basic constructor for class \mbox{\hyperlink{classSquareBoard}{Square\+Board}}. 
 
+Constructor generates vertexes and initializes opengl buffers. 
+\begin{DoxyParams}{Parameters}
+{\em size} & number of squares in single direction\\
+\hline
+\end{DoxyParams}
 Constructor generates vertexes and initializes opengl buffers. \mbox{\Hypertarget{classSquareBoard_a23c495a2419aded87c0b2803de409b5e}\label{classSquareBoard_a23c495a2419aded87c0b2803de409b5e}} 
 \index{Square\+Board@{Square\+Board}!Square\+Board@{Square\+Board}}
 \index{Square\+Board@{Square\+Board}!Square\+Board@{Square\+Board}}
@@ -130,42 +135,42 @@ Constructor generates vertexes and initializes opengl buffers. \mbox{\Hypertarge
 \index{generate\+\_\+filling\+\_\+ebo@{generate\+\_\+filling\+\_\+ebo}!Square\+Board@{Square\+Board}}
 \subsubsection{\texorpdfstring{generate\+\_\+filling\+\_\+ebo()}{generate\_filling\_ebo()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$typename T $>$ \\
-\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classSquareBoard}{Square\+Board}}$<$ T $>$\+::generate\+\_\+filling\+\_\+ebo (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+void \mbox{\hyperlink{classSquareBoard}{Square\+Board}}$<$ T $>$\+::generate\+\_\+filling\+\_\+ebo (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
 
 \mbox{\Hypertarget{classSquareBoard_a5d12432cc063275a6ffec42a7971abbc}\label{classSquareBoard_a5d12432cc063275a6ffec42a7971abbc}} 
 \index{Square\+Board@{Square\+Board}!generate\+\_\+filling\+\_\+ebo@{generate\+\_\+filling\+\_\+ebo}}
 \index{generate\+\_\+filling\+\_\+ebo@{generate\+\_\+filling\+\_\+ebo}!Square\+Board@{Square\+Board}}
 \subsubsection{\texorpdfstring{generate\+\_\+filling\+\_\+ebo()}{generate\_filling\_ebo()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$typename T  = float$>$ \\
-\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classSquareBoard}{Square\+Board}}$<$ T $>$\+::generate\+\_\+filling\+\_\+ebo (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+void \mbox{\hyperlink{classSquareBoard}{Square\+Board}}$<$ T $>$\+::generate\+\_\+filling\+\_\+ebo (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 \mbox{\Hypertarget{classSquareBoard_a401c48fa5977d166b75e94bb7ddf1db7}\label{classSquareBoard_a401c48fa5977d166b75e94bb7ddf1db7}} 
 \index{Square\+Board@{Square\+Board}!generate\+\_\+vertexes@{generate\+\_\+vertexes}}
 \index{generate\+\_\+vertexes@{generate\+\_\+vertexes}!Square\+Board@{Square\+Board}}
 \subsubsection{\texorpdfstring{generate\+\_\+vertexes()}{generate\_vertexes()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
 {\footnotesize\ttfamily template$<$typename T  = float$>$ \\
-\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classSquareBoard}{Square\+Board}}$<$ T $>$\+::generate\+\_\+vertexes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+void \mbox{\hyperlink{classSquareBoard}{Square\+Board}}$<$ T $>$\+::generate\+\_\+vertexes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 \mbox{\Hypertarget{classSquareBoard_a401c48fa5977d166b75e94bb7ddf1db7}\label{classSquareBoard_a401c48fa5977d166b75e94bb7ddf1db7}} 
 \index{Square\+Board@{Square\+Board}!generate\+\_\+vertexes@{generate\+\_\+vertexes}}
 \index{generate\+\_\+vertexes@{generate\+\_\+vertexes}!Square\+Board@{Square\+Board}}
 \subsubsection{\texorpdfstring{generate\+\_\+vertexes()}{generate\_vertexes()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
 {\footnotesize\ttfamily template$<$typename T  = float$>$ \\
-\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classSquareBoard}{Square\+Board}}$<$ T $>$\+::generate\+\_\+vertexes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+void \mbox{\hyperlink{classSquareBoard}{Square\+Board}}$<$ T $>$\+::generate\+\_\+vertexes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 \mbox{\Hypertarget{classSquareBoard_a7928f781c7709b3fdfe42b5ce5bfc3f9}\label{classSquareBoard_a7928f781c7709b3fdfe42b5ce5bfc3f9}} 
 \index{Square\+Board@{Square\+Board}!generate\+\_\+vertexes@{generate\+\_\+vertexes}}
 \index{generate\+\_\+vertexes@{generate\+\_\+vertexes}!Square\+Board@{Square\+Board}}
 \subsubsection{\texorpdfstring{generate\+\_\+vertexes()}{generate\_vertexes()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
 {\footnotesize\ttfamily template$<$$>$ \\
-\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classSquareBoard}{Square\+Board}}$<$ float $>$\+::generate\+\_\+vertexes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+void \mbox{\hyperlink{classSquareBoard}{Square\+Board}}$<$ float $>$\+::generate\+\_\+vertexes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
 
 \mbox{\Hypertarget{classSquareBoard_a7928f781c7709b3fdfe42b5ce5bfc3f9}\label{classSquareBoard_a7928f781c7709b3fdfe42b5ce5bfc3f9}} 
 \index{Square\+Board@{Square\+Board}!generate\+\_\+vertexes@{generate\+\_\+vertexes}}
 \index{generate\+\_\+vertexes@{generate\+\_\+vertexes}!Square\+Board@{Square\+Board}}
 \subsubsection{\texorpdfstring{generate\+\_\+vertexes()}{generate\_vertexes()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
 {\footnotesize\ttfamily template$<$$>$ \\
-\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classSquareBoard}{Square\+Board}}$<$ float $>$\+::generate\+\_\+vertexes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+void \mbox{\hyperlink{classSquareBoard}{Square\+Board}}$<$ float $>$\+::generate\+\_\+vertexes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
 
 \mbox{\Hypertarget{classSquareBoard_a354794a6de9edec8c771ca49dd315acf}\label{classSquareBoard_a354794a6de9edec8c771ca49dd315acf}} 
 \index{Square\+Board@{Square\+Board}!operator=@{operator=}}
@@ -217,7 +222,7 @@ T \mbox{\hyperlink{classSquareBoard}{Square\+Board}}$<$ T $>$\+::perimeter (\beg
 \index{size@{size}!Square\+Board@{Square\+Board}}
 \subsubsection{\texorpdfstring{size}{size}}
 {\footnotesize\ttfamily template$<$typename T  = float$>$ \\
-unsigned \mbox{\hyperlink{classSquareBoard}{Square\+Board}}$<$ T $>$\+::\mbox{\hyperlink{glad_8h_adead0e00f1033fff2918e18853add2b1}{size}}\hspace{0.3cm}{\ttfamily [private]}}
+unsigned \mbox{\hyperlink{classSquareBoard}{Square\+Board}}$<$ T $>$\+::size\hspace{0.3cm}{\ttfamily [private]}}
 
 number of squares in the array 
 

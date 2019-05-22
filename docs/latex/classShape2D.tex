@@ -23,9 +23,9 @@ Inheritance diagram for Shape2D$<$ T $>$\+:\begin{figure}[H]
 \subsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-virtual \mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classShape2D_a917c3277ca262ec557930c8cc837c204}{generate\+\_\+filling\+\_\+vbo}} ()
+virtual void \mbox{\hyperlink{classShape2D_a917c3277ca262ec557930c8cc837c204}{generate\+\_\+filling\+\_\+vbo}} ()
 \item 
-{\footnotesize template$<$$>$ }\\\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classShape2D_a328d401b8f1962078e904d4b1003d7a5}{generate\+\_\+filling\+\_\+vbo}} ()
+{\footnotesize template$<$$>$ }\\void \mbox{\hyperlink{classShape2D_a328d401b8f1962078e904d4b1003d7a5}{generate\+\_\+filling\+\_\+vbo}} ()
 \begin{DoxyCompactList}\small\item\em Generates vertexes which fill the interior of 2D shapes. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
@@ -43,8 +43,10 @@ char \mbox{\hyperlink{classShape2D_ab24ceddaa0114eda3ae699f8fb3503ca}{filling\+\
 \subsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classShape2D_a75ed525e537ded17d42e3adad87bd701}{draw\+\_\+2d\+\_\+object}} (\mbox{\hyperlink{classShape2D}{Shape2D}}$<$ T $>$ \&shape, \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&shader\+\_\+object, std\+::array$<$ float, 3 $>$ scale, std\+::array$<$ float, 3 $>$ position, std\+::array$<$ float, 3 $>$ rotation\+\_\+axis, float angle, glm\+::vec4)
-\begin{DoxyCompactList}\small\item\em draw 2d shape filling of uniform color. \end{DoxyCompactList}\end{DoxyCompactItemize}
+void \mbox{\hyperlink{classShape2D_a75ed525e537ded17d42e3adad87bd701}{draw\+\_\+2d\+\_\+object}} (\mbox{\hyperlink{classShape2D}{Shape2D}}$<$ T $>$ \&shape, \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&shader\+\_\+object, std\+::array$<$ float, 3 $>$ scale, std\+::array$<$ float, 3 $>$ position, std\+::array$<$ float, 3 $>$ rotation\+\_\+axis, float angle, glm\+::vec4)
+\begin{DoxyCompactList}\small\item\em draw 2d shape filling of uniform color. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classShape2D_a7fa5afc784c9357e9ea0106b7e34e277}{draw\+\_\+2d\+\_\+object}} (\mbox{\hyperlink{classShape2D}{Shape2D}}$<$ T $>$ \&shape, \mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60a9d34355b5a26c54b5dbab1e45245a6f4}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&shader\+\_\+object, std\+::array$<$ float, 3 $>$ scale, std\+::array$<$ float, 3 $>$ position, std\+::array$<$ float, 3 $>$ rotation\+\_\+axis, float angle)
+\begin{DoxyCompactList}\small\item\em draw 2d shape filling of custom color. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -61,14 +63,14 @@ It inherits from \mbox{\hyperlink{classShape}{Shape}} class. Template parameter 
 \index{generate\+\_\+filling\+\_\+vbo@{generate\+\_\+filling\+\_\+vbo}!Shape2D@{Shape2D}}
 \subsubsection{\texorpdfstring{generate\+\_\+filling\+\_\+vbo()}{generate\_filling\_vbo()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$typename T$>$ \\
-virtual \mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classShape2D}{Shape2D}}$<$ T $>$\+::generate\+\_\+filling\+\_\+vbo (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+virtual void \mbox{\hyperlink{classShape2D}{Shape2D}}$<$ T $>$\+::generate\+\_\+filling\+\_\+vbo (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
 
 \mbox{\Hypertarget{classShape2D_a328d401b8f1962078e904d4b1003d7a5}\label{classShape2D_a328d401b8f1962078e904d4b1003d7a5}} 
 \index{Shape2D@{Shape2D}!generate\+\_\+filling\+\_\+vbo@{generate\+\_\+filling\+\_\+vbo}}
 \index{generate\+\_\+filling\+\_\+vbo@{generate\+\_\+filling\+\_\+vbo}!Shape2D@{Shape2D}}
 \subsubsection{\texorpdfstring{generate\+\_\+filling\+\_\+vbo()}{generate\_filling\_vbo()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$$>$ \\
-\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classShape2D}{Shape2D}}$<$ float $>$\+::generate\+\_\+filling\+\_\+vbo (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+void \mbox{\hyperlink{classShape2D}{Shape2D}}$<$ float $>$\+::generate\+\_\+filling\+\_\+vbo (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
 
 
 
@@ -87,13 +89,41 @@ Generates vertexes which fill the interior of 2D shapes.
 \mbox{\Hypertarget{classShape2D_a75ed525e537ded17d42e3adad87bd701}\label{classShape2D_a75ed525e537ded17d42e3adad87bd701}} 
 \index{Shape2D@{Shape2D}!draw\+\_\+2d\+\_\+object@{draw\+\_\+2d\+\_\+object}}
 \index{draw\+\_\+2d\+\_\+object@{draw\+\_\+2d\+\_\+object}!Shape2D@{Shape2D}}
-\subsubsection{\texorpdfstring{draw\+\_\+2d\+\_\+object}{draw\_2d\_object}}
+\subsubsection{\texorpdfstring{draw\+\_\+2d\+\_\+object}{draw\_2d\_object}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$typename T$>$ \\
-\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} draw\+\_\+2d\+\_\+object (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShape2D}{Shape2D}}$<$ T $>$ \&}]{shape,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&}]{shader\+\_\+object,  }\item[{std\+::array$<$ float, 3 $>$}]{scale = {\ttfamily \{0.5,~0.5,~0.5\}},  }\item[{std\+::array$<$ float, 3 $>$}]{position = {\ttfamily \{0,~0,~1\}},  }\item[{std\+::array$<$ float, 3 $>$}]{rotation\+\_\+axis = {\ttfamily \{0,~0,~1\}},  }\item[{float}]{angle = {\ttfamily 0},  }\item[{glm\+::vec4}]{color = {\ttfamily \{0.5,~0.5,~0.5,~0.5\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+void draw\+\_\+2d\+\_\+object (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShape2D}{Shape2D}}$<$ T $>$ \&}]{shape,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60aa98862073f71a928bad5099cc3e1c2ed}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&}]{shader\+\_\+object,  }\item[{std\+::array$<$ float, 3 $>$}]{scale = {\ttfamily \{0.5,~0.5,~0.5\}},  }\item[{std\+::array$<$ float, 3 $>$}]{position = {\ttfamily \{0,~0,~1\}},  }\item[{std\+::array$<$ float, 3 $>$}]{rotation\+\_\+axis = {\ttfamily \{0,~0,~1\}},  }\item[{float}]{angle = {\ttfamily 0},  }\item[{glm\+::vec4}]{color = {\ttfamily \{0.5,~0.5,~0.5,~0.5\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
 
 
 
 draw 2d shape filling of uniform color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em shape} & An object of type class \mbox{\hyperlink{classShape}{Shape}} to be drawn \\
+\hline
+{\em shader\+\_\+object} & Object of type class Shader$<$\+R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+U\+N\+I\+F\+O\+R\+M\+\_\+\+C\+O\+L\+O\+R$>$, which contains correct shader. \\
+\hline
+{\em scale} & sscales object in x,y and z directions. \\
+\hline
+{\em position} & translate center of the object to coordinates specified by this vector. \\
+\hline
+{\em rotation\+\_\+axis} & axis around which object should be rotated. \\
+\hline
+{\em angle} & Angle specifying how much to rotate the object. \\
+\hline
+{\em color} & color of the shape -\/ the same for all vertexes \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classShape2D_a7fa5afc784c9357e9ea0106b7e34e277}\label{classShape2D_a7fa5afc784c9357e9ea0106b7e34e277}} 
+\index{Shape2D@{Shape2D}!draw\+\_\+2d\+\_\+object@{draw\+\_\+2d\+\_\+object}}
+\index{draw\+\_\+2d\+\_\+object@{draw\+\_\+2d\+\_\+object}!Shape2D@{Shape2D}}
+\subsubsection{\texorpdfstring{draw\+\_\+2d\+\_\+object}{draw\_2d\_object}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void draw\+\_\+2d\+\_\+object (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classShape2D}{Shape2D}}$<$ T $>$ \&}]{shape,  }\item[{\mbox{\hyperlink{classShader}{Shader}}$<$ \mbox{\hyperlink{shader__class_8hpp_a24e288e18eb7b6e01de7565001fedb60a9d34355b5a26c54b5dbab1e45245a6f4}{R\+E\+N\+D\+E\+R\+\_\+\+T\+Y\+P\+E\+::\+C\+U\+S\+T\+O\+M\+\_\+\+C\+O\+L\+OR}} $>$ \&}]{shader\+\_\+object,  }\item[{std\+::array$<$ float, 3 $>$}]{scale = {\ttfamily \{0.5,~0.5,~0.5\}},  }\item[{std\+::array$<$ float, 3 $>$}]{position = {\ttfamily \{0,~0,~1\}},  }\item[{std\+::array$<$ float, 3 $>$}]{rotation\+\_\+axis = {\ttfamily \{0,~0,~1\}},  }\item[{float}]{angle = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+draw 2d shape filling of custom color. 
 
 
 \begin{DoxyParams}{Parameters}

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['khronos_5fboolean_5fenum_5ft',['khronos_boolean_enum_t',['../khrplatform_8h.html#a0b823cfbc138820708978d43a5f26c64',1,'khrplatform.h']]]
+  ['glfwclientapi',['GlfwClientApi',['../imgui__impl__glfw_8cpp.html#abfd5392e93ee3c4e7f86cc5515e2d413',1,'imgui_impl_glfw.cpp']]]
 ];

@@ -1,4 +1,7 @@
 #pragma once
+#include <immintrin.h>
+#include <string>
+
 template <class T>
 inline void hash_combine(std::size_t &seed, const T &v) {
     std::hash<T> hasher;

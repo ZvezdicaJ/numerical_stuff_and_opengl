@@ -1,0 +1,195 @@
+\hypertarget{imgui__impl__opengl3_8cpp}{}\section{examples/ising\+\_\+imgui/imgui\+\_\+impl\+\_\+opengl3.cpp File Reference}
+\label{imgui__impl__opengl3_8cpp}\index{examples/ising\+\_\+imgui/imgui\+\_\+impl\+\_\+opengl3.\+cpp@{examples/ising\+\_\+imgui/imgui\+\_\+impl\+\_\+opengl3.\+cpp}}
+{\ttfamily \#include \char`\"{}imgui.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}imgui\+\_\+impl\+\_\+opengl3.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include $<$glad/glad.\+h$>$}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{imgui__impl__opengl3_8cpp_a0475f257dc97d1daceee89cb4b19744d}{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Init}} (const char $\ast$glsl\+\_\+version)
+\item 
+void \mbox{\hyperlink{imgui__impl__opengl3_8cpp_acbd53376e6135ad71e7bcd9879278e37}{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Shutdown}} ()
+\item 
+void \mbox{\hyperlink{imgui__impl__opengl3_8cpp_a900e74add4e56e74f97a210eb329aa91}{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+New\+Frame}} ()
+\item 
+void \mbox{\hyperlink{imgui__impl__opengl3_8cpp_ad215190229f4f300593911aa7b3821de}{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Render\+Draw\+Data}} (Im\+Draw\+Data $\ast$draw\+\_\+data)
+\item 
+bool \mbox{\hyperlink{imgui__impl__opengl3_8cpp_a3dc4f80532d710de41d4075214eb363e}{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Create\+Fonts\+Texture}} ()
+\item 
+void \mbox{\hyperlink{imgui__impl__opengl3_8cpp_a539aaad4aa185838297fb13b2409c405}{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Destroy\+Fonts\+Texture}} ()
+\item 
+static bool \mbox{\hyperlink{imgui__impl__opengl3_8cpp_a11601584c987e4aeae774985e1177d74}{Check\+Shader}} (G\+Luint handle, const char $\ast$desc)
+\item 
+static bool \mbox{\hyperlink{imgui__impl__opengl3_8cpp_a22f46b7ed68c385f411c4b2dc25c50e8}{Check\+Program}} (G\+Luint handle, const char $\ast$desc)
+\item 
+bool \mbox{\hyperlink{imgui__impl__opengl3_8cpp_ab27f12289d6fe9fcd412f92af280b398}{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Create\+Device\+Objects}} ()
+\item 
+void \mbox{\hyperlink{imgui__impl__opengl3_8cpp_a605e340c346791d9c9e927add2392d0e}{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Destroy\+Device\+Objects}} ()
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+static char \mbox{\hyperlink{imgui__impl__opengl3_8cpp_a080be4f3f916ccafcbe99a70cba44e08}{g\+\_\+\+Glsl\+Version\+String}} \mbox{[}32\mbox{]} = \char`\"{}\char`\"{}
+\item 
+static G\+Luint \mbox{\hyperlink{imgui__impl__opengl3_8cpp_a76694bfc1e27296421f914cfe8246635}{g\+\_\+\+Font\+Texture}} = 0
+\item 
+static G\+Luint \mbox{\hyperlink{imgui__impl__opengl3_8cpp_ae1b73cef0bc055e139fff6b0e1768a4f}{g\+\_\+\+Shader\+Handle}} = 0
+\item 
+static G\+Luint \mbox{\hyperlink{imgui__impl__opengl3_8cpp_a5010daecbe2e956c15b02203ed7cdfd3}{g\+\_\+\+Vert\+Handle}} = 0
+\item 
+static G\+Luint \mbox{\hyperlink{imgui__impl__opengl3_8cpp_a8bd0b9474bb0923002b18894944e45fe}{g\+\_\+\+Frag\+Handle}} = 0
+\item 
+static int \mbox{\hyperlink{imgui__impl__opengl3_8cpp_a5442c37443169f6c2b7483a0818a653f}{g\+\_\+\+Attrib\+Location\+Tex}} = 0
+\item 
+static int \mbox{\hyperlink{imgui__impl__opengl3_8cpp_a723abd9d65c0a97f57cf0bebb7f83e4b}{g\+\_\+\+Attrib\+Location\+Proj\+Mtx}} = 0
+\item 
+static int \mbox{\hyperlink{imgui__impl__opengl3_8cpp_ade34388b0980cca6588fcc64fc741b1f}{g\+\_\+\+Attrib\+Location\+Vtx\+Pos}} = 0
+\item 
+static int \mbox{\hyperlink{imgui__impl__opengl3_8cpp_ad1da0d98d7756ae97fbf6c7d5708b8ac}{g\+\_\+\+Attrib\+Location\+Vtx\+UV}} = 0
+\item 
+static int \mbox{\hyperlink{imgui__impl__opengl3_8cpp_ad69e09c3598493a0349798093a0ef100}{g\+\_\+\+Attrib\+Location\+Vtx\+Color}} = 0
+\item 
+static unsigned int \mbox{\hyperlink{imgui__impl__opengl3_8cpp_a137cb22f50258ade706c87cd18d7da60}{g\+\_\+\+Vbo\+Handle}} = 0
+\item 
+static unsigned int \mbox{\hyperlink{imgui__impl__opengl3_8cpp_a26abda8950dc2d4adf6e2a5171c2445a}{g\+\_\+\+Elements\+Handle}} = 0
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{imgui__impl__opengl3_8cpp_a22f46b7ed68c385f411c4b2dc25c50e8}\label{imgui__impl__opengl3_8cpp_a22f46b7ed68c385f411c4b2dc25c50e8}} 
+\index{imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}!Check\+Program@{Check\+Program}}
+\index{Check\+Program@{Check\+Program}!imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}}
+\subsubsection{\texorpdfstring{Check\+Program()}{CheckProgram()}}
+{\footnotesize\ttfamily static bool Check\+Program (\begin{DoxyParamCaption}\item[{G\+Luint}]{handle,  }\item[{const char $\ast$}]{desc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{imgui__impl__opengl3_8cpp_a11601584c987e4aeae774985e1177d74}\label{imgui__impl__opengl3_8cpp_a11601584c987e4aeae774985e1177d74}} 
+\index{imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}!Check\+Shader@{Check\+Shader}}
+\index{Check\+Shader@{Check\+Shader}!imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}}
+\subsubsection{\texorpdfstring{Check\+Shader()}{CheckShader()}}
+{\footnotesize\ttfamily static bool Check\+Shader (\begin{DoxyParamCaption}\item[{G\+Luint}]{handle,  }\item[{const char $\ast$}]{desc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{imgui__impl__opengl3_8cpp_ab27f12289d6fe9fcd412f92af280b398}\label{imgui__impl__opengl3_8cpp_ab27f12289d6fe9fcd412f92af280b398}} 
+\index{imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}!Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Create\+Device\+Objects@{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Create\+Device\+Objects}}
+\index{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Create\+Device\+Objects@{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Create\+Device\+Objects}!imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}}
+\subsubsection{\texorpdfstring{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Create\+Device\+Objects()}{ImGui\_ImplOpenGL3\_CreateDeviceObjects()}}
+{\footnotesize\ttfamily bool Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Create\+Device\+Objects (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{imgui__impl__opengl3_8cpp_a3dc4f80532d710de41d4075214eb363e}\label{imgui__impl__opengl3_8cpp_a3dc4f80532d710de41d4075214eb363e}} 
+\index{imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}!Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Create\+Fonts\+Texture@{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Create\+Fonts\+Texture}}
+\index{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Create\+Fonts\+Texture@{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Create\+Fonts\+Texture}!imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}}
+\subsubsection{\texorpdfstring{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Create\+Fonts\+Texture()}{ImGui\_ImplOpenGL3\_CreateFontsTexture()}}
+{\footnotesize\ttfamily bool Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Create\+Fonts\+Texture (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{imgui__impl__opengl3_8cpp_a605e340c346791d9c9e927add2392d0e}\label{imgui__impl__opengl3_8cpp_a605e340c346791d9c9e927add2392d0e}} 
+\index{imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}!Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Destroy\+Device\+Objects@{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Destroy\+Device\+Objects}}
+\index{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Destroy\+Device\+Objects@{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Destroy\+Device\+Objects}!imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}}
+\subsubsection{\texorpdfstring{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Destroy\+Device\+Objects()}{ImGui\_ImplOpenGL3\_DestroyDeviceObjects()}}
+{\footnotesize\ttfamily void Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Destroy\+Device\+Objects (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{imgui__impl__opengl3_8cpp_a539aaad4aa185838297fb13b2409c405}\label{imgui__impl__opengl3_8cpp_a539aaad4aa185838297fb13b2409c405}} 
+\index{imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}!Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Destroy\+Fonts\+Texture@{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Destroy\+Fonts\+Texture}}
+\index{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Destroy\+Fonts\+Texture@{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Destroy\+Fonts\+Texture}!imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}}
+\subsubsection{\texorpdfstring{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Destroy\+Fonts\+Texture()}{ImGui\_ImplOpenGL3\_DestroyFontsTexture()}}
+{\footnotesize\ttfamily void Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Destroy\+Fonts\+Texture (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{imgui__impl__opengl3_8cpp_a0475f257dc97d1daceee89cb4b19744d}\label{imgui__impl__opengl3_8cpp_a0475f257dc97d1daceee89cb4b19744d}} 
+\index{imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}!Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Init@{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Init}}
+\index{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Init@{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Init}!imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}}
+\subsubsection{\texorpdfstring{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Init()}{ImGui\_ImplOpenGL3\_Init()}}
+{\footnotesize\ttfamily bool Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Init (\begin{DoxyParamCaption}\item[{const char $\ast$}]{glsl\+\_\+version }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{imgui__impl__opengl3_8cpp_a900e74add4e56e74f97a210eb329aa91}\label{imgui__impl__opengl3_8cpp_a900e74add4e56e74f97a210eb329aa91}} 
+\index{imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}!Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+New\+Frame@{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+New\+Frame}}
+\index{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+New\+Frame@{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+New\+Frame}!imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}}
+\subsubsection{\texorpdfstring{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+New\+Frame()}{ImGui\_ImplOpenGL3\_NewFrame()}}
+{\footnotesize\ttfamily void Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+New\+Frame (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{imgui__impl__opengl3_8cpp_ad215190229f4f300593911aa7b3821de}\label{imgui__impl__opengl3_8cpp_ad215190229f4f300593911aa7b3821de}} 
+\index{imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}!Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Render\+Draw\+Data@{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Render\+Draw\+Data}}
+\index{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Render\+Draw\+Data@{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Render\+Draw\+Data}!imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}}
+\subsubsection{\texorpdfstring{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Render\+Draw\+Data()}{ImGui\_ImplOpenGL3\_RenderDrawData()}}
+{\footnotesize\ttfamily void Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Render\+Draw\+Data (\begin{DoxyParamCaption}\item[{Im\+Draw\+Data $\ast$}]{draw\+\_\+data }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{imgui__impl__opengl3_8cpp_acbd53376e6135ad71e7bcd9879278e37}\label{imgui__impl__opengl3_8cpp_acbd53376e6135ad71e7bcd9879278e37}} 
+\index{imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}!Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Shutdown@{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Shutdown}}
+\index{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Shutdown@{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Shutdown}!imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}}
+\subsubsection{\texorpdfstring{Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Shutdown()}{ImGui\_ImplOpenGL3\_Shutdown()}}
+{\footnotesize\ttfamily void Im\+Gui\+\_\+\+Impl\+Open\+G\+L3\+\_\+\+Shutdown (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{imgui__impl__opengl3_8cpp_a723abd9d65c0a97f57cf0bebb7f83e4b}\label{imgui__impl__opengl3_8cpp_a723abd9d65c0a97f57cf0bebb7f83e4b}} 
+\index{imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}!g\+\_\+\+Attrib\+Location\+Proj\+Mtx@{g\+\_\+\+Attrib\+Location\+Proj\+Mtx}}
+\index{g\+\_\+\+Attrib\+Location\+Proj\+Mtx@{g\+\_\+\+Attrib\+Location\+Proj\+Mtx}!imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}}
+\subsubsection{\texorpdfstring{g\+\_\+\+Attrib\+Location\+Proj\+Mtx}{g\_AttribLocationProjMtx}}
+{\footnotesize\ttfamily int g\+\_\+\+Attrib\+Location\+Proj\+Mtx = 0\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{imgui__impl__opengl3_8cpp_a5442c37443169f6c2b7483a0818a653f}\label{imgui__impl__opengl3_8cpp_a5442c37443169f6c2b7483a0818a653f}} 
+\index{imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}!g\+\_\+\+Attrib\+Location\+Tex@{g\+\_\+\+Attrib\+Location\+Tex}}
+\index{g\+\_\+\+Attrib\+Location\+Tex@{g\+\_\+\+Attrib\+Location\+Tex}!imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}}
+\subsubsection{\texorpdfstring{g\+\_\+\+Attrib\+Location\+Tex}{g\_AttribLocationTex}}
+{\footnotesize\ttfamily int g\+\_\+\+Attrib\+Location\+Tex = 0\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{imgui__impl__opengl3_8cpp_ad69e09c3598493a0349798093a0ef100}\label{imgui__impl__opengl3_8cpp_ad69e09c3598493a0349798093a0ef100}} 
+\index{imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}!g\+\_\+\+Attrib\+Location\+Vtx\+Color@{g\+\_\+\+Attrib\+Location\+Vtx\+Color}}
+\index{g\+\_\+\+Attrib\+Location\+Vtx\+Color@{g\+\_\+\+Attrib\+Location\+Vtx\+Color}!imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}}
+\subsubsection{\texorpdfstring{g\+\_\+\+Attrib\+Location\+Vtx\+Color}{g\_AttribLocationVtxColor}}
+{\footnotesize\ttfamily int g\+\_\+\+Attrib\+Location\+Vtx\+Color = 0\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{imgui__impl__opengl3_8cpp_ade34388b0980cca6588fcc64fc741b1f}\label{imgui__impl__opengl3_8cpp_ade34388b0980cca6588fcc64fc741b1f}} 
+\index{imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}!g\+\_\+\+Attrib\+Location\+Vtx\+Pos@{g\+\_\+\+Attrib\+Location\+Vtx\+Pos}}
+\index{g\+\_\+\+Attrib\+Location\+Vtx\+Pos@{g\+\_\+\+Attrib\+Location\+Vtx\+Pos}!imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}}
+\subsubsection{\texorpdfstring{g\+\_\+\+Attrib\+Location\+Vtx\+Pos}{g\_AttribLocationVtxPos}}
+{\footnotesize\ttfamily int g\+\_\+\+Attrib\+Location\+Vtx\+Pos = 0\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{imgui__impl__opengl3_8cpp_ad1da0d98d7756ae97fbf6c7d5708b8ac}\label{imgui__impl__opengl3_8cpp_ad1da0d98d7756ae97fbf6c7d5708b8ac}} 
+\index{imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}!g\+\_\+\+Attrib\+Location\+Vtx\+UV@{g\+\_\+\+Attrib\+Location\+Vtx\+UV}}
+\index{g\+\_\+\+Attrib\+Location\+Vtx\+UV@{g\+\_\+\+Attrib\+Location\+Vtx\+UV}!imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}}
+\subsubsection{\texorpdfstring{g\+\_\+\+Attrib\+Location\+Vtx\+UV}{g\_AttribLocationVtxUV}}
+{\footnotesize\ttfamily int g\+\_\+\+Attrib\+Location\+Vtx\+UV = 0\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{imgui__impl__opengl3_8cpp_a26abda8950dc2d4adf6e2a5171c2445a}\label{imgui__impl__opengl3_8cpp_a26abda8950dc2d4adf6e2a5171c2445a}} 
+\index{imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}!g\+\_\+\+Elements\+Handle@{g\+\_\+\+Elements\+Handle}}
+\index{g\+\_\+\+Elements\+Handle@{g\+\_\+\+Elements\+Handle}!imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}}
+\subsubsection{\texorpdfstring{g\+\_\+\+Elements\+Handle}{g\_ElementsHandle}}
+{\footnotesize\ttfamily unsigned int g\+\_\+\+Elements\+Handle = 0\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{imgui__impl__opengl3_8cpp_a76694bfc1e27296421f914cfe8246635}\label{imgui__impl__opengl3_8cpp_a76694bfc1e27296421f914cfe8246635}} 
+\index{imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}!g\+\_\+\+Font\+Texture@{g\+\_\+\+Font\+Texture}}
+\index{g\+\_\+\+Font\+Texture@{g\+\_\+\+Font\+Texture}!imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}}
+\subsubsection{\texorpdfstring{g\+\_\+\+Font\+Texture}{g\_FontTexture}}
+{\footnotesize\ttfamily G\+Luint g\+\_\+\+Font\+Texture = 0\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{imgui__impl__opengl3_8cpp_a8bd0b9474bb0923002b18894944e45fe}\label{imgui__impl__opengl3_8cpp_a8bd0b9474bb0923002b18894944e45fe}} 
+\index{imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}!g\+\_\+\+Frag\+Handle@{g\+\_\+\+Frag\+Handle}}
+\index{g\+\_\+\+Frag\+Handle@{g\+\_\+\+Frag\+Handle}!imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}}
+\subsubsection{\texorpdfstring{g\+\_\+\+Frag\+Handle}{g\_FragHandle}}
+{\footnotesize\ttfamily G\+Luint g\+\_\+\+Frag\+Handle = 0\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{imgui__impl__opengl3_8cpp_a080be4f3f916ccafcbe99a70cba44e08}\label{imgui__impl__opengl3_8cpp_a080be4f3f916ccafcbe99a70cba44e08}} 
+\index{imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}!g\+\_\+\+Glsl\+Version\+String@{g\+\_\+\+Glsl\+Version\+String}}
+\index{g\+\_\+\+Glsl\+Version\+String@{g\+\_\+\+Glsl\+Version\+String}!imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}}
+\subsubsection{\texorpdfstring{g\+\_\+\+Glsl\+Version\+String}{g\_GlslVersionString}}
+{\footnotesize\ttfamily char g\+\_\+\+Glsl\+Version\+String\mbox{[}32\mbox{]} = \char`\"{}\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{imgui__impl__opengl3_8cpp_ae1b73cef0bc055e139fff6b0e1768a4f}\label{imgui__impl__opengl3_8cpp_ae1b73cef0bc055e139fff6b0e1768a4f}} 
+\index{imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}!g\+\_\+\+Shader\+Handle@{g\+\_\+\+Shader\+Handle}}
+\index{g\+\_\+\+Shader\+Handle@{g\+\_\+\+Shader\+Handle}!imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}}
+\subsubsection{\texorpdfstring{g\+\_\+\+Shader\+Handle}{g\_ShaderHandle}}
+{\footnotesize\ttfamily G\+Luint g\+\_\+\+Shader\+Handle = 0\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{imgui__impl__opengl3_8cpp_a137cb22f50258ade706c87cd18d7da60}\label{imgui__impl__opengl3_8cpp_a137cb22f50258ade706c87cd18d7da60}} 
+\index{imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}!g\+\_\+\+Vbo\+Handle@{g\+\_\+\+Vbo\+Handle}}
+\index{g\+\_\+\+Vbo\+Handle@{g\+\_\+\+Vbo\+Handle}!imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}}
+\subsubsection{\texorpdfstring{g\+\_\+\+Vbo\+Handle}{g\_VboHandle}}
+{\footnotesize\ttfamily unsigned int g\+\_\+\+Vbo\+Handle = 0\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{imgui__impl__opengl3_8cpp_a5010daecbe2e956c15b02203ed7cdfd3}\label{imgui__impl__opengl3_8cpp_a5010daecbe2e956c15b02203ed7cdfd3}} 
+\index{imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}!g\+\_\+\+Vert\+Handle@{g\+\_\+\+Vert\+Handle}}
+\index{g\+\_\+\+Vert\+Handle@{g\+\_\+\+Vert\+Handle}!imgui\+\_\+impl\+\_\+opengl3.\+cpp@{imgui\+\_\+impl\+\_\+opengl3.\+cpp}}
+\subsubsection{\texorpdfstring{g\+\_\+\+Vert\+Handle}{g\_VertHandle}}
+{\footnotesize\ttfamily G\+Luint g\+\_\+\+Vert\+Handle = 0\hspace{0.3cm}{\ttfamily [static]}}
+

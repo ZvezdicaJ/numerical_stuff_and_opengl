@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['khronos_5fboolean_5fenum_5fforce_5fsize',['KHRONOS_BOOLEAN_ENUM_FORCE_SIZE',['../khrplatform_8h.html#a0b823cfbc138820708978d43a5f26c64a47d7d559cf039488acac78e797bc3cf9',1,'khrplatform.h']]],
-  ['khronos_5ffalse',['KHRONOS_FALSE',['../khrplatform_8h.html#a0b823cfbc138820708978d43a5f26c64a37d68e7202b4d30f7742acebb50d1ba6',1,'khrplatform.h']]],
-  ['khronos_5ftrue',['KHRONOS_TRUE',['../khrplatform_8h.html#a0b823cfbc138820708978d43a5f26c64a9275264520295ae24bc2033c05d6cb70',1,'khrplatform.h']]]
+  ['glfwclientapi_5fopengl',['GlfwClientApi_OpenGL',['../imgui__impl__glfw_8cpp.html#abfd5392e93ee3c4e7f86cc5515e2d413a4bdb1206a80d2fecbccc1ba13a194189',1,'imgui_impl_glfw.cpp']]],
+  ['glfwclientapi_5funknown',['GlfwClientApi_Unknown',['../imgui__impl__glfw_8cpp.html#abfd5392e93ee3c4e7f86cc5515e2d413a64b18e86183bf2f895418038ae86fd97',1,'imgui_impl_glfw.cpp']]],
+  ['glfwclientapi_5fvulkan',['GlfwClientApi_Vulkan',['../imgui__impl__glfw_8cpp.html#abfd5392e93ee3c4e7f86cc5515e2d413aea35a390f6542022f5704637f7cbefb5',1,'imgui_impl_glfw.cpp']]]
 ];

@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['offset',['offset',['../glad_8h.html#a18d58060ee920e8c96efccc8e16a95f0',1,'glad.h']]],
-  ['offsets',['offsets',['../glad_8h.html#a42c4f478b845c4293718119038d11730',1,'glad.h']]],
-  ['order',['order',['../glad_8h.html#a4240946665c1034f7ba768c9bf5af8ec',1,'glad.h']]],
-  ['origtexture',['origtexture',['../glad_8h.html#a4080c53daa5448493093ca86747c2574',1,'glad.h']]]
-];
+  ['n',['n',['../glad_2include_2glad_2glad_8h.html#a0788d3762d0c3c76e4c094d8078b4c27',1,'n():&#160;glad.h'],['../glcorearb_8h.html#a532fe4d6eb721f47be89f442cacacbb3',1,'n():&#160;glcorearb.h'],['../nanogui_2ext_2glad_2include_2glad_2glad_8h.html#a0788d3762d0c3c76e4c094d8078b4c27',1,'n():&#160;glad.h']]],
+  ['name',['name',['../glad_2include_2glad_2glad_8h.html#a5c4947d4516dd7cfa3505ce3a648a4ef',1,'name():&#160;glad.h'],['../glcorearb_8h.html#aecf4170e4b4b02c6fd0f0ad0640ef5e9',1,'name():&#160;glcorearb.h'],['../nanogui_2ext_2glad_2include_2glad_2glad_8h.html#aaced7cfc21e7d37775d6921bb8177239',1,'name():&#160;glad.h'],['../nanogui_2ext_2glfw_2deps_2glad_2glad_8h.html#aaba40ea13fd7e785895acb4a50649a8f',1,'name():&#160;glad.h']]],
+  ['namelen',['namelen',['../glcorearb_8h.html#a530c192f48a964d8ff63cc011b1459bb',1,'glcorearb.h']]],
+  ['ncmatrix',['NCMatrix',['../classEigen_1_1SparseLU.html#af1fb9b86b237b26d2148df843bc41220',1,'Eigen::SparseLU']]],
+  ['negativereturntype',['NegativeReturnType',['../classEigen_1_1ArrayBase.html#a94d49c58b972d405e3a81be089072afe',1,'Eigen::ArrayBase::NegativeReturnType()'],['../classEigen_1_1MatrixBase.html#a89b87d933efd2413546b70b8c4fac81e',1,'Eigen::MatrixBase::NegativeReturnType()'],['../classEigen_1_1SparseMatrixBase.html#a78aee84bc5f00692fb817414646fc7b4',1,'Eigen::SparseMatrixBase::NegativeReturnType()'],['../CommonCwiseUnaryOps_8h.html#aff53bb7e0da4f1764538c2cdb52768ab',1,'NegativeReturnType():&#160;CommonCwiseUnaryOps.h']]],
+  ['nested',['Nested',['../

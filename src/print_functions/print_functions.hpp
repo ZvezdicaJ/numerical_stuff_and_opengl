@@ -5,7 +5,8 @@ inline void print_vertex(T *ver, const std::string vertex_name = "",
 
     static_assert(std::is_same<float, T>::value ||
                       std::is_same<double, T>::value,
-                  "Shapes can only be instantiated with floating point types: "
+                  "Shapes can only be instantiated with floating "
+                  "point types: "
                   "float, double, long double!");
     std::cout << "\n " << vertex_name << "  ";
     for (int i = 0; i < vert_size; i++)
@@ -14,10 +15,12 @@ inline void print_vertex(T *ver, const std::string vertex_name = "",
 }
 
 template <class T>
-inline std::ostream &operator<<(std::ostream &out, std::vector<T> vec) {
+inline std::ostream &operator<<(std::ostream &out,
+                                std::vector<T> vec) {
     static_assert(std::is_same<float, T>::value ||
                       std::is_same<double, T>::value,
-                  "Shapes can only be instantiated with floating point types: "
+                  "Shapes can only be instantiated with floating "
+                  "point types: "
                   "float, double, long double!");
     for (int i = 0; i < vec.size(); i++) {
         out << vec[i] << " ";
@@ -27,7 +30,8 @@ inline std::ostream &operator<<(std::ostream &out, std::vector<T> vec) {
 
 template <class T, int size>
 inline void print_vertexes(const std::array<T, size> &vertexes,
-                           int number_to_print = 0, int vertex_size = 3) {
+                           int number_to_print = 0,
+                           int vertex_size = 3) {
     if (number_to_print == 0)
         number_to_print = vertexes.size() / vertex_size;
 
@@ -42,7 +46,8 @@ inline void print_vertexes(const std::array<T, size> &vertexes,
 
 template <class T>
 inline void print_vertexes(const std::vector<T> &vertexes,
-                           int number_to_print = 0, int vertex_size = 3) {
+                           int number_to_print = 0,
+                           int vertex_size = 3) {
     if (number_to_print == 0)
         number_to_print = vertexes.size() / vertex_size;
     for (int i = 0; i < number_to_print; i++) {
@@ -56,7 +61,8 @@ inline void print_vertexes(const std::vector<T> &vertexes,
 
 template <class T>
 inline void print_vertexes(const aligned_vector<T> &vertexes,
-                           int number_to_print = 0, int vertex_size = 3) {
+                           int number_to_print = 0,
+                           int vertex_size = 3) {
     if (number_to_print == 0)
         number_to_print = vertexes.size() / vertex_size;
     for (int i = 0; i < number_to_print; i++) {
@@ -81,8 +87,9 @@ inline void print_vertexes(T *vertexes, int number_to_print,
 }
 
 template <class T, int size>
-void print_triangles(const std::array<std::array<T, 9>, size> &triangles,
-                     int number_to_print = size, int vertex_size = 3) {
+void print_triangles(
+    const std::array<std::array<T, 9>, size> &triangles,
+    int number_to_print = size, int vertex_size = 3) {
     if (number_to_print == 0)
         number_to_print = triangles.size();
 
@@ -98,16 +105,20 @@ inline void print_triangles(float *triangles, int number_to_print,
         std::cout << "triangle " << tri << ":   ";
         for (int ver = 0; ver < 3; ver++) {
             unsigned ofset = 3 * vertex_size * tri + 3 * ver;
-            std::cout << triangles[ofset] << " " << triangles[ofset + 1] << " "
+            std::cout << triangles[ofset] << " "
+                      << triangles[ofset + 1] << " "
                       << triangles[ofset + 2] << "  ";
         }
         std::cout << std::endl;
     }
 }
 
-inline void print(std::string str) { std::cout << str << std::endl; }
+inline void print(std::string str) {
+    std::cout << str << std::endl;
+}
 
-inline std::ostream &operator<<(std::ostream &out, std::pair<int, int> pair) {
+inline std::ostream &operator<<(std::ostream &out,
+                                std::pair<int, int> pair) {
     std::cout << "<" << pair.first << ", " << pair.second << ">";
     return out;
 }
@@ -116,7 +127,8 @@ inline std::ostream &
 operator<<(std::ostream &out,
            std::unordered_map<std::pair<int, int>, int> umap) {
     for (const auto &element : umap) {
-        std::cout << element.first << "  " << element.second << std::endl;
+        std::cout << element.first << "  " << element.second
+                  << std::endl;
     }
     return out;
 }
@@ -124,36 +136,36 @@ operator<<(std::ostream &out,
 inline void print_sse(__m128 reg, std::string name = "") {
     std::cout << name << " ";
     float *r = (float *)&reg;
-    std::cout << *r << " " << *(r + 1) << " " << *(r + 2) << " " << *(r + 3)
-              << std::endl;
+    std::cout << *r << " " << *(r + 1) << " " << *(r + 2) << " "
+              << *(r + 3) << std::endl;
 }
 
 inline void print_sse(__m128i reg, std::string name = "") {
     std::cout << name << " ";
     int *r = (int *)&reg;
-    std::cout << *r << " " << *(r + 1) << " " << *(r + 2) << " " << *(r + 3)
-              << std::endl;
+    std::cout << *r << " " << *(r + 1) << " " << *(r + 2) << " "
+              << *(r + 3) << std::endl;
 }
 
 inline void print_avx(__m256d reg, std::string name = "") {
     std::cout << name << " ";
     double *r = (double *)&reg;
-    std::cout << *r << " " << *(r + 1) << " " << *(r + 2) << " " << *(r + 3)
-              << std::endl;
+    std::cout << *r << " " << *(r + 1) << " " << *(r + 2) << " "
+              << *(r + 3) << std::endl;
 }
 
 inline void print_avx(__m256 reg, std::string name = "") {
     std::cout << name << " ";
     float *r = (float *)&reg;
-    std::cout << *r << " " << *(r + 1) << " " << *(r + 2) << " " << *(r + 3)
-              << " " << *(r + 4) << " " << *(r + 5) << " " << *(r + 6) << " "
-              << *(r + 7) << std::endl;
+    std::cout << *r << " " << *(r + 1) << " " << *(r + 2) << " "
+              << *(r + 3) << " " << *(r + 4) << " " << *(r + 5)
+              << " " << *(r + 6) << " " << *(r + 7) << std::endl;
 }
 
 inline void print_avx(__m256i reg, std::string name = "") {
     std::cout << name << " ";
     int *r = (int *)&reg;
-    std::cout << *r << " " << *(r + 1) << " " << *(r + 2) << " " << *(r + 3)
-              << " " << *(r + 4) << " " << *(r + 5) << " " << *(r + 6) << " "
-              << *(r + 7) << std::endl;
+    std::cout << *r << " " << *(r + 1) << " " << *(r + 2) << " "
+              << *(r + 3) << " " << *(r + 4) << " " << *(r + 5)
+              << " " << *(r + 6) << " " << *(r + 7) << std::endl;
 }

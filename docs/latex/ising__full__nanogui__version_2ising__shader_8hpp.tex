@@ -1,0 +1,181 @@
+\hypertarget{ising__full__nanogui__version_2ising__shader_8hpp}{}\section{examples/ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.hpp File Reference}
+\label{ising__full__nanogui__version_2ising__shader_8hpp}\index{examples/ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.\+hpp@{examples/ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.\+hpp}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static const std\+::string \mbox{\hyperlink{ising__full__nanogui__version_2ising__shader_8hpp_ae0f87644c6cd3728cb046dae7892bc4f}{ising\+\_\+frame\+\_\+vertex\+\_\+shaders}} (\{ R\char`\"{}(
+\#version 450 core
+layout (location = 0) in vec2 a\+Pos;
+
+void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()
+\{
+gl\+\_\+\+Point\+Size=30.\+0f;
+
+gl\+\_\+\+Position = vec4(a\+Pos, 0.\+0f, 1.\+0f);
+
+
+\}
+)\char`\"{}\})
+\item 
+static const std\+::string \mbox{\hyperlink{ising__full__nanogui__version_2ising__shader_8hpp_a3c66d6833f6e534d2f93e199efe7dbfd}{ising\+\_\+frame\+\_\+geometry\+\_\+shader}} (\{ R\char`\"{}(
+\#version 450 core
+layout (points) in;
+layout (line\+\_\+strip, max\+\_\+vertices = 5) out;
+
+uniform float square\+\_\+size;
+uniform mat4 transform;
+
+void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}() \{
+
+vec4 factor = vec4(0.\+5,0.\+5,1.\+0,1.\+0);
+
+gl\+\_\+\+Position = transform$\ast$(gl\+\_\+in\mbox{[}0\mbox{]}.gl\+\_\+\+Position + vec4(-\/square\+\_\+size, -\/square\+\_\+size, 0.\+0, 0.\+0f)$\ast$factor);
+\+Emit\+Vertex();
+
+gl\+\_\+\+Position = transform$\ast$(gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4( -\/square\+\_\+size, square\+\_\+size, 0.\+0, 0.\+0f)$\ast$factor);
+\+Emit\+Vertex();
+
+gl\+\_\+\+Position = transform$\ast$(gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4( square\+\_\+size, square\+\_\+size, 0.\+0, 0.\+0f)$\ast$factor);
+\+Emit\+Vertex();
+
+gl\+\_\+\+Position = transform$\ast$(gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4( square\+\_\+size, -\/square\+\_\+size, 0.\+0, 0.\+0f)$\ast$factor);
+\+Emit\+Vertex();
+
+gl\+\_\+\+Position = transform$\ast$(gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4(-\/square\+\_\+size, -\/square\+\_\+size, 0.\+0, 0.\+0f)$\ast$factor);
+\+Emit\+Vertex();
+
+\+End\+Primitive();
+
+\}
+)\char`\"{}\})
+\item 
+static const std\+::string \mbox{\hyperlink{ising__full__nanogui__version_2ising__shader_8hpp_a962e78001b3bd337ac52faf486ea50d5}{ising\+\_\+frame\+\_\+fragment\+\_\+shader}} (\{R\char`\"{}(
+\#version 450 core
+
+out vec4 Frag\+Color;
+
+void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()
+\{
+  Frag\+Color = vec4(0.\+5, 0.\+5, 0.\+5, 0.\+5);
+\}
+)\char`\"{}\})
+\item 
+static const std\+::string \mbox{\hyperlink{ising__full__nanogui__version_2ising__shader_8hpp_ac8f60866c90f4f8c124bcee42bbe5c2a}{ising\+\_\+triangle\+\_\+vertex\+\_\+shaders}} (\{ R\char`\"{}(
+\#version 450 core
+layout (location = 0) in vec2 a\+Pos;
+layout (location = 1) in int spin;
+
+layout (location = 0) out vec4 Color;
+
+uniform mat4 projection;
+
+void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()
+\{
+gl\+\_\+\+Point\+Size=30.\+0f;
+
+gl\+\_\+\+Position = vec4(a\+Pos, 0.\+0f, 1.\+0f);
+
+if(spin == 1)
+\{
+    Color = vec4(1.\+0, 0.\+0, 0.\+0, 1.\+0);
+\}
+else
+\{
+    Color = vec4(0.\+0, 0.\+0, 1.\+0,1.\+0);
+\}
+
+//\+Color = vec4(0.\+4, 0.\+4, 0.\+4, 0.\+4);
+
+\}
+)\char`\"{}\})
+\item 
+static const std\+::string \mbox{\hyperlink{ising__full__nanogui__version_2ising__shader_8hpp_a3ff892df5f71b972235b16ca8a8084c2}{ising\+\_\+triangle\+\_\+geometry\+\_\+shader}} (\{ R\char`\"{}(
+\#version 450 core
+layout (points) in;
+layout (triangle\+\_\+strip, max\+\_\+vertices = 4) out;
+
+layout (location=0) in vec4 Color\mbox{[}$\,$\mbox{]}; // Output from vertex shader for each vertex
+
+layout (location=0) out vec4 frag\+\_\+color; // Output to fragment shader
+
+uniform float square\+\_\+size;
+uniform mat4 transform;
+
+void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}() \{
+
+frag\+\_\+color = Color\mbox{[}0\mbox{]};
+
+vec4 factor = vec4(0.\+4,0.\+4,1.\+0,1.\+0);
+
+gl\+\_\+\+Position = transform$\ast$(gl\+\_\+in\mbox{[}0\mbox{]}.gl\+\_\+\+Position + vec4(-\/square\+\_\+size, square\+\_\+size, 0.\+0, 0.\+0f)$\ast$factor);
+\+Emit\+Vertex();
+
+gl\+\_\+\+Position = transform$\ast$(gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4( -\/square\+\_\+size, -\/square\+\_\+size, 0.\+0, 0.\+0f)$\ast$factor);
+\+Emit\+Vertex();
+
+gl\+\_\+\+Position = transform$\ast$(gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4( square\+\_\+size, square\+\_\+size, 0.\+0, 0.\+0f)$\ast$factor);
+\+Emit\+Vertex();
+
+gl\+\_\+\+Position = transform$\ast$(gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4( square\+\_\+size, -\/square\+\_\+size, 0.\+0, 0.\+0f)$\ast$factor);
+\+Emit\+Vertex();
+
+\+End\+Primitive();
+
+
+\}
+)\char`\"{}\})
+\item 
+static const std\+::string \mbox{\hyperlink{ising__full__nanogui__version_2ising__shader_8hpp_a6347491e52774cf6c8759e79a7292fac}{ising\+\_\+triangle\+\_\+fragment\+\_\+shader}} (\{R\char`\"{}(
+\#version 450 core
+layout(location=0) in vec4 frag\+\_\+color;
+
+out vec4 Frag\+Color;
+
+void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()
+\{
+
+ Frag\+Color = frag\+\_\+color;
+// Frag\+Color = vec4(0.\+7, 0.\+7, 0.\+7, 0.\+7);
+
+\}
+)\char`\"{}\})
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{ising__full__nanogui__version_2ising__shader_8hpp_a962e78001b3bd337ac52faf486ea50d5}\label{ising__full__nanogui__version_2ising__shader_8hpp_a962e78001b3bd337ac52faf486ea50d5}} 
+\index{ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.\+hpp@{ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.\+hpp}!ising\+\_\+frame\+\_\+fragment\+\_\+shader@{ising\+\_\+frame\+\_\+fragment\+\_\+shader}}
+\index{ising\+\_\+frame\+\_\+fragment\+\_\+shader@{ising\+\_\+frame\+\_\+fragment\+\_\+shader}!ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.\+hpp@{ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.\+hpp}}
+\subsubsection{\texorpdfstring{ising\+\_\+frame\+\_\+fragment\+\_\+shader()}{ising\_frame\_fragment\_shader()}}
+{\footnotesize\ttfamily static const std\+::string ising\+\_\+frame\+\_\+fragment\+\_\+shader (\begin{DoxyParamCaption}\item[{\{R\char`\"{}(\#version 450 coreout vec4 Frag\+Color;void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()\{  Frag\+Color = vec4(0.\+5, 0.\+5, 0.\+5, 0.\+5);\})\char`\"{}\}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{ising__full__nanogui__version_2ising__shader_8hpp_a3c66d6833f6e534d2f93e199efe7dbfd}\label{ising__full__nanogui__version_2ising__shader_8hpp_a3c66d6833f6e534d2f93e199efe7dbfd}} 
+\index{ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.\+hpp@{ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.\+hpp}!ising\+\_\+frame\+\_\+geometry\+\_\+shader@{ising\+\_\+frame\+\_\+geometry\+\_\+shader}}
+\index{ising\+\_\+frame\+\_\+geometry\+\_\+shader@{ising\+\_\+frame\+\_\+geometry\+\_\+shader}!ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.\+hpp@{ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.\+hpp}}
+\subsubsection{\texorpdfstring{ising\+\_\+frame\+\_\+geometry\+\_\+shader()}{ising\_frame\_geometry\_shader()}}
+{\footnotesize\ttfamily static const std\+::string ising\+\_\+frame\+\_\+geometry\+\_\+shader (\begin{DoxyParamCaption}\item[{\{ R\char`\"{}(\#version 450 corelayout (points) in;layout (line\+\_\+strip, max\+\_\+vertices = 5) out;uniform float square\+\_\+size;uniform mat4 transform;void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}() \{vec4 factor = vec4(0.\+5,0.\+5,1.\+0,1.\+0);gl\+\_\+\+Position = transform$\ast$(gl\+\_\+in\mbox{[}0\mbox{]}.gl\+\_\+\+Position + vec4(-\/square\+\_\+size, -\/square\+\_\+size, 0.\+0, 0.\+0f)$\ast$factor);\+Emit\+Vertex();gl\+\_\+\+Position = transform$\ast$(gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4( -\/square\+\_\+size, square\+\_\+size, 0.\+0, 0.\+0f)$\ast$factor);\+Emit\+Vertex();gl\+\_\+\+Position = transform$\ast$(gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4( square\+\_\+size, square\+\_\+size, 0.\+0, 0.\+0f)$\ast$factor);\+Emit\+Vertex();gl\+\_\+\+Position = transform$\ast$(gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4( square\+\_\+size, -\/square\+\_\+size, 0.\+0, 0.\+0f)$\ast$factor);\+Emit\+Vertex();gl\+\_\+\+Position = transform$\ast$(gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4(-\/square\+\_\+size, -\/square\+\_\+size, 0.\+0, 0.\+0f)$\ast$factor);\+Emit\+Vertex();\+End\+Primitive();\})\char`\"{}\}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{ising__full__nanogui__version_2ising__shader_8hpp_ae0f87644c6cd3728cb046dae7892bc4f}\label{ising__full__nanogui__version_2ising__shader_8hpp_ae0f87644c6cd3728cb046dae7892bc4f}} 
+\index{ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.\+hpp@{ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.\+hpp}!ising\+\_\+frame\+\_\+vertex\+\_\+shaders@{ising\+\_\+frame\+\_\+vertex\+\_\+shaders}}
+\index{ising\+\_\+frame\+\_\+vertex\+\_\+shaders@{ising\+\_\+frame\+\_\+vertex\+\_\+shaders}!ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.\+hpp@{ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.\+hpp}}
+\subsubsection{\texorpdfstring{ising\+\_\+frame\+\_\+vertex\+\_\+shaders()}{ising\_frame\_vertex\_shaders()}}
+{\footnotesize\ttfamily static const std\+::string ising\+\_\+frame\+\_\+vertex\+\_\+shaders (\begin{DoxyParamCaption}\item[{\{ R\char`\"{}(\#version 450 corelayout (location = 0) in vec2 a\+Pos;void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()\{gl\+\_\+\+Point\+Size=30.\+0f;gl\+\_\+\+Position = vec4(a\+Pos, 0.\+0f, 1.\+0f);\})\char`\"{}\}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{ising__full__nanogui__version_2ising__shader_8hpp_a6347491e52774cf6c8759e79a7292fac}\label{ising__full__nanogui__version_2ising__shader_8hpp_a6347491e52774cf6c8759e79a7292fac}} 
+\index{ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.\+hpp@{ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.\+hpp}!ising\+\_\+triangle\+\_\+fragment\+\_\+shader@{ising\+\_\+triangle\+\_\+fragment\+\_\+shader}}
+\index{ising\+\_\+triangle\+\_\+fragment\+\_\+shader@{ising\+\_\+triangle\+\_\+fragment\+\_\+shader}!ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.\+hpp@{ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.\+hpp}}
+\subsubsection{\texorpdfstring{ising\+\_\+triangle\+\_\+fragment\+\_\+shader()}{ising\_triangle\_fragment\_shader()}}
+{\footnotesize\ttfamily static const std\+::string ising\+\_\+triangle\+\_\+fragment\+\_\+shader (\begin{DoxyParamCaption}\item[{\{R\char`\"{}(\#version 450 corelayout(location=0) in vec4 frag\+\_\+color;out vec4 Frag\+Color;void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()\{ Frag\+Color = frag\+\_\+color;// Frag\+Color = vec4(0.\+7, 0.\+7, 0.\+7, 0.\+7);\})\char`\"{}\}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{ising__full__nanogui__version_2ising__shader_8hpp_a3ff892df5f71b972235b16ca8a8084c2}\label{ising__full__nanogui__version_2ising__shader_8hpp_a3ff892df5f71b972235b16ca8a8084c2}} 
+\index{ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.\+hpp@{ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.\+hpp}!ising\+\_\+triangle\+\_\+geometry\+\_\+shader@{ising\+\_\+triangle\+\_\+geometry\+\_\+shader}}
+\index{ising\+\_\+triangle\+\_\+geometry\+\_\+shader@{ising\+\_\+triangle\+\_\+geometry\+\_\+shader}!ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.\+hpp@{ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.\+hpp}}
+\subsubsection{\texorpdfstring{ising\+\_\+triangle\+\_\+geometry\+\_\+shader()}{ising\_triangle\_geometry\_shader()}}
+{\footnotesize\ttfamily static const std\+::string ising\+\_\+triangle\+\_\+geometry\+\_\+shader (\begin{DoxyParamCaption}\item[{\{ R\char`\"{}(\#version 450 corelayout (points) in;layout (triangle\+\_\+strip, max\+\_\+vertices = 4) out;layout (location=0) in vec4 Color\mbox{[}$\,$\mbox{]}; // Output from vertex shader for each vertexlayout (location=0) out vec4 frag\+\_\+color; // Output to fragment shaderuniform float square\+\_\+size;uniform mat4 transform;void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}() \{frag\+\_\+color = Color\mbox{[}0\mbox{]};vec4 factor = vec4(0.\+4,0.\+4,1.\+0,1.\+0);gl\+\_\+\+Position = transform$\ast$(gl\+\_\+in\mbox{[}0\mbox{]}.gl\+\_\+\+Position + vec4(-\/square\+\_\+size, square\+\_\+size, 0.\+0, 0.\+0f)$\ast$factor);\+Emit\+Vertex();gl\+\_\+\+Position = transform$\ast$(gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4( -\/square\+\_\+size, -\/square\+\_\+size, 0.\+0, 0.\+0f)$\ast$factor);\+Emit\+Vertex();gl\+\_\+\+Position = transform$\ast$(gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4( square\+\_\+size, square\+\_\+size, 0.\+0, 0.\+0f)$\ast$factor);\+Emit\+Vertex();gl\+\_\+\+Position = transform$\ast$(gl\+\_\+in\mbox{[}0\mbox{]}.\+gl\+\_\+\+Position + vec4( square\+\_\+size, -\/square\+\_\+size, 0.\+0, 0.\+0f)$\ast$factor);\+Emit\+Vertex();\+End\+Primitive();\})\char`\"{}\}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{ising__full__nanogui__version_2ising__shader_8hpp_ac8f60866c90f4f8c124bcee42bbe5c2a}\label{ising__full__nanogui__version_2ising__shader_8hpp_ac8f60866c90f4f8c124bcee42bbe5c2a}} 
+\index{ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.\+hpp@{ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.\+hpp}!ising\+\_\+triangle\+\_\+vertex\+\_\+shaders@{ising\+\_\+triangle\+\_\+vertex\+\_\+shaders}}
+\index{ising\+\_\+triangle\+\_\+vertex\+\_\+shaders@{ising\+\_\+triangle\+\_\+vertex\+\_\+shaders}!ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.\+hpp@{ising\+\_\+full\+\_\+nanogui\+\_\+version/ising\+\_\+shader.\+hpp}}
+\subsubsection{\texorpdfstring{ising\+\_\+triangle\+\_\+vertex\+\_\+shaders()}{ising\_triangle\_vertex\_shaders()}}
+{\footnotesize\ttfamily static const std\+::string ising\+\_\+triangle\+\_\+vertex\+\_\+shaders (\begin{DoxyParamCaption}\item[{\{ R\char`\"{}(\#version 450 corelayout (location = 0) in vec2 a\+Pos;layout (location = 1) in int spin;layout (location = 0) out vec4 Color;uniform mat4 projection;void \mbox{\hyperlink{gtest__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}()\{gl\+\_\+\+Point\+Size=30.\+0f;gl\+\_\+\+Position = vec4(a\+Pos, 0.\+0f, 1.\+0f);if(spin == 1)\{    Color = vec4(1.\+0, 0.\+0, 0.\+0, 1.\+0);\}else\{    Color = vec4(0.\+0, 0.\+0, 1.\+0,1.\+0);\}//\+Color = vec4(0.\+4, 0.\+4, 0.\+4, 0.\+4);\})\char`\"{}\}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+

@@ -26,7 +26,7 @@
 #include <list>
 #include <functional>
 #include <boost/align/aligned_allocator.hpp> // this is for aligned std::vector
-#include <thread>                            // std::this_thread::sleep_for
+#include <thread> // std::this_thread::sleep_for
 #include <chrono>
 
 #include "apex_memmove.h"
@@ -59,12 +59,15 @@
 enum test_enum { Item1 = 0, Item2, Item3 };
 
 void settings_window(nanogui::Screen *screen, GLFWwindow *window,
-                     IsingModel<float> &algorithm, char &algorithm_choice,
+                     IsingModel<float> &algorithm,
+                     char *algorithm_choice,
                      std::vector<float> &energy,
                      std::vector<float> &magnetization) {
 
-    nanogui::Window *nanoguiWindow = new nanogui::Window(screen, "Button demo");
-    nanoguiWindow->setPosition(Eigen::Vector2i(50, 100));
+    nanogui::Window *nanoguiWindow =
+        new nanogui::Window(screen, "Settings");
+    nanoguiWindow->setFontSize(30);
+    nanoguiWindow->setPosition(Eigen::Vector2i(100, 100));
     nanoguiWindow->setLayout(new nanogui::GroupLayout());
 
     static int counter = 0;
@@ -78,51 +81,73 @@ void settings_window(nanogui::Screen *screen, GLFWwindow *window,
     test_enum enumval = Item2;
 
     nanogui::Color colval(0.5f, 0.5f, 0.7f, 1.f);
-    nanoguiWindow->setFontSize(30);
     // nanoguiWindow->setGroupFontSize(30);
     // nanoguiWindow->setLabelFontSize(30);
     // gui->setFixedSize(Eigen::Vector2i(150, 50));
 
-    /* No need to store a pointer, the data structure will be automatically
-       freed when the parent window is deleted */
+    /* No need to store a pointer, the data structure will be
+       automatically freed when the parent window is deleted */
+
+    nanogui::Button *b = new nanogui::Button(nanoguiWindow, "stop");
+    b->setCallback([algorithm_choice, b] {
+        if (*algorithm_choice == '0') {
+            b->setCaption("Stop");
+            *algorithm_choice = 'M';
+        } else {
+            b->setCaption("Start");
+            *algorithm_choice = '0';
+        }
+        // std::cout << "alg: " << +algorithm_choice << std::endl;
+    });
+    b->setTooltip("click to start or stop simulation");
+    b->setFontSize(30);
+
     nanogui::Label *algorithm_group =
         new nanogui::Label(nanoguiWindow, "Choose algorithm");
-
-    nanogui::Button *b = new nanogui::Button(nanoguiWindow, "Plain button");
-    b->setCallback([] { std::cout << "pushed!" << std::endl; });
-    b->setTooltip("short tooltip");
+    algorithm_group->setFontSize(30);
 
     nanogui::CheckBox *select_metropolis =
         new nanogui::CheckBox(nanoguiWindow, "select metropolis");
+    select_metropolis->setFontSize(30);
+
     nanogui::CheckBox *select_wolff =
         new nanogui::CheckBox(nanoguiWindow, "select wolff");
+    select_wolff->setFontSize(30);
 
-    select_metropolis->setChecked(false);
+    select_metropolis->setChecked(true);
     select_wolff->setChecked(false);
 
-    std::function<void(const bool &)> f1 = [&](const bool &value) {
-        if (value) {
-            algorithm_choice = 'M';
-            select_wolff->setChecked(false);
-        } else
-            algorithm_choice = '0';
-    };
+    std::function<void(const bool &)> f1 =
+        [select_metropolis, select_wolff,
+         algorithm_choice](const bool &value) {
+            if (value) {
+                *algorithm_choice = 'M';
+                select_metropolis->setChecked(true);
+                select_wolff->setChecked(false);
+            } else {
+                select_metropolis->setChecked(false);
+                *algorithm_choice = '0';
+            }
+        };
 
-    std::function<void(const bool &)> f2 = [&](const bool &value) {
-        if (value) {
-            algorithm_choice = 'W';
-            select_metropolis->setChecked(false);
-        } else
-            algorithm_choice = '0';
-    };
+    std::function<void(const bool &)> f2 =
+        [select_metropolis, select_wolff,
+         algorithm_choice](const bool &value) {
+            if (value) {
+                *algorithm_choice = 'W';
+                select_wolff->setChecked(true);
+                select_metropolis->setChecked(false);
+            } else {
+                select_wolff->setChecked(false);
+                *algorithm_choice = '0';
+            }
+        };
     select_metropolis->setCallback(f1);
     select_wolff->setCallback(f2);
     //        select_metropolis->setPosition();
     /*
-    std::function<void(const bool &)> f1 = [&](const bool &value) {
-        if (value)
-            algorithm_choice = 'M';
-        else
+    std::function<void(const bool &)> f1 = [&](const bool
+    &value) { if (value) algorithm_choice = 'M'; else
             algorithm_choice = '0';
     };
     std::function<bool()> f2 = [&]() {
@@ -133,10 +158,8 @@ void settings_window(nanogui::Screen *screen, GLFWwindow *window,
     };
 
     // getter for second field
-    std::function<void(const bool &)> f3 = [&](const bool &value) {
-        if (value)
-            algorithm_choice = 'W';
-        else
+    std::function<void(const bool &)> f3 = [&](const bool
+    &value) { if (value) algorithm_choice = 'W'; else
             algorithm_choice = '0';
     };
     // setter for second field
@@ -164,7 +187,8 @@ void settings_window(nanogui::Screen *screen, GLFWwindow *window,
         nanogui::detail::FormWidget<int> *integer_field =
             gui->addVariable("int", ivar);
         integer_field->setSpinnable(true);
-        int new_height = (int)(1.1 * (float)(integer_field->fontSize()));
+        int new_height = (int)(1.1 *
+    (float)(integer_field->fontSize()));
         integer_field->setFixedHeight(new_height);
     }
     gui->addVariable("float", fvar)->setTooltip("Test.");
@@ -176,16 +200,21 @@ void settings_window(nanogui::Screen *screen, GLFWwindow *window,
         ->setItems({"Item 1", "Item 2", "Item 3"});
     gui->addVariable("Color", colval)
         ->setFinalCallback([](const nanogui::Color &c) {
-            std::cout << "ColorPicker Final Callback: [" << c.r() << ", "
-                      << c.g() << ", " << c.b() << ", " << c.w() << "]"
+            std::cout << "ColorPicker Final Callback: [" <<
+    c.r() <<
+    ", "
+                      << c.g() << ", " << c.b() << ", " << c.w()
+    <<
+    "]"
                       << std::endl;
         });
 
     gui->addGroup("Other widgets");
     gui->addButton("A button",
-                   []() { std::cout << "Button pressed." << std::endl; })
-        ->setTooltip("Testing a much longer tooltip, that will wrap around
-    to " "new lines multiple times.");
+                   []() { std::cout << "Button pressed." <<
+    std::endl; })
+        ->setTooltip("Testing a much longer tooltip, that will
+    wrap around to " "new lines multiple times.");
     */
     screen->performLayout();
 }

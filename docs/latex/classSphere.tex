@@ -25,18 +25,18 @@ Inheritance diagram for Sphere$<$ T $>$\+:\begin{figure}[H]
 \item 
 \mbox{\hyperlink{classSphere}{Sphere}} \& \mbox{\hyperlink{classSphere_ae989d05c3ea71f5a758e90e2f2e3aecf}{operator=}} (const \mbox{\hyperlink{classSphere}{Sphere}} \&)=default
 \item 
-\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classSphere_a3f5ee2b07e48a360696fe983690d1d1f}{refine}} ()
+void \mbox{\hyperlink{classSphere_a3f5ee2b07e48a360696fe983690d1d1f}{refine}} ()
 \begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classThis}{This}} function calls generate\+\_\+vertexes\+\_\+helper to refine the mesh. \end{DoxyCompactList}\item 
 T \mbox{\hyperlink{classSphere_a9ebc65dabaf8d87fbe599f4b64816f73}{quality}} ()
 \begin{DoxyCompactList}\small\item\em The quality of the mesh is measured as the difference between exact pi number and the one obtained from the area of the sphere (mesh). \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classSphere_ab739ad1931e58a4ba7c84e3ca5c1965d}{generate\+\_\+vertexes\+\_\+helper\+\_\+old}} ()
+void \mbox{\hyperlink{classSphere_ab739ad1931e58a4ba7c84e3ca5c1965d}{generate\+\_\+vertexes\+\_\+helper\+\_\+old}} ()
 \item 
-\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classSphere_a84a45f41ca9e630beb97fc106b359ffd}{generate\+\_\+vertexes\+\_\+helper}} ()
+void \mbox{\hyperlink{classSphere_a84a45f41ca9e630beb97fc106b359ffd}{generate\+\_\+vertexes\+\_\+helper}} ()
 \begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classThis}{This}} function generates vertexes for float and double version of class \mbox{\hyperlink{classCircle}{Circle}}. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classSphere_a9cfac85b9803fadc4b79db0ea047f679}{generate\+\_\+vertexes}} ()
+void \mbox{\hyperlink{classSphere_a9cfac85b9803fadc4b79db0ea047f679}{generate\+\_\+vertexes}} ()
 \begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classThis}{This}} function generates vertexes for class \mbox{\hyperlink{classCircle}{Circle}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
@@ -91,7 +91,7 @@ The constructor generate vertexes and elements. Opengl buffers are also allocate
 \index{generate\+\_\+vertexes@{generate\+\_\+vertexes}!Sphere@{Sphere}}
 \subsubsection{\texorpdfstring{generate\+\_\+vertexes()}{generate\_vertexes()}}
 {\footnotesize\ttfamily template$<$typename T $>$ \\
-\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classSphere}{Sphere}}$<$ T $>$\+::generate\+\_\+vertexes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+void \mbox{\hyperlink{classSphere}{Sphere}}$<$ T $>$\+::generate\+\_\+vertexes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -102,7 +102,7 @@ Internally, it calls generate\+\_\+vertexes\+\_\+helper function to refine the m
 \index{generate\+\_\+vertexes\+\_\+helper@{generate\+\_\+vertexes\+\_\+helper}!Sphere@{Sphere}}
 \subsubsection{\texorpdfstring{generate\+\_\+vertexes\+\_\+helper()}{generate\_vertexes\_helper()}}
 {\footnotesize\ttfamily template$<$typename T $>$ \\
-\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classSphere}{Sphere}}$<$ T $>$\+::generate\+\_\+vertexes\+\_\+helper (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+void \mbox{\hyperlink{classSphere}{Sphere}}$<$ T $>$\+::generate\+\_\+vertexes\+\_\+helper (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
 
 
 
@@ -113,7 +113,7 @@ It is used only when sse and avx versions are not available. \mbox{\Hypertarget{
 \index{generate\+\_\+vertexes\+\_\+helper\+\_\+old@{generate\+\_\+vertexes\+\_\+helper\+\_\+old}!Sphere@{Sphere}}
 \subsubsection{\texorpdfstring{generate\+\_\+vertexes\+\_\+helper\+\_\+old()}{generate\_vertexes\_helper\_old()}}
 {\footnotesize\ttfamily template$<$typename T = float$>$ \\
-\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classSphere}{Sphere}}$<$ T $>$\+::generate\+\_\+vertexes\+\_\+helper\+\_\+old (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+void \mbox{\hyperlink{classSphere}{Sphere}}$<$ T $>$\+::generate\+\_\+vertexes\+\_\+helper\+\_\+old (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 \mbox{\Hypertarget{classSphere_aa117f966cea7b16532cbd80c2191a84a}\label{classSphere_aa117f966cea7b16532cbd80c2191a84a}} 
 \index{Sphere@{Sphere}!operator=@{operator=}}
@@ -145,7 +145,7 @@ The quality of the mesh is measured as the difference between exact pi number an
 \index{refine@{refine}!Sphere@{Sphere}}
 \subsubsection{\texorpdfstring{refine()}{refine()}}
 {\footnotesize\ttfamily template$<$typename T $>$ \\
-\mbox{\hyperlink{glad_8h_a950fc91edb4504f62f1c577bf4727c29}{void}} \mbox{\hyperlink{classSphere}{Sphere}}$<$ T $>$\+::refine (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+void \mbox{\hyperlink{classSphere}{Sphere}}$<$ T $>$\+::refine (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 
 

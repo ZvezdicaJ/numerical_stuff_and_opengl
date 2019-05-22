@@ -1,5 +1,5 @@
 #pragma once
-static const std::string ising_frame_vertex_shaders({
+static const std::string ising_frame_vertex_shader({
     R"(
 #version 450 core
 layout (location = 0) in vec2 aPos;
@@ -65,7 +65,7 @@ void main()
 /////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
 
-static const std::string ising_triangle_vertex_shaders({
+static const std::string ising_triangle_vertex_shader({
     R"(
 #version 450 core
 layout (location = 0) in vec2 aPos;

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['void',['void',['../glad_8h.html#aef30cfca5b4a4c292babb2f60f6d3296',1,'void(APIENTRY *GLDEBUGPROC)(GLenum source:&#160;glad.h'],['../glad_8h.html#a950fc91edb4504f62f1c577bf4727c29',1,'void(APIENTRYP PFNGLCULLFACEPROC)(GLenum mode):&#160;glad.h']]]
+  ['uniform_5ffragment_5fshader',['uniform_fragment_shader',['../namespaceshaders.html#a08247b475f67d2c839a8d1fe5124b569',1,'shaders']]],
+  ['uniform_5fvertex_5fshaders',['uniform_vertex_shaders',['../namespaceshaders.html#a14e65ed0b380c99c27347214aa2f1844',1,'shaders']]]
 ];
