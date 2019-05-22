@@ -89,19 +89,6 @@ void settings_window(nanogui::Screen *screen, GLFWwindow *window,
        automatically freed when the parent window is deleted */
 
     nanogui::Button *b = new nanogui::Button(nanoguiWindow, "stop");
-    b->setCallback([algorithm_choice, b] {
-        if (*algorithm_choice == '0') {
-            b->setCaption("Stop");
-            *algorithm_choice = 'M';
-        } else {
-            b->setCaption("Start");
-            *algorithm_choice = '0';
-        }
-        // std::cout << "alg: " << +algorithm_choice << std::endl;
-    });
-    b->setTooltip("click to start or stop simulation");
-    b->setFontSize(30);
-
     nanogui::Label *algorithm_group =
         new nanogui::Label(nanoguiWindow, "Choose algorithm");
     algorithm_group->setFontSize(30);
@@ -110,40 +97,93 @@ void settings_window(nanogui::Screen *screen, GLFWwindow *window,
         new nanogui::CheckBox(nanoguiWindow, "select metropolis");
     select_metropolis->setFontSize(30);
 
-    nanogui::CheckBox *select_wolff =
-        new nanogui::CheckBox(nanoguiWindow, "select wolff");
-    select_wolff->setFontSize(30);
+    nanogui::CheckBox *select_recursive_wolff =
+        new nanogui::CheckBox(nanoguiWindow,
+                              "select recursive wolff");
+    select_recursive_wolff->setFontSize(30);
+
+    nanogui::CheckBox *select_nonrecursive_wolff =
+        new nanogui::CheckBox(nanoguiWindow,
+                              "select nonrecursive wolff");
+    select_nonrecursive_wolff->setFontSize(30);
+
+    b->setCallback([algorithm_choice, b, select_metropolis,
+                    select_recursive_wolff,
+                    select_nonrecursive_wolff] {
+        if (*algorithm_choice == '0') {
+            b->setCaption("Stop");
+            *algorithm_choice = 'M';
+            select_metropolis->setChecked(true);
+        } else {
+            b->setCaption("Start");
+            *algorithm_choice = '0';
+            select_metropolis->setChecked(false);
+            select_recursive_wolff->setChecked(false);
+            select_nonrecursive_wolff->setChecked(false);
+        }
+        // std::cout << "alg: " << +algorithm_choice << std::endl;
+    });
+    b->setTooltip("click to start or stop simulation");
+    b->setFontSize(30);
 
     select_metropolis->setChecked(true);
-    select_wolff->setChecked(false);
+    select_recursive_wolff->setChecked(false);
+    select_nonrecursive_wolff->setChecked(false);
 
     std::function<void(const bool &)> f1 =
-        [select_metropolis, select_wolff,
-         algorithm_choice](const bool &value) {
+        [select_metropolis, select_recursive_wolff,
+         select_nonrecursive_wolff, algorithm_choice,
+         b](const bool &value) {
             if (value) {
                 *algorithm_choice = 'M';
                 select_metropolis->setChecked(true);
-                select_wolff->setChecked(false);
+                select_recursive_wolff->setChecked(false);
+                select_nonrecursive_wolff->setChecked(false);
+                b->setCaption("Stop");
             } else {
                 select_metropolis->setChecked(false);
                 *algorithm_choice = '0';
+                b->setCaption("Start");
             }
         };
 
     std::function<void(const bool &)> f2 =
-        [select_metropolis, select_wolff,
-         algorithm_choice](const bool &value) {
+        [select_metropolis, select_recursive_wolff,
+         select_nonrecursive_wolff, algorithm_choice,
+         b](const bool &value) {
             if (value) {
                 *algorithm_choice = 'W';
-                select_wolff->setChecked(true);
+                select_recursive_wolff->setChecked(true);
+                select_nonrecursive_wolff->setChecked(false);
                 select_metropolis->setChecked(false);
+                b->setCaption("Stop");
             } else {
-                select_wolff->setChecked(false);
+                select_recursive_wolff->setChecked(false);
                 *algorithm_choice = '0';
+                b->setCaption("Start");
             }
         };
+
+    std::function<void(const bool &)> f3 =
+        [select_metropolis, select_nonrecursive_wolff,
+         select_recursive_wolff, algorithm_choice,
+         b](const bool &value) {
+            if (value) {
+                *algorithm_choice = 'N';
+                select_nonrecursive_wolff->setChecked(true);
+                select_recursive_wolff->setChecked(false);
+                select_metropolis->setChecked(false);
+                b->setCaption("Stop");
+            } else {
+                select_nonrecursive_wolff->setChecked(false);
+                *algorithm_choice = '0';
+                b->setCaption("Start");
+            }
+        };
+
     select_metropolis->setCallback(f1);
-    select_wolff->setCallback(f2);
+    select_recursive_wolff->setCallback(f2);
+    select_nonrecursive_wolff->setCallback(f3);
     //        select_metropolis->setPosition();
     /*
     std::function<void(const bool &)> f1 = [&](const bool

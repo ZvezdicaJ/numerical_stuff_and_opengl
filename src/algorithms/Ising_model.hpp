@@ -392,6 +392,24 @@ class IsingModel {
         magnetization = calc_magnetization();
     }
 
+    /** @brief The function flips the cluster using Wolff algorithm.
+     * @details It calls the wolff_cluster_step() function.
+     */
+    void flip_cluster_nonrecursive() {
+        // randomly choose k and l
+        unsigned k = random_int(rng);
+        unsigned l = random_int(rng);
+        cluster_size = 0;
+        // std::cout << "(k, l) = " << k << " " << l << std::endl;
+        spin_dir spin = *(spin_array + k + size + l);
+        wolff_cluster_step_nonrecursive(spin, k, l);
+        enforce_boundary_conditions();
+        visited_spins_false();
+
+        energy = calc_energy();
+        magnetization = calc_magnetization();
+    }
+
     /**
      * @brief set all spins up.
      */

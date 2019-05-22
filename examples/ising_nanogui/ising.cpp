@@ -195,7 +195,9 @@ int main() {
 
             if (algorithm_choice == 'M')
                 alg1.metropolis_steps(size * size);
-            if (algorithm_choice == 'W')
+            else if (algorithm_choice == 'W')
+                alg1.flip_cluster();
+            else if (algorithm_choice == 'N')
                 alg1.flip_cluster();
 
             magnetization.push_back(alg1.get_magnetization());
