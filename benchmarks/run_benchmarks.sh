@@ -21,7 +21,7 @@ if [ "$1" == "--all" ] || [ "$1" == "" ] ; then
     exit 1
 fi
 
-if [ "$1" == "--double" ] || [ "$1" == "" ] ; then
+if [ "$1" == "--double" ] ; then
     sudo cpupower frequency-set --governor performance
     sudo cpupower frequency-set -u 2000MHz
 
@@ -32,7 +32,7 @@ if [ "$1" == "--double" ] || [ "$1" == "" ] ; then
     exit 1
 fi
 
-if [ "$1" == "--float" ] || [ "$1" == "" ] ; then
+if [ "$1" == "--float" ]  ; then
     sudo cpupower frequency-set --governor performance
     sudo cpupower frequency-set -u 2000MHz
 

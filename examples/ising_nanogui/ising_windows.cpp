@@ -184,53 +184,8 @@ void settings_window(nanogui::Screen *screen, GLFWwindow *window,
     select_metropolis->setCallback(f1);
     select_recursive_wolff->setCallback(f2);
     select_nonrecursive_wolff->setCallback(f3);
-    //        select_metropolis->setPosition();
     /*
-    std::function<void(const bool &)> f1 = [&](const bool
-    &value) { if (value) algorithm_choice = 'M'; else
-            algorithm_choice = '0';
-    };
-    std::function<bool()> f2 = [&]() {
-        if (algorithm_choice == 'M')
-            return true;
-        else
-            return false;
-    };
-
-    // getter for second field
-    std::function<void(const bool &)> f3 = [&](const bool
-    &value) { if (value) algorithm_choice = 'W'; else
-            algorithm_choice = '0';
-    };
-    // setter for second field
-    std::function<bool()> f4 = [&]() {
-        if (algorithm_choice == 'W')
-            return true;
-        else
-            return false;
-    };
-
-    nanogui::detail::FormWidget<bool> *select_metropolis =
-        gui->addVariable("Metropolis algorithm", f1, f2);
-
-    nanogui::detail::FormWidget<bool> *select_wolff =
-        gui->addVariable("Wolff algorithm", f3, f4);
-
-    select_metropolis->setTooltip("Test tooltip.");
-    select_wolff->setTooltip("Test tooltip.");
-
-    gui->addVariable("string", strval);
-
-    gui->addGroup("Validating fields");
-    // gui->mVariableSpacing = 10;
-    { // add integer field
-        nanogui::detail::FormWidget<int> *integer_field =
-            gui->addVariable("int", ivar);
-        integer_field->setSpinnable(true);
-        int new_height = (int)(1.1 *
-    (float)(integer_field->fontSize()));
-        integer_field->setFixedHeight(new_height);
-    }
+    
     gui->addVariable("float", fvar)->setTooltip("Test.");
 
     // gui->addVariable("double", dvar)->setSpinnable(true);

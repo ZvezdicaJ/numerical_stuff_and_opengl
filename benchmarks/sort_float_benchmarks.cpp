@@ -122,7 +122,7 @@ BENCHMARK(bitonic_float_sort_bench)->Apply(CustomArguments);
 //////////////////////////////////////////////////////////////////////
 
 static void
-improved_bitonic_float_sort_bench(benchmark::State &state) {
+modified_bitonic_float_sort_bench(benchmark::State &state) {
 
     for (auto _ : state) {
         state.PauseTiming();
@@ -140,7 +140,7 @@ improved_bitonic_float_sort_bench(benchmark::State &state) {
     state.SetComplexityN(state.range(0));
 }
 
-BENCHMARK(improved_bitonic_float_sort_bench)
+BENCHMARK(modified_bitonic_float_sort_bench)
     ->Apply(CustomArguments);
 
 //////////////////////////////////////////////////////////////////////
