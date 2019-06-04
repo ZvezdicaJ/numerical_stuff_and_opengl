@@ -3,8 +3,12 @@
 std::default_random_engine generator(std::time(0));
 std::uniform_real_distribution<float> float_dist(-100, 100);
 std::uniform_real_distribution<double> double_dist(-100, 100);
+std::uniform_int_distribution<int> int_dist(-10000000, 10000000);
+std::uniform_int_distribution<int> pos_int_dist(1, 10000000);
 auto random_float = std::bind(float_dist, generator);
 auto random_double = std::bind(double_dist, generator);
+auto random_int = std::bind(int_dist, generator);
+auto random_pos_int = std::bind(pos_int_dist, generator);
 
 #include "type_definitions.hpp"
 #include "gmock/gmock.h"
@@ -25,7 +29,8 @@ int main(int argc, char **argv) {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-    GLFWwindow *window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
+    GLFWwindow *window =
+        glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
     if (window == NULL) {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();

@@ -59,7 +59,7 @@
 enum test_enum { Item1 = 0, Item2, Item3 };
 
 void settings_window(nanogui::Screen *screen, GLFWwindow *window,
-                     IsingModel<float> &algorithm,
+                     IsingModel<float> *algorithm,
                      char *algorithm_choice,
                      std::vector<float> &energy,
                      std::vector<float> &magnetization) {
@@ -184,32 +184,28 @@ void settings_window(nanogui::Screen *screen, GLFWwindow *window,
     select_metropolis->setCallback(f1);
     select_recursive_wolff->setCallback(f2);
     select_nonrecursive_wolff->setCallback(f3);
-    /*
-    
-    gui->addVariable("float", fvar)->setTooltip("Test.");
 
-    // gui->addVariable("double", dvar)->setSpinnable(true);
+    nanogui::Widget *panel = new nanogui::Widget(nanoguiWindow);
+    panel->setLayout(
+        new nanogui::BoxLayout(nanogui::Orientation::Horizontal,
+                               nanogui::Alignment::Middle, 0, 20));
 
-    gui->addGroup("Complex types");
-    gui->addVariable("Enumeration", enumval, true)
-        ->setItems({"Item 1", "Item 2", "Item 3"});
-    gui->addVariable("Color", colval)
-        ->setFinalCallback([](const nanogui::Color &c) {
-            std::cout << "ColorPicker Final Callback: [" <<
-    c.r() <<
-    ", "
-                      << c.g() << ", " << c.b() << ", " << c.w()
-    <<
-    "]"
-                      << std::endl;
-        });
+    nanogui::Slider *slider = new nanogui::Slider(nanoguiWindow);
+    slider->setValue(2.0f);
+    slider->setRange(std::pair<float, float>(0.0001, 8.0));
+    slider->setFixedWidth((nanoguiWindow->width()) * 0.7);
+    slider->setFixedHeight((slider->height())*3);
 
-    gui->addGroup("Other widgets");
-    gui->addButton("A button",
-                   []() { std::cout << "Button pressed." <<
-    std::endl; })
-        ->setTooltip("Testing a much longer tooltip, that will
-    wrap around to " "new lines multiple times.");
-    */
+    nanogui::TextBox *textBox = new nanogui::TextBox(nanoguiWindow);
+    textBox->setFixedSize(Eigen::Vector2i(
+        (nanoguiWindow->width()) * 0.8, slider->height()));
+
+    textBox->setValue("2.0");
+    textBox->setUnits("");
+    slider->setCallback([textBox, algorithm](float value) {
+        textBox->setValue(std::to_string(value));
+        algorithm->set_temperature(value);
+    });
+
     screen->performLayout();
 }

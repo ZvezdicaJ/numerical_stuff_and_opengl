@@ -119,7 +119,7 @@ int main() {
 
     bool enabled = true;
 
-    settings_window(screen, window, alg1, &algorithm_choice, energy,
+    settings_window(screen, window, &alg1, &algorithm_choice, energy,
                     magnetization);
 
     screen->setVisible(true);

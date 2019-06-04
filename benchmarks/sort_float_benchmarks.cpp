@@ -292,4 +292,27 @@ bitonic_float_key_value_sort_bench(benchmark::State &state) {
 BENCHMARK(bitonic_float_key_value_sort_bench)
     ->Apply(CustomArguments);
 
+static void
+std_float_key_value_sort_bench(benchmark::State &state) {
+
+    for (auto _ : state) {
+        state.PauseTiming();
+        aligned_vector<std::pair<int, float>> vec;
+        vec.reserve(state.range(0));
+        for (int i = 0; i < state.range(0); i++)
+            vec.push_back(std::pair<int, float>(i, random_float()));
+        state.ResumeTiming();
+        // benchmark::DoNotOptimize(sort_2n_vector(vec.data(), 0,
+        // vec.size() - 1)); // DoNoOptimize will store the result
+        // to the memory
+        std::sort(
+            std::begin(vec), std::end(vec),
+            [](auto a, auto b) { return a.second < b.second; });
+    }
+    state.counters["Number to sort:"] = state.range(0);
+    state.SetComplexityN(state.range(0));
+}
+
+BENCHMARK(std_float_key_value_sort_bench)->Apply(CustomArguments);
+
 BENCHMARK_MAIN();

@@ -173,6 +173,11 @@ void test_division_operator() {
             arr1[i] = (T)random_double();
             arr2[i] = (T)random_double();
         }
+        if constexpr (std::is_same<T, int>::value) {
+            for (int k = 0; k < 4; k++)
+                if (arr2[k] == 0)
+                    arr2[k] += 1;
+        }
         std::array<T, size> result = arr1 / arr2;
         for (int i = 0; i < size; i++) {
 

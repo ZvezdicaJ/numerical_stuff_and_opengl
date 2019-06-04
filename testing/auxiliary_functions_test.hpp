@@ -1,3 +1,4 @@
+#include <cmath>
 
 #ifdef __SSE__
 TEST(DotProduct, sse) {
@@ -29,8 +30,8 @@ TEST(DotProduct, avx) {
 #ifdef __SSE__
 TEST(load_store, sse) {
     std::array<float, 4> arr(
-        {1, 2, 3, 4}); // gmock needs iterators and size() method, that's why
-                       // float[] is not ok
+        {1, 2, 3, 4}); // gmock needs iterators and size() method,
+                       // that's why float[] is not ok
     __m128 sse_vec = _mm_load_ps(arr.data());
     float *p = (float *)&sse_vec;
     std::array<float, 4> check;
@@ -45,7 +46,8 @@ TEST(load_store, sse) {
 #ifdef __AVX2__
 TEST(load_store, avx2) {
     std::array<double, 4> arr(
-        {1, 2, 3, 4}); // gmock needs iterators and size() method, that's why
+        {1, 2, 3,
+         4}); // gmock needs iterators and size() method, that's why
     // float[] is not ok
     __m256d avx_vec = _mm256_load_pd(arr.data());
     double *p = (double *)&avx_vec;
@@ -118,9 +120,11 @@ TEST(chebyshev, sse) {
     x = _mm_setr_ps(1.0, 2.5, 3.6, 4.8);
     result = chebyshev(3, x);
     p = (float *)&result;
-    std::array<float, 4> correct_result({1.0, 55.0, 175.824, 427.968});
+    std::array<float, 4> correct_result(
+        {1.0, 55.0, 175.824, 427.968});
     for (int j = 0; j < 4; j++)
-        EXPECT_THAT(p[j], testing::FloatNear(correct_result[j], 1e-4));
+        EXPECT_THAT(p[j],
+                    testing::FloatNear(correct_result[j], 1e-4));
 }
 #endif
 
@@ -146,9 +150,11 @@ TEST(chebyshev, avx2) {
     x = _mm256_setr_pd(1.0, 2.5, 3.6, 4.8);
     result = chebyshev(3, x);
     p = (double *)&result;
-    std::array<double, 4> correct_result({1.0, 55.0, 175.824, 427.968});
+    std::array<double, 4> correct_result(
+        {1.0, 55.0, 175.824, 427.968});
     for (int j = 0; j < 4; j++)
-        EXPECT_THAT(p[j], testing::DoubleNear(correct_result[j], 1e-12));
+        EXPECT_THAT(p[j],
+                    testing::DoubleNear(correct_result[j], 1e-12));
 }
 #endif
 
@@ -165,34 +171,38 @@ TEST(chebyshev_next, avx2) {
 
     double *p = (double *)&c2;
     std::array<double, 4> correct_result2(
-        {1.0000000000000000000, 11.500000000000000000, 24.920000000000001705,
-         45.079999999999998295});
+        {1.0000000000000000000, 11.500000000000000000,
+         24.920000000000001705, 45.079999999999998295});
     for (int i = 0; i < 4; i++) {
-        EXPECT_THAT(p[i], testing::DoubleNear(correct_result2[i], 1e-11));
+        EXPECT_THAT(p[i],
+                    testing::DoubleNear(correct_result2[i], 1e-11));
     }
 
     p = (double *)&c3;
     std::array<double, 4> correct_result3(
-        {1.0000000000000000000, 55.000000000000000000, 175.82400000000001228,
-         427.96799999999996089});
+        {1.0000000000000000000, 55.000000000000000000,
+         175.82400000000001228, 427.96799999999996089});
     for (int i = 0; i < 4; i++) {
-        EXPECT_THAT(p[i], testing::DoubleNear(correct_result3[i], 1e-11));
+        EXPECT_THAT(p[i],
+                    testing::DoubleNear(correct_result3[i], 1e-11));
     }
 
     p = (double *)&c4;
     std::array<double, 4> correct_result4(
-        {1.0000000000000000000, 263.50000000000000000, 1241.0128000000001975,
-         4063.4127999999996064});
+        {1.0000000000000000000, 263.50000000000000000,
+         1241.0128000000001975, 4063.4127999999996064});
     for (int i = 0; i < 4; i++) {
-        EXPECT_THAT(p[i], testing::DoubleNear(correct_result4[i], 1e-11));
+        EXPECT_THAT(p[i],
+                    testing::DoubleNear(correct_result4[i], 1e-11));
     }
 
     p = (double *)&c5;
     std::array<double, 4> correct_result5(
-        {1.0000000000000000000, 1262.5000000000000000, 8759.4681600000003527,
-         38580.794879999994009});
+        {1.0000000000000000000, 1262.5000000000000000,
+         8759.4681600000003527, 38580.794879999994009});
     for (int i = 0; i < 4; i++) {
-        EXPECT_THAT(p[i], testing::DoubleNear(correct_result5[i], 1e-11));
+        EXPECT_THAT(p[i],
+                    testing::DoubleNear(correct_result5[i], 1e-11));
     }
 }
 #endif
@@ -211,25 +221,29 @@ TEST(chebyshev_next, avx2_test2) {
     double *p = (double *)&c2;
     std::array<double, 4> correct_result2({1.0, -0.5, -0.5, 1.0});
     for (int i = 0; i < 4; i++) {
-        EXPECT_THAT(p[i], testing::DoubleNear(correct_result2[i], 1e-14));
+        EXPECT_THAT(p[i],
+                    testing::DoubleNear(correct_result2[i], 1e-14));
     }
 
     p = (double *)&c3;
     std::array<double, 4> correct_result3({-1.0, 1.0, -1.0, 1.0});
     for (int i = 0; i < 4; i++) {
-        EXPECT_THAT(p[i], testing::DoubleNear(correct_result3[i], 1e-14));
+        EXPECT_THAT(p[i],
+                    testing::DoubleNear(correct_result3[i], 1e-14));
     }
 
     p = (double *)&c4;
     std::array<double, 4> correct_result4({1.0, -0.5, -0.5, 1.0});
     for (int i = 0; i < 4; i++) {
-        EXPECT_THAT(p[i], testing::DoubleNear(correct_result4[i], 1e-14));
+        EXPECT_THAT(p[i],
+                    testing::DoubleNear(correct_result4[i], 1e-14));
     }
 
     p = (double *)&c5;
     std::array<double, 4> correct_result5({-1.0, -0.5, 0.5, 1.0});
     for (int i = 0; i < 4; i++) {
-        EXPECT_THAT(p[i], testing::DoubleNear(correct_result5[i], 1e-14));
+        EXPECT_THAT(p[i],
+                    testing::DoubleNear(correct_result5[i], 1e-14));
     }
 }
 #endif
@@ -290,7 +304,8 @@ TEST(cos, sse) {
     std::array<float, 4> correct_result({-1.0, 1.0, 0.0, -1.0});
 
     for (int j = 0; j < 4; j++)
-        EXPECT_THAT(p[j], testing::FloatNear(correct_result[j], 5e-6));
+        EXPECT_THAT(p[j],
+                    testing::FloatNear(correct_result[j], 5e-6));
 }
 #endif
 
@@ -303,7 +318,8 @@ TEST(cos, avx2) {
     std::array<double, 4> correct_result({-1.0, 1.0, 0.0, -1.0});
 
     for (int j = 0; j < 4; j++)
-        EXPECT_THAT(p[j], testing::DoubleNear(correct_result[j], 1e-7));
+        EXPECT_THAT(p[j],
+                    testing::DoubleNear(correct_result[j], 1e-7));
 }
 #endif
 
@@ -320,19 +336,21 @@ TEST(tan, sse) {
         float tol = 1e-7;
         if (j == 3)
             tol = 1e-4;
-        EXPECT_THAT(p[j], testing::FloatNear(correct_result[j], tol));
+        EXPECT_THAT(p[j],
+                    testing::FloatNear(correct_result[j], tol));
     }
 
     x_vec = std::array<float, 4>({0.00001, -0.00033, 0.01, 0.1});
     x = _mm_loadu_ps(x_vec.data());
     result = tan(x);
     p = (float *)&result;
-    correct_result =
-        std::array<float, 4>({0.0000100000000003, -0.000330000011979,
-                              0.0100003333467, 0.100334672085});
+    correct_result = std::array<float, 4>(
+        {0.0000100000000003, -0.000330000011979, 0.0100003333467,
+         0.100334672085});
     for (int j = 0; j < 4; j++) {
         float tol = 1e-7;
-        EXPECT_THAT(p[j], testing::FloatNear(correct_result[j], tol));
+        EXPECT_THAT(p[j],
+                    testing::FloatNear(correct_result[j], tol));
     }
 }
 #endif
@@ -350,18 +368,20 @@ TEST(tan, avx2) {
         double tol = 1e-12;
         if (j == 3)
             tol = 1e-9;
-        EXPECT_THAT(p[j], testing::DoubleNear(correct_result[j], tol));
+        EXPECT_THAT(p[j],
+                    testing::DoubleNear(correct_result[j], tol));
     }
     x_vec = std::array<double, 4>({0.00001, -0.00033, 0.01, 0.1});
     x = _mm256_loadu_pd(x_vec.data());
     result = tan(x);
     p = (double *)&result;
-    correct_result =
-        std::array<double, 4>({0.00001000000000033333, -0.0003300000119790005,
-                               0.01000033334666721, 0.1003346720854505});
+    correct_result = std::array<double, 4>(
+        {0.00001000000000033333, -0.0003300000119790005,
+         0.01000033334666721, 0.1003346720854505});
     for (int j = 0; j < 4; j++) {
         double tol = 1e-12;
-        EXPECT_THAT(p[j], testing::DoubleNear(correct_result[j], tol));
+        EXPECT_THAT(p[j],
+                    testing::DoubleNear(correct_result[j], tol));
     }
 }
 #endif
@@ -373,9 +393,11 @@ TEST(arctan, sse) {
     __m128 result = arctan(x);
     float *p = (float *)&result;
     std::array<float, 4> correct_result(
-        {-1.55079899282, -0.380506377112, 0.354379919123, 0.770170914020});
+        {-1.55079899282, -0.380506377112, 0.354379919123,
+         0.770170914020});
     for (int j = 0; j < 4; j++)
-        EXPECT_THAT(p[j], testing::FloatNear(correct_result[j], 1e-7));
+        EXPECT_THAT(p[j],
+                    testing::FloatNear(correct_result[j], 1e-7));
 
     x_vec = std::array<float, 4>({0.0, -0.1, 0.3333, 0.9999});
     x = _mm_loadu_ps(x_vec.data());
@@ -384,7 +406,8 @@ TEST(arctan, sse) {
     correct_result = std::array<float, 4>(
         {0.0, -0.0996686524912, 0.321720554097, 0.785348160897});
     for (int j = 0; j < 4; j++)
-        EXPECT_THAT(p[j], testing::FloatNear(correct_result[j], 2e-7));
+        EXPECT_THAT(p[j],
+                    testing::FloatNear(correct_result[j], 2e-7));
 }
 #endif
 
@@ -398,23 +421,26 @@ TEST(arctan, avx2) {
         {-1.5507989928217460862, -0.38050637711236490190,
          0.35437991912343780321, 0.77017091402033099889});
     for (int j = 0; j < 4; j++)
-        EXPECT_THAT(p[j], testing::DoubleNear(correct_result[j], 1e-13));
+        EXPECT_THAT(p[j],
+                    testing::DoubleNear(correct_result[j], 1e-13));
 
     x_vec = std::array<double, 4>({-100.0, -0.1, 0.3333, 0.9999});
     x = _mm256_loadu_pd(x_vec.data());
     result = arctan(x);
     p = (double *)&result;
-    correct_result =
-        std::array<double, 4>({-1.5607966601082313810, -0.099668652491162038065,
-                               0.32172055409664818137, 0.78534816089736503297});
+    correct_result = std::array<double, 4>(
+        {-1.5607966601082313810, -0.099668652491162038065,
+         0.32172055409664818137, 0.78534816089736503297});
     for (int j = 0; j < 4; j++)
-        EXPECT_THAT(p[j], testing::DoubleNear(correct_result[j], 1e-13));
+        EXPECT_THAT(p[j],
+                    testing::DoubleNear(correct_result[j], 1e-13));
 }
 #endif
 
 TEST(find_products, test1) {
     int num = 20;
-    std::vector<std::pair<int, int>> correct_pairs({{1, 20}, {2, 10}, {4, 5}});
+    std::vector<std::pair<int, int>> correct_pairs(
+        {{1, 20}, {2, 10}, {4, 5}});
     std::vector<std::pair<int, int>> pairs = find_products(num);
     ASSERT_EQ(correct_pairs.size(), pairs.size());
     for (unsigned i = 0; i < pairs.size(); i++) {
@@ -422,8 +448,8 @@ TEST(find_products, test1) {
     }
 
     num = 50;
-    correct_pairs =
-        std::vector<std::pair<int, int>>({{1, 50}, {2, 25}, {5, 10}});
+    correct_pairs = std::vector<std::pair<int, int>>(
+        {{1, 50}, {2, 25}, {5, 10}});
     pairs = find_products(num);
     ASSERT_EQ(correct_pairs.size(), pairs.size());
     for (unsigned i = 0; i < pairs.size(); i++) {
@@ -432,15 +458,73 @@ TEST(find_products, test1) {
 }
 
 TEST(closest_pair, test1) {
-    std::vector<std::pair<int, int>> pairs(
-        {{1, 20}, {2, 10}, {4, 5}, {4, 6}, {7, 10}, {9, 20}, {100, 151}});
+    std::vector<std::pair<int, int>> pairs({{1, 20},
+                                            {2, 10},
+                                            {4, 5},
+                                            {4, 6},
+                                            {7, 10},
+                                            {9, 20},
+                                            {100, 151}});
     std::pair<int, int> result = closest_pair(pairs);
     std::pair<int, int> correct_result({4, 5});
     ASSERT_EQ(result, correct_result);
 
-    pairs = std::vector<std::pair<int, int>>(
-        {{1, 20}, {-2, 10}, {5, 5}, {-4, 6}, {7, 10}, {-9, 20}, {-100, 151}});
+    pairs = std::vector<std::pair<int, int>>({{1, 20},
+                                              {-2, 10},
+                                              {5, 5},
+                                              {-4, 6},
+                                              {7, 10},
+                                              {-9, 20},
+                                              {-100, 151}});
     result = std::pair<int, int>(closest_pair(pairs));
     correct_result = std::pair<int, int>({5, 5});
     ASSERT_EQ(result, correct_result);
+}
+
+TEST(sse_integer_division, test1) {
+    for (int j = 0; j < 1000; j++) {
+        int num[4] = {random_int(), random_int(), random_int(),
+                      random_int()};
+        int denom[4] = {random_int(), random_int(), random_int(),
+                        random_int()};
+        __m128i numerator = _mm_loadu_si128((__m128i *)&num[0]);
+        __m128i denominator = _mm_loadu_si128((__m128i *)&denom[0]);
+        __m128i modulo = _mm_div_epi32(numerator, denominator);
+
+        int *p = (int *)&modulo;
+
+        for (int i = 0; i < 4; i++) {
+            if (denom[i] == 0)
+                continue;
+            ASSERT_EQ(*(p + i), num[i] / denom[i]);
+        }
+    }
+}
+
+TEST(sse_modulo, test1) {
+    for (int j = 0; j < 1000; j++) {
+
+        int num[4] = {random_pos_int(), random_pos_int(),
+                      random_pos_int(), random_pos_int()};
+
+        int denom[4] = {random_pos_int(), random_pos_int(), random_pos_int(),
+                        random_pos_int()};
+
+        __m128i numerator = _mm_loadu_si128((__m128i *)&num[0]);
+        __m128i denominator = _mm_loadu_si128((__m128i *)&denom[0]);
+        __m128i modulo =
+            _mm_positive_mod_epi32(numerator, denominator);
+
+        int *p = (int *)&modulo;
+        /*
+        print_sse(numerator, "numerator: ");
+        print_sse(denominator, "denominator: ");
+        print_sse(modulo, "division: ");
+        */
+        for (int i = 0; i < 4; i++) {
+            if (denom[i] == 0)
+                continue;
+            ASSERT_EQ(*(p + i), num[i] % denom[i]);
+        }
+    }
 }
