@@ -121,7 +121,7 @@ load_vertex2(float *value) {
  * @param b __m128 vector
  */
 inline __attribute__((always_inline)) __m128
-cross_product_old(__m128 a, __m128 b) {
+cross_product_old(const __m128 &a, const __m128 &b) {
 #ifdef __FMA__
     __m128 result = _mm_fmsub_ps(
         _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 0, 2, 1)),
@@ -147,7 +147,7 @@ cross_product_old(__m128 a, __m128 b) {
  * @param b __m128 vector
  */
 inline __attribute__((always_inline)) __m128
-cross_product(__m128 a, __m128 b) {
+cross_product(const __m128 &a, const __m128 &b) {
 #ifndef __FMA__
     __m128 result = _mm_sub_ps(
         _mm_mul_ps(b,
@@ -174,7 +174,7 @@ cross_product(__m128 a, __m128 b) {
  * @param b __m256d vector
  */
 inline __attribute__((always_inline)) __m256d
-cross_product(__m256d a, __m256d b) {
+cross_product(const __m256d &a, const __m256d &b) {
     __m256d c = _mm256_permute4x64_pd(
         _mm256_fmsub_pd(
             a, _mm256_permute4x64_pd(b, _MM_SHUFFLE(3, 0, 2, 1)),
@@ -192,7 +192,7 @@ cross_product(__m256d a, __m256d b) {
  * @param b __m128 vector
  */
 inline __attribute__((always_inline)) float
-CalcDotProduct(__m128 x, __m128 y) {
+CalcDotProduct(const __m128 &x, const __m128 &y) {
     __m128 mulRes, shufReg, sumsReg;
     mulRes = _mm_mul_ps(x, y);
 
@@ -227,7 +227,7 @@ CalcDotProduct(float vec1[3], float vec2[3]) {
  * @param b __m256d vector
  */
 inline __attribute__((always_inline)) double
-CalcDotProduct(__m256d x, __m256d y) {
+CalcDotProduct(const __m256d &x, const __m256d &y) {
     // double *tmp_d = (double *)(&x);
     // std::cout << "CalcDotProduct function: " << tmp_d[0] << " "
     // << tmp_d[1]
@@ -263,7 +263,8 @@ inline __attribute__((always_inline)) __m128i sse_factorial(int n) {
  * @brief Calculates factorial of the parameter.
  * @param n calculates n!
  */
-inline __attribute__((always_inline)) int scalar_factorial(int n) {
+inline __attribute__((always_inline)) int
+scalar_factorial(const int &n) {
     int prod = 1;
     for (int i = 2; i <= n; i++) {
         prod *= i;
@@ -278,7 +279,7 @@ inline __attribute__((always_inline)) int scalar_factorial(int n) {
  * is calculated
  */
 inline __attribute__((always_inline)) __m128
-chebyshev(int n, __m128 x_vec) {
+chebyshev(const int &n, const __m128 &x_vec) {
     // T0
     __m128 T0 = _mm_set_ps1(1.0);
     if (n == 0)
@@ -336,7 +337,7 @@ chebyshev(int n, __m128 x_vec) {
  * @param x_vec vector of x values for which the value of polynomial
  * is calculated
  */
-inline __m256d chebyshev(int n, __m256d x_vec) {
+inline __m256d chebyshev(const int &n, const __m256d &x_vec) {
     __m256d T0 = _mm256_set1_pd(1.0);
     if (n == 0)
         return _mm256_set1_pd(1.0);
@@ -377,8 +378,8 @@ inline __m256d chebyshev(int n, __m256d x_vec) {
  * @param x_vec vector of x values in which the polynomial is
  * calculated
  */
-inline __m128 chebyshev_next(__m128 &cn, __m128 &cn_1,
-                             __m128 &x_vec) {
+inline __m128 chebyshev_next(const __m128 &cn, const __m128 &cn_1,
+                             const __m128 &x_vec) {
 #ifdef __FMA__
     return _mm_fmsub_ps(_mm_mul_ps(_mm_set_ps1(2.0), cn), x_vec,
                         cn_1);
@@ -399,8 +400,9 @@ inline __m128 chebyshev_next(__m128 &cn, __m128 &cn_1,
  * @param x_vec vector of x values in which the polynomial is
  * calculated
  */
-inline __m256d chebyshev_next(__m256d &cn, __m256d &cn_1,
-                              __m256d &x_vec) {
+inline __m256d chebyshev_next(const __m256d &cn,
+                              const __m256d &cn_1,
+                              const __m256d &x_vec) {
     return _mm256_fmsub_pd(_mm256_mul_pd(_mm256_set1_pd(2.0), cn),
                            x_vec, cn_1);
 }
@@ -414,7 +416,7 @@ inline __m256d chebyshev_next(__m256d &cn, __m256d &cn_1,
  * @param x_vec vector of x values in which the polynomial is
  * calculated
  */
-inline __m128 cos(__m128 x_vec_) {
+inline __m128 cos(const __m128 &x_vec_) {
     float coeff[] = {
         -0.3042421776440938642020349128177049239697,
         -0.9708678652630182194109914323663784757039,
@@ -453,7 +455,7 @@ inline __m128 cos(__m128 x_vec_) {
  * @brief calculates double precision cos.
  * @param x_vec vector of x values for which the cos is calculated
  */
-inline __m256d cos(__m256d x_vec_) {
+inline __m256d cos(const __m256d &x_vec_) {
     float coeff[] = {
         -0.3042421776440938642020349128177049239697,
         -0.9708678652630182194109914323663784757039,
@@ -490,7 +492,7 @@ inline __m256d cos(__m256d x_vec_) {
  * @param x_vec vector of x values for which the sin is calculated
  * calculated
  */
-inline __m128 sin(__m128 x_vec_) {
+inline __m128 sin(const __m128 &x_vec_) {
     float coeff[] = {
         0.56923068635950551469,    -0.66691667240597907078,
         0.10428236873423694948,    -0.0068406335369915790099,
@@ -522,7 +524,7 @@ inline __m128 sin(__m128 x_vec_) {
  * @brief calculates double precision sin.
  * @param x_vec vector of x values for which the sin is calculated
  */
-inline __m256d sin(__m256d x_vec_) {
+inline __m256d sin(const __m256d &x_vec_) {
     float coeff[] = {
         0.56923068635950551469,    -0.66691667240597907078,
         0.10428236873423694948,    -0.0068406335369915790099,
@@ -551,8 +553,8 @@ inline __m256d sin(__m256d x_vec_) {
  * @param x_vec vector of x values for which the next polynomial is
  * calculated calculated
  */
-inline __m128 legendre_next(__m128 Pn, __m128 Pnm1, __m128 x_vec,
-                            int n) {
+inline __m128 legendre_next(const __m128 &Pn, const __m128 &Pnm1,
+                            const __m128 &x_vec, const int &n) {
     __m128 n_vec = _mm_set_ps1(n);
     __m128 np1_vec = _mm_set_ps1(n + 1);
 #ifdef __FMA__
@@ -584,7 +586,7 @@ inline __m128 legendre_next(__m128 Pn, __m128 Pnm1, __m128 x_vec,
  *files discussing trigonometric functions. This is float version
  *and uses sse instructions.
  */
-inline __m128 tan(__m128 x) {
+inline __m128 tan(const __m128 &x) {
 
     // this function should calculate tan to 1e-8 precision
     // stevec : 34459425 * a - 4729725 * a ^ 3 + 135135 * a ^ 5 -
@@ -647,7 +649,7 @@ inline __m128 tan(__m128 x) {
  *files discussing trigonometric functions. This is float version
  *and uses sse instructions.
  */
-inline __m128 tan_ver2(__m128 x) {
+inline __m128 tan_ver2(const __m128 &x) {
     __m128 x2 = _mm_mul_ps(x, x);
     // stevec    -654729075 a + 91891800 a^3 - 2837835 a^5 + 25740
     // a^7 - 55 a^9
@@ -716,7 +718,7 @@ inline __m128 tan_ver2(__m128 x) {
  *files discussing trigonometric functions. This is float version
  *and uses sse instructions.
  */
-inline __m128 tan_ver3(__m128 x) {
+inline __m128 tan_ver3(const __m128 &x) {
     // version 4 S(4,a)
     // this function should calculate tan to 1e-8 precision
     // stevec : 34459425 * a - 4729725 * a ^ 3 + 135135 * a ^ 5 -
@@ -780,7 +782,7 @@ inline __m128 tan_ver3(__m128 x) {
  *and uses avx2 instructions.
  *@param x vector of angles for which tangens is calculated
  */
-inline __m256d tan(__m256d x) {
+inline __m256d tan(const __m256d &x) {
     // this function should calculate tan to 1e-8 precision
     // stevec : 34459425 * a - 4729725 * a ^ 3 + 135135 * a ^ 5 -
     // 990 a ^ 7
@@ -821,19 +823,19 @@ inline __m256d tan(__m256d x) {
  *files discussing trigonometric functions. This is float version
  *and uses sse instructions.
  */
-inline __m128 arctan(__m128 x) {
+inline __m128 arctan(const __m128 &x0) {
     // this comparison sets 0xffff if true - which is not 1.0
-    __m128 cmp1 = _mm_cmpgt_ps(_mm_setzero_ps(), x);
+    __m128 cmp1 = _mm_cmpgt_ps(_mm_setzero_ps(), x0);
     // now we compare to 1.0 to get desired 0.0 and 1.0 numbers
     cmp1 = _mm_and_ps(cmp1, _mm_set_ps1(-1.0));
     __m128 cmp1x2 = _mm_mul_ps(_mm_set_ps1(2.0), cmp1);
     // cmp1 =_mm_xor_ps(v, _mm_set1_ps(-0.0)); convert 1 to -1
     // now calculate absolute value
 #ifdef __FMA__
-    x = _mm_fmadd_ps(cmp1x2, x, x);
+    __m128 x = _mm_fmadd_ps(cmp1x2, x0, x0);
 #endif
 #ifndef __FMA__
-    x = _mm_add_ps(_mm_mul_ps(cmp1x2, x), x);
+    __m128 x = _mm_add_ps(_mm_mul_ps(cmp1x2, x0), x0);
 #endif
     __m128 cmp2 = _mm_cmpgt_ps(x, _mm_set_ps1(1.0));
     // cmp2 = _mm_and_ps(cmp2, _mm_set_ps1(1.0));
@@ -939,16 +941,16 @@ inline __m128 arctan(__m128 x) {
  *files discussing trigonometric functions. This is double version
  *and uses avx2 instructions.
  */
-inline __m256d arctan(__m256d x) {
+inline __m256d arctan(const __m256d &x0) {
     // this comparison sets 0xffff if true - which is not 1.0
     __m256d cmp1 =
-        _mm256_cmp_pd(_mm256_setzero_pd(), x, _CMP_GT_OS);
+        _mm256_cmp_pd(_mm256_setzero_pd(), x0, _CMP_GT_OS);
     // now we compare to 1.0 to get desired 0.0 and 1.0 numbers
     cmp1 = _mm256_and_pd(cmp1, _mm256_set1_pd(-1.0));
     __m256d cmp1x2 = _mm256_mul_pd(_mm256_set1_pd(2.0), cmp1);
     // cmp1 =_mm_xor_ps(v, _mm_set1_ps(-0.0)); convert 1 to -1
     // now calculate absolute value
-    x = _mm256_fmadd_pd(cmp1x2, x, x);
+    __m256d x = _mm256_fmadd_pd(cmp1x2, x0, x0);
 
     __m256d cmp2 =
         _mm256_cmp_pd(x, _mm256_set1_pd(1.0), _CMP_GT_OS);
@@ -1036,8 +1038,161 @@ inline __m256d arctan(__m256d x) {
 #endif
 
 /**
- * @brief The function finds all integer pairs whose multiplication
- * yield the supplied integer.
+ *
+ *
+ */
+inline __attribute__((always_inline)) __m128
+arccos(const __m128 &x) {
+
+    /*Sqrt[2] Sqrt[t] + t^(3/2)/(6 Sqrt[2]) + (3 t^(5/2))/(80
+       Sqrt[2]) + ( 5 t^(7/2))/(448 Sqrt[2]) + (35 t^(9/2))/(9216
+       Sqrt[2])
+    */
+
+    __m128 mask = _mm_cmpgt_ps(x, _mm_setzero_ps());
+    static const __m128 SIGN_BIT_MASK =
+        _mm_castsi128_ps(_mm_set1_epi32(0x80000000));
+
+    // Get the absolute value of the vector;
+    __m128 x_abs = _mm_andnot_ps(SIGN_BIT_MASK, x);
+
+    __m128 sqrt2 = _mm_set1_ps(1.4142135623730950488);
+    __m128 coeff32 = _mm_set1_ps(0.11785113019775792073);
+    __m128 coeff52 = _mm_set1_ps(0.026516504294495532165);
+    __m128 coeff72 = _mm_set1_ps(0.0078918167543141464777);
+    __m128 coeff92 = _mm_set1_ps(0.0026854098677874526209);
+    __m128 coeff112 = _mm_set1_ps(0.00098871908768538028314);
+    __m128 coeff132 = _mm_set1_ps(0.00038344554362157376365);
+    __m128 coeff152 = _mm_set1_ps(0.00015429118302868087157);
+    __m128 t = _mm_sub_ps(_mm_set1_ps(1.0), x_abs);
+    __m128 sqrtt = _mm_sqrt_ps(t);
+    __m128 t32 = _mm_mul_ps(t, sqrtt);
+    __m128 t52 = _mm_mul_ps(t, t32);
+    __m128 t72 = _mm_mul_ps(t52, t);
+    __m128 t92 = _mm_mul_ps(t72, t);
+    __m128 t112 = _mm_mul_ps(t92, t);
+    __m128 t132 = _mm_mul_ps(t112, t);
+    __m128 t152 = _mm_mul_ps(t132, t);
+    __m128 result = _mm_fmadd_ps(
+        sqrt2, sqrtt,
+        _mm_fmadd_ps(
+            t32, coeff32,
+            _mm_fmadd_ps(
+                t52, coeff52,
+                _mm_fmadd_ps(
+                    t72, coeff72,
+                    _mm_fmadd_ps(
+                        t92, coeff92,
+                        _mm_fmadd_ps(
+                            t112, coeff112,
+                            _mm_fmadd_ps(
+                                t132, coeff132,
+                                _mm_mul_ps(coeff152, t152))))))));
+
+    __m128 neg_result = _mm_add_ps(
+        _mm_set1_ps(M_PI), _mm_xor_ps(result, _mm_set1_ps(-0.0)));
+
+    return _mm_blendv_ps(neg_result, result, mask);
+};
+
+inline __attribute__((always_inline)) __m128
+arccos_ver2(const __m128 &x) {
+
+    /*
+      1.4142135623730950488 Sqrt[t] + 0.11785113019775792073 t^(3/2)
+      + 0.026516504294495532165 t^(5/2) + 0.0078918167543141464777
+      t^(7/2) + 0.0026854098677874526209 t^(9/2) +
+      0.00098871908768538028314 t^(11/2) +
+      0.00038344554362157376365 t^(13/2)
+     */
+
+    __m128 mask = _mm_cmpgt_ps(x, _mm_setzero_ps());
+    static const __m128 SIGN_BIT_MASK =
+        _mm_castsi128_ps(_mm_set1_epi32(0x80000000));
+
+    // Get the absolute value of the vector;
+    __m128 x_abs = _mm_andnot_ps(SIGN_BIT_MASK, x);
+
+    __m128 coeff1 = _mm_set1_ps(1.4142135623730950488);
+    __m128 coeff3 = _mm_set1_ps(0.11785113019775792073);
+    __m128 coeff5 = _mm_set1_ps(0.026516504294495532165);
+    __m128 coeff7 = _mm_set1_ps(0.0078918167543141464777);
+    __m128 coeff9 = _mm_set1_ps(0.0026854098677874526209);
+    __m128 coeff11 = _mm_set1_ps(0.00098871908768538028314);
+    __m128 coeff13 = _mm_set1_ps(0.00038344554362157376365);
+    __m128 coeff15 = _mm_set1_ps(0.00015429118302868087157);
+    __m128 t = _mm_sub_ps(_mm_set1_ps(1.0), x_abs);
+    __m128 sqrtt = _mm_sqrt_ps(t);
+    /*    __m128 t32 = _mm_mul_ps(t, sqrtt);
+    __m128 t52 = _mm_mul_ps(t, t32);
+    __m128 t72 = _mm_mul_ps(t52, t);
+    __m128 t92 = _mm_mul_ps(t72, t);
+    __m128 t112 = _mm_mul_ps(t92, t);
+    __m128 t132 = _mm_mul_ps(t112, t);
+    */
+    __m128 result = _mm_mul_ps(
+        _mm_fmadd_ps(
+            _mm_fmadd_ps(
+                _mm_fmadd_ps(
+                    _mm_fmadd_ps(
+                        _mm_fmadd_ps(
+                            _mm_fmadd_ps(
+                                _mm_fmadd_ps(coeff15, t, coeff13),
+                                t, coeff11),
+                            t, coeff9),
+                        t, coeff7),
+                    t, coeff5),
+                t, coeff3),
+            t, coeff1),
+        sqrtt);
+
+    __m128 neg_result = _mm_add_ps(
+        _mm_set1_ps(M_PI), _mm_xor_ps(result, _mm_set1_ps(-0.0)));
+
+    return _mm_blendv_ps(neg_result, result, mask);
+};
+
+inline __attribute__((always_inline)) __m128
+arccos_ver3(const __m128 &t) {
+
+    /*1.5707963267948966192-t-0.16666666666666666667
+     * t^3-0.075000000000000000000 t^5-0.044642857142857142857
+     * t^7-0.030381944444444444444 t^9+O[t]^11
+     */
+
+    __m128 coeff0 = _mm_set1_ps(1.5707963267948966192);
+
+    __m128 coeff3 = _mm_set1_ps(-0.16666666666666666667);
+
+    __m128 coeff5 = _mm_set1_ps(-0.0750);
+    __m128 coeff7 = _mm_set1_ps(-0.044642857142857142857);
+    __m128 coeff9 = _mm_set1_ps(-0.030381944444444444444);
+    __m128 coeff11 = _mm_set1_ps(-0.022372159090909090909);
+
+    __m128 t2 = _mm_mul_ps(t, t);
+    /*    __m128 t3 = _mm_mul_ps(t2, t);
+    __m128 t5 = _mm_mul_ps(t3, t2);
+    __m128 t7 = _mm_mul_ps(t5, t2);
+    __m128 t9 = _mm_mul_ps(t7, t2);
+    */
+    __m128 result = _mm_fmadd_ps(
+        _mm_fmadd_ps(
+
+            _mm_fmadd_ps(
+                _mm_fmadd_ps(
+                    _mm_fmadd_ps(_mm_fmadd_ps(coeff11, t2, coeff9),
+                                 t2, coeff7),
+                    t2, coeff5),
+                t2, coeff3),
+            t2, _mm_set1_ps(-1.0)),
+        t, coeff0);
+
+    return result;
+};
+
+/**
+ * @brief The function finds all integer pairs whose
+ * multiplication yield the supplied integer.
  * @param number to be factorized
  */
 inline std::vector<std::pair<int, int>> find_products(int num) {
@@ -1086,7 +1241,7 @@ _mm_div_epi32(const __m128i &a, const __m128i &b) {
  */
 inline __attribute__((always_inline)) __m128i
 _mm_positive_mod_epi32(const __m128i &numerator,
-              const __m128i &denominator) {
+                       const __m128i &denominator) {
     __m128i quotient = _mm_div_epi32(numerator, denominator);
 
     __m128i modulo = _mm_sub_epi32(

@@ -422,14 +422,44 @@ class IsingModel {
                 count, _mm_shuffle_epi32(count, 0b01001111));
             int num_spins_to_flip =
                 -_mm_extract_epi32(count, 0b00000000);
+            if (spin == UP) {
+                magnetization -= 2 * num_spins_to_flip;
+            } else {
+                magnetization += 2 * num_spins_to_flip;
+            };
+
             std::cout << "number of flipped spins: "
                       << num_spins_to_flip << "\n " << std::endl;
 
-            if (_mm_extract_epi32(to_be_flipped, 0) == 0) {
+            int i1 = central_spin[0];
+            int i2 = central_spin[1];
+            int *spinp = (int *)(spin_array + i1 * size + 1 + i2);
 
-                flipped.push_back(std::array<unsigned, 2>(
-                    {central_spin[0] + 1, central_spin[1]}));
-                *(spin_array+central_spin[0]+1+central_spin[])
+            if (_mm_extract_epi32(to_be_flipped, 0) == -1) {
+
+                flipped.push_back(
+                    std::array<unsigned, 2>({i1 + 1, i2}));
+                *(spinp + 1) = -*(spinp + 1);
+            }
+
+            if (_mm_extract_epi32(to_be_flipped, 1) == -1) {
+
+                flipped.push_back(
+                    std::array<unsigned, 2>({i1 - 1, i2}));
+                *(spinp - 1) = -*(spinp - 1);
+            }
+
+            if (_mm_extract_epi32(to_be_flipped, 0) == -1) {
+
+                flipped.push_back(
+                    std::array<unsigned, 2>({i1 + size, i2}));
+                *(spinp + size) = -*(spinp + size);
+            }
+            if (_mm_extract_epi32(to_be_flipped, 0) == -1) {
+
+                flipped.push_back(
+                    std::array<unsigned, 2>({i1 - size, i2}));
+                *(spinp - size) = -*(spinp - size);
             }
 
             /*

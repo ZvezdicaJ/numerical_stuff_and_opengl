@@ -35,17 +35,6 @@ message(STATUS "glfw libraries: ${GLFW_LIBRARIES}")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native")
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -march=native")
 
-# GLFW
-#set(GLFW_DIR "../../../Downloads/glfw")
-#set(GLFW_BUILD_EXAMPLES OFF CACHE INTERNAL "Build the GLFW example programs")
-#set(GLFW_BUILD_TESTS OFF CACHE INTERNAL "Build the GLFW test programs")
-#set(GLFW_BUILD_DOCS OFF CACHE INTERNAL "Build the GLFW documentation")
-#set(GLFW_INSTALL OFF CACHE INTERNAL "Generate installation target")
-#add_subdirectory("${GLFW_DIR}")
-#target_link_libraries(${PROJECT_NAME} "glfw" "${GLFW_LIBRARIES}")
-#target_include_directories(${PROJECT_NAME} PRIVATE "${GLFW_DIR}/include")
-#target_compile_definitions(${PROJECT_NAME} PRIVATE "GLFW_INCLUDE_NONE")
-
 # GLAD
 set(GLAD_DIR ./third_party/glad)
 add_library(glad SHARED "${GLAD_DIR}/src/glad.c")
@@ -85,4 +74,7 @@ target_link_libraries(sort_float_benchmarks apex_memmove libdl.so libbenchmark.a
 
 add_executable(sort_double_benchmarks benchmarks/sort_double_benchmarks.cpp)
 target_link_libraries(sort_double_benchmarks apex_memmove libdl.so libbenchmark.a pthread)
+
+
+add_executable(auxiliary_functions_data testing/auxiliary_functions_data.cpp)
 
