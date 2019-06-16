@@ -94,22 +94,28 @@ void settings_window(nanogui::Screen *screen, GLFWwindow *window,
     algorithm_group->setFontSize(30);
 
     nanogui::CheckBox *select_metropolis =
-        new nanogui::CheckBox(nanoguiWindow, "select metropolis");
+        new nanogui::CheckBox(nanoguiWindow, "metropolis");
     select_metropolis->setFontSize(30);
 
     nanogui::CheckBox *select_recursive_wolff =
-        new nanogui::CheckBox(nanoguiWindow,
-                              "select recursive wolff");
+        new nanogui::CheckBox(nanoguiWindow, "recursive wolff");
     select_recursive_wolff->setFontSize(30);
 
     nanogui::CheckBox *select_nonrecursive_wolff =
-        new nanogui::CheckBox(nanoguiWindow,
-                              "select nonrecursive wolff");
+        new nanogui::CheckBox(nanoguiWindow, "nonrecursive wolff");
     select_nonrecursive_wolff->setFontSize(30);
+
+    nanogui::CheckBox *select_nonrecursive_vectorized_wolff =
+        new nanogui::CheckBox(nanoguiWindow,
+                              "nonrec. vectorized wolff");
+    select_nonrecursive_vectorized_wolff->setFontSize(30);
+
+    ///////////////////////////////////////////////////////////////////////
 
     b->setCallback([algorithm_choice, b, select_metropolis,
                     select_recursive_wolff,
-                    select_nonrecursive_wolff] {
+                    select_nonrecursive_wolff,
+                    select_nonrecursive_vectorized_wolff] {
         if (*algorithm_choice == '0') {
             b->setCaption("Stop");
             *algorithm_choice = 'M';
@@ -120,6 +126,7 @@ void settings_window(nanogui::Screen *screen, GLFWwindow *window,
             select_metropolis->setChecked(false);
             select_recursive_wolff->setChecked(false);
             select_nonrecursive_wolff->setChecked(false);
+            select_nonrecursive_vectorized_wolff->setChecked(false);
         }
         // std::cout << "alg: " << +algorithm_choice << std::endl;
     });
@@ -129,16 +136,20 @@ void settings_window(nanogui::Screen *screen, GLFWwindow *window,
     select_metropolis->setChecked(true);
     select_recursive_wolff->setChecked(false);
     select_nonrecursive_wolff->setChecked(false);
+    select_nonrecursive_vectorized_wolff->setChecked(false);
 
     std::function<void(const bool &)> f1 =
         [select_metropolis, select_recursive_wolff,
-         select_nonrecursive_wolff, algorithm_choice,
+         select_nonrecursive_wolff,
+         select_nonrecursive_vectorized_wolff, algorithm_choice,
          b](const bool &value) {
             if (value) {
                 *algorithm_choice = 'M';
                 select_metropolis->setChecked(true);
                 select_recursive_wolff->setChecked(false);
                 select_nonrecursive_wolff->setChecked(false);
+                select_nonrecursive_vectorized_wolff->setChecked(
+                    false);
                 b->setCaption("Stop");
             } else {
                 select_metropolis->setChecked(false);
@@ -149,13 +160,16 @@ void settings_window(nanogui::Screen *screen, GLFWwindow *window,
 
     std::function<void(const bool &)> f2 =
         [select_metropolis, select_recursive_wolff,
-         select_nonrecursive_wolff, algorithm_choice,
+         select_nonrecursive_wolff,
+         select_nonrecursive_vectorized_wolff, algorithm_choice,
          b](const bool &value) {
             if (value) {
                 *algorithm_choice = 'W';
                 select_recursive_wolff->setChecked(true);
                 select_nonrecursive_wolff->setChecked(false);
                 select_metropolis->setChecked(false);
+                select_nonrecursive_vectorized_wolff->setChecked(
+                    false);
                 b->setCaption("Stop");
             } else {
                 select_recursive_wolff->setChecked(false);
@@ -166,13 +180,16 @@ void settings_window(nanogui::Screen *screen, GLFWwindow *window,
 
     std::function<void(const bool &)> f3 =
         [select_metropolis, select_nonrecursive_wolff,
-         select_recursive_wolff, algorithm_choice,
+         select_recursive_wolff,
+         select_nonrecursive_vectorized_wolff, algorithm_choice,
          b](const bool &value) {
             if (value) {
                 *algorithm_choice = 'N';
                 select_nonrecursive_wolff->setChecked(true);
                 select_recursive_wolff->setChecked(false);
                 select_metropolis->setChecked(false);
+                select_nonrecursive_vectorized_wolff->setChecked(
+                    false);
                 b->setCaption("Stop");
             } else {
                 select_nonrecursive_wolff->setChecked(false);
@@ -181,9 +198,31 @@ void settings_window(nanogui::Screen *screen, GLFWwindow *window,
             }
         };
 
+    std::function<void(const bool &)> f4 =
+        [select_metropolis, select_nonrecursive_wolff,
+         select_recursive_wolff,
+         select_nonrecursive_vectorized_wolff, algorithm_choice,
+         b](const bool &value) {
+            if (value) {
+                *algorithm_choice = 'V';
+                select_nonrecursive_wolff->setChecked(false);
+                select_recursive_wolff->setChecked(false);
+                select_metropolis->setChecked(false);
+                select_nonrecursive_vectorized_wolff->setChecked(
+                    true);
+                b->setCaption("Stop");
+            } else {
+                select_nonrecursive_vectorized_wolff->setChecked(
+                    false);
+                *algorithm_choice = '0';
+                b->setCaption("Start");
+            }
+        };
+
     select_metropolis->setCallback(f1);
     select_recursive_wolff->setCallback(f2);
     select_nonrecursive_wolff->setCallback(f3);
+    select_nonrecursive_vectorized_wolff->setCallback(f4);
 
     nanogui::Widget *panel = new nanogui::Widget(nanoguiWindow);
     panel->setLayout(
@@ -194,7 +233,7 @@ void settings_window(nanogui::Screen *screen, GLFWwindow *window,
     slider->setValue(2.0f);
     slider->setRange(std::pair<float, float>(0.0001, 8.0));
     slider->setFixedWidth((nanoguiWindow->width()) * 0.7);
-    slider->setFixedHeight((slider->height())*3);
+    slider->setFixedHeight((slider->height()) * 3);
 
     nanogui::TextBox *textBox = new nanogui::TextBox(nanoguiWindow);
     textBox->setFixedSize(Eigen::Vector2i(

@@ -338,7 +338,9 @@ class IsingModel {
         cluster_size = 1;
         // at the start all spins except spin (k,l) have not yet
         // been checked
-        int not_checked[size][size] = {1};
+        int not_checked[size][size] = {-1};
+        std::fill(&not_checked[0][0],
+                  &not_checked[0][0] + size * size, -1);
         not_checked[k][l] = 0;
         // flipped
         std::vector<std::array<unsigned, 2>> flipped;
@@ -357,7 +359,7 @@ class IsingModel {
         __m128i ones = _mm_set1_epi32(1);
 
         //        for (int i = 0; i < flipped.size(); i++) {
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < flipped.size(); i++) {
             std::array<unsigned, 2> central_spin = flipped[i];
 
             int central_spin_index =
@@ -365,7 +367,10 @@ class IsingModel {
 
             __m128i indices_to_load = _mm_add_epi32(
                 _mm_set1_epi32(central_spin_index), index_pattern);
-            print_sse(indices_to_load, "indices_to_load: ");
+            /*std::cout << "flipped size: " << flipped.size()
+                      << std::endl;
+             print_sse(indices_to_load, "indices_to_load: ");
+            */
             ////////////////////////////////////////
             // check if any of the spins is on the edge - belogs to
             // boundray conditions
@@ -375,12 +380,12 @@ class IsingModel {
             // we need to replace the last modulo with the index
             modulo =
                 _mm_blend_epi32(modulo, indices_to_load, 0b1000);
-            print_sse(modulo, "modulo: ");
-            print_sse(lower_numbers, "lower_numbers: ");
+            // print_sse(modulo, "modulo: ");
+            // print_sse(lower_numbers, "lower_numbers: ");
             __m128i comparison1 =
                 _mm_cmpgt_epi32(modulo, lower_numbers);
 
-            print_sse(comparison1, "comparison1: ");
+            // print_sse(comparison1, "comparison1: ");
 
             //////////////////////////////////////////
             ///// comparison2 flip spin with probability of
@@ -394,24 +399,34 @@ class IsingModel {
             __m128 random_vector = _mm_loadu_ps(random_numbers);
             __m128i comparison2 = _mm_castps_si128(
                 _mm_cmp_ps(exp, random_vector, _CMP_LT_OS));
-            print_sse(comparison2, "comparison2: ");
+            // print_sse(comparison2, "comparison2: ");
             //////////////////////////////////////////////////
             /// flip only spins which are turned into the same
             /// direction as the original spin
             __m128i original_spins = _mm_i32gather_epi32(
                 (int *)spin_array, indices_to_load, 4);
             // above 4 signifies that each integer is 4 byte long
-            print_sse(original_spins, "original_spins: ");
+            // print_sse(original_spins, "original_spins: ");
 
             __m128i comparison3 =
                 _mm_cmpeq_epi32(spin_direction, original_spins);
-            print_sse(comparison3, "comparison3: ");
+            // print_sse(comparison3, "comparison3: ");
+
+            ////////////////////////////////////////////////
+            //// check of already flipped
+            //////////////////////////////
+            __m128i not_yet_checked = _mm_i32gather_epi32(
+                &not_checked[0][0], indices_to_load, 4);
+            // print_sse(not_yet_checked, "not yet checked: ");
+            //
 
             //////////////////////////////////////////////////
             __m128i to_be_flipped = _mm_and_si128(
-                _mm_and_si128(comparison1, comparison2),
-                comparison3);
-            print_sse(to_be_flipped, "to_be_flipped: ");
+                _mm_and_si128(
+                    _mm_and_si128(comparison1, comparison2),
+                    comparison3),
+                not_yet_checked);
+            // print_sse(to_be_flipped, "to_be_flipped: ");
             //////////////////////////////////////
             ///// calculate the number of spins to be flipped
 
@@ -428,38 +443,42 @@ class IsingModel {
                 magnetization += 2 * num_spins_to_flip;
             };
 
-            std::cout << "number of flipped spins: "
-                      << num_spins_to_flip << "\n " << std::endl;
+            // std::cout << "number of flipped spins: "
+            //          << num_spins_to_flip << "\n " << std::endl;
 
             int i1 = central_spin[0];
             int i2 = central_spin[1];
-            int *spinp = (int *)(spin_array + i1 * size + 1 + i2);
+            int *spinp = (int *)(spin_array + i1 * size + i2);
 
             if (_mm_extract_epi32(to_be_flipped, 0) == -1) {
-
                 flipped.push_back(
-                    std::array<unsigned, 2>({i1 + 1, i2}));
+                    std::array<unsigned, 2>({i1, i2 + 1}));
                 *(spinp + 1) = -*(spinp + 1);
+                energy += spin_flip_energy_change(i1, i2 + 1);
+                not_checked[i1][i2 + 1] = 0;
             }
 
             if (_mm_extract_epi32(to_be_flipped, 1) == -1) {
+                flipped.push_back(
+                    std::array<unsigned, 2>({i1, i2 - 1}));
+                *(spinp - 1) = -*(spinp - 1);
+                energy += spin_flip_energy_change(i1, i2 - 1);
+                not_checked[i1][i2 - 1] = 0;
+            }
 
+            if (_mm_extract_epi32(to_be_flipped, 2) == -1) {
+                flipped.push_back(
+                    std::array<unsigned, 2>({i1 + 1, i2}));
+                *(spinp + size) = -*(spinp + size);
+                energy += spin_flip_energy_change(i1 + 1, i2);
+                not_checked[i1 + 1][i2] = 0;
+            }
+            if (_mm_extract_epi32(to_be_flipped, 3) == -1) {
                 flipped.push_back(
                     std::array<unsigned, 2>({i1 - 1, i2}));
-                *(spinp - 1) = -*(spinp - 1);
-            }
-
-            if (_mm_extract_epi32(to_be_flipped, 0) == -1) {
-
-                flipped.push_back(
-                    std::array<unsigned, 2>({i1 + size, i2}));
-                *(spinp + size) = -*(spinp + size);
-            }
-            if (_mm_extract_epi32(to_be_flipped, 0) == -1) {
-
-                flipped.push_back(
-                    std::array<unsigned, 2>({i1 - size, i2}));
                 *(spinp - size) = -*(spinp - size);
+                energy += spin_flip_energy_change(i1 - 1, i2);
+                not_checked[i1 - 1][i2] = 0;
             }
 
             /*
@@ -483,6 +502,7 @@ class IsingModel {
                 magnetization += dm;
                 }*/
         }
+        // std::cout << "end of for loop" << std::endl;
     };
 
   public:
@@ -582,7 +602,8 @@ class IsingModel {
     }
 
     /** @brief The function flips the cluster using Wolff algorithm.
-     * @details It calls the wolff_cluster_step() function.
+     * @details It calls the wolff_cluster_step_nonrecursive()
+     * function.
      */
     void flip_cluster_nonrecursive() {
         // randomly choose k and l
@@ -597,7 +618,8 @@ class IsingModel {
     }
 
     /** @brief The function flips the cluster using Wolff algorithm.
-     * @details It calls the wolff_cluster_step() function.
+     * @details It calls the
+     * wolff_cluster_step_nonrecursive_vectorized() function.
      */
     void flip_cluster_nonrecursive_vectorized() {
         // randomly choose k and l

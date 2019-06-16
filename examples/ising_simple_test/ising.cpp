@@ -29,7 +29,7 @@ int main() {
 
     unsigned size = 20;
     IsingModel<float> alg1(size);
-    alg1.set_temperature(2.0);
+    alg1.set_temperature(0.5);
     int *p = (int *)alg1.get_spin_array();
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {

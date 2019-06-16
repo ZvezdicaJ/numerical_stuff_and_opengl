@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[    150977,       2839]
-NotebookOptionsPosition[    148338,       2789]
-NotebookOutlinePosition[    148672,       2804]
-CellTagsIndexPosition[    148629,       2801]
+NotebookDataLength[    153234,       2899]
+NotebookOptionsPosition[    150496,       2848]
+NotebookOutlinePosition[    150830,       2863]
+CellTagsIndexPosition[    150787,       2860]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -2785,7 +2785,66 @@ bj+xXOsXwJsozZXs1/sJXFm8ILYsnpjxG2j91WEJ10/vR3ByMHFjcSzlZ/wK
 Cell[BoxData[""], "Input",
  CellChangeTimes->{3.769073392225965*^9, 
   3.7690820402522697`*^9},ExpressionUUID->"5ae3bfe9-d9f0-43a7-a455-\
-333039227255"]
+333039227255"],
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"ssefarccos", "=", 
+     RowBox[{
+     "Import", "[", 
+      "\"\</home/jure/Documents/opengl_ucenje/testing/data/ssef_arccos_ver2.\
+dat\>\"", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"error", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"ssefarccos", "[", 
+          RowBox[{"[", 
+           RowBox[{"i", ",", "1"}], "]"}], "]"}], ",", 
+         RowBox[{"Log", "[", 
+          RowBox[{"10", ",", 
+           RowBox[{"Abs", "[", 
+            RowBox[{
+             RowBox[{"ArcCos", "[", " ", 
+              RowBox[{"ssefarccos", "[", 
+               RowBox[{"[", 
+                RowBox[{"i", ",", "1"}], "]"}], "]"}], "]"}], "-", " ", 
+             RowBox[{"ssefarccos", "[", 
+              RowBox[{"[", 
+               RowBox[{"i", ",", "2"}], "]"}], "]"}]}], "]"}]}], "]"}]}], 
+        "}"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "1", ",", 
+         RowBox[{"ssefarccos", "//", "Length"}]}], "}"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"Show", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"ListPlot", "[", 
+      RowBox[{"ssefarccos", ",", " ", 
+       RowBox[{"PlotRange", "\[Rule]", "All"}], ",", " ", 
+       RowBox[{"Frame", "\[Rule]", "True"}], ",", " ", 
+       RowBox[{"ImageSize", "\[Rule]", "700"}]}], "]"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Plot", "[", 
+      RowBox[{
+       RowBox[{"ArcCos", "[", "x", "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"x", ",", 
+         RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", " ", 
+       RowBox[{"PlotStyle", "\[Rule]", "Red"}]}], "]"}]}], 
+    "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", 
+   RowBox[{"ListLinePlot", "[", 
+    RowBox[{"error", ",", " ", 
+     RowBox[{"ImageSize", "\[Rule]", "600"}], ",", " ", 
+     RowBox[{"Frame", "\[Rule]", "True"}], ",", " ", 
+     RowBox[{"PlotRange", "\[Rule]", "All"}]}], "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.76909737905057*^9, 
+  3.769097385870824*^9}},ExpressionUUID->"f0069b24-9308-494c-ae6c-\
+0c654fb4cacb"]
 },
 WindowSize->{1853, 1018},
 WindowMargins->{{0, Automatic}, {0, Automatic}},
@@ -2840,7 +2899,8 @@ Cell[136005, 2523, 2449, 61, 201, "Input",ExpressionUUID->"57b2688b-8f9b-4fe5-8b
 Cell[138457, 2586, 6211, 119, 455, "Output",ExpressionUUID->"ddd01fdd-3aaa-473b-b47c-792ff06c45b4"],
 Cell[144671, 2707, 3496, 74, 394, "Output",ExpressionUUID->"3e242fa7-f790-4712-a2de-1069296ee3cb"]
 }, Open  ]],
-Cell[148182, 2784, 152, 3, 32, "Input",ExpressionUUID->"5ae3bfe9-d9f0-43a7-a455-333039227255"]
+Cell[148182, 2784, 152, 3, 32, "Input",ExpressionUUID->"5ae3bfe9-d9f0-43a7-a455-333039227255"],
+Cell[148337, 2789, 2155, 57, 201, "Input",ExpressionUUID->"f0069b24-9308-494c-ae6c-0c654fb4cacb"]
 }
 ]
 *)

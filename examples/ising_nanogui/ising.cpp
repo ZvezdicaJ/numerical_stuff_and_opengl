@@ -119,8 +119,8 @@ int main() {
 
     bool enabled = true;
 
-    settings_window(screen, window, &alg1, &algorithm_choice, energy,
-                    magnetization);
+    settings_window(screen, window, &alg1, &algorithm_choice,
+                    energy, magnetization);
 
     screen->setVisible(true);
     screen->performLayout();
@@ -198,7 +198,9 @@ int main() {
             else if (algorithm_choice == 'W')
                 alg1.flip_cluster();
             else if (algorithm_choice == 'N')
-                alg1.flip_cluster();
+                alg1.flip_cluster_nonrecursive();
+            else if (algorithm_choice == 'V')
+                alg1.flip_cluster_nonrecursive_vectorized();
 
             magnetization.push_back(alg1.get_magnetization());
             energy.push_back(alg1.get_energy());
