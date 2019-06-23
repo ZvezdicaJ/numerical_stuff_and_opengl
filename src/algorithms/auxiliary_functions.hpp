@@ -1,6 +1,10 @@
 #pragma once
 #include <immintrin.h>
 #include <string>
+#include "print_simd_vectors.hpp"
+
+static const __m128 SIGNMASK =
+    _mm_castsi128_ps(_mm_set1_epi32(0x80000000));
 
 template <class T>
 inline void hash_combine(std::size_t &seed, const T &v) {
@@ -77,6 +81,10 @@ struct hash<pair<S, T>> {
                            */
 #define _CMP_TRUE_US 0x1f /* True (unordered, signaling)  */
 #endif
+
+// force loop unrolling
+#pragma GCC push_options
+#pragma GCC optimize("unroll-loops")
 
 /**
  *@brief Function loads 3 floats to an sse vector -> x:[32:0],
@@ -1042,7 +1050,7 @@ inline __m256d arctan(const __m256d &x0) {
  *
  */
 inline __attribute__((always_inline)) __m128
-arccos(const __m128 &x) {
+arccos_ver1(const __m128 &x) {
 
     /*Sqrt[2] Sqrt[t] + t^(3/2)/(6 Sqrt[2]) + (3 t^(5/2))/(80
        Sqrt[2]) + ( 5 t^(7/2))/(448 Sqrt[2]) + (35 t^(9/2))/(9216
@@ -1190,6 +1198,97 @@ arccos_ver3(const __m128 &t) {
     return result;
 };
 
+inline __attribute__((always_inline)) __m128
+arccos_ver4(const __m128 &t) {
+
+    __m128 ones = _mm_set1_ps(1.0);
+    __m128 oversqrt2 = _mm_set1_ps(0.70710678118654752440);
+    __m128 cmp1 = _mm_cmplt_ps(t, oversqrt2);
+    __m128 sqrt = _mm_sub_ps(ones, _mm_mul_ps(t, t));
+
+    __m128 coeff0 = _mm_set1_ps(1.5707963267948966192);
+
+    __m128 coeff3 = _mm_set1_ps(-0.16666666666666666667);
+
+    __m128 coeff5 = _mm_set1_ps(-0.0750);
+    __m128 coeff7 = _mm_set1_ps(-0.044642857142857142857);
+    __m128 coeff9 = _mm_set1_ps(-0.030381944444444444444);
+    __m128 coeff11 = _mm_set1_ps(-0.022372159090909090909);
+
+    __m128 t2 = _mm_mul_ps(t, t);
+    /*
+    __m128 t3 = _mm_mul_ps(t2, t);
+    __m128 t5 = _mm_mul_ps(t3, t2);
+    __m128 t7 = _mm_mul_ps(t5, t2);
+    __m128 t9 = _mm_mul_ps(t7, t2);
+    */
+    __m128 result = _mm_fmadd_ps(
+        _mm_fmadd_ps(
+
+            _mm_fmadd_ps(
+                _mm_fmadd_ps(
+                    _mm_fmadd_ps(_mm_fmadd_ps(coeff11, t2, coeff9),
+                                 t2, coeff7),
+                    t2, coeff5),
+                t2, coeff3),
+            t2, _mm_set1_ps(-1.0)),
+        t, coeff0);
+
+    return result;
+};
+
+inline __attribute__((always_inline)) __m128
+arcsin(const __m128 &t) {
+
+    __m128 twos = _mm_set1_ps(2.0);
+    __m128 ones = _mm_set1_ps(1.0);
+    __m128 t2 = _mm_mul_ps(t, t);
+
+    __m128 sqrt = _mm_set1_ps(0.70710678118654752440);
+    __m128 mask1 = _mm_cmpgt_ps(t, sqrt);
+    __m128 mask2 = _mm_cmplt_ps(t, _mm_xor_ps(sqrt, SIGNMASK));
+    __m128 combined_mask = _mm_or_ps(mask1, mask2);
+    __m128 sqrtt = _mm_sqrt_ps(_mm_sub_ps(ones, t2));
+
+    __m128 t_mod = _mm_blendv_ps(t, sqrtt, combined_mask);
+    print_sse(t_mod, "t: ");
+    t2 = _mm_mul_ps(t_mod, t_mod);
+
+    __m128 dn = ones;
+    __m128 cn = twos;
+    __m128 sum = t_mod;
+    __m128 next_t = _mm_mul_ps(t2, t_mod);
+    __m128 counter2 = twos;
+    __m128 i_vec = _mm_set1_ps(3.0);
+
+    for (int i = 3; i < 50; i += 2) {
+
+        __m128 factor = _mm_div_ps(dn, _mm_mul_ps(cn, i_vec));
+
+        // print_sse(factor, "factor: ");
+        // print_sse(dn, "dn: ");
+        // print_sse(cn, "cn: ");
+        std::cout << std::endl;
+
+        sum = _mm_fmadd_ps(factor, next_t, sum);
+
+        next_t = _mm_mul_ps(next_t, t2);
+        dn = _mm_mul_ps(dn, i_vec);
+
+        counter2 = _mm_add_ps(counter2, twos);
+        cn = _mm_mul_ps(cn, counter2);
+
+        i_vec = _mm_add_ps(i_vec, twos);
+    }
+    static const __m128 pi2 =
+        _mm_set1_ps(1.5707963267948966192); // pi/2
+    __m128 sol1 = _mm_sub_ps(pi2, sum);
+    __m128 sol2 = _mm_add_ps(_mm_xor_ps(pi2, SIGNMASK), sum);
+
+    return _mm_blendv_ps(_mm_blendv_ps(sum, sol1, mask1), sol2,
+                         mask2);
+}
+
 /**
  * @brief The function finds all integer pairs whose
  * multiplication yield the supplied integer.
@@ -1248,3 +1347,5 @@ _mm_positive_mod_epi32(const __m128i &numerator,
         numerator, _mm_mullo_epi32(quotient, denominator));
     return modulo;
 };
+
+#pragma GCC pop_options

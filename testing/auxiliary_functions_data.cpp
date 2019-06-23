@@ -296,11 +296,14 @@ int main() {
     test_avxd_trigonometric(arctan, -1000, 1000, "avxd_arctan.dat");
     test_ssef_trigonometric(arctan, -1000, 1000, "ssef_arctan.dat");
 
-    test_ssef_trigonometric(arccos, -1.0, 1.0, "ssef_arccos.dat");
+    test_ssef_trigonometric(arccos_ver1, -1.0, 1.0, "ssef_arccos.dat");
     test_ssef_trigonometric(arccos_ver2, -1.0, 1.0,
                             "ssef_arccos_ver2.dat");
     test_ssef_trigonometric(arccos_ver3, -1.0, 1.0,
                             "ssef_arccos_ver3.dat");
+
+    test_ssef_trigonometric(arcsin, -1.0, 1.0,
+                            "ssef_arcsin.dat");
 
     __m128 t = _mm_setr_ps(0.4, -0.3, -1.4, -1.27);
     arctan(t);

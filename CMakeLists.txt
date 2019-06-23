@@ -11,7 +11,8 @@ cmake_minimum_required(VERSION 3.2)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-set(CMAKE_CXX_COMPILER "g++")
+set(CMAKE_CXX_COMPILER g++-8 CACHE STRING "C++ compiler" FORCE)
+#set(CMAKE_CXX_COMPILER "g++-8")
 set(CMAKE_CXX_STANDARD 17)
 #message(STATUS "compiler: ${CMAKE_CXX_COMPILER}")
 
@@ -19,7 +20,7 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 
   # setting flags for gcc compiler
   # comment if you set intel compiler
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Ofast -march=native -Wno-sign-compare -Wno-template-friend -Wno-unused-variable -Wno-maybe-uninitialized -Wno-ignored-attributes -fabi-version=4")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Ofast -march=native -Wno-sign-compare -Wno-template-friend -Wno-unused-variable -Wno-maybe-uninitialized -Wno-ignored-attributes -funroll-loops -fvariable-expansion-in-unroller -fabi-version=4")
 
   #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse -msse4.1 -mno-avx -mno-avx2 -mno-fma -Wall -Wnon-template-friend -Wno-unused-variable")
 

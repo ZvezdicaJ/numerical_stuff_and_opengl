@@ -104,4 +104,26 @@ This will print 1 2 3 4. Thus, it starts at 0 -> at the lower part of register!
 The same happens in the second case - where we print array called $arr$.
 
 
+
+\subsection{Fast sign change and absolute value of float register}
+\href{http://fastcpp.blogspot.com/2011/03/changing-sign-of-float-values-using-sse.html}{SOURCE}
+\\
+Changing the sign of float values using SSE code
+The IEEE 754 floating point format defines the memory layout for the C++ float datatype. It consists of a one bit sign, the 8 bit exponent and 23 bits that store the fractional part of the value. 
+float x = [sign (1 bit) | exponent (8bit) | fraction (23bit)]
+We can use this knowledge about the memory-layout in order to change the sign of floating point values without the need for floating point arithmetic. For example, calculating the absolute value of a floating point number is equivalent to setting the sign bit to zero. In SSE we can do this for four float values simultaneously by using a binary mask and logical operations:
+\begin{verbatim}
+static const __m128 SIGNMASK = 
+               _mm_castsi128_ps(_mm_set1_epi32(0x80000000));
+
+//absolute value
+__m128 val = /* some value */;
+__m128 absval = _mm_andnot_ps(SIGNMASK, val); // absval = abs(val)
+
+
+// change sign
+__m128 val = /* some value */;
+__m128 minusval = _mm_xor_ps(val, SIGNMASK); // minusval = -val
+
+\end{verbatim}
 \end{document}
