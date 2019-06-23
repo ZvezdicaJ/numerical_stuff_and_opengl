@@ -507,8 +507,8 @@ TEST(sse_modulo, test1) {
         int num[4] = {random_pos_int(), random_pos_int(),
                       random_pos_int(), random_pos_int()};
 
-        int denom[4] = {random_pos_int(), random_pos_int(), random_pos_int(),
-                        random_pos_int()};
+        int denom[4] = {random_pos_int(), random_pos_int(),
+                        random_pos_int(), random_pos_int()};
 
         __m128i numerator = _mm_loadu_si128((__m128i *)&num[0]);
         __m128i denominator = _mm_loadu_si128((__m128i *)&denom[0]);
@@ -526,5 +526,32 @@ TEST(sse_modulo, test1) {
                 continue;
             ASSERT_EQ(*(p + i), num[i] % denom[i]);
         }
+    }
+}
+
+TEST(horizontal_max, sse_float) {
+    for (int j = 0; j < 1000; j++) {
+
+        float num[4] = {random_float(), random_float(),
+                        random_float(), random_float()};
+
+        __m128 reg = _mm_loadu_ps(num);
+        float max = _mm_horizontal_max_ps(reg);
+
+        ASSERT_EQ(*std::max_element(num, num + 4), max);
+    }
+}
+
+
+TEST(horizontal_max, avx_double) {
+    for (int j = 0; j < 1000; j++) {
+
+        double num[4] = {random_double(), random_double(),
+                        random_double(), random_double()};
+
+        __m256d reg = _mm256_loadu_pd(num);
+        double max = _mm256_horizontal_max_pd(reg);
+
+        ASSERT_EQ(*std::max_element(num, num + 4), max);
     }
 }

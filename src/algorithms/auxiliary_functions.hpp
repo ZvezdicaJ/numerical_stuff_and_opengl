@@ -5,6 +5,7 @@
 
 static const __m128 SIGNMASK =
     _mm_castsi128_ps(_mm_set1_epi32(0x80000000));
+static const __m256d SIGNMASK256d = _mm256_set1_pd(-0.0);
 
 template <class T>
 inline void hash_combine(std::size_t &seed, const T &v) {
@@ -85,6 +86,32 @@ struct hash<pair<S, T>> {
 // force loop unrolling
 #pragma GCC push_options
 #pragma GCC optimize("unroll-loops")
+
+inline __attribute__((always_inline)) float
+_mm_horizontal_max_ps(const __m128 &x) {
+    __m128 max1 = _mm_shuffle_ps(x, x, _MM_SHUFFLE(0, 0, 3, 2));
+    __m128 max2 = _mm_max_ps(x, max1);
+    __m128 max3 =
+        _mm_shuffle_ps(max2, max2, _MM_SHUFFLE(0, 0, 0, 1));
+    __m128 max4 = _mm_max_ps(max2, max3);
+    float result = _mm_cvtss_f32(max4);
+    return result;
+}
+
+inline __attribute__((always_inline)) double
+_mm256_horizontal_max_pd(const __m256d &x) {
+    __m256d y =
+        _mm256_permute2f128_pd(x, x, 1); // permute 128-bit values
+    __m256d m1 =
+        _mm256_max_pd(x, y); // m1[0] = max(x[0], x[2]), m1[1] =
+                             // max(x[1], x[3]), etc.
+    __m256d m2 = _mm256_permute_pd(
+        m1, 5); // set m2[0] = m1[1], m2[1] = m1[0], etc.
+    __m256d m = _mm256_max_pd(
+        m1, m2); // all m[0] ... m[3] contain the
+                 // horizontal max(x[0], x[1], x[2], x[3])
+    return *((double *)&m);
+}
 
 /**
  *@brief Function loads 3 floats to an sse vector -> x:[32:0],
@@ -1237,6 +1264,12 @@ arccos_ver4(const __m128 &t) {
     return result;
 };
 
+/** @brief The function calculates arcsin of input vector. Input
+ * vector should contain elements in range [-1.0, 1.0].
+ * @details This is sse float implementation.
+ * @param t input sse vector of values for which arcsin is
+ * calculated
+ */
 inline __attribute__((always_inline)) __m128
 arcsin(const __m128 &t) {
 
@@ -1251,7 +1284,6 @@ arcsin(const __m128 &t) {
     __m128 sqrtt = _mm_sqrt_ps(_mm_sub_ps(ones, t2));
 
     __m128 t_mod = _mm_blendv_ps(t, sqrtt, combined_mask);
-    print_sse(t_mod, "t: ");
     t2 = _mm_mul_ps(t_mod, t_mod);
 
     __m128 dn = ones;
@@ -1261,17 +1293,15 @@ arcsin(const __m128 &t) {
     __m128 counter2 = twos;
     __m128 i_vec = _mm_set1_ps(3.0);
 
-    for (int i = 3; i < 50; i += 2) {
+    for (int i = 3; i < 40; i += 2) {
 
         __m128 factor = _mm_div_ps(dn, _mm_mul_ps(cn, i_vec));
-
-        // print_sse(factor, "factor: ");
-        // print_sse(dn, "dn: ");
-        // print_sse(cn, "cn: ");
-        std::cout << std::endl;
-
+#ifdef __FMA__
         sum = _mm_fmadd_ps(factor, next_t, sum);
-
+#endif
+#ifndef __FMA__
+        sum = _mm_add_ps(_mm_mul_ps(factor, next_t, sum));
+#endif
         next_t = _mm_mul_ps(next_t, t2);
         dn = _mm_mul_ps(dn, i_vec);
 
@@ -1288,6 +1318,70 @@ arcsin(const __m128 &t) {
     return _mm_blendv_ps(_mm_blendv_ps(sum, sol1, mask1), sol2,
                          mask2);
 }
+
+#ifdef __AVX2__
+/** @brief The function calculates arcsin of input vector. Input
+ * vector should contain elements in range [-1.0, 1.0].
+ * @details This is avx double implementation.
+ * @param t input avx vector of values for which double precision
+ * arcsin is calculated.
+ */
+inline __attribute__((always_inline)) __m256d
+arcsin(const __m256d &t) {
+
+    __m256d twos = _mm256_set1_pd(2.0);
+    __m256d ones = _mm256_set1_pd(1.0);
+    __m256d t2 = _mm256_mul_pd(t, t);
+
+    __m256d sqrt = _mm256_set1_pd(0.70710678118654752440);
+    __m256d mask1 = _mm256_cmp_pd(t, sqrt, _CMP_GT_OS);
+    __m256d mask2 = _mm256_cmp_pd(
+        t, _mm256_xor_pd(sqrt, SIGNMASK256d), _CMP_LT_OS);
+
+    print_avx(sqrt, "sqrt(2): ");
+    print_avx(_mm256_xor_pd(sqrt, SIGNMASK256d), "reverse sign: ");
+
+    __m256d combined_mask = _mm256_or_pd(mask1, mask2);
+    __m256d sqrtt = _mm256_sqrt_pd(_mm256_sub_pd(ones, t2));
+
+    __m256d t_mod = _mm256_blendv_pd(t, sqrtt, combined_mask);
+
+    print_avx(t, "t: ");
+    print_avx(t_mod, "t_mod: ");
+    std::cout << std::endl;
+    t2 = _mm256_mul_pd(t_mod, t_mod);
+
+    __m256d dn = ones;
+    __m256d cn = twos;
+    __m256d sum = t_mod;
+    __m256d next_t = _mm256_mul_pd(t2, t_mod);
+    __m256d counter2 = twos;
+    __m256d i_vec = _mm256_set1_pd(3.0);
+
+    for (int i = 3; i < 70; i += 2) {
+
+        __m256d factor =
+            _mm256_div_pd(dn, _mm256_mul_pd(cn, i_vec));
+
+        sum = _mm256_fmadd_pd(factor, next_t, sum);
+        next_t = _mm256_mul_pd(next_t, t2);
+        dn = _mm256_mul_pd(dn, i_vec);
+
+        counter2 = _mm256_add_pd(counter2, twos);
+        cn = _mm256_mul_pd(cn, counter2);
+
+        i_vec = _mm256_add_pd(i_vec, twos);
+    }
+    static const __m256d pi2 =
+        _mm256_set1_pd(1.5707963267948966192); // pi/2
+    __m256d sol1 = _mm256_sub_pd(pi2, sum);
+    __m256d sol2 =
+        _mm256_add_pd(_mm256_xor_pd(pi2, SIGNMASK256d), sum);
+
+    return _mm256_blendv_pd(_mm256_blendv_pd(sum, sol1, mask1),
+                            sol2, mask2);
+}
+#endif
 
 /**
  * @brief The function finds all integer pairs whose
