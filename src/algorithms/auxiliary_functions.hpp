@@ -1293,7 +1293,14 @@ arcsin(const __m128 &t) {
     __m128 counter2 = twos;
     __m128 i_vec = _mm_set1_ps(3.0);
 
-    for (int i = 3; i < 40; i += 2) {
+    // determine the number of iterations needed
+    float max_element =
+        _mm_horizontal_max_ps(_mm_andnot_ps(SIGNMASK, t_mod));
+
+    int max_iter =
+        std::ceil(-5 / std::log10(std::fabs(max_element)));
+
+    for (int i = 3; i <= max_iter; i += 2) {
 
         __m128 factor = _mm_div_ps(dn, _mm_mul_ps(cn, i_vec));
 #ifdef __FMA__
@@ -1338,17 +1345,11 @@ arcsin(const __m256d &t) {
     __m256d mask2 = _mm256_cmp_pd(
         t, _mm256_xor_pd(sqrt, SIGNMASK256d), _CMP_LT_OS);
 
-    print_avx(sqrt, "sqrt(2): ");
-    print_avx(_mm256_xor_pd(sqrt, SIGNMASK256d), "reverse sign: ");
-
     __m256d combined_mask = _mm256_or_pd(mask1, mask2);
     __m256d sqrtt = _mm256_sqrt_pd(_mm256_sub_pd(ones, t2));
 
     __m256d t_mod = _mm256_blendv_pd(t, sqrtt, combined_mask);
 
-    print_avx(t, "t: ");
-    print_avx(t_mod, "t_mod: ");
-    std::cout << std::endl;
     t2 = _mm256_mul_pd(t_mod, t_mod);
 
     __m256d dn = ones;
@@ -1358,7 +1359,14 @@ arcsin(const __m256d &t) {
     __m256d counter2 = twos;
     __m256d i_vec = _mm256_set1_pd(3.0);
 
-    for (int i = 3; i < 70; i += 2) {
+    // determine the number of iterations needed
+    double max_element = _mm256_horizontal_max_pd(
+        _mm256_andnot_pd(SIGNMASK256d, t_mod));
+
+    int max_iter =
+        std::ceil(-12 / std::log10(std::fabs(max_element)));
+
+    for (int i = 3; i <= max_iter; i += 2) {
 
         __m256d factor =
             _mm256_div_pd(dn, _mm256_mul_pd(cn, i_vec));
