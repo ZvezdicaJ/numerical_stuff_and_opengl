@@ -23,7 +23,7 @@
 #include "convex_hull.hpp"
 #include "auxiliary_functions.hpp"
 #include "print_functions.hpp"
-
+#include "trigonometric_functions.hpp"
 static const std::string base_dir("../testing/data/");
 
 void test_chebyshev() {
@@ -296,6 +296,7 @@ int main() {
     test_avxd_trigonometric(arctan, -1000, 1000, "avxd_arctan.dat");
     test_ssef_trigonometric(arctan, -1000, 1000, "ssef_arctan.dat");
 
+    // these are old
     test_ssef_trigonometric(arccos_ver1, -1.0, 1.0,
                             "ssef_arccos.dat");
     test_ssef_trigonometric(arccos_ver2, -1.0, 1.0,
@@ -306,6 +307,10 @@ int main() {
     test_ssef_trigonometric(arcsin, -1.0, 1.0, "ssef_arcsin.dat");
 
     test_avxd_trigonometric(arcsin, -1.0, 1.0, "avxd_arcsin.dat");
+
+    test_ssef_trigonometric(arccos, -1.0, 1.0, "ssef_arccos.dat");
+
+    test_avxd_trigonometric(arccos, -1.0, 1.0, "avxd_arccos.dat");
 
     __m128 t = _mm_setr_ps(0.4, -0.3, -1.4, -1.27);
     arctan(t);

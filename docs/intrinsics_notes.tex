@@ -126,4 +126,28 @@ __m128 val = /* some value */;
 __m128 minusval = _mm_xor_ps(val, SIGNMASK); // minusval = -val
 
 \end{verbatim}
+
+\section{Mask encoding}
+Commonly used masks are imm8 masks. The easiest way to write them is
+to use binary encoding. It start with \emph{0b} and is followed by
+eight numbers (0 or 1). The first bit (designated as 0 in Intel
+intrinsics manual) is the most right one. The bits are then read on
+from the right side towards the left side. Right side sets the
+lower part of the register, left side sets the higher part of the register.
+
+Example: reverse __m128 register:
+
+\begin{verbatim}
+/*
+first two bits are 11 - which means we put the last element into the
+first place of the register (designeated by index 0)
+
+third and fourth two bits are 0 and 1 - together 10 in binary means
+3- third element is put in the second place of the register .... and
+so on.
+*/
+  _mm256_shuffle_ps(register, 0b00011011)
+\end{verbatim}
+
+
 \end{document}

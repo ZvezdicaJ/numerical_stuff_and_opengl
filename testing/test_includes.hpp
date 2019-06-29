@@ -32,6 +32,7 @@
 #include "shaders.hpp"
 #include "shader_class.hpp"
 #include "auxiliary_functions.hpp"
+#include "trigonometric_functions.hpp"
 #include "print_functions.hpp"
 #include "drawing_functions.hpp"
 #include "shape.hpp"

@@ -542,12 +542,11 @@ TEST(horizontal_max, sse_float) {
     }
 }
 
-
 TEST(horizontal_max, avx_double) {
     for (int j = 0; j < 1000; j++) {
 
         double num[4] = {random_double(), random_double(),
-                        random_double(), random_double()};
+                         random_double(), random_double()};
 
         __m256d reg = _mm256_loadu_pd(num);
         double max = _mm256_horizontal_max_pd(reg);
@@ -555,3 +554,4 @@ TEST(horizontal_max, avx_double) {
         ASSERT_EQ(*std::max_element(num, num + 4), max);
     }
 }
+
