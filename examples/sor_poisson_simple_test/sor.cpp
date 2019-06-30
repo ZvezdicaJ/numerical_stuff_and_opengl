@@ -30,12 +30,13 @@ int main() {
     unsigned size = 20;
     float dx = 0.1;
     float dy = 0.1;
-    PoissonSOR<FORCE::UNIFORM, float> sor(7, 4, dx, dy);
+    PoissonSOR<FORCE::UNIFORM, float> sor(20, 10, dx, dy);
     sor.set_boundary_conditions_uniform(0.5);
-    sor.print_solution(1);
-    sor.set_q(0.1);
-    sor.set_omega(1.0);
-    for (int i = 0; i < 150; i++) {
+    sor.print_solution(2);
+    sor.set_q(-0.5);
+    sor.set_omega(1.1);
+
+    for (int i = 0; i < 20; i++) {
         sor.iteration();
         std::cout << std::endl;
         sor.print_solution(2);

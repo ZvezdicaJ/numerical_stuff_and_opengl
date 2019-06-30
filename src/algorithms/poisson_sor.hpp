@@ -59,7 +59,7 @@ class PoissonSOR {
         memset((void *)p12, 0, 2 * sizeof(T) * size1_ * size2_);
         alpha12 = 1.0 / (dx * dx);
         alpha34 = 1.0 / (dy * dy);
-        alpha0 = 2 / (dx * dx + dy * dy);
+        alpha0 = 2 * (1 / (dx * dx) + 1 / (dy * dy));
     };
 
     void set_q(const T q_) { q = q_; }
@@ -88,12 +88,13 @@ PoissonSOR<K, T>::iteration() {
 
     __m128i add_pattern = _mm_set_epi32(
         size1, size1 * size2 - size1, 1, size1 * size2 - 1);
-
+    print_sse(add_pattern, "add_pattern: ");
     __m128 alpha_vec =
-        _mm_set_ps(alpha12, alpha12, alpha34, alpha34);
+        _mm_set_ps(alpha34, alpha34, alpha12, alpha12);
 
     __m128 factors = _mm_set_ps(alpha34, alpha34, alpha12, alpha12);
 
+    std::cout << "alpha0 " << alpha0 << std::endl;
     // i counts x direction
     // j counts y direction
     for (int i = 1; i < size1 - 1; i++) {
@@ -111,13 +112,17 @@ PoissonSOR<K, T>::iteration() {
             __m128i j_vec = _mm_set1_epi32(j);
 
             __m128i indexes_to_load = _mm_add_epi32(
-                _mm_add_epi32(_mm_mul_epi32(j_vec, mul_pattern),
+                _mm_add_epi32(_mm_mullo_epi32(j_vec, mul_pattern),
                               add_pattern),
                 i_vec);
 
-            __m128 neighbours =
-                _mm_i32gather_ps(p12, indexes_to_load, 8);
+            std::cout << "\ni: " << i << " j: " << j << std::endl;
+            print_sse(indexes_to_load, "indexes to load: ");
 
+            __m128 neighbours =
+                _mm_i32gather_ps(p12, indexes_to_load, 4);
+
+            print_sse(neighbours, "neighours: ");
             __m128 product = _mm_mul_ps(alpha_vec, neighbours);
             // print_sse(product,  "product: ");
             __m128 sum =
@@ -126,11 +131,15 @@ PoissonSOR<K, T>::iteration() {
 
             sum = _mm_add_ps(sum,
                              _mm_shuffle_ps(sum, sum, 0b10110001));
-            // print_sse(sum, "sum: ");
-            *(p12 + size1 * size2 + size1 * j + i) *
-                    (p12 + size1 * size2 + size1 * j + i) +
-                omega *((qref + _mm_cvtss_f32(sum)) / alpha0 -
-                        *(p12 + size1 * j + i));
+            print_sse(sum, "sum: ");
+
+            *(p12 + size1 * size2 + size1 * j + i) =
+                *(p12 + size1 * j + i) +
+                omega * ((qref + _mm_cvtss_f32(sum)) / alpha0 -
+                         *(p12 + size1 * j + i));
+            std::cout << "new val: "
+                      << *(p12 + size1 * size2 + size1 * j + i)
+                      << std::endl;
         };
         apex::memcpy((void *)p12, (void *)(p12 + size1 * size2),
                      size1 * size2 * sizeof(T));
