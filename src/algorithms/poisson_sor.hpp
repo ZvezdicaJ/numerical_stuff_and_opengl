@@ -6,6 +6,7 @@
 #include <fstream>
 #include "type_definitions.hpp"
 #include "print_simd_vectors.hpp"
+#include "compile_time_comparisons.hpp"
 
 enum class FORCE { UNIFORM, CUSTOM };
 
@@ -24,6 +25,7 @@ class PoissonSOR {
     T dx, dy, alpha12, alpha34, alpha0;
 
     T q;
+    bool q_defined = false;
     T omega;
     T *q_arr;
     T max_change = 0;
@@ -36,10 +38,11 @@ class PoissonSOR {
             (T *)std::aligned_alloc(32, sizeof(T) * size_ * size_);
 
         if constexpr (K == FORCE::CUSTOM) {
-            q = (T *)std::aligned_alloc(32,
-                                        sizeof(T) * size_ * size_);
+            q_arr = (T *)std::aligned_alloc(
+                32, sizeof(T) * (size_ - 2) * (size_ - 2));
 
-            memset((void *)q, 0, sizeof(T) * size1 * size2);
+            memset((void *)q_arr, 0,
+                   sizeof(T) * (size_ - 2) * (size_ - 2));
         }
         max_eigenvalue_data.reserve(2000);
 
@@ -56,10 +59,14 @@ class PoissonSOR {
         p12 = (T *)std::aligned_alloc(32,
                                       sizeof(T) * size1_ * size2_);
         if constexpr (K == FORCE::CUSTOM) {
-            q = (T *)std::aligned_alloc(32, sizeof(T) * size1_ *
-                                                size2_);
 
-            memset((void *)q, 0, sizeof(T) * size1_ * size2_);
+            q_arr = (T *)std::aligned_alloc(
+                32, sizeof(T) * size1_ * size2_ - 2 * size1 -
+                        2 * size2 + 4);
+
+            memset((void *)q_arr, 0,
+                   sizeof(T) * size1_ * size2_ - 2 * size1 -
+                       2 * size2 + 4);
         }
         max_eigenvalue_data.reserve(2000);
         memset((void *)p12, 0, sizeof(T) * size1_ * size2_);
@@ -68,7 +75,28 @@ class PoissonSOR {
         alpha0 = 2 * (1 / (dx * dx) + 1 / (dy * dy));
     };
 
-    void set_q(const T q_) { q = q_; }
+    template <FORCE K2 = K>
+    typename std::enable_if_t<FORCE::UNIFORM == K2, void>
+    set_q(const T q_) {
+        static_assert(
+            K2 == K,
+            "You should not use explicit templates for set_q "
+            "member function of sor class!");
+        q = q_;
+        q_defined = true;
+    }
+
+    template <FORCE K2 = K>
+    typename std::enable_if_t<FORCE::CUSTOM == K2, void>
+    set_q(T *q_arr_) {
+        static_assert(
+            K2 == K,
+            "You should not use explicit templates for set_q "
+            "member function of sor class!");
+        q_arr = q_arr_;
+        q_defined = true;
+    }
+
     void set_omega(const T omega_) { omega = omega_; }
     T get_max_change() { return max_change; }
     void reset();
@@ -97,6 +125,12 @@ template <typename ft>
 inline std::enable_if_t<std::is_same_v<ft, float>>
 PoissonSOR<K, T>::iteration() {
 
+    static_assert(std::is_same_v<T, ft>,
+                  "Member function iteration must have the "
+                  "same template type as class.");
+    assert(q_defined &&
+           "q should be defined, but you have not define it!");
+
     max_change = 0.0;
     __m128i mul_pattern = _mm_set1_epi32(size1);
 
@@ -115,11 +149,11 @@ PoissonSOR<K, T>::iteration() {
     for (int i = 1; i < size1 - 1; i++) {
         for (int j = 1; j < size2 - 1; j++) {
 
-            T &qref = q;
+            T qref;
             if constexpr (K == FORCE::UNIFORM) {
                 qref = q;
             } else if constexpr (K == FORCE::CUSTOM) {
-                qref = *(q_arr + j * size1 + i);
+                qref = *(q_arr + j * (size1 - 2) + i - 1);
             }
             // i tells which column we are looking at
             __m128i i_vec = _mm_set1_epi32(i);
@@ -177,6 +211,12 @@ template <typename ft>
 inline std::enable_if_t<std::is_same_v<ft, double>>
 PoissonSOR<K, T>::iteration() {
 
+    static_assert(std::is_same_v<T, ft>,
+                  "Member function iteration() must have the "
+                  "same template type as class.");
+    assert(q_defined &&
+           "q should be defined, but you have not define it!");
+
     max_change = 0.0;
     __m128i mul_pattern = _mm_set1_epi32(size1);
 
@@ -196,11 +236,11 @@ PoissonSOR<K, T>::iteration() {
     for (int i = 1; i < size1 - 1; i++) {
         for (int j = 1; j < size2 - 1; j++) {
 
-            T &qref = q;
+            T qref;
             if constexpr (K == FORCE::UNIFORM) {
                 qref = q;
             } else if constexpr (K == FORCE::CUSTOM) {
-                qref = *(q_arr + j * size1 + i);
+                qref = *(q_arr + j * (size1 - 2) + i - 1);
             }
             // i tells which column we are looking at
             __m128i i_vec = _mm_set1_epi32(i);
@@ -266,11 +306,17 @@ PoissonSOR<K, T>::set_boundary_conditions_uniform(const T value) {
 
     T *po = p12 + size1 * size2 - size1;
 
-    for (int i = 0; i < (int)size1 - 7; i += increment) {
+    for (int i = 0; i < (int)size1 - increment + 1;
+         i += increment) {
         // std::cout << "i: " << i << std::endl;
-        _mm256_storeu_pd((p12 + i), value_vec);
-
-        _mm256_storeu_pd((po + i), value_vec);
+        if constexpr (std::is_same_v<T, double>) {
+            _mm256_storeu_pd((p12 + i), value_vec);
+            _mm256_storeu_pd((po + i), value_vec);
+        }
+        if constexpr (std::is_same_v<T, float>) {
+            _mm256_storeu_ps((p12 + i), value_vec);
+            _mm256_storeu_ps((po + i), value_vec);
+        }
     }
 
     int reminder = size1 % increment;
@@ -281,7 +327,6 @@ PoissonSOR<K, T>::set_boundary_conditions_uniform(const T value) {
     }
 
     for (int i = 1; i < size2; i++) {
-
         // start of rows
         *(p12 + size1 * i) = value;
         // end of rows

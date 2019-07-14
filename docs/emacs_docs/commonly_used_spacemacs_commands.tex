@@ -1,0 +1,105 @@
+\documentclass[openany, longbibliography,slovene,a4paper,12pt]{article}
+%\documentclass[openany,slovene,a4paper,12pt]{article}
+\usepackage[a4paper,inner=2.5cm,outer=1.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+
+\usepackage{braket}
+\usepackage{float}
+\usepackage{afterpage}
+\usepackage{graphicx}
+\usepackage{amssymb}
+
+\usepackage[tbtags]{amsmath}
+\usepackage[T1]{fontenc}
+\graphicspath{}
+\DeclareGraphicsExtensions{.eps,.jpeg,.png,.gif,.pdf}
+\usepackage[outdir=./slike/]{epstopdf}
+\epstopdfsetup{
+	suffix=,
+}
+\usepackage[multidot]{grffile}
+
+% \usepackage[slovene]{babel}      % slovenski delilni vzorci (!)
+% \usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{makeidx}
+\usepackage{enumerate}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[tbtags]{mathtools}
+\usepackage{wrapfig}
+
+\usepackage[section]{placeins}
+
+\usepackage[hyphens,spaces,obeyspaces]{url}
+\usepackage{breakurl}
+
+
+\usepackage{ragged2e}
+\edef\UrlBreaks{\do\-\UrlBreaks}
+
+\usepackage{makeidx}
+\pagestyle{headings}
+\makeindex
+\usepackage{fancyhdr}
+\usepackage[titletoc,title]{appendix}
+
+
+\usepackage[sort, numbers]{natbib}
+\usepackage[pdfa]{hyperref}
+\usepackage[x-1a]{pdfx}
+\usepackage{pdfpages}
+\usepackage{breqn}
+
+
+\DeclareMathOperator{\arcsinh}{arcsinh}
+
+\def\epsfg#1#2{\epsfig{file=#1.eps,width=#2}}
+\def\legendamp#1#2{\vbox{\hsize=#1\caption{\small #2}}}
+
+\setcounter{topnumber}{4}
+\setcounter{bottomnumber}{4}
+\setcounter{totalnumber}{5}
+\renewcommand{\topfraction}{0.99}
+\renewcommand{\bottomfraction}{0.99}
+\renewcommand{\textfraction}{0.0}
+\setlength{\tabcolsep}{10pt}
+\renewcommand{\arraystretch}{1.5}
+
+\def\bi#1{\hbox{\boldmath{$#1$}}}
+\let\oldvec\vec
+\def\vec#1{\mbox{\boldmath$#1$}}
+\def\pol{{\textstyle{1\over2}}}
+\def\svec#1{\mbox{{\scriptsize \boldmath$#1$}}}
+
+\newcommand{\dif}{\mathrm{d}}
+\usepackage{xparse}
+\DeclareDocumentCommand{\myint}{o m o o}  
+{%
+	\int \IfValueT{#1}{#1} \dif #2 \IfValueT{#3}{\dif#3} \IfValueT{#4}{\dif#4}
+}
+\newcommand{\Alpha}{A}
+\newcommand{\Beta}{B}
+\newcommand{\Epsilon}{E}
+\newcommand{\Kappa}{K}
+
+\pagenumbering{gobble}
+\usepackage{blindtext}
+\title{Cover letter}
+
+
+\begin{document}
+
+\section{hs-minor-mode}
+
+\begin{center}
+\begin{tabular}{ |c|c| } 
+ \hline
+ hs-hide-all & C-c @ C-t  \\ 
+  hs-hide-block & C-c @ C-d  \\
+  hs-show-all & C-c @ C-a  \\ 
+ hs-show-block & C-c @ C-s  \\ 
+ \hline
+\end{tabular}
+\end{center}
+
+\end{document}
