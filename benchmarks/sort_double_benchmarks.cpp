@@ -39,7 +39,7 @@ static void bitonic_2n_double_sort_bench(benchmark::State &state) {
         // benchmark::DoNotOptimize(sort_2n_vector(vec.data(), 0,
         // vec.size() - 1)); // DoNoOptimize will store the result
         // to the memory
-        BITONIC_SORT::sort_2n_vector(vec.data(), 0, vec.size() - 1);
+        BITONIC_SORT::sort_2n_vector(vec.data(), vec.size());
     }
     state.counters["Number to sort:"] = state.range(0);
     state.SetComplexityN(state.range(0));
@@ -65,7 +65,7 @@ static void bitonic_4n_double_sort_bench(benchmark::State &state) {
         // benchmark::DoNotOptimize(sort_2n_vector(vec.data(), 0,
         // vec.size() - 1)); // DoNoOptimize will store the result
         // to the memory
-        BITONIC_SORT::sort_4n_vector(vec.data(), 0, vec.size() - 1);
+        BITONIC_SORT::sort_4n_vector(vec.data(), vec.size());
     }
     state.counters["Number to sort:"] = state.range(0);
     state.SetComplexityN(state.range(0));
@@ -91,7 +91,7 @@ static void bitonic_double_sort_bench(benchmark::State &state) {
         // benchmark::DoNotOptimize(sort_2n_vector(vec.data(), 0,
         // vec.size() - 1)); // DoNoOptimize will store the result
         // to the memory
-        BITONIC_SORT::sort_vector(vec, 0, vec.size() - 1);
+        BITONIC_SORT::sort_vector(vec, vec.size());
     }
     state.counters["Number to sort:"] = state.range(0);
     state.SetComplexityN(state.range(0));
