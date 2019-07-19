@@ -218,7 +218,7 @@ bitonic_2n_float_key_value_sort_bench(benchmark::State &state) {
         // vec.size() - 1)); // DoNoOptimize will store the result
         // to the memory
         BITONIC_SORT_KEY_VALUE::sort_2n_key_value(
-            vec.data(), indices.data(), 0, vec.size() - 1);
+            vec.data(), indices.data(), vec.size());
     }
     state.counters["Number to sort:"] = state.range(0);
     state.SetComplexityN(state.range(0));
@@ -250,7 +250,7 @@ bitonic_8n_float_key_value_sort_bench(benchmark::State &state) {
         // vec.size() - 1)); // DoNoOptimize will store the result
         // to the memory
         BITONIC_SORT_KEY_VALUE::sort_8n_key_value(
-            vec.data(), indices.data(), 0, vec.size() - 1);
+            vec.data(), indices.data(), vec.size());
     }
     state.counters["Number to sort:"] = state.range(0);
     state.SetComplexityN(state.range(0));
@@ -282,8 +282,8 @@ bitonic_float_key_value_sort_bench(benchmark::State &state) {
         // benchmark::DoNotOptimize(sort_2n_vector(vec.data(), 0,
         // vec.size() - 1)); // DoNoOptimize will store the result
         // to the memory
-        BITONIC_SORT_KEY_VALUE::sort_key_value(vec, indices, 0,
-                                               vec.size() - 1);
+        BITONIC_SORT_KEY_VALUE::sort_key_value(
+            vec.data(), indices.data(), vec.size());
     }
     state.counters["Number to sort:"] = state.range(0);
     state.SetComplexityN(state.range(0));

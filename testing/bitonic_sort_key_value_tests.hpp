@@ -262,7 +262,7 @@ TEST(SORT, TEST_2N_BITONIC_SORT_KEY_VALUE_FLOAT_VER) {
         }
 
         BITONIC_SORT_KEY_VALUE::sort_2n_key_value(
-            inp.data(), keys.data(), 0, size - 1);
+            inp.data(), keys.data(), size);
 
         std::sort(std::begin(pairs), std::end(pairs),
                   [](const std::pair<int, float> &a,
@@ -296,7 +296,7 @@ TEST(SORT, TEST_2N_BITONIC_SORT_KEY_VALUE_FLOAT_VER) {
         }
 
         BITONIC_SORT_KEY_VALUE::sort_2n_key_value(
-            inp.data(), keys.data(), 0, size - 1);
+            inp.data(), keys.data(), size);
 
         std::sort(std::begin(pairs), std::end(pairs),
                   [](const std::pair<int, float> &a,
@@ -334,7 +334,7 @@ TEST(SORT, TEST_8N_BITONIC_SORT_KEY_VALUE_FLOAT_VER) {
         }
 
         BITONIC_SORT_KEY_VALUE::sort_8n_key_value(
-            inp.data(), keys.data(), 0, size - 1);
+            inp.data(), keys.data(), size);
 
         std::sort(std::begin(pairs), std::end(pairs),
                   [](const std::pair<int, float> &a,
@@ -368,7 +368,7 @@ TEST(SORT, TEST_8N_BITONIC_SORT_KEY_VALUE_FLOAT_VER) {
         }
 
         BITONIC_SORT_KEY_VALUE::sort_8n_key_value(
-            inp.data(), keys.data(), 0, size - 1);
+            inp.data(), keys.data(), size);
 
         std::sort(std::begin(pairs), std::end(pairs),
                   [](const std::pair<int, float> &a,
@@ -405,7 +405,8 @@ TEST(SORT, TEST_BITONIC_SORT_KEY_VALUE_FLOAT_ALL_CASES) {
             pairs.push_back(std::pair<int, float>(i, i));
         }
 
-        BITONIC_SORT_KEY_VALUE::sort_key_value(inp, keys, 0, size - 1);
+        BITONIC_SORT_KEY_VALUE::sort_key_value(inp.data(),
+                                               keys.data(), size);
 
         std::sort(std::begin(pairs), std::end(pairs),
                   [](const std::pair<int, float> &a,
@@ -438,7 +439,8 @@ TEST(SORT, TEST_BITONIC_SORT_KEY_VALUE_FLOAT_ALL_CASES) {
             pairs.push_back(std::pair<int, float>(i, i));
         }
 
-        BITONIC_SORT_KEY_VALUE::sort_key_value(inp, keys, 0, size - 1);
+        BITONIC_SORT_KEY_VALUE::sort_key_value(inp.data(),
+                                               keys.data(), size);
 
         std::sort(std::begin(pairs), std::end(pairs),
                   [](const std::pair<int, float> &a,
@@ -709,7 +711,7 @@ TEST(SORT, TEST_2N_BITONIC_SORT_KEY_VALUE_LONG_DOUBLE_VER) {
         }
 
         BITONIC_SORT_KEY_VALUE::sort_2n_key_value(
-            inp.data(), keys.data(), 0, size - 1);
+            inp.data(), keys.data(), size);
 
         std::sort(std::begin(pairs), std::end(pairs),
                   [](const std::pair<long long, double> &a,
@@ -744,7 +746,7 @@ TEST(SORT, TEST_2N_BITONIC_SORT_KEY_VALUE_LONG_DOUBLE_VER) {
         }
 
         BITONIC_SORT_KEY_VALUE::sort_2n_key_value(
-            inp.data(), keys.data(), 0, size - 1);
+            inp.data(), keys.data(), size);
 
         std::sort(std::begin(pairs), std::end(pairs),
                   [](const std::pair<long long, double> &a,
@@ -782,7 +784,7 @@ TEST(SORT, TEST_4N_BITONIC_SORT_KEY_VALUE_LONG_DOUBLE_VER) {
         }
 
         BITONIC_SORT_KEY_VALUE::sort_4n_key_value(
-            inp.data(), keys.data(), 0, size - 1);
+            inp.data(), keys.data(), size);
 
         std::sort(std::begin(pairs), std::end(pairs),
                   [](const std::pair<long long, double> &a,
@@ -817,7 +819,7 @@ TEST(SORT, TEST_4N_BITONIC_SORT_KEY_VALUE_LONG_DOUBLE_VER) {
         }
 
         BITONIC_SORT_KEY_VALUE::sort_4n_key_value(
-            inp.data(), keys.data(), 0, size - 1);
+            inp.data(), keys.data(), size);
 
         std::sort(std::begin(pairs), std::end(pairs),
                   [](const std::pair<long long, double> &a,
@@ -854,7 +856,8 @@ TEST(SORT, TEST_BITONIC_SORT_KEY_VALUE_LONG_DOUBLE_VER) {
                 std::pair<long long, double>(i, inp[i]));
         }
 
-        BITONIC_SORT_KEY_VALUE::sort_key_value(inp, keys, 0, size - 1);
+        BITONIC_SORT_KEY_VALUE::sort_key_value(inp.data(),
+                                               keys.data(), size);
 
         std::sort(std::begin(pairs), std::end(pairs),
                   [](const std::pair<long long, double> &a,
@@ -1132,7 +1135,7 @@ TEST(SORT, TEST_2N_BITONIC_SORT_KEY_VALUE_INT_DOUBLE_VER) {
         }
 
         BITONIC_SORT_KEY_VALUE::sort_2n_key_value(
-            inp.data(), keys.data(), 0, size - 1);
+            inp.data(), keys.data(), size);
 
         std::sort(std::begin(pairs), std::end(pairs),
                   [](const std::pair<int, double> &a,
@@ -1166,7 +1169,7 @@ TEST(SORT, TEST_2N_BITONIC_SORT_KEY_VALUE_INT_DOUBLE_VER) {
         }
 
         BITONIC_SORT_KEY_VALUE::sort_2n_key_value(
-            inp.data(), keys.data(), 0, size - 1);
+            inp.data(), keys.data(), size);
 
         std::sort(std::begin(pairs), std::end(pairs),
                   [](const std::pair<int, double> &a,
@@ -1204,7 +1207,7 @@ TEST(SORT, TEST_4N_BITONIC_SORT_KEY_VALUE_INT_DOUBLE_VER) {
         }
 
         BITONIC_SORT_KEY_VALUE::sort_4n_key_value(
-            inp.data(), keys.data(), 0, size - 1);
+            inp.data(), keys.data(), size);
 
         std::sort(std::begin(pairs), std::end(pairs),
                   [](const std::pair<int, double> &a,
@@ -1238,7 +1241,7 @@ TEST(SORT, TEST_4N_BITONIC_SORT_KEY_VALUE_INT_DOUBLE_VER) {
         }
 
         BITONIC_SORT_KEY_VALUE::sort_4n_key_value(
-            inp.data(), keys.data(), 0, size - 1);
+            inp.data(), keys.data(), size);
 
         std::sort(std::begin(pairs), std::end(pairs),
                   [](const std::pair<int, double> &a,
@@ -1274,8 +1277,7 @@ TEST(SORT, TEST_BITONIC_SORT_KEY_VALUE_INT_DOUBLE_VER) {
             pairs.push_back(std::pair<int, double>(i, inp[i]));
         }
 
-        BITONIC_SORT_KEY_VALUE::sort_key_value(inp, keys, 0,
-                                               size - 1);
+        BITONIC_SORT_KEY_VALUE::sort_key_value(inp.data(), keys.data(), size);
 
         std::sort(std::begin(pairs), std::end(pairs),
                   [](const std::pair<int, double> &a,
@@ -1363,7 +1365,8 @@ key0, key1, key2, key3);
 
     inp1 = inp0;
 
-    IMPROVED_BITONIC_SORT::sort_8n_key_value(inp1.data(), 0, size - 1);
+    IMPROVED_BITONIC_SORT::sort_8n_key_value(inp1.data(), 0, size -
+1);
 
     std::sort(std::begin(inp0), std::end(inp0));
 
@@ -1605,8 +1608,8 @@ random_float()}); aligned_vector<double> inp1 = inp0;
 
         inp1 = inp0;
 
-        IMPROVED_BITONIC_SORT::sort_2n_key_value(inp1.data(), 0, size -
-1);
+        IMPROVED_BITONIC_SORT::sort_2n_key_value(inp1.data(), 0,
+size - 1);
 
         std::sort(std::begin(inp0), std::end(inp0));
 
@@ -1626,8 +1629,8 @@ TEST(SORT, TEST_IMPROVED_BITONIC_SORT_DOUBLE_4n_KEY_VALUE) {
             inp0.push_back(random_float());
 
         inp1 = inp0;
-        IMPROVED_BITONIC_SORT::sort_4n_key_value(inp1.data(), 0, size -
-1);
+        IMPROVED_BITONIC_SORT::sort_4n_key_value(inp1.data(), 0,
+size - 1);
 
         // std::cout << "end of sort_key_value" << std::endl;
         std::sort(std::begin(inp0), std::end(inp0));

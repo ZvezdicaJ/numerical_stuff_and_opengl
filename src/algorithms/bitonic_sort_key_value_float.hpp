@@ -348,15 +348,15 @@ inline void compare_full_length(float *arr, int *keys,
         int *k1 = keys + start + i;
         int *k2 = keys + end - 7 - i;
         { // reverse lover half and compare to upper half
-            __m256 vec1 = _mm256_load_ps(p1);
-            __m256 vec2 = _mm256_load_ps(p2);
-            __m256i key1 = _mm256_load_si256((__m256i *)k1);
-            __m256i key2 = _mm256_load_si256((__m256i *)k2);
+            __m256 vec1 = _mm256_loadu_ps(p1);
+            __m256 vec2 = _mm256_loadu_ps(p2);
+            __m256i key1 = _mm256_loadu_si256((__m256i *)k1);
+            __m256i key2 = _mm256_loadu_si256((__m256i *)k2);
             reverse_and_compare(vec1, vec2, key1, key2);
-            _mm256_store_ps(p1, vec1);
-            _mm256_store_ps(p2, vec2);
-            _mm256_store_si256((__m256i *)k1, key1);
-            _mm256_store_si256((__m256i *)k2, key2);
+            _mm256_storeu_ps(p1, vec1);
+            _mm256_storeu_ps(p2, vec2);
+            _mm256_storeu_si256((__m256i *)k1, key1);
+            _mm256_storeu_si256((__m256i *)k2, key2);
         }
     }
 }
@@ -375,8 +375,8 @@ inline void lane_crossing_compare(float *arr, int *keys,
                                   unsigned depth) {
     unsigned length = end - start + 1;
     if (length == 8) {
-        __m256 reg = _mm256_load_ps(arr + start);
-        __m256i key = _mm256_load_si256((__m256i *)(keys + start));
+        __m256 reg = _mm256_loadu_ps(arr + start);
+        __m256i key = _mm256_loadu_si256((__m256i *)(keys + start));
         // this is the ending case do single vector permutations
 
         reverse_halves_and_compare(reg, key, float_masks256.mask1);
@@ -386,8 +386,8 @@ inline void lane_crossing_compare(float *arr, int *keys,
 
         shuffle_and_compare(reg, key, float_masks256.mask3,
                             0b10110001);
-        _mm256_store_ps(arr + start, reg);
-        _mm256_store_si256((__m256i *)(keys + start), key);
+        _mm256_storeu_ps(arr + start, reg);
+        _mm256_storeu_si256((__m256i *)(keys + start), key);
         return;
     }
     float *p = arr + start;
@@ -400,12 +400,12 @@ inline void lane_crossing_compare(float *arr, int *keys,
             int *k1 = k + i;
             int *k2 = k + length / 2 + i;
 
-            __m256 reg0 = _mm256_load_ps(p1); // i-ti od začetka
+            __m256 reg0 = _mm256_loadu_ps(p1); // i-ti od začetka
             __m256 reg1 =
-                _mm256_load_ps(p2); // ta je prvi čez polovico
+                _mm256_loadu_ps(p2); // ta je prvi čez polovico
 
-            __m256i key0 = _mm256_load_si256((__m256i *)k1);
-            __m256i key1 = _mm256_load_si256((__m256i *)k2);
+            __m256i key0 = _mm256_loadu_si256((__m256i *)k1);
+            __m256i key1 = _mm256_loadu_si256((__m256i *)k2);
 
             __m256 mask = _mm256_cmp_ps(reg0, reg1, _CMP_LE_OQ);
             __m256 tmp = _mm256_blendv_ps(reg1, reg0, mask);
@@ -415,10 +415,10 @@ inline void lane_crossing_compare(float *arr, int *keys,
             key1 = _mm256_blendv_epi32(key0, key1, mask);
             key0 = tmp_key;
 
-            _mm256_store_ps(p1, reg0);
-            _mm256_store_ps(p2, reg1);
-            _mm256_store_si256((__m256i *)k1, key0);
-            _mm256_store_si256((__m256i *)k2, key1);
+            _mm256_storeu_ps(p1, reg0);
+            _mm256_storeu_ps(p2, reg1);
+            _mm256_storeu_si256((__m256i *)k1, key0);
+            _mm256_storeu_si256((__m256i *)k2, key1);
         }
     }
     lane_crossing_compare(arr, keys, start, (start + end) / 2,
@@ -438,81 +438,80 @@ inline void lane_crossing_compare(float *arr, int *keys,
  * then add additional elements - like  m256_infinity, so that it
  * will be large enough
  */
-inline void sort_2n_key_value(float *array, int *keys, unsigned start,
-                           unsigned end) {
+inline void sort_2n_key_value(float *array, int *keys,
+                              unsigned num_to_sort) {
 
-    unsigned full_length =
-        end - start + 1; // number of double numbers to sort
-    unsigned vec_count = full_length / 8;
+    unsigned end = num_to_sort - 1;
+    unsigned vec_count = num_to_sort / 8;
     assert(
-        (full_length >= 0 && !(full_length & (full_length - 1))) &&
+        (num_to_sort >= 0 && !(num_to_sort & (num_to_sort - 1))) &&
         "The array to be sorted is not the power of 2!");
 
     //__m256d *arr = avx_vec.data();
-    if (full_length == 8) {
+    if (num_to_sort == 8) {
 
-        __m256 vec = _mm256_load_ps(array);
-        __m256i key = _mm256_load_si256((__m256i *)keys);
+        __m256 vec = _mm256_loadu_ps(array);
+        __m256i key = _mm256_loadu_si256((__m256i *)keys);
         bitonic_sort(vec, key);
-        _mm256_store_ps(array, vec);
-        _mm256_store_si256((__m256i *)keys, key);
+        _mm256_storeu_ps(array, vec);
+        _mm256_storeu_si256((__m256i *)keys, key);
 
-    } else if (full_length == 16) {
+    } else if (num_to_sort == 16) {
 
-        __m256 vec1 = _mm256_load_ps(array);
-        __m256 vec2 = _mm256_load_ps(array + 8);
+        __m256 vec1 = _mm256_loadu_ps(array);
+        __m256 vec2 = _mm256_loadu_ps(array + 8);
 
-        __m256i key1 = _mm256_load_si256((__m256i *)keys);
-        __m256i key2 = _mm256_load_si256((__m256i *)(keys + 8));
+        __m256i key1 = _mm256_loadu_si256((__m256i *)keys);
+        __m256i key2 = _mm256_loadu_si256((__m256i *)(keys + 8));
 
         bitonic_sort(vec1, vec2, key1, key2);
 
-        _mm256_store_ps(array, vec1);
-        _mm256_store_ps(array + 8, vec2);
+        _mm256_storeu_ps(array, vec1);
+        _mm256_storeu_ps(array + 8, vec2);
 
-        _mm256_store_si256((__m256i *)keys, key1);
-        _mm256_store_si256((__m256i *)(keys + 8), key2);
+        _mm256_storeu_si256((__m256i *)keys, key1);
+        _mm256_storeu_si256((__m256i *)(keys + 8), key2);
 
-    } else if (full_length == 32) {
+    } else if (num_to_sort == 32) {
 
-        __m256 vec1 = _mm256_load_ps(array);
-        __m256 vec2 = _mm256_load_ps(array + 8);
-        __m256 vec3 = _mm256_load_ps(array + 16);
-        __m256 vec4 = _mm256_load_ps(array + 24);
-        __m256i key1 = _mm256_load_si256((__m256i *)keys);
-        __m256i key2 = _mm256_load_si256((__m256i *)(keys + 8));
-        __m256i key3 = _mm256_load_si256((__m256i *)(keys + 16));
-        __m256i key4 = _mm256_load_si256((__m256i *)(keys + 24));
+        __m256 vec1 = _mm256_loadu_ps(array);
+        __m256 vec2 = _mm256_loadu_ps(array + 8);
+        __m256 vec3 = _mm256_loadu_ps(array + 16);
+        __m256 vec4 = _mm256_loadu_ps(array + 24);
+        __m256i key1 = _mm256_loadu_si256((__m256i *)keys);
+        __m256i key2 = _mm256_loadu_si256((__m256i *)(keys + 8));
+        __m256i key3 = _mm256_loadu_si256((__m256i *)(keys + 16));
+        __m256i key4 = _mm256_loadu_si256((__m256i *)(keys + 24));
 
         bitonic_sort(vec1, vec2, vec3, vec4, key1, key2, key3,
                      key4);
 
-        _mm256_store_ps(array, vec1);
-        _mm256_store_ps(array + 8, vec2);
-        _mm256_store_ps(array + 16, vec3);
-        _mm256_store_ps(array + 24, vec4);
+        _mm256_storeu_ps(array, vec1);
+        _mm256_storeu_ps(array + 8, vec2);
+        _mm256_storeu_ps(array + 16, vec3);
+        _mm256_storeu_ps(array + 24, vec4);
 
-        _mm256_store_si256((__m256i *)keys, key1);
-        _mm256_store_si256((__m256i *)(keys + 8), key2);
-        _mm256_store_si256((__m256i *)(keys + 16), key3);
-        _mm256_store_si256((__m256i *)(keys + 24), key4);
+        _mm256_storeu_si256((__m256i *)keys, key1);
+        _mm256_storeu_si256((__m256i *)(keys + 8), key2);
+        _mm256_storeu_si256((__m256i *)(keys + 16), key3);
+        _mm256_storeu_si256((__m256i *)(keys + 24), key4);
 
-    } else if (full_length >= 64) {
-        for (unsigned i = start; i < end; i += 8) {
-            __m256 vec1 = _mm256_load_ps(array + i);
-            __m256i key = _mm256_load_si256((__m256i *)(keys + i));
+    } else if (num_to_sort >= 64) {
+        for (unsigned i = 0; i < end; i += 8) {
+            __m256 vec1 = _mm256_loadu_ps(array + i);
+            __m256i key = _mm256_loadu_si256((__m256i *)(keys + i));
             bitonic_sort(vec1, key);
-            _mm256_store_ps(array + i, vec1);
-            _mm256_store_si256((__m256i *)(keys + i), key);
+            _mm256_storeu_ps(array + i, vec1);
+            _mm256_storeu_si256((__m256i *)(keys + i), key);
         }
 
         // outer loop
         // len is number of floats in length to be compared
         // each step increases this length by factor of 2.
-        for (unsigned len = 16; len <= full_length; len *= 2) {
+        for (unsigned len = 16; len <= num_to_sort; len *= 2) {
             // std::cout << "len: " << len << std::endl;
             // inner loop goes over all subdivisions
-            for (unsigned n = 0; n < full_length; n += len) {
+            for (unsigned n = 0; n < num_to_sort; n += len) {
                 compare_full_length(array, keys, n, n + len - 1);
                 lane_crossing_compare(array, keys, n, n + len - 1,
                                       0);
@@ -549,16 +548,16 @@ inline void compare_full_length(float *arr, int *keys,
         int *k1 = keys + start + i;
         int *k2 = keys + end - 7 - i;
         { // reverse lover half and compare to upper half
-            __m256 vec1 = _mm256_load_ps(p1);
-            __m256 vec2 = _mm256_load_ps(p2);
-            __m256i key1 = _mm256_load_si256((__m256i *)k1);
-            __m256i key2 = _mm256_load_si256((__m256i *)k2);
+            __m256 vec1 = _mm256_loadu_ps(p1);
+            __m256 vec2 = _mm256_loadu_ps(p2);
+            __m256i key1 = _mm256_loadu_si256((__m256i *)k1);
+            __m256i key2 = _mm256_loadu_si256((__m256i *)k2);
 
             reverse_and_compare(vec1, vec2, key1, key2);
-            _mm256_store_ps(p1, vec1);
-            _mm256_store_ps(p2, vec2);
-            _mm256_store_si256((__m256i *)k1, key1);
-            _mm256_store_si256((__m256i *)k2, key2);
+            _mm256_storeu_ps(p1, vec1);
+            _mm256_storeu_ps(p2, vec2);
+            _mm256_storeu_si256((__m256i *)k1, key1);
+            _mm256_storeu_si256((__m256i *)k2, key2);
         }
     }
 }
@@ -583,8 +582,8 @@ inline void lane_crossing_compare(float *arr, int *keys,
     }
     unsigned length = end - start + 1;
     if (length == 8) {
-        __m256 reg = _mm256_load_ps(arr + start);
-        __m256i key = _mm256_load_si256((__m256i *)(keys + start));
+        __m256 reg = _mm256_loadu_ps(arr + start);
+        __m256i key = _mm256_loadu_si256((__m256i *)(keys + start));
         // this is the ending case do single vector permutations
 
         reverse_halves_and_compare(reg, key, float_masks256.mask1);
@@ -595,8 +594,8 @@ inline void lane_crossing_compare(float *arr, int *keys,
         shuffle_and_compare(reg, key, float_masks256.mask3,
                             0b10110001);
 
-        _mm256_store_ps(arr + start, reg);
-        _mm256_store_si256((__m256i *)(keys + start), key);
+        _mm256_storeu_ps(arr + start, reg);
+        _mm256_storeu_si256((__m256i *)(keys + start), key);
 
         return;
     }
@@ -612,12 +611,12 @@ inline void lane_crossing_compare(float *arr, int *keys,
             int *k1 = k + i;
             int *k2 = k + length / 2 + i;
 
-            __m256 reg0 = _mm256_load_ps(p1); // i-ti od začetka
+            __m256 reg0 = _mm256_loadu_ps(p1); // i-ti od začetka
             __m256 reg1 =
-                _mm256_load_ps(p2); // ta je prvi čez polovico
+                _mm256_loadu_ps(p2); // ta je prvi čez polovico
 
-            __m256i key0 = _mm256_load_si256((__m256i *)k1);
-            __m256i key1 = _mm256_load_si256((__m256i *)k2);
+            __m256i key0 = _mm256_loadu_si256((__m256i *)k1);
+            __m256i key1 = _mm256_loadu_si256((__m256i *)k2);
 
             __m256 mask = _mm256_cmp_ps(reg0, reg1, _CMP_LE_OQ);
             __m256 tmp = _mm256_blendv_ps(reg1, reg0, mask);
@@ -627,10 +626,10 @@ inline void lane_crossing_compare(float *arr, int *keys,
             key1 = _mm256_blendv_epi32(key0, key1, mask);
             key0 = tmp_key;
 
-            _mm256_store_ps(p1, reg0);
-            _mm256_store_ps(p2, reg1);
-            _mm256_store_si256((__m256i *)k1, key0);
-            _mm256_store_si256((__m256i *)k2, key1);
+            _mm256_storeu_ps(p1, reg0);
+            _mm256_storeu_ps(p2, reg1);
+            _mm256_storeu_si256((__m256i *)k1, key0);
+            _mm256_storeu_si256((__m256i *)k2, key1);
         }
     }
     lane_crossing_compare(arr, keys, start, (start + end) / 2,
@@ -648,74 +647,75 @@ inline void lane_crossing_compare(float *arr, int *keys,
  * @param end index of the last number to be sorted
  * @details end-start+1 should be 8*n
  */
-inline void sort_8n_key_value(float *array, int *keys, unsigned start,
-                           unsigned end) {
+inline void sort_8n_key_value(float *array, int *keys,
+                              unsigned num_to_sort) {
 
     //    unsigned full_length = end - start + 1; // number of
     //    double numbers to sort
-    int pow2 = (int)std::ceil(std::log2f(end + 1));
+
+    int pow2 = (int)std::ceil(std::log2f(num_to_sort));
     int imaginary_length = (int)std::pow(2, pow2);
-    unsigned full_length = end - start + 1;
+    unsigned end = num_to_sort - 1;
     unsigned last_index = end - 7; // last index to be loaded
     // std::cout << "imaginary_length: " << imaginary_length <<
     // std::endl;
-    unsigned vec_count = full_length / 8;
-    assert((full_length >= 0 && (full_length % 8) == 0) &&
+    unsigned vec_count = num_to_sort / 8;
+    assert((num_to_sort >= 0 && (num_to_sort % 8) == 0) &&
            "The array to be sorted is not a multiples of 8!");
 
-    if (full_length == 8) {
+    if (num_to_sort == 8) {
 
-        __m256 vec = _mm256_load_ps(array);
-        __m256i key = _mm256_load_si256((__m256i *)keys);
+        __m256 vec = _mm256_loadu_ps(array);
+        __m256i key = _mm256_loadu_si256((__m256i *)keys);
         bitonic_sort(vec, key);
-        _mm256_store_ps(array, vec);
-        _mm256_store_si256((__m256i *)keys, key);
+        _mm256_storeu_ps(array, vec);
+        _mm256_storeu_si256((__m256i *)keys, key);
 
-    } else if (full_length == 16) {
-        __m256 vec1 = _mm256_load_ps(array);
-        __m256 vec2 = _mm256_load_ps(array + 8);
-        __m256i key1 = _mm256_load_si256((__m256i *)keys);
-        __m256i key2 = _mm256_load_si256((__m256i *)(keys + 8));
+    } else if (num_to_sort == 16) {
+        __m256 vec1 = _mm256_loadu_ps(array);
+        __m256 vec2 = _mm256_loadu_ps(array + 8);
+        __m256i key1 = _mm256_loadu_si256((__m256i *)keys);
+        __m256i key2 = _mm256_loadu_si256((__m256i *)(keys + 8));
 
         bitonic_sort(vec1, vec2, key1, key2);
 
-        _mm256_store_ps(array, vec1);
-        _mm256_store_ps(array + 8, vec2);
-        _mm256_store_si256((__m256i *)keys, key1);
-        _mm256_store_si256((__m256i *)(keys + 8), key2);
+        _mm256_storeu_ps(array, vec1);
+        _mm256_storeu_ps(array + 8, vec2);
+        _mm256_storeu_si256((__m256i *)keys, key1);
+        _mm256_storeu_si256((__m256i *)(keys + 8), key2);
 
-    } else if (full_length == 32) {
-        __m256 vec1 = _mm256_load_ps(array);
-        __m256 vec2 = _mm256_load_ps(array + 8);
-        __m256 vec3 = _mm256_load_ps(array + 16);
-        __m256 vec4 = _mm256_load_ps(array + 24);
+    } else if (num_to_sort == 32) {
+        __m256 vec1 = _mm256_loadu_ps(array);
+        __m256 vec2 = _mm256_loadu_ps(array + 8);
+        __m256 vec3 = _mm256_loadu_ps(array + 16);
+        __m256 vec4 = _mm256_loadu_ps(array + 24);
 
-        __m256i key1 = _mm256_load_si256((__m256i *)keys);
-        __m256i key2 = _mm256_load_si256((__m256i *)(keys + 8));
-        __m256i key3 = _mm256_load_si256((__m256i *)(keys + 16));
-        __m256i key4 = _mm256_load_si256((__m256i *)(keys + 24));
+        __m256i key1 = _mm256_loadu_si256((__m256i *)keys);
+        __m256i key2 = _mm256_loadu_si256((__m256i *)(keys + 8));
+        __m256i key3 = _mm256_loadu_si256((__m256i *)(keys + 16));
+        __m256i key4 = _mm256_loadu_si256((__m256i *)(keys + 24));
 
         bitonic_sort(vec1, vec2, vec3, vec4, key1, key2, key3,
                      key4);
 
-        _mm256_store_ps(array, vec1);
-        _mm256_store_ps(array + 8, vec2);
-        _mm256_store_ps(array + 16, vec3);
-        _mm256_store_ps(array + 24, vec4);
+        _mm256_storeu_ps(array, vec1);
+        _mm256_storeu_ps(array + 8, vec2);
+        _mm256_storeu_ps(array + 16, vec3);
+        _mm256_storeu_ps(array + 24, vec4);
 
-        _mm256_store_si256((__m256i *)keys, key1);
-        _mm256_store_si256((__m256i *)(keys + 8), key2);
-        _mm256_store_si256((__m256i *)(keys + 16), key3);
-        _mm256_store_si256((__m256i *)(keys + 24), key4);
+        _mm256_storeu_si256((__m256i *)keys, key1);
+        _mm256_storeu_si256((__m256i *)(keys + 8), key2);
+        _mm256_storeu_si256((__m256i *)(keys + 16), key3);
+        _mm256_storeu_si256((__m256i *)(keys + 24), key4);
 
     } else {
-        for (unsigned i = start; i < end; i += 8) {
+        for (unsigned i = 0; i < end; i += 8) {
 
-            __m256 vec1 = _mm256_load_ps(array + i);
-            __m256i key = _mm256_load_si256((__m256i *)(keys + i));
+            __m256 vec1 = _mm256_loadu_ps(array + i);
+            __m256i key = _mm256_loadu_si256((__m256i *)(keys + i));
             bitonic_sort(vec1, key);
-            _mm256_store_ps(array + i, vec1);
-            _mm256_store_si256((__m256i *)(keys + i), key);
+            _mm256_storeu_ps(array + i, vec1);
+            _mm256_storeu_si256((__m256i *)(keys + i), key);
         }
 
         // outer loop
@@ -828,13 +828,13 @@ inline void compare_full_length_all_cases(float *arr, int *keys,
         if (UNLIKELY(diff < 7))
             maskload(diff, p2, k2, mask, vec2, key2);
         else {
-            vec2 = _mm256_load_ps(p2);
-            key2 = _mm256_load_si256((__m256i *)k2);
+            vec2 = _mm256_loadu_ps(p2);
+            key2 = _mm256_loadu_si256((__m256i *)k2);
         }
 
         {
-            __m256 vec1 = _mm256_load_ps(p1);
-            __m256i key1 = _mm256_load_si256((__m256i *)k1);
+            __m256 vec1 = _mm256_loadu_ps(p1);
+            __m256i key1 = _mm256_loadu_si256((__m256i *)k1);
 
             reverse_and_compare(vec1, vec2, key1, key2);
 
@@ -842,22 +842,22 @@ inline void compare_full_length_all_cases(float *arr, int *keys,
                 _mm256_permute2f128_ps(vec1, vec1, 0b00000001);
             vec1 = _mm256_shuffle_ps(reversed_halves,
                                      reversed_halves, 0b00011011);
-            _mm256_store_ps(p1, vec1);
+            _mm256_storeu_ps(p1, vec1);
 
             __m256i reversed_halves_key =
                 _mm256_permute2f128_si256(key1, key1, 0b00000001);
             key1 = _mm256_shuffle_epi32(reversed_halves_key,
                                         0b00011011);
 
-            _mm256_store_si256((__m256i *)k1, key1);
-            _mm256_store_ps(p1, vec1);
+            _mm256_storeu_si256((__m256i *)k1, key1);
+            _mm256_storeu_ps(p1, vec1);
 
             if (UNLIKELY(diff <= 6)) {
                 _mm256_maskstore_ps(p2, mask, vec2);
                 _mm256_maskstore_epi32(k2, mask, key2);
             } else {
-                _mm256_store_ps(p2, vec2);
-                _mm256_store_si256((__m256i *)k2, key2);
+                _mm256_storeu_ps(p2, vec2);
+                _mm256_storeu_si256((__m256i *)k2, key2);
             }
         }
     }
@@ -894,8 +894,8 @@ inline void lane_crossing_compare_all_cases(float *arr, int *keys,
             maskload(diff, arr + start, keys + start,
                      load_store_mask, reg, key);
         } else {
-            reg = _mm256_load_ps(arr + start);
-            key = _mm256_load_si256((__m256i *)(keys + start));
+            reg = _mm256_loadu_ps(arr + start);
+            key = _mm256_loadu_si256((__m256i *)(keys + start));
         }
         __m256i mask_epi32 = float_masks256.mask1;
 
@@ -914,8 +914,8 @@ inline void lane_crossing_compare_all_cases(float *arr, int *keys,
             _mm256_maskstore_epi32(keys + start, load_store_mask,
                                    key);
         } else {
-            _mm256_store_ps(arr + start, reg);
-            _mm256_store_si256((__m256i *)(keys + start), key);
+            _mm256_storeu_ps(arr + start, reg);
+            _mm256_storeu_si256((__m256i *)(keys + start), key);
         }
         return;
     }
@@ -936,14 +936,14 @@ inline void lane_crossing_compare_all_cases(float *arr, int *keys,
         if (UNLIKELY(diff < 7))
             maskload(diff, p2, k2, load_store_mask, reg1, key1);
         else {
-            reg1 = _mm256_load_ps(p2);
-            key1 = _mm256_load_si256((__m256i *)k2);
+            reg1 = _mm256_loadu_ps(p2);
+            key1 = _mm256_loadu_si256((__m256i *)k2);
         }
         float *p1 = p + i;
         int *k1 = k + i;
 
-        __m256 reg0 = _mm256_load_ps(p1); // i-ti od začetka
-        __m256i key0 = _mm256_load_si256((__m256i *)k1);
+        __m256 reg0 = _mm256_loadu_ps(p1); // i-ti od začetka
+        __m256i key0 = _mm256_loadu_si256((__m256i *)k1);
 
         __m256 mask = _mm256_cmp_ps(reg0, reg1, _CMP_LE_OQ);
         __m256 tmp = _mm256_blendv_ps(reg1, reg0, mask);
@@ -953,15 +953,15 @@ inline void lane_crossing_compare_all_cases(float *arr, int *keys,
         key1 = _mm256_blendv_epi32(key0, key1, mask);
         key0 = tmp_key;
 
-        _mm256_store_si256((__m256i *)k1, key0);
-        _mm256_store_ps(p1, reg0);
+        _mm256_storeu_si256((__m256i *)k1, key0);
+        _mm256_storeu_ps(p1, reg0);
 
         if (UNLIKELY(diff < 7)) {
             _mm256_maskstore_ps(p2, load_store_mask, reg1);
             _mm256_maskstore_epi32(k2, load_store_mask, key1);
         } else {
-            _mm256_store_ps(p2, reg1);
-            _mm256_store_si256((__m256i *)k2, key1);
+            _mm256_storeu_ps(p2, reg1);
+            _mm256_storeu_si256((__m256i *)k2, key1);
         }
     }
     lane_crossing_compare_all_cases(
@@ -980,64 +980,61 @@ inline void lane_crossing_compare_all_cases(float *arr, int *keys,
  * @param end index of the last number to be sorted
  * @details end-start+1 should be 2^n
  */
-inline void sort_key_value(aligned_vector<float> &array,
-                        aligned_vector<int> &keys, unsigned start,
-                        unsigned end) {
+inline void sort_key_value(float *array, int *keys,
+                           unsigned num_to_sort) {
 
-    unsigned full_length = end - start + 1;
+    unsigned end = num_to_sort - 1;
 
-    if (full_length <= 1)
+    if (num_to_sort <= 1)
         return;
-    else if (full_length < 8) {
+    else if (num_to_sort < 8) {
         __m256i mask;
         __m256 reg;
         __m256i key;
-        maskload(full_length - 1, array.data(), keys.data(), mask,
-                 reg, key);
+        maskload(num_to_sort - 1, array, keys, mask, reg, key);
         bitonic_sort(reg, key);
-        _mm256_maskstore_ps(array.data(), mask, reg);
-        _mm256_maskstore_epi32(keys.data(), mask, key);
-    } else if (!(full_length & (full_length - 1)))
-        sort_2n_key_value(array.data(), keys.data(), start, end);
-    else if (mod8(full_length) == 0)
-        sort_8n_key_value(array.data(), keys.data(), start, end);
-    else if (full_length < 16) {
+        _mm256_maskstore_ps(array, mask, reg);
+        _mm256_maskstore_epi32(keys, mask, key);
+    } else if (!(num_to_sort & (num_to_sort - 1)))
+        sort_2n_key_value(array, keys, num_to_sort);
+    else if (mod8(num_to_sort) == 0)
+        sort_8n_key_value(array, keys, num_to_sort);
+    else if (num_to_sort < 16) {
         __m256i mask, key1, key2;
         __m256 reg1, reg2;
-        reg1 = _mm256_load_ps(array.data());
-        key1 = _mm256_load_si256((__m256i *)keys.data());
+        reg1 = _mm256_loadu_ps(array);
+        key1 = _mm256_loadu_si256((__m256i *)keys);
 
-        maskload(full_length - 9, array.data() + 8, keys.data() + 8,
-                 mask, reg2, key2);
+        maskload(num_to_sort - 9, array + 8, keys + 8, mask, reg2,
+                 key2);
 
         bitonic_sort(reg1, reg2, key1, key2);
 
-        _mm256_store_ps(array.data(), reg1);
-        _mm256_maskstore_ps(array.data() + 8, mask, reg2);
+        _mm256_storeu_ps(array, reg1);
+        _mm256_maskstore_ps(array + 8, mask, reg2);
 
-        _mm256_store_si256((__m256i *)keys.data(), key1);
-        _mm256_maskstore_epi32(keys.data() + 8, mask, key2);
+        _mm256_storeu_si256((__m256i *)keys, key1);
+        _mm256_maskstore_epi32(keys + 8, mask, key2);
 
     } else {
         int pow2 = (int)std::ceil(std::log2f(end + 1));
         int imaginary_length = (int)std::pow(2, pow2);
-        unsigned full_length = end - start + 1;
         unsigned last_index = end;
 
-        for (unsigned i = start; i <= end - 7; i += 8) {
-            __m256 vec1 = _mm256_load_ps(array.data() + i);
+        for (unsigned i = 0; i <= end - 7; i += 8) {
+            __m256 vec1 = _mm256_loadu_ps(array + i);
             __m256i key1 =
-                _mm256_load_si256((__m256i *)(keys.data() + i));
+                _mm256_loadu_si256((__m256i *)(keys + i));
 
             bitonic_sort(vec1, key1);
-            _mm256_store_ps(array.data() + i, vec1);
-            _mm256_store_si256((__m256i *)(keys.data() + i), key1);
+            _mm256_storeu_ps(array + i, vec1);
+            _mm256_storeu_si256((__m256i *)(keys + i), key1);
         }
 
         ///////////////////////////////// load the partial one
         int reminder = mod8(end);
-        float *p = array.data() + end - reminder;
-        int *k = keys.data() + end - reminder;
+        float *p = array + end - reminder;
+        int *k = keys + end - reminder;
         __m256 reg1;
         __m256i mask, key1;
         maskload(reminder, p, k, mask, reg1, key1);
@@ -1060,11 +1057,9 @@ inline void sort_key_value(aligned_vector<float> &array,
             // inner loop goes over all subdivisions
             for (unsigned n = 0; n < imaginary_length; n += len) {
                 compare_full_length_all_cases(
-                    array.data(), keys.data(), n, n + len - 1,
-                    last_index);
+                    array, keys, n, n + len - 1, last_index);
                 lane_crossing_compare_all_cases(
-                    array.data(), keys.data(), n, n + len - 1,
-                    last_index, 0);
+                    array, keys, n, n + len - 1, last_index, 0);
             }
         }
     }
