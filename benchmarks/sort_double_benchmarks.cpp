@@ -224,7 +224,7 @@ bitonic_double_key_value_sort_bench(benchmark::State &state) {
         // vec.size() - 1)); // DoNoOptimize will store the result
         // to the memory
         BITONIC_SORT_KEY_VALUE::sort_key_value(
-                                               vec.data(), indices.data(), vec.size());
+            vec.data(), indices.data(), vec.size());
     }
     state.counters["Number to sort:"] = state.range(0);
     state.SetComplexityN(state.range(0));

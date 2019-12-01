@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.2)
+project("Molecular Monte Carlo")
 #set(CMAKE_C_COMPILER gcc CACHE STRING "C compiler" FORCE)
 #set(CMAKE_CXX_COMPILER g++ CACHE STRING "C++ compiler" FORCE)
 
@@ -12,12 +13,12 @@ set(CMAKE_CXX_COMPILER "g++" CACHE STRING "C++ compiler" FORCE)
 message(STATUS "compiler: ${CMAKE_CXX_COMPILER}")
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -std=c++17 -march=native -ffast-math -Wno-reorder -Wnon-template-friend -Wno-unused-variable -Wmaybe-uninitialized")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -ffast-math -Wno-reorder -Wnon-template-friend -Wno-unused-variable -Wmaybe-uninitialized")
   #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse -msse4.1 -mno-avx -mno-avx2 -mno-fma -Wall -Wnon-template-friend -Wno-unused-variable")
 
 else("g++" STREQUAL "$CMAKE_CXX_COMPILER")
   
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -std=c++17 -march=native -ffast-math -msse -mavx -mavx2 -mfma -Wall -Wno-unused-variable")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -ffast-math -msse -mavx -mavx2 -mfma -Wall -Wno-unused-variable")
 
 endif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 
@@ -34,7 +35,6 @@ include_directories("../../src/display_and_drawing_functions")
 include_directories("../../src/shapes")
 include_directories("../../src/algorithms")
 include_directories("../../src/print_functions")
-include_directories("../../src/text_rendering")
 include_directories("/usr/local/include/freetype2/")
 
 set(TOP_LEVEL_DIR "../..")
@@ -51,36 +51,8 @@ add_library(apex_memmove "${APEX_MEMMOVE_DIR}/apex_memmove.cpp"
   "${APEX_MEMMOVE_DIR}/apex_memmove.h")
 include_directories("${APEX_MEMMOVE_DIR}")
 
-#DISPLAY FUNCTIONS - events, input,...
-add_library(display_functions "${TOP_LEVEL_DIR}/src/display_and_drawing_functions/display_functions.cpp")
-target_link_libraries(display_functions  glad /usr/local/lib/libglfw.so apex_memmove)
-
-#imgui
-
-set(IMGUI_DIR "${TOP_LEVEL_DIR}/third_party/imgui/")
-add_library(imgui
-  "${IMGUI_DIR}/imgui.cpp"
-  "${IMGUI_DIR}/imgui_draw.cpp"
-  "${IMGUI_DIR}/imgui_widgets.cpp"
-  "${IMGUI_DIR}/imgui_demo.cpp")
-include_directories("${IMGUI_DIR}")
-
 # add example files
-add_executable(ising
-  ising.cpp
-  ising_windows.cpp
-  imgui_impl_glfw.cpp
-  imgui_impl_opengl3.cpp
+add_executable(simulation
+  main.cpp
   )
 
-#target_include_directories(opengl_test PRIVATE "${GLAD_DIR}/include" "./examples/opengl_test")
-target_link_libraries(ising display_functions
-  glad
-  /usr/local/lib/libglfw.so
-  apex_memmove
-  libdl.so
-  libfreetype.a
-  /usr/lib/x86_64-linux-gnu/libpng.a
-  /usr/lib/x86_64-linux-gnu/libz.a
-  libmgl.a
-  imgui)

@@ -1,6 +1,9 @@
 #pragma once
 #ifndef __CIRCLE__
 
+#include "auxiliary_functions.hpp"
+#include "trigonometric_functions.hpp"
+
 /**
  *@class A class which holds vertexes forming a circle.
  *@brief This class holds vertexes and other data for a circle in xy plane.

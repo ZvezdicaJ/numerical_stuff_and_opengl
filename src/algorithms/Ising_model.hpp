@@ -1,6 +1,7 @@
 #pragma once
 #include <random>
 #include <iostream>
+#include <fstream>
 #include <functional>
 #include <ctime>
 #include <cstdlib>
@@ -19,6 +20,7 @@ enum spin_dir : int { UP = 1, DOWN = -1 };
  */
 template <typename T>
 class IsingModel {
+
     static_assert(
         std::is_same<T, float>::value ||
             std::is_same<T, double>::value,
@@ -29,10 +31,10 @@ class IsingModel {
                             always square size*size */
     T J = 1;             /**< coupling constant between spins*/
     T H = 0;             /**< external field strength */
-    T tc = 2.269185;     /**< critical temperature of Ising model */
+    T Tc = 2.269185;     /**< critical temperature of Ising model */
     T temperature = 2; /**< real temperature of spin array, default
                           value is 2. */
-    spin_dir *spin_array; /**< pointer to spin array */
+    spin_dir *spin_array; /**< pointer to spin array*/
     unsigned cluster_size =
         0; /**< variable monitoring size of wolff cluster*/
     int magnetization = 0; /**< magnetization of spin array */
@@ -40,7 +42,7 @@ class IsingModel {
     unsigned samples = 0;
     bool *visited_spins; /**< used in recursive wolff algorithm */
 
-    std::random_device rd;
+    std::random_device rd; //!<
     std::mt19937 rng;
     std::uniform_int_distribution<int> random_int;
     std::uniform_real_distribution<T> random_real;
@@ -50,8 +52,10 @@ class IsingModel {
      */
     void enforce_boundary_conditions() {
         for (unsigned j = 0; j < size; j++) {
+
             *(spin_array + j) =
                 *(spin_array + size * (size - 2) + j);
+
             *(spin_array + (size - 1) * size + j) =
                 *(spin_array + size + j);
 
@@ -66,6 +70,7 @@ class IsingModel {
      * @brief set random spin directions
      */
     void set_random_spin_directions() {
+
         int spin_up = 0;
         int spin_down = 0;
         for (unsigned i = 0; i < size; i++) {
@@ -92,7 +97,7 @@ class IsingModel {
      *@details Choose a random spin and flip it. Then check it's
      *neighbours. If they have the same spin turn them with the
      *probability of exp^(-2J/T). The function the recursively
-     *checks neighbours.
+     *checks neighbours. The same spin is never flipped twice!
      *@param spin Direction of the chosen spin
      *@param k index indicating position in spin array
      *@param l index indicating position in spin array
@@ -108,36 +113,24 @@ class IsingModel {
 
         *(spin_array + k * size + l) =
             (spin_dir)(-*(spin_array + k * size + l));
+
         // energy += dE;
         cluster_size += 1;
         // set this spin as visited
         *(visited_spins + k * size + l) = true;
-
-        int dm = 0;
-        if ((*(p + k * size + l)) == UP) {
-            magnetization += 2;
-            dm = 2;
-
-        } else {
-            magnetization -= 2;
-            dm = -2;
-        };
+        magnetization += 2 * (*(spin_array + k * size + l));
 
         if (k != size - 2 &&
             *(spin_array + (k + 1) * size + l) == spin &&
             *(visited_spins + (k + 1) * size + l) == false &&
             std::exp(-2 * J / temperature) < random_real(rng)) {
             wolff_cluster_step(spin, k + 1, l);
-            *(visited_spins + (k + 1) * size + l) = true;
-            magnetization += dm;
         }
 
         if (k != 1 && *(spin_array + (k - 1) * size + l) == spin &&
             *(visited_spins + (k - 1) * size + l) == false &&
             std ::exp(-2 * J / temperature) < random_real(rng)) {
             wolff_cluster_step(spin, k - 1, l);
-            *(visited_spins + (k - 1) * size + l) = true;
-            magnetization += dm;
         }
 
         if (l != size - 2 &&
@@ -145,16 +138,12 @@ class IsingModel {
             *(visited_spins + k * size + l + 1) == false &&
             std::exp(-2 * J / temperature) < random_real(rng)) {
             wolff_cluster_step(spin, k, l + 1);
-            *(visited_spins + k * size + l + 1) = true;
-            magnetization += dm;
         }
 
         if (l != 1 && *(spin_array + k * size + l - 1) == spin &&
             *(visited_spins + k * size + l - 1) == false &&
             std::exp(-2 * J / temperature) < random_real(rng)) {
             wolff_cluster_step(spin, k, l - 1);
-            *(visited_spins + k * size + l - 1) = true;
-            magnetization += dm;
         }
     }
 
@@ -163,6 +152,16 @@ class IsingModel {
      *  @param k row of spin
      *  @param l column of spin
      */
+
+    //!
+    /*!
+      <long-description>
+
+      \param k
+      \param l
+      \return <ReturnValue>
+    */
+
     inline T spin_flip_energy_change(const unsigned &k,
                                      const unsigned &l) {
         spin_dir *p = spin_array;
@@ -213,95 +212,64 @@ class IsingModel {
                                          const unsigned &k,
                                          const unsigned &l) {
 
-        *(spin_array + (k)*size + l) =
-            (spin_dir)(-*(spin_array + (k)*size + l));
+        std::vector<std::array<unsigned, 2>> flipped = {{k, l}};
 
-        energy += spin_flip_energy_change(k, l);
-        int dm = 0;
-        if (spin == DOWN) {
-            dm = 2;
-            magnetization += 2;
+        cluster_size = 0;
 
-        } else {
-            dm = -2;
-            magnetization -= 2;
-        };
-
-        cluster_size = 1;
         bool visited[size][size] = {false};
-        std::vector<std::array<unsigned, 2>> flipped;
-        flipped.push_back(std::array<unsigned, 2>({k, l}));
         visited[k][l] = true;
+        int mag_change = 0;
+        int mag0 = magnetization;
 
         for (int i = 0; i < flipped.size(); i++) {
             std::array<unsigned, 2> central_spin = flipped[i];
-            unsigned kt = flipped[i][0];
-            unsigned lt = flipped[i][1];
+            unsigned kt = central_spin[0];
+            unsigned lt = central_spin[1];
+
+            *(spin_array + (kt)*size + lt) = (spin_dir)(
+                (-1) * ((int)*(spin_array + (kt)*size + lt)));
+
+            energy += spin_flip_energy_change(kt, lt);
+            magnetization += -2 * (int)spin;
+            mag_change += -2 * (int)spin;
+            cluster_size += 1;
 
             if (kt != size - 2 &&
                 *(spin_array + (kt + 1) * size + lt) == spin &&
                 visited[kt + 1][lt] == false &&
                 std::exp(-2 * J / temperature) < random_real(rng)) {
-                // flip it
-                *(spin_array + (kt + 1) * size + lt) = (spin_dir)(
-                    -*(spin_array + (kt + 1) * size + lt));
-                // set visited to true
-                visited[kt + 1][lt] == true;
-                // add spin to the list of flipped spins so that
-                // it's neighbout will also be checked
+
+                visited[kt + 1][lt] = true;
                 flipped.push_back(
                     std::array<unsigned, 2>({kt + 1, lt}));
-                // the last step is to change energy and
-                // magnetization
-                energy += spin_flip_energy_change(kt + 1, lt);
-                cluster_size++;
-                magnetization += dm;
             }
+
             if (kt != 1 &&
                 *(spin_array + (kt - 1) * size + lt) == spin &&
                 visited[kt - 1][lt] == false &&
                 std ::exp(-2 * J / temperature) <
                     random_real(rng)) {
-
-                *(spin_array + (kt - 1) * size + lt) = (spin_dir)(
-                    -*(spin_array + (kt - 1) * size + lt));
-                visited[kt - 1][lt] == true;
+                visited[kt - 1][lt] = true;
                 flipped.push_back(
                     std::array<unsigned, 2>({kt - 1, lt}));
-                energy += spin_flip_energy_change(kt - 1, lt);
-                // flip it
-                cluster_size++;
-                magnetization += dm;
             }
 
             if (lt != size - 2 &&
                 *(spin_array + kt * size + lt + 1) == spin &&
                 visited[kt][lt + 1] == false &&
                 std::exp(-2 * J / temperature) < random_real(rng)) {
-                // flip it
-                *(spin_array + kt * size + lt + 1) =
-                    (spin_dir)(-*(spin_array + kt * size + lt + 1));
-                visited[kt][lt + 1] == true;
+                visited[kt][lt + 1] = true;
                 flipped.push_back(
                     std::array<unsigned, 2>({kt, lt + 1}));
-                energy += spin_flip_energy_change(kt, lt + 1);
-                cluster_size++;
-                magnetization += dm;
             }
 
             if (lt != 1 &&
                 *(spin_array + kt * size + lt - 1) == spin &&
                 visited[kt][lt - 1] == false &&
                 std::exp(-2 * J / temperature) < random_real(rng)) {
-                // flip it
-                *(spin_array + kt * size + lt - 1) =
-                    (spin_dir)(-*(spin_array + kt * size + lt - 1));
-                visited[kt][lt - 1] == true;
+                visited[kt][lt - 1] = true;
                 flipped.push_back(
                     std::array<unsigned, 2>({kt, lt - 1}));
-                energy += spin_flip_energy_change(kt, lt - 1);
-                cluster_size++;
-                magnetization += dm;
             }
         }
     };
@@ -372,8 +340,8 @@ class IsingModel {
              print_sse(indices_to_load, "indices_to_load: ");
             */
             ////////////////////////////////////////
-            // check if any of the spins is on the edge - belogs to
-            // boundray conditions
+            // check if any of the spins is on the edge - belogs
+            // to boundray conditions
             __m128i modulo = _mm_positive_mod_epi32(
                 _mm_add_epi32(indices_to_load, detection_addition),
                 modulo_numbers);
@@ -405,8 +373,9 @@ class IsingModel {
             /// direction as the original spin
             __m128i original_spins = _mm_i32gather_epi32(
                 (int *)spin_array, indices_to_load, 4);
-            // above 4 signifies that each integer is 4 byte long
-            // print_sse(original_spins, "original_spins: ");
+            // above 4 signifies that each integer is 4 byte
+            // long print_sse(original_spins, "original_spins:
+            // ");
 
             __m128i comparison3 =
                 _mm_cmpeq_epi32(spin_direction, original_spins);
@@ -444,7 +413,8 @@ class IsingModel {
             };
 
             // std::cout << "number of flipped spins: "
-            //          << num_spins_to_flip << "\n " << std::endl;
+            //          << num_spins_to_flip << "\n " <<
+            //          std::endl;
 
             int i1 = central_spin[0];
             int i2 = central_spin[1];
@@ -485,9 +455,11 @@ class IsingModel {
             if (kt != size - 2 &&
                 *(spin_array + (kt + 1) * size + lt) == spin &&
                 visited[kt + 1][lt] == false &&
-                std::exp(-2 * J / temperature) < random_real(rng)) {
+                std::exp(-2 * J / temperature) <
+            random_real(rng)) {
                 // flip it
-                *(spin_array + (kt + 1) * size + lt) = (spin_dir)(
+                *(spin_array + (kt + 1) * size + lt) =
+            (spin_dir)(
                     -*(spin_array + (kt + 1) * size + lt));
                 // set visited to true
                 visited[kt + 1][lt] == true;
@@ -511,10 +483,10 @@ class IsingModel {
 #endif
 
     /** @brief Basic constructor for IsingModel class.
-     *  @details By default it sets the temperature to 2 and size of
-     *  spin array to 50. It also initializes random generator, sets
-     *  random spin directions and enforces periodic boundary
-     *  conditions for the start of calculation
+     *  @details By default it sets the temperature to 2 and
+     * size of spin array to 50. It also initializes random
+     * generator, sets random spin directions and enforces
+     * periodic boundary conditions for the start of calculation
      */
     IsingModel(unsigned size_ = 50, T temperature_ = 2)
         : size(size_), rng(rd()), temperature(temperature_),
@@ -546,8 +518,8 @@ class IsingModel {
     spin_dir *get_spin_array() { return spin_array; };
 
     /**
-     * @brief calculate magnetization - difference between spins up
-     * and spins down
+     * @brief calculate magnetization - difference between spins
+     * up and spins down
      */
     int calc_magnetization() {
         int s = 0;
@@ -572,7 +544,8 @@ class IsingModel {
      */
     T get_temperature() { return temperature; }
 
-    /** @brief Get the size of the cluster in the last Wolff step.
+    /** @brief Get the size of the cluster in the last Wolff
+     * step.
      */
     unsigned get_cluster_size() { return cluster_size; }
 
@@ -584,7 +557,8 @@ class IsingModel {
      */
     int get_magnetization() { return magnetization; }
 
-    /** @brief The function flips the cluster using Wolff algorithm.
+    /** @brief The function flips the cluster using Wolff
+     * algorithm.
      * @details It calls the wolff_cluster_step() function.
      */
     void flip_cluster() {
@@ -592,16 +566,17 @@ class IsingModel {
         unsigned k = random_int(rng);
         unsigned l = random_int(rng);
         cluster_size = 0;
-        // std::cout << "(k, l) = " << k << " " << l << std::endl;
-        spin_dir spin = *(spin_array + k + size + l);
+        // std::cout << "(k, l) = " << k << " " << l <<
+        // std::endl;
+        spin_dir spin = *(spin_array + k * size + l);
         wolff_cluster_step(spin, k, l);
         // wolff_cluster_step_nonrecursive(spin, k, l);
         enforce_boundary_conditions();
         visited_spins_false();
         energy = calc_energy();
     }
-
-    /** @brief The function flips the cluster using Wolff algorithm.
+    /** @brief The function flips the cluster using Wolff
+     * algorithm.
      * @details It calls the wolff_cluster_step_nonrecursive()
      * function.
      */
@@ -610,14 +585,16 @@ class IsingModel {
         unsigned k = random_int(rng);
         unsigned l = random_int(rng);
         cluster_size = 0;
-        // std::cout << "(k, l) = " << k << " " << l << std::endl;
-        spin_dir spin = *(spin_array + k + size + l);
+        // std::cout << "(k, l) = " << k << " " << l <<
+        // std::endl;
+        spin_dir spin = *(spin_array + k * size + l);
         wolff_cluster_step_nonrecursive(spin, k, l);
         enforce_boundary_conditions();
         energy = calc_energy();
     }
 
-    /** @brief The function flips the cluster using Wolff algorithm.
+    /** @brief The function flips the cluster using Wolff
+     * algorithm.
      * @details It calls the
      * wolff_cluster_step_nonrecursive_vectorized() function.
      */
@@ -626,8 +603,9 @@ class IsingModel {
         unsigned k = random_int(rng);
         unsigned l = random_int(rng);
         cluster_size = 0;
-        // std::cout << "(k, l) = " << k << " " << l << std::endl;
-        spin_dir spin = *(spin_array + k + size + l);
+        // std::cout << "(k, l) = " << k << " " << l <<
+        // std::endl;
+        spin_dir spin = *(spin_array + k * size + l);
         wolff_cluster_step_nonrecursive_vectorized(spin, k, l);
         enforce_boundary_conditions();
         energy = calc_energy();
@@ -677,7 +655,8 @@ class IsingModel {
         T dE;
         for (unsigned i = 0; i < spin_flips; i++) {
             //  std::cout << "metropolis: magnetization: "
-            //          << this->calc_magnetization() << std::endl;
+            //          << this->calc_magnetization() <<
+            //          std::endl;
             unsigned k = random_int(rng);
             unsigned l = random_int(rng);
 
@@ -738,6 +717,60 @@ class IsingModel {
                         (spin_dir) * (p + size * j + 1);
                 }
             }
+        }
+    }
+
+    double calculate_work(T temp, T max_field, int tau) {
+
+        set_random_spin_directions();
+        enforce_boundary_conditions();
+
+        /*        if (tau == 25)
+            std::cout << "starting magnetiztion: " << magnetization
+                      << "  " << this->calc_magnetization()
+                      << "  temperature: " << temperature
+                      << std::endl;
+        */
+        temperature = temp;
+        H = 0;
+
+        double field_gradient = max_field / tau;
+        double work_done = 0;
+
+        // wolff algorithm - for thermalization;
+        for (int j = 0; j < 1000; j++)
+            flip_cluster_nonrecursive();
+
+        double mag = magnetization;
+        /*
+        if (tau == 25)
+            std::cout << "starting magnetiztion: " << magnetization
+                      << "  " << this->calc_magnetization()
+                      << "  temperature: " << temperature << "\n"
+                      << std::endl;
+        */
+        for (int i = 1; i <= tau; i++) {
+            H = max_field * (double)i / (double)tau;
+            metropolis_steps(size * size);
+            work_done -= field_gradient * (magnetization + mag) / 2;
+            mag = magnetization;
+        }
+        // std::cout << "work done: " << work_done << std::endl;
+        return work_done;
+    }
+
+    void calculate_work_distribution(T temp, T max_field, int tau,
+                                     int samples,
+                                     std::string file_name) {
+
+        std::ofstream file(file_name);
+        file << "temperature: " << temp << std::endl;
+        file << "max_field: " << max_field << std::endl;
+        file << "tau: " << tau << std::endl;
+        file << "work samples: " << temp << std::endl;
+        for (int i = 0; i < samples; i++) {
+            file << calculate_work(temp, max_field, tau)
+                 << std::endl;
         }
     }
 

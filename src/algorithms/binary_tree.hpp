@@ -1,90 +1,146 @@
 #pragma once
-template <typename T>
-class binary_tree() {
-  private:
-    class node {
-      private:
-        T value;
-        unsigned left_leaf;
-        unsigned right_leaf;
-        unsigned parent;
+#include "bitonic_sort.hpp"
+#include <vector>
+#include <utility>
+#include <iostream>
+#include <fstream>
+#include <cstring>
 
-      public:
-        node() = default;
-        node(T value_, unsigned parent_index_)
-            : value(value_), parent_index(parent_index_){};
-        void set_left_leaf_index(unsigned left_leaf_) {
-            left_leaf = left_leaf_;
+enum class TREE_TYPE { BALANCED, UNBALANCED };
+
+template <typename T, TREE_TYPE B = TREE_TYPE::BALANCED>
+class binary_tree {
+  private:
+    aligned_vector<T> tree;
+
+    // vector of bools does not work well with std::memset
+    aligned_vector<uint8_t> node_exist;
+    std::function<bool(T &, T &)> comparator;
+    unsigned num_nodes = 0;
+
+    void construct_tree(T *elements_) {
+        // if you want a balanced tree, you have to sort elements
+        if constexpr (B == TREE_TYPE::BALANCED) {
+            if constexpr (std::is_same_v<T, float> ||
+                          std::is_same_v<T, double> ||
+                          std::is_same_v<T, int>) {
+                BITONIC_SORT::sort_vector(elements_, num_nodes);
+            } else {
+                std::sort(elements_, elements_ + num_nodes,
+                          comparator);
+            }
+        };
+
+        aligned_vector<std::pair<int, int>> intervals = {
+            {0, num_nodes - 1}};
+
+        unsigned max_depth =
+            (unsigned)std::log2f((double)num_nodes);
+
+        //   std::cout << "max depth: " << max_depth << std::endl;
+        // std::cout << "num nodes: " << 1 + ((1 << max_depth) - 1)
+        // * 2
+        //          << std::endl;
+
+        tree.reserve(1 + ((1 << max_depth) - 1) << 2);
+        tree.resize(1 + ((1 << max_depth) - 1) << 2);
+        node_exist.reserve(1 + ((1 << (max_depth + 1)) - 1) << 2);
+        node_exist.resize(1 + ((1 << (max_depth + 1)) - 1) << 2);
+        // std::fill(node_exist.begin(), node_exist.end(),
+        //          false);
+
+        std::memset(reinterpret_cast<void *>(node_exist.data()), 0,
+                    node_exist.size());
+
+        for (int depth = 0; depth <= max_depth; depth++) {
+            aligned_vector<std::pair<int, int>> new_intervals;
+            new_intervals.reserve(1 << (depth + 1));
+
+            unsigned first_node_index = (1 << depth) - 1;
+
+            for (int i = 0; i < (1 << depth); i++) {
+
+                // zacetki vrstic v drevesu imajo indekse:  (1 <<
+                // depth) - 1;  to je (2^depth - 1)
+                //
+                // konci vrstic v drevesu imajo indekse:
+                // ((1 << depth) - 1) << 1;  to je ((2^depth)-1) * 2
+
+                std::pair<int, int> current_interval = intervals[i];
+
+                unsigned element_index = (current_interval.first +
+                                          current_interval.second) /
+                                         2;
+                tree[first_node_index + i] =
+                    *(elements_ + element_index);
+
+                node_exist[first_node_index + i] = 1;
+
+                new_intervals.push_back(std::pair<int, int>(
+                    {current_interval.first, element_index - 1}));
+                new_intervals.push_back(std::pair<int, int>(
+                    {element_index + 1, current_interval.second}));
+            }
+            intervals = std::move(new_intervals);
         }
-        void set_right_leaf_index(unsigned right_leaf_) {
-            right_leaf = right_leaf_;
-        }
-        unsigned get_left_leaf_index() { return left_leaf; }
-        unsigned get_right_leaf_index() { return right_leaf; }
-        T get_value() { return value; }
     };
 
-    aligend_vector<node> nodes;
-
   public:
-    unsigned number_of_nodes() { return nodes.size(); }
+    unsigned number_of_nodes() { return num_nodes; }
     binary_tree(binary_tree &&) = default;
     binary_tree &operator=(binary_tree &&) = default;
     binary_tree(const binary_tree &) = default;
     binary_tree &operator=(const binary_tree &) = default;
 
     /**
-     *@brief Constructor accepts a vector of arbitrary types and constructs a
-     *binary tree based on provided comparator
+     *@brief Constructor accepts a vector of arbitrary types and
+     *constructs a binary tree based on provided comparator
      * @params starting_elements a vector of values or objects
-     * @params comparator a std::function object which know how to compare two
-     *values/objects It should return true if the first T1<T2 (first provided
-     *object is smaller than the second).
+     * @params comparator a std::function object which know how to
+     *compare two values/objects It should return true if the first
+     *T1<T2 (first provided object is smaller than the second).
      */
-    binary_tree(const aligned_vector<T> &starting_elements,
-                std::function<bool(T &, T &)> comparator) {
-        std::sort(starting_elements.begin(), starting_elements.end(),
-                  comparator);
-
-        nodes.reserve(starting_elements.size());
-        unsigned size = starting_elements.size();
-        unsigned mid_element = size / 2;
-        construction_helper(starting_elements, left_half_index, end_index, 0);
-        construction_helper(starting_elements, 0, right_half_index, 0);
+    binary_tree(T *elements_, const unsigned num_nodes_,
+                std::function<bool(T &, T &)> comparator_)
+        : num_nodes(num_nodes_), comparator(comparator_) {
+        construct_tree(elements_);
     };
 
     /**
-     * @brief The function helps with the construction of binary tree.
-     * @params starting_elements elements to be inserted into the tree
-     * @params start_index index at which to start reading the starting_elements
-     * vektor
-     * @params end_index index at which to end reading the starting_elements
-     * vektor - index of the last element to be read
+     *@brief Constructor accepts a vector of arbitrary types and
+     *constructs a binary tree based on provided comparator
+     * @params starting_elements a vector of values or objects
+     * @params comparator a std::function object which know how to
+     *compare two values/objects It should return true if the first
+     *T1<T2 (first provided object is smaller than the second).
      */
-    unsigned construction_helper(
-        const std::aligned_vector<T> &starting_elements, unsigned start_index,
-        unsigned end_index, unsigned parent_index) {
-        // end of recursion case
-        if (start_index == end_index) {
-            nodes.emplace_back(starting_elements[start_index], parent_index);
-            return start_index;
-        }
-
-        unsigned mid = (start_index + end_index) / 2;
-        unsigned id = nodes.size();
-        else {
-            mid = mid / 2;
-            nodes.emplace_back(starting_elements[mid], parent_index);
-
-            unsigned id_smaller_child = construction_helper(
-                starting_elements, start_index, end_index + mid - 1);
-            set_left_leaf_index(id_smaller_child);
-
-            unsigned id_larger_child = construction_helper(
-                starting_elements, start_index + mid + 1, end_index);
-            set_right_leaf_index(id_larger_child);
-        }
-
-        return id;
+    binary_tree(T *elements_, const unsigned num_nodes_)
+        : num_nodes(num_nodes_) {
+        construct_tree(elements_);
     };
-}
+
+    void print_to_file(const std::string filename) {
+
+        std::ofstream outfile(filename);
+        unsigned max_depth = std::log2f((double)num_nodes);
+
+        for (int i = 0; i <= ((1 << (max_depth - 1)) - 1) << 1;
+             i++) {
+
+            if (node_exist[i] == 1) {
+                outfile << tree[i];
+
+                if (node_exist[2 * i + 1] == 1)
+                    outfile << " " << tree[2 * i + 1];
+                else
+                    outfile << " n";
+
+                if (node_exist[2 * i + 2] == 1)
+                    outfile << " " << tree[2 * i + 2];
+                else
+                    outfile << " n";
+                outfile << std::endl;
+            };
+        }
+    }
+};
