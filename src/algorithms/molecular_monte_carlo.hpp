@@ -500,12 +500,22 @@ class MolecularMonteCarlo {
 
   inline T get_pressure() {
     T virial_pressure = 0;
-    for (int k = 0; k < (num_particles * (num_particles - 1)) / 2; k++) {
+    /*for (int k = 0; k < (num_particles * (num_particles - 1)) / 2; k++) {
       virial_pressure += std::sqrt(distances2[k]) * potential_grad[k];
     }
-
     return density * temperature -
-           density * virial_pressure / (3 * num_particles);
+    density * virial_pressure / (3 * num_particles);
+    */
+
+    for (int k = 0; k < (num_particles * (num_particles - 1)) / 2; k++) {
+      T dst6 = distances2[k] * distances2[k] * distances2[k];
+      // factor 8 is instead of factor 4 because I only go over half of
+      // particles
+      virial_pressure += (8.0) / dst6 * (2.0 / dst6 - 1.0);
+    }
+
+    return density * temperature +
+           density * virial_pressure / ( num_particles);
   }
 
   inline int get_num_accepted() { return accepted; }
