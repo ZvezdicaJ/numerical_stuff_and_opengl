@@ -1,3 +1,4 @@
+// test single register sort
 TEST(SORT, BITONIC_AVX_REG_SORT_FLOAT) {
 
     {
@@ -46,6 +47,7 @@ TEST(SORT, BITONIC_AVX_REG_SORT_FLOAT) {
     // exit(0);
 }
 
+// test sorting two already sorted registers
 TEST(SORT, BITONIC_AVX_MERGE_FLOAT_TWO_VECTORS) {
     {
         __m256 reg0 = _mm256_setr_ps(1, 2, 3, 4, 5, 6, 7, 8);
@@ -104,6 +106,7 @@ TEST(SORT, BITONIC_AVX_MERGE_FLOAT_TWO_VECTORS) {
     }
 }
 
+// test sorting four already sorted float registers
 TEST(SORT, BITONIC_AVX_SORT_4REG_FLOAT) {
     {
         __m256 reg0 = _mm256_setr_ps(1, 2, 3, 4, 5, 6, 7, 8);
@@ -201,6 +204,7 @@ TEST(SORT, BITONIC_AVX_SORT_4REG_FLOAT) {
     }
 }
 
+// merge 4 presorted registers - all numbers are sorted afterwards
 TEST(SORT, BITONIC_AVX_MERGE_4REG_FLOAT) {
     {
         __m256 reg0 = _mm256_setr_ps(1, 2, 3, 4, 5, 6, 7, 8);
