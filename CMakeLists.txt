@@ -61,7 +61,7 @@ include_directories(${GTEST_INCLUDE_DIRS})
 add_executable(runTests
   testing/gtest_tests.cpp)
 target_include_directories(runTests PRIVATE "${GLAD_DIR}/include")
-target_link_libraries(runTests glad /usr/local/lib/libglfw.so libdl.so
+target_link_libraries(runTests glad libglfw.so libdl.so
   apex_memmove)
 
 target_link_libraries(runTests ${GTEST_LIBRARIES} pthread)

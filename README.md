@@ -9,10 +9,14 @@ sudo apt-get install libglu1-mesa-dev mesa-utils mesa-common-dev
 
 2. [glfw](https://github.com/glfw/glfw)
 ```
-sudo apt-get install libglfw3-dev libglfw3
+sudo apt-get install libglfw3-dev libglfw3 libglm-dev
 ```
+If this does not install shared (.so) glfw libraries, installed them manually.
 
 3. [glad](https://github.com/Dav1dde/glad) and [glad web generator](https://glad.dav1d.de)
+
+
+4. [boost](https://www.boost.org/)
 
 
 
